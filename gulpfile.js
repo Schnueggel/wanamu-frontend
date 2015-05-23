@@ -57,6 +57,8 @@ var webpackConfig = {
         path: distAppPath,
         filename: indexFileName.replace('.js','-' + Date.now() + '.js')
     },
+    debug: false,
+    devtool: '',
     module: {
         noParse: [
             /[\/\\]angular\.js$/,
@@ -70,15 +72,28 @@ var webpackConfig = {
             },
             {
                 test: /\.ts$/,
-                loader: ['babel', 'typescript']
+                loaders: ['babel', 'typescript']
             },
             {
                 test: /\.html$/,
                 loader: 'raw'
+            },
+            {
+                test: /\.scss$/,
+                loaders: [
+                    'style',
+                    'css',
+                    'autoprefixer?cascade=false&browsers=last 2 versions',
+                    'sass?sourceMap=false'
+                ]
             }
         ]
+    },
+    resolveLoader: {
+        root: path.join(__dirname, 'node_modules')
     }
 };
+
 
 /**
  * ######################################################################################
@@ -97,12 +112,18 @@ gulp.task('default', ['build']);
 gulp.task('build', function (cb) {
     runSequence('jshint', 'build-app', cb);
 });
+// ===================================================================
+// Build the application into the dist folder
+// ===================================================================
+gulp.task('build-dev', function (cb) {
+    runSequence('jshint', 'build-app-dev', cb);
+});
 // ====================================================================
 // Builds frontend and backend,
 // starting the development.json server and opens a browser.
 // ====================================================================
 gulp.task('build-serve',  function (cb) {
-    runSequence('build', 'connect', 'watch', 'http-browser', cb);
+    runSequence('build-dev', 'connect', 'watch', 'http-browser', cb);
 });
 
 gulp.task('connect', function() {
@@ -129,6 +150,15 @@ gulp.task('build-app', function (cb) {
         'dist-app-static', cb);
 });
 
+// ===========================================================================
+// Builds the frontend
+// ===========================================================================
+gulp.task('build-app-dev', function (cb) {
+    runSequence('build-clean-app',
+        'build-webpack-dev',
+        'build-app-html',
+        'dist-app-static', cb);
+});
 /**
  * ######################################################################################
  * ######################################################################################
@@ -165,6 +195,15 @@ gulp.task('build-webpack', function (callback) {
     });
 });
 
+// ===========================================================
+// Create webpacked files
+// ===========================================================
+gulp.task('build-webpack-dev', function (cb) {
+    webpackConfig.devtool = 'sourcemap';
+    webpackConfig.debug = true;
+    runSequence('build-webpack', cb);
+});
+
 // =================================================================
 // Open the browser and opens the frontend of this app
 // =================================================================
@@ -194,7 +233,7 @@ gulp.task('watch', ['watch-app'], function (cb) {
 // Watch frontend code and reload the webpage if changes occur
 // ===================================================================
 gulp.task('watch-app',  function () {
-    gulp.watch(['src/app/**/*.html', 'src/app/**/*.js'], {debounceDelay: 2000}, function () {
+    gulp.watch(['src/app/**/*.html', 'src/app/**/*.js', 'src/styles/**/*.scss'], {debounceDelay: 2000}, function () {
         runSequence('build-app', 'livereload');
     });
 });
@@ -217,8 +256,11 @@ gulp.task('livereload', function () {
 // =========================================================================
 gulp.task('build-app-html', function () {
     var script = '<script src="' + webpackConfig.output.filename + '"></script>';
+    var map = webpackConfig.debug ?  '<script src="' + webpackConfig.output.filename + '.map"></script>' : '';
+
     return gulp.src(srcIndexHtml)
         .pipe(replace('<!--scripts-->', script))
+        .pipe(replace('<!--map-->', map))
         .pipe(gulp.dest(distAppPath));
 });
 

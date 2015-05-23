@@ -9,3 +9,4 @@ require('angular-translate/dist/angular-translate-loader-static-files/angular-tr
 require('angular-touch');
 require('angular-animate');
 require ('./components');
+require('../styles/index.scss');
