@@ -6,6 +6,7 @@ var ngModule = angular.module('todoit', [
     'ngAnimate',
     'ngTouch',
     'ngMessages',
+    'config',
     require('./panel').name,
     require('./home').name,
     'pascalprecht.translate'
@@ -53,25 +54,10 @@ ngModule.config([
         $translateProvider.fallbackLanguage('en');
     }
 ])
-.run(['$rootScope',  '$state', '$log', '$window',
-    function ($rootScope, $state, $log, $window) {
-        /**
-         * Default Params for other modules
-         */
-        $rootScope.config = {
-            signinSuccessState: 'panel.view.todo',
-            API: $window.sessionStorage.API
-        };
+.run(['$rootScope',  '$state',
+    function ($rootScope, $state) {
 
         $rootScope.$state = $state;
-        /**
-         * Add display object to rootScope. Yoso display size detection directive is connected.
-         * Every controller and template can get current display size using $scope.display.size
-         */
-        $rootScope.display = {
-            size: 'undefined'
-        };
-
     }]);
 
 module.exports = ngModule;

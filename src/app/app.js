@@ -14,4 +14,4 @@ var ngModule = require ('./components');
 
 require('../styles/index.scss');
 
-require('./services/auth')(ngModule);
+require('./services')(ngModule);

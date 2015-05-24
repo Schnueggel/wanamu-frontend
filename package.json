@@ -48,6 +48,7 @@
     "gulp-jshint": "^1.10.0",
     "gulp-livereload": "^3.8.0",
     "gulp-mocha": "^2.0.1",
+    "gulp-ng-constant": "^0.3.0",
     "gulp-open": "^0.3.2",
     "gulp-replace": "^0.5.3",
     "gulp-util": "^3.0.4",

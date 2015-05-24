@@ -4,12 +4,25 @@
 
 module.exports = function(ngModule){
 
-    ngModule.factory('auth', function(){
+    ngModule.factory('auth', ['constants', function(constants){
+
+        var currentuser;
 
         return {
             login: function(username, password) {
-                console.log(username, password);
+            },
+            logout: function() {
+
+            },
+            currentUser: function(){
+                return currentuser;
+            },
+            isLoggedIn: function() {
+                if (currentuser){
+                    return true;
+                }
+                return false;
             }
         }
-    });
+    }]);
 };

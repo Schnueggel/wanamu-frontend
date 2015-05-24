@@ -1,0 +1,8 @@
+{
+    "development": {
+        "constants": {
+            "apiurl": "http://localhost:3000",
+            "loginurl": "http://localhost:3000/auth"
+        }
+    }
+}

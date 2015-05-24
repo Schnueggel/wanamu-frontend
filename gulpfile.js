@@ -16,6 +16,7 @@ var gulp = require('gulp'),
     runSequence = require('run-sequence'),
     webpack = require('webpack'),
     path = require('path'),
+    ngConstant = require('gulp-ng-constant'),
     karma = require('karma').server,
     fs = require('fs'),
     del = require('del');
@@ -26,23 +27,21 @@ var gulp = require('gulp'),
  * ######################################################################################
  * ######################################################################################
  */
-var srcAppPath = path.join(__dirname, 'src/app'),
-    srcAppStaticFolder = path.join(srcAppPath, 'static'),
-    srcIndexHtml = path.join(srcAppPath, 'index.html'),
+var srcPath = path.join(__dirname, 'src'),
+    srcAppPath = path.join(srcPath, 'app'),
+    srcStaticFolder = path.join(__dirname, 'src', 'static'),
+    srcConfigPath = path.join(__dirname, 'src', 'config.json'),
     appscript = 'app.js',
+    tmpPath = path.join(__dirname, 'tmp'),
+    tmpAppPath = path.join(tmpPath, 'app'),
+    tmpIndexHtml = path.join(tmpAppPath, 'index.html'),
+    tmpConfigPath = path.join(tmpAppPath, 'services'),
     distPath = path.join(__dirname, 'dist'),
     distAppPath = path.join(distPath, 'app'),
     distIndexHtml = path.join(distAppPath, 'index.html'),
+    env = process.APP_ENV || 'development',
     indexFileName = 'index.js';
 
-/**
- * ######################################################################################
- * ######################################################################################
- * VAR DEFINITION
- * ######################################################################################
- * ######################################################################################
- */
-var requireFolder = null;
 /**
  * ######################################################################################
  * ######################################################################################
@@ -52,7 +51,7 @@ var requireFolder = null;
  */
 var webpackConfig = {
     context: __dirname,
-    entry: path.join(srcAppPath, appscript),
+    entry: path.join(tmpAppPath, appscript),
     output: {
         path: distAppPath,
         filename: indexFileName.replace('.js','-' + Date.now() + '.js')
@@ -127,13 +126,6 @@ gulp.task('build-serve',  function (cb) {
     runSequence('build-dev', 'connect', 'watch', 'http-browser', cb);
 });
 
-gulp.task('connect', function() {
-    connect.server({
-        root: distAppPath,
-        port: 3000,
-        livereload: true
-    });
-});
 
 // ======================================================
 // Test frontend and backend
@@ -145,21 +137,32 @@ gulp.task('test', function (cb) {
 // Builds the frontend
 // ===========================================================================
 gulp.task('build-app', function (cb) {
-    runSequence('build-clean-app',
+    runSequence(
+        'build-clean-app',
+        'move-tmp',
+        'tmp-app-static',
+        'constants',
         'build-webpack',
         'build-app-html',
-        'dist-app-static', cb);
+        'move-dist', cb);
 });
 
 // ===========================================================================
 // Builds the frontend
 // ===========================================================================
 gulp.task('build-app-dev', function (cb) {
-    runSequence('build-clean-app',
+    runSequence(
+        'build-clean-app',
+        'move-tmp',
+        'tmp-app-static',
+        'constants',
         'build-webpack-dev',
         'build-app-html',
-        'dist-app-static', cb);
+        'move-dist',
+        cb);
 });
+
+
 /**
  * ######################################################################################
  * ######################################################################################
@@ -167,6 +170,17 @@ gulp.task('build-app-dev', function (cb) {
  * ######################################################################################
  * ######################################################################################
  */
+
+// ==========================================================================
+// Start server for Development
+// ==========================================================================
+gulp.task('connect', function() {
+    connect.server({
+        root: distAppPath,
+        port: 3000,
+        livereload: true
+    });
+});
 // =========================================================
 // Start all clean tasks
 // =========================================================
@@ -177,7 +191,21 @@ gulp.task('build-clean', ['build-clean-app'], function (cb) {
 // Remove all app code in dist folder
 // ==========================================================
 gulp.task('build-clean-app', function (cb) {
-    return del([distAppPath], {}, cb);
+    return del([distAppPath, tmpPath], {}, cb);
+});
+// ==========================================================================
+// Creates a config files as angular module
+// ==========================================================================
+gulp.task('constants', function () {
+    var myConfig = require(srcConfigPath);
+    var envConfig = myConfig[env];
+
+    return ngConstant({
+        name: 'config',
+        wrap: 'commonjs',
+        constants: envConfig,
+        stream: true
+    }).pipe(gulp.dest(tmpConfigPath));
 });
 
 // ===========================================================
@@ -200,7 +228,7 @@ gulp.task('build-webpack', function (callback) {
 // Create webpacked files
 // ===========================================================
 gulp.task('build-webpack-dev', function (cb) {
-    webpackConfig.devtool = 'sourcemap';
+    //webpackConfig.devtool = 'sourcemap';
     webpackConfig.debug = true;
     runSequence('build-webpack', cb);
 });
@@ -257,16 +285,39 @@ gulp.task('livereload', function () {
 // =========================================================================
 gulp.task('build-app-html', function () {
     var script = '<script src="' + webpackConfig.output.filename + '"></script>';
-    return gulp.src(srcIndexHtml)
+    return gulp.src(tmpIndexHtml)
         .pipe(replace('<!--scripts-->', script))
-        .pipe(gulp.dest(distAppPath));
+        .pipe(gulp.dest(tmpAppPath));
 });
 
+gulp.task('move-tmp',['move-tmp-app', 'move-tmp-styles']);
+
+gulp.task('move-tmp-app', function(){
+    return gulp.src([
+        path.join(srcPath,'app', '**')
+    ])
+        .pipe(gulp.dest(path.join(tmpPath, 'app')));
+});
+
+gulp.task('move-tmp-styles', function(){
+    return gulp.src([
+        path.join(srcPath,'styles', '**')
+    ])
+    .pipe(gulp.dest(path.join(tmpPath, 'styles')));
+});
+
+// =========================================================================
+// Move tmp files to dist
+// =========================================================================
+gulp.task('move-dist', function () {
+    return gulp.src(path.join(tmpAppPath, '**'))
+        .pipe(gulp.dest(distAppPath));
+});
 // ==========================================================================
 // Move the app static files into the app folder
 // ==========================================================================
-gulp.task('dist-app-static', function () {
-    return gulp.src(path.join(srcAppStaticFolder, '**')).pipe(gulp.dest(distAppPath));
+gulp.task('tmp-app-static', function () {
+    return gulp.src(path.join(srcStaticFolder, '**')).pipe(gulp.dest(tmpAppPath));
 });
 
 /**
@@ -295,31 +346,3 @@ gulp.task('jshint', function () {
     return gulp.src('src')
         .pipe(jshint(json));
 });
-
-/**
- * ######################################################################################
- * ######################################################################################
- * HELPER FUNCTIONS
- * ######################################################################################
- * ######################################################################################
- */
-
-/**
- * Requires all js files in a folder
- * @param {string} folder path to folder
- */
-requireFolder = function (folder) {
-    var stat = null,
-        filepath = null;
-    fs.readdirSync(folder).forEach(function (file) {
-        filepath = path.join(folder, file);
-        stat = fs.statSync(filepath);
-        //Don't require .ts files
-        if (stat.isFile() && path.extname(file) === '.js') {
-            require(filepath);
-        }
-        if (stat.isDirectory()) {
-            requireFolder(filepath);
-        }
-    });
-};
