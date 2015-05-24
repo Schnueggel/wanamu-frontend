@@ -8,7 +8,8 @@ var ngModule = angular.module('todoit', [
     'ngMessages',
     'config',
     require('./panel').name,
-    require('./home').name,
+    require('./auth').name,
+    require('./todo').name,
     'pascalprecht.translate'
 ]);
 
