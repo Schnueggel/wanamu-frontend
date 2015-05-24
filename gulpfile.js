@@ -112,20 +112,14 @@ gulp.task('default', ['build']);
 gulp.task('build', function (cb) {
     runSequence('jshint', 'build-app', cb);
 });
-// ===================================================================
-// Build the application into the dist folder
-// ===================================================================
-gulp.task('build-dev', function (cb) {
-    runSequence('jshint', 'build-app-dev', cb);
-});
+
 // ====================================================================
 // Builds frontend and backend,
 // starting the development.json server and opens a browser.
 // ====================================================================
 gulp.task('build-serve',  function (cb) {
-    runSequence('build-dev', 'connect', 'watch', 'http-browser', cb);
+    runSequence('build', 'connect', 'watch', 'http-browser', cb);
 });
-
 
 // ======================================================
 // Test frontend and backend
@@ -146,22 +140,6 @@ gulp.task('build-app', function (cb) {
         'build-app-html',
         'move-dist', cb);
 });
-
-// ===========================================================================
-// Builds the frontend
-// ===========================================================================
-gulp.task('build-app-dev', function (cb) {
-    runSequence(
-        'build-clean-app',
-        'move-tmp',
-        'tmp-app-static',
-        'constants',
-        'build-webpack-dev',
-        'build-app-html',
-        'move-dist',
-        cb);
-});
-
 
 /**
  * ######################################################################################
@@ -212,7 +190,12 @@ gulp.task('constants', function () {
 // Create webpacked files
 // ===========================================================
 gulp.task('build-webpack', function (callback) {
+    if (env === 'development') {
+        webpackConfig.debug = true;
+    }
+
     var webpackCompiler = webpack(webpackConfig);
+
     webpackCompiler.run(function (err, stats) {
         if (err) {
             throw new gutil.PluginError('build-webpack', err);
@@ -222,15 +205,6 @@ gulp.task('build-webpack', function (callback) {
         }));
         callback();
     });
-});
-
-// ===========================================================
-// Create webpacked files
-// ===========================================================
-gulp.task('build-webpack-dev', function (cb) {
-    //webpackConfig.devtool = 'sourcemap';
-    webpackConfig.debug = true;
-    runSequence('build-webpack', cb);
 });
 
 // =================================================================
@@ -266,6 +240,7 @@ gulp.task('watch-app',  function () {
         runSequence('build-app', 'livereload');
     });
 });
+
 // ===================================================================
 // Reload the browser page
 // ===================================================================
