@@ -17,6 +17,19 @@ body {
     background-color: #ffffff;
 }
 
+footer {
+    text-align: center;
+    a {
+        margin: 0 1rem;
+    }
+    position: absolute;
+    left:0;
+    right:0;
+    bottom:2px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
 input {
     border: none;
     line-height: 1.8em;
