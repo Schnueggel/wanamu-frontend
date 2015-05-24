@@ -1,5 +1,16 @@
 {
     "imprint": "Impressum",
     "about": "Über uns",
-    "security": "Datenschutz"
+    "security": "Datenschutz",
+    "validation": {
+        "messages": {
+            "fieldNotEmpty": "Das Feld darf nicht leer sein"
+        }
+    },
+    "login": {
+        "email": "E-Mail",
+        "password": "Passwort",
+        "login": "Login",
+        "register": "Registrieren"
+    }
 }

@@ -63,7 +63,8 @@ var webpackConfig = {
         noParse: [
             /[\/\\]angular\.js$/,
             /[\/\\]angular-ui-router\.js$/,
-            /[\/\\]angular-translate\.js$/
+            /[\/\\]angular-translate\.js$/,
+            /[\/\\]angular-messages\.js$/
         ],
         loaders : [
             {
@@ -256,11 +257,8 @@ gulp.task('livereload', function () {
 // =========================================================================
 gulp.task('build-app-html', function () {
     var script = '<script src="' + webpackConfig.output.filename + '"></script>';
-    var map = webpackConfig.debug ?  '<script src="' + webpackConfig.output.filename + '.map"></script>' : '';
-
     return gulp.src(srcIndexHtml)
         .pipe(replace('<!--scripts-->', script))
-        .pipe(replace('<!--map-->', map))
         .pipe(gulp.dest(distAppPath));
 });
 

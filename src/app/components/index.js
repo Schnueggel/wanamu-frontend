@@ -1,10 +1,11 @@
 'use strict';
 
 /*global window*/
-var ngModule = angular.module('nautic', [
+var ngModule = angular.module('todoit', [
     'ui.router',
     'ngAnimate',
     'ngTouch',
+    'ngMessages',
     require('./panel').name,
     require('./home').name,
     'pascalprecht.translate'

@@ -16,9 +16,6 @@ module.exports = angular.module('panel', [])
             })
             .state('panel.view', {
                 views: {
-                    'footer@panel': {
-                        template: require('./footer.html')
-                    },
                     'header@panel': {
                         template: require('./header.html')
                     }

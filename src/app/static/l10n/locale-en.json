@@ -1,5 +1,16 @@
 {
     "imprint": "Imprint",
     "about": "About",
-    "security": "Security"
+    "security": "Security",
+    "validation": {
+        "messages": {
+            "fieldNotEmpty": "Field cannot be empty"
+        }
+    },
+    "login": {
+        "email": "Email",
+        "password": "Password",
+        "login": "Login",
+        "register": "Register"
+    }
 }
