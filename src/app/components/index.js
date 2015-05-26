@@ -10,6 +10,7 @@ var ngModule = angular.module('todoit', [
     require('./panel').name,
     require('./auth').name,
     require('./todo').name,
+    require('./menu').name,
     'pascalprecht.translate'
 ]);
 
