@@ -1,4 +1,9 @@
 <div>
-    <a class="icon hamburger" ng-include="'/images/Hamburger.svg'"></a>
-    <a class="icon logo" ng-include="'/images/ToDoIt Logo big.svg'" ></a>
+    <span ng-if="!Header.menuopen">
+        <a  class="icon hamburger" ng-include="'/images/Hamburger.svg'" ui-sref="panel.view.menu"></a>
+    </span>
+    <span ng-if="Header.menuopen">
+        <a class="icon hamburger" ng-include="'/images/ToDoIt Logo big.svg'" ui-sref="{{Header.laststate}}"></a>
+    </span>
+    <a class="icon logo" ng-include="'/images/ToDoIt Logo big.svg'" ui-sref="panel.view.todos"></a>
 </div>

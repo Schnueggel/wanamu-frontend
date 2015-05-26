@@ -9,7 +9,7 @@ var ngModule = angular.module('todoit', [
     'config',
     require('./panel').name,
     require('./auth').name,
-    require('./todo').name,
+    require('./todos').name,
     require('./menu').name,
     'pascalprecht.translate'
 ]);
@@ -59,7 +59,7 @@ ngModule.config([
 .run(['$rootScope',  '$state',
     function ($rootScope, $state) {
 
-        $rootScope.$state = $state;
     }]);
+
 
 module.exports = ngModule;

@@ -15,13 +15,28 @@ module.exports = angular.module('panel', [])
                 role: 'public'
             })
             .state('panel.view', {
+
                 views: {
                     'header@panel': {
+                        controller: 'HeaderCtrl as Header',
                         template: require('./header.html')
                     }
                 }
             });
 }])
     .controller('PanelCtrl', [function () {
+        console.log('Panel');
+}]). controller('HeaderCtrl', ['$rootScope', '$state', function($rootScope, $state) {
 
-}]);
+        var Header = this;
+        Header.menuopen = false;
+
+        $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
+            if (to.name !== 'panel.view.menu') {
+                Header.menuopen = false;
+                Header.laststate = from.name;
+            } else {
+                Header.menuopen = true;
+            }
+        });
+    }]);

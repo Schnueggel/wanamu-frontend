@@ -3,7 +3,7 @@
  */
 'use strict';
 
-module.exports = angular.module('todo', [
+module.exports = angular.module('todos', [
     require('../panel').name
 ]).config(['$stateProvider', function ($stateProvider) {
         // States/Routes
@@ -19,7 +19,8 @@ module.exports = angular.module('todo', [
                 }
             });
     }])
-    .controller('TodoCtrl', ['$state','auth',  function ($state, auth) {
+    .controller('TodoCtrl', ['$state','auth', function ($state, auth) {
+
         if (!auth.isLoggedIn()){
             $state.go('panel.view.login');
         }

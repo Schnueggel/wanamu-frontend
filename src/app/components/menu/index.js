@@ -11,15 +11,15 @@ module.exports = angular.module('menu', [
 
         $stateProvider
             .state('panel.view.menu', {
-                controller: 'MenuCtrl as Menu',
+                url: '/menu',
                 role: 'public',
                 views: {
                     '@panel': {
+                        controller: 'MenuCtrl as Menu',
                         template: require('./content.html')
                     }
                 }
             })
 }])
     .controller('MenuCtrl', [function () {
-
 }]);
