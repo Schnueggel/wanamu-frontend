@@ -15,12 +15,6 @@ module.exports = angular.module('auth', [
                     '@panel': {
                         controller: 'LoginCtrl as Login',
                         template: require('./login.html')
-                    },
-                    'header@panel': {
-                        template: ''
-                    },
-                    'footer@panel': {
-                        template: require('../panel/footer.html')
                     }
                 }
             });
