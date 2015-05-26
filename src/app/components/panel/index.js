@@ -26,17 +26,19 @@ module.exports = angular.module('panel', [])
 }])
     .controller('PanelCtrl', [function () {
         console.log('Panel');
-}]). controller('HeaderCtrl', ['$rootScope', '$state', function($rootScope, $state) {
+}]). controller('HeaderCtrl', ['$rootScope', '$scope', function($rootScope, $scope) {
 
         var Header = this;
         Header.menuopen = false;
 
-        $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
+        var off = $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
             if (to.name !== 'panel.view.menu') {
+                console.log(to);
                 Header.menuopen = false;
-                Header.laststate = from.name;
             } else {
+                Header.laststate = from.name;
                 Header.menuopen = true;
             }
         });
+        $scope.$on('$destroy', off);
     }]);
