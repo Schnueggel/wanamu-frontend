@@ -31,20 +31,39 @@ module.exports = angular.module('auth', [
             return;
         }
         var Login = this;
+        Login.loading = false;
 
         Login.pattern = /^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
 
         Login.form = {
-            submitted: false
+            error: {}
         };
 
         Login.login = function(){
+
+            if (Login.loading === true) {
+                return;
+            }
+            //Reset errors
+            Login.form.$error = {};
+            $scope.loginform.username.$untouched = true;
+            $scope.loginform.password.$untouched = true;
+
             if ($scope.loginform.$valid){
-                auth.login(Login.form.username, Login.form.password).then(function(user){
-                    $state.go('panel.view.todos');
-                }, function(err){
-                    console.log(err);
+                //Set state loading
+                Login.loading = true;
+
+                auth.login(Login.form.username, Login.form.password)
+                    .then(function(user){
+                        $state.go('panel.view.todos');
+                }).catch(function(err){
+                        Login.form.error.error = true;
+                        Login.form.error.message = err.message;
+                }).finally(function(){
+                        Login.loading = false;
                 });
+            } else {
+
             }
         }
     }]);

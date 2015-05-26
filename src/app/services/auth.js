@@ -18,30 +18,41 @@ module.exports = function(ngModule){
                     $http.post(constants.loginurl, {
                         username: username,
                         password: password
-                    }).success(function(data){
+                    }).success(function(data, status){
                         console.log(data);
+                        var isObject = angular.isObject(data);
 
-                        if (!angular.isObject(data) || !angular.isArray(data.data) || data.data.length !== 1 || !angular.isNumber(data.data[0].id)){
+                        if (!isObject || !angular.isArray(data.data) || data.data.length !== 1 || !angular.isNumber(data.data[0].id)){
                             reject({
                                 name: 'unkown',
                                 message: 'Invalid data received from server'
                             });
                             return;
+                        } else {
+                            currentuser = data.data[0];
+
+                            $window.localStorage.setItem('user', currentuser);
+
+                            resolve(currentuser);
                         }
 
-                        currentuser = data.data[0];
-
-                        $window.localStorage.setItem('user', currentuser);
-
-                        resolve(currentuser);
-
-                    }).error(function(data) {
-                        if (data && data.error) {
+                    }).error(function(data, status) {
+                        if (status === 401 || status == 403) {
+                            reject({
+                                name: 'AuthError',
+                                message: 'Login failed. Please check your login data'
+                            });
+                        } else if (status === 500) {
+                            reject({
+                                name: 'ServerError',
+                                message: 'The anwser from the server was invalid. Please try again'
+                            });
+                        } else if( data && data.error) {
                             reject(data.error);
                         } else {
                             reject({
-                                name: 'unkown',
-                                message: 'Invalid data received from server'
+                                name: 'UnkownError',
+                                message: 'Invalid data received from server or server did not respond'
                             });
                         }
                     });

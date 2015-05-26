@@ -2,26 +2,33 @@
     <img class="logo" src="/images/TodoIt Logo big.svg">
 
     <div class="form-container">
-        <form name="loginform" role="form" ng-submit="Login.login()">
-
+        <form name="loginform" role="form" ng-submit="Login.login()" novalidate>
+            <div ng-messages="Login.form.error">
+                <div ng-message="error" class="error">{{Login.form.error.message}}</div>
+            </div>
             <div class="input-container">
                 <input type="text" name="username" placeholder="{{'login.email' | translate}}"
                        ng-pattern="Login.pattern"
                        ng-model="Login.form.username"
-                       required>
-                <div ng-messages="loginform.username.$error" ng-show="loginform.$submitted && loginform.username.$invalid">
+                       ng-required="true">
+                <div ng-messages="loginform.username.$error"
+                     ng-show="loginform.$submitted && loginform.username.$invalid && loginform.username.$untouched"
+                    >
                     <div ng-message="required" class="error">{{'validation.messages.fieldNotEmpty' | translate}}</div>
                     <div ng-message="pattern" class="error">Please enter a valid email</div>
                 </div>
             </div>
             <div class="input-container">
-                <input type="password" name="password" value="" placeholder="{{'login.password' | translate}}" ng-model="Login.form.password" required>
-                <div ng-messages="loginform.password.$error" ng-show="loginform.$submitted && loginform.password.$invalid">
+                <input type="password" name="password" value=""
+                       placeholder="{{'login.password' | translate}}"
+                       ng-model="Login.form.password" ng-required="true">
+                <div ng-messages="loginform.password.$error"
+                     ng-show="loginform.$submitted && loginform.password.$invalid && loginform.password.$untouched">
                     <div ng-message="required" class="error">{{'validation.messages.fieldNotEmpty' | translate}}</div>
                 </div>
             </div>
 
-            <button type="submit">{{'login.login' | translate}}</button>
+            <button type="submit" ng-class="{disabled: Login.loading}">{{'login.login' | translate}}</button>
             <button type="button">{{'login.register' | translate}}</button>
         </form>
     </div>
