@@ -1,1 +1,7 @@
-<div>Todos</div>
+<div class="todolist">
+    <div class="todo" ng-repeat="todo in Todo.list">
+        <span class="left">Delete</span>
+        <span class="center">{{todo.title}}</span>
+        <span class="right" >Icon</span>
+    </div>
+</div>

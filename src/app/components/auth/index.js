@@ -17,6 +17,15 @@ module.exports = angular.module('auth', [
                         template: require('./login.html')
                     }
                 }
+            }).state('panel.view.logout', {
+                url: '/logout',
+                role: 'public',
+                views: {
+                    '@panel' :{
+                        controller: 'LogoutCtrl as Logout'
+                    }
+                },
+                cache: false
             });
     }])
     .controller('LoginCtrl', ['$scope', '$state', 'auth',  function ($scope, $state, auth) {
@@ -60,4 +69,12 @@ module.exports = angular.module('auth', [
 
             }
         }
+    }])
+    .controller('LogoutCtrl', ['$state','auth', function($state, auth){
+        auth.logout().then(function(){
+        }).catch(function(err){
+            console.log(err);
+        }).finally(function(){
+            $state.go('panel.view.login');
+        })
     }]);

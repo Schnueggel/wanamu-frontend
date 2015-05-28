@@ -9,7 +9,13 @@ module.exports = function (ngModule) {
      */
     ngModule.factory('auth', ['$q', '$http', '$window', 'constants', function ($q, $http, $window, constants) {
 
-        var currentuser = $window.localStorage.getItem('user');
+        var currentuser;
+
+        try {
+            currentuser = JSON.parse($window.localStorage.getItem('user'));
+        } catch(err) {
+            currentuser = null;
+        }
 
         return {
             login: function (username, password) {
@@ -31,8 +37,8 @@ module.exports = function (ngModule) {
                             return;
                         } else {
                             currentuser = data.data[0];
-
-                            $window.localStorage.setItem('user', currentuser);
+                            console.log(currentuser);
+                            $window.localStorage.setItem('user', JSON.stringify(currentuser));
 
                             resolve(currentuser);
                         }

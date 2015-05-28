@@ -23,5 +23,10 @@ module.exports = angular.module('todos', [
 
         if (!auth.isLoggedIn()){
             $state.go('panel.view.login');
+            return;
         }
+
+        var Todo = this;
+
+        Todo.list = auth.currentUser().TodoLists[0].Todos;
     }]);
