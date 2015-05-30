@@ -4,6 +4,7 @@ $color1: #F6A623;
 $color2: #868686;
 $color3: #D8D8D8;
 $color4: #ffffff;
+$color-form-input: #212121;
 
 $shadow1: 2px 2px 2px rgba(214, 214, 214, 0.5);
 $default-fontsize: 1.2rem;
@@ -34,11 +35,11 @@ footer {
     margin-right:auto;
 }
 
-input, textarea {
+input, textarea, select {
+    color: $color-form-input;
     border: none;
     line-height: 1.8em;
     padding-left: 3px;
-    color: $color2;
 }
 
 button {
@@ -123,7 +124,7 @@ html .panel {
 
     .input-container {
         margin: 0.9rem 0;
-        border-bottom: solid 2px $color3;
+        border-bottom: solid 1px $color3;
     }
     .login {
 
@@ -193,23 +194,25 @@ html .panel {
     .todo {
         form {
             .input-container {
+                line-height: 1.4rem;
+
                 label {
                     display: block;
                     margin: 2px 0;
                     text-align: left;
                 }
-                line-height: 1.4rem;
-                border: none;
-                paper-material {
-                    margin: 2px 0;
-                    padding: 0.2rem;
-                    box-shadow:
-                        inset 0px 2px 1px 0px rgba(0,0,0,0.07),
-                        inset -1px -1px 3px 0px rgba(0,0,0,0.07);
-                }
+
                 input, textarea {
-                    max-width: 99%;
-                    width: 99%;
+                    color: #212121;
+                    text-align: left;
+                    padding-left: 0;
+                    max-width: 100%;
+                    width: 100%;
+                }
+
+                input.title {
+                    line-height: 3.2rem;
+                    font-size: 2.8rem;
                 }
             }
 
