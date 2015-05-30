@@ -1,0 +1,39 @@
+<div class="todo">
+    <div class="form-container">
+        <form name="todoform" role="form" ng-submit="Todo.submit()" novalidate>
+            <div ng-messages="Login.form.error">
+                <div ng-message="error" class="error">{{Todo.form.error.message}}</div>
+            </div>
+            <div class="input-container">
+
+                <label>{{'todo.form.title' | translate}}:</label>
+                <paper-material elevation="1">
+                <input type="text" name="title"
+                       ng-model="Todo.todo.title"
+                       ng-required="true">
+                <div ng-messages="todoform.title.$error"
+                     ng-show="todoform.$submitted && todoform.title.$invalid && todoform.title.$untouched"
+                    >
+                    <div ng-message="required" class="error">{{'validation.messages.fieldNotEmpty' | translate}}</div>
+                    <div ng-message="pattern" class="error">Please enter a valid email</div>
+                </div>
+                </paper-material>
+            </div>
+            <div class="input-container">
+                <label>{{'todo.form.description' | translate}}:</label>
+                <paper-material>
+                    <textarea name="description" ng-model="Todo.todo.description" ng-maxlength="500">
+                    </textarea>
+                    <div ng-messages="todoform.description.$error"
+                         ng-show="todoform.$submitted && todoform.description.$invalid && todoform.description.$untouched"
+                        >
+                        <div ng-message="maxlength" class="error">{{'validation.messages.fieldToLong' | translate}}</div>
+                    </div>
+                </paper-material>
+            </div>
+
+            <paper-button type="submit" ng-class="{disabled: Todo.loading}" ng-click="Todo.submit()">{{'todo.form.submit' | translate}}</paper-button>
+        </form>
+    </div>
+
+</div>

@@ -136,9 +136,6 @@ module.exports = function (ngModule) {
                 }
             }
 
-            console.log(attributes.tdIsAuth);
-            console.log(typeof attributes.tdIsAuth);
-
             visisible(auth.isLoggedIn());
 
             $scope.$watch(auth.isLoggedIn,
