@@ -30,10 +30,11 @@ module.exports = angular.module('panel', [])
 
         var Header = this;
         Header.menuopen = false;
+        Header.laststate = 'panel.view.login';
 
         var off = $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
             if (to.name !== 'panel.view.menu') {
-                console.log(to);
+                Header.laststate = 'panel.view.menu';
                 Header.menuopen = false;
             } else {
                 Header.laststate = from.name;

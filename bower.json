@@ -1,0 +1,32 @@
+{
+  "name": "todoit-web-frontend",
+  "version": "0.0.1",
+  "authors": [
+    "Christian Steinmann <christian.steinmann77@gmail.com>"
+  ],
+  "description": "Todo App",
+  "main": "dist/index.html",
+  "moduleType": [
+    "es6",
+    "node"
+  ],
+  "keywords": [
+    "Todo"
+  ],
+  "license": "MIT",
+  "homepage": "www.wanamu.com",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/static/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~1.0.2",
+    "iron-icon": "PolymerElements/iron-icon#1.0.0",
+    "iron-icons": "PolymerElements/iron-icons#1.0.0",
+    "paper-button": "PolymerElements/paper-button#1.0.0"
+  }
+}

@@ -1,7 +1,23 @@
 <div class="menu">
-    <a td-is-auth>Todos</a>
-    <a>Imprint</a>
-    <a>About</a>
-    <a>Help</a>
-    <a td-is-auth ui-sref="panel.view.logout">Logout</a>
+    <paper-button td-is-auth ui-sref="panel.view.logout">
+        <iron-icon icon="content-paste"></iron-icon>
+        Todos
+    </paper-button>
+
+    <paper-button>
+        <iron-icon icon="description"></iron-icon>
+        Imprint
+    </paper-button>
+    <paper-button>
+        <iron-icon icon="picture-in-picture"></iron-icon>
+        About
+    </paper-button>
+    <paper-button>
+        <iron-icon icon="help"></iron-icon>
+        Help
+    </paper-button>
+    <paper-button td-is-auth ui-sref="panel.view.logout">
+        <iron-icon icon="remove-circle"></iron-icon>
+        Logout
+    </paper-button>
 </div>
