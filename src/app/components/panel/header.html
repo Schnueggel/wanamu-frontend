@@ -1,7 +1,5 @@
 <div class="header">
-    <span>
-        <iron-icon ng-if="!Header.menuopen" icon="menu" class="menu-icon" ng-class="{open: Header.menuopen}" ui-sref="panel.view.menu"></iron-icon>
-        <iron-icon ng-if="Header.menuopen" icon="menu" class="menu-icon" ng-class="{open: Header.menuopen}" ui-sref="{{Header.laststate}}"></iron-icon>
-        <iron-icon src="/images/Wanamu.svg" class="menu-logo" ui-sref="panel.view.todos"></iron-icon>
-    </span>
+    <iron-icon ng-if="!Header.menuopen" icon="menu" class="menu-icon" ng-class="{open: Header.menuopen}" ui-sref="panel.view.menu"></iron-icon>
+    <iron-icon ng-if="Header.menuopen" icon="menu" class="menu-icon" ng-class="{open: Header.menuopen}" ui-sref="{{Header.laststate}}"></iron-icon>
+    <iron-icon src="/images/Wanamu.svg" class="menu-logo" ui-sref="panel.view.todos" ng-hide="Header.hideHeaderLogo"></iron-icon>
 </div>

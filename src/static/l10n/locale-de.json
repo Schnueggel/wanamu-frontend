@@ -7,6 +7,16 @@
             "fieldNotEmpty": "Das Feld darf nicht leer sein"
         }
     },
+    "todo" : {
+        "form": {
+            "submit": "Speichern",
+            "title": "Titel",
+            "description": "Beschreibung (optional)",
+            "eg": {
+                "title": "Den Hund füttern"
+            }
+        }
+    },
     "login": {
         "email": "E-Mail",
         "password": "Passwort",

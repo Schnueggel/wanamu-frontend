@@ -33,6 +33,7 @@ module.exports = angular.module('auth', [
             $state.go('panel.view.todos');
             return;
         }
+
         var Login = this;
         Login.loading = false;
 

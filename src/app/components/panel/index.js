@@ -37,7 +37,7 @@ module.exports = angular.module('panel', [])
         // Incase the is no from state we set last state todos
         // ==========================================================================
         Header.laststate = 'panel.view.todos';
-
+        Header.hideHeaderLogo = 'panel.view.login' === $state.current.name;
         // ==========================================================================
         // We listen to stateChange events to store the last state.
         // This should perhaps go into a service to make it  reusable
@@ -50,6 +50,7 @@ module.exports = angular.module('panel', [])
                 Header.laststate = from.name + '(' + JSON.stringify(fromParams) + ')';
                 Header.menuopen = true;
             }
+            Header.hideHeaderLogo = to.name === 'panel.view.login';
         });
 
         //Destroy the listener if this $scope dies to prevent multiple listener

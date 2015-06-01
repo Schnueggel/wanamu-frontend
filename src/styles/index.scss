@@ -1,25 +1,35 @@
-$header-height: 3rem;
-
-$color1: #F6A623;
+$color1: #4990E2;
 $color2: #868686;
 $color3: #D8D8D8;
 $color4: #ffffff;
 $color-form-input: #212121;
 
-$shadow1: 2px 2px 2px rgba(214, 214, 214, 0.5);
+$shadow1:  0px 2px 5px rgba(0, 0, 0, 0.26);
+
 $default-fontsize: 1.2rem;
+$fontsize-title: 2.8rem;
+$fontsize-subtitle: 2rem;
+
 $menu-maxwidth: 700px;
-$todo-lineheight: 2rem;
+$todo-lineheight: 3rem;
+$header-height: 4rem;
 
 $text-color1: #ffffff;
 
 html {
+    height: 100%;
     font-family: 'Roboto', sans-serif;
 }
 
 body {
     height: 100%;
     background-color: #ffffff;
+}
+
+main {
+    padding-top: $header-height +2rem;
+    height: 100%;
+    box-sizing: border-box;
 }
 
 footer {
@@ -39,6 +49,7 @@ input, textarea, select {
     color: $color-form-input;
     border: none;
     line-height: 1.8em;
+    background-color: white;
     padding-left: 3px;
 }
 
@@ -49,34 +60,28 @@ button {
     box-shadow: $shadow1;
     color: $text-color1;
     font-size: $default-fontsize;
+
     margin: 0.5rem 0;
     padding: 0.4rem;
 }
 
 header {
     height: $header-height;
-    padding: 2px;
-
-    a {
-        display: inline-block;
-    }
-
-    .hamburger svg {
-        height: $header-height;
-        width: $header-height * 94/101;
-        vertical-align: top;
-    }
-    .logo svg {
-        height: $header-height;
-        width: $header-height * 358/98;
-        vertical-align: top;
-    }
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.26);
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    top: 0;
+    box-sizing: border-box;
 }
+
 
 .error {
     color: #ff6227;
     font-size: 0.8rem;
 }
+
 
 button.disabled {
     background-color: $color2;
@@ -97,37 +102,44 @@ html iron-icon {
 }
 
 html .header {
-    iron-icon {
-        cursor: pointer;
-        height:3rem;
-    }
-    paper-button {
-        width: 100%;
-    }
+    height: $header-height;
+    padding: 2px;
+
     .menu-icon {
+        height: $header-height;
+        width: $header-height;
+        color: $color1;
         &.open {
             color: $color2;
         }
-        width: auto;
-        color: $color1;
+        cursor: pointer;
     }
 
-    iron-icon.menu-logo {
+    .menu-logo {
+        cursor: pointer;
+        max-height: $header-height;
+        min-height: $header-height -1;
+        height: 60%;
         width: auto;
     }
 }
 
 html .panel {
-    width: 1100px;
-    margin: 2rem auto;
+    width: 100%;
+    margin: 0;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 0 1rem 0 1rem;
 
     .input-container {
         margin: 0.9rem 0;
         border-bottom: solid 1px $color3;
     }
     .login {
-
         .form-container{
             text-align: left;
             max-width: $menu-maxwidth;
@@ -135,6 +147,7 @@ html .panel {
             margin: 2rem auto auto auto;
 
             paper-button, input {
+                font-size: $fontsize-subtitle;
                 width: 100%;
             }
         }
@@ -150,58 +163,105 @@ html .panel {
     .todolist {
         width: 700px;
         margin: 0 auto;
+        align-self: flex-start;
 
+        .toolbar {
+            display: inline-flex;
+            width: 100%;
+
+            .colors {
+                width:80%;
+                box-sizing: border-box;
+                text-align: center;
+
+                .full-circle {
+                    display: inline-block;
+                    border: 1px solid $color4;
+                    height: 36px;
+                    width: 36px;
+                    box-shadow: $shadow1;
+                    -moz-border-radius:18px;
+                    -webkit-border-radius: 18px;
+                    border-radius: 18px;
+                    cursor: pointer;
+
+                    iron-icon {
+                        width: 36px;
+                        height: 36px;
+                    }
+                }
+                .color1 {
+                    background-color: $color1
+                }
+            }
+            .buttons {
+                width: 20%;
+                box-sizing: border-box;
+                button {
+                    margin: 0;
+                    width: 37px;
+                }
+            }
+
+            height: 3rem;
+            text-align: right;
+        }
         .todo {
-            margin: 0.3rem 0;
-            height: 2rem;
+            margin: 0.5rem 0;
+            height: 3rem;
             line-height: $todo-lineheight;
             padding: 0;
             display: table;
             width: 100%;
             cursor: pointer;
+            box-shadow: 0px 2px 2px #888888;
 
             .left, .right, .center {
                 display: table-cell;
                 padding: 0.1rem 0;
                 border: 0;
                 margin: 0;
-                border-top: 2px solid $color3;
-                border-bottom: 2px solid $color3;
-                box-shadow: 0px 2px 2px #888888;
+
             }
             .center {
                 background-color: $color1;
                 color: $color4;
-                width: 60%;
+                width: 70%;
             }
             .left {
-                width: 20%;
+                width: 10%;
                 background: $color3;
-                border-left: 2px solid $color3;
-                border-bottom-left-radius: 6px;
-                border-top-left-radius: 6px;
+                border-right: 1px solid $color2;
             }
             .right {
                 width: 20%;
                 background: $color2;
-                border-right: 2px solid $color3;
-                border-bottom-right-radius: 6px;
-                border-top-right-radius: 6px;
             }
         }
     }
 
-    .todo {
-        form {
-            .input-container {
-                line-height: 1.4rem;
+    .todo-details {
 
+        align-self: flex-start;
+
+        form {
+            .button-container {
+                text-align: right;
+            }
+            .input-container {
+                text-align: left;
+                line-height: $fontsize-subtitle;;
+                box-sizing: border-box;
+                vertical-align: middle;
                 label {
                     display: block;
                     margin: 2px 0;
                     text-align: left;
+                    color: $color2;
                 }
-
+                input {
+                    font-size: $fontsize-subtitle;
+                }
                 input, textarea {
                     color: #212121;
                     text-align: left;
@@ -212,7 +272,24 @@ html .panel {
 
                 input.title {
                     line-height: 3.2rem;
-                    font-size: 2.8rem;
+                    font-size: $fontsize-title;
+                }
+                paper-button.clear {
+                    margin: 0 0 0 0.3rem;
+                    background-color: $color2;
+                    padding: 0;
+
+                    iron-icon {
+                        width: $fontsize-subtitle;
+                        height: $fontsize-subtitle;
+                    }
+                }
+                &.alarm, &.repeat {
+                    input {
+                        width: auto;
+                        max-width: 8em;
+                        box-sizing: border-box;
+                    }
                 }
             }
 

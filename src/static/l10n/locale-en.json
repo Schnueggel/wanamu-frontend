@@ -7,6 +7,16 @@
             "fieldNotEmpty": "Field cannot be empty"
         }
     },
+    "todo" : {
+        "form": {
+            "submit": "Save",
+            "title": "Title",
+            "description": "Description (optional)",
+            "eg": {
+                "title": "E.g. Feeding the Dog"
+            }
+        }
+    },
     "login": {
         "email": "Email",
         "password": "Password",
