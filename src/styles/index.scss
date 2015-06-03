@@ -18,7 +18,7 @@
     font-family: 'Material Icons';
     font-weight: normal;
     font-style: normal;
-    font-size: 24px;  /* Preferred icon size */
+    font-size: 36px;  /* Preferred icon size */
     display: inline-block;
     width: 1em;
     height: 1em;
@@ -45,7 +45,7 @@ $color-form-input: #212121;
 
 $shadow1:  0px 2px 5px rgba(0, 0, 0, 0.26);
 
-$default-fontsize: 1.2rem;
+$default-fontsize: 1.4rem;
 $fontsize-title: 2.8rem;
 $fontsize-subtitle: 2rem;
 
@@ -92,10 +92,14 @@ input, textarea, select {
     padding-left: 3px;
 }
 
-button.md-button {
+.md-button {
     font-size: $default-fontsize;
     line-height: $todo-lineheight;
     min-height: $todo-lineheight;
+}
+.font-size-2{
+    font-size: $fontsize-subtitle;
+    line-height: $fontsize-subtitle * 1.8;
 }
 
 header {
@@ -169,8 +173,12 @@ html .panel {
         }
     }
     .menu {
+        align-self: flex-start;
         margin: 0 auto;
         max-width: $menu-maxwidth;
+        .md-button {
+            width: 99%;
+        }
     }
     .todolist {
         width: 700px;
