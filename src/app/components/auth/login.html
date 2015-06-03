@@ -1,5 +1,5 @@
 <section class="login">
-    <img class="logo" src="/images/wanamu.svg">
+    <img class="logo" src="/images/Wanamu.svg">
 
     <div class="form-container">
         <form name="loginform" role="form" ng-submit="Login.login()" novalidate>
@@ -28,8 +28,8 @@
                 </div>
             </div>
 
-            <paper-button type="submit" ng-class="{disabled: Login.loading}" ng-click="Login.login()">{{'login.login' | translate}}</paper-button>
-            <paper-button type="button">{{'login.register' | translate}}</paper-button>
+            <md-button class="md-primary md-raised" type="submit" ng-class="{disabled: Login.loading}" ng-click="Login.login()">{{'login.login' | translate}}</md-button>
+            <md-button class="md-primary md-raised"  type="button">{{'login.register' | translate}}</md-button>
         </form>
     </div>
 </section>

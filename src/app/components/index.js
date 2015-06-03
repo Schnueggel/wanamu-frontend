@@ -7,6 +7,7 @@ var ngModule = angular.module('todoit', [
     'ngTouch',
     'ngMessages',
     'config',
+    'ngMaterial',
     require('./panel').name,
     require('./auth').name,
     require('./todos').name,
@@ -21,7 +22,8 @@ ngModule.config([
     '$translateProvider',
     '$httpProvider',
     '$logProvider',
-    function ($provide, $stateProvider, $urlRouterProvider, $translateProvider, $httpProvider, $logProvider) {
+    '$mdThemingProvider',
+    function ($provide, $stateProvider, $urlRouterProvider, $translateProvider, $httpProvider, $logProvider, $mdThemingProvider) {
         /*
          * $log provider enable disable on dev environment
          */
@@ -29,6 +31,19 @@ ngModule.config([
 
         // Fallback on unknown state/route
         $urlRouterProvider.otherwise('/login');
+
+        $mdThemingProvider.theme('default')
+            .primaryPalette('blue');
+
+        var wanamuMap = $mdThemingProvider.extendPalette('blue', {
+            '500': '4990E2'
+        });
+        // Register the new color palette map with the name <code>neonRed</code>
+        $mdThemingProvider.definePalette('wanamu', wanamuMap);
+        // Use that theme for the primary intentions
+        $mdThemingProvider.theme('default')
+            .primaryPalette('wanamu')
+            .accentPalette('light-blue');
 
         /*
          * translate settings

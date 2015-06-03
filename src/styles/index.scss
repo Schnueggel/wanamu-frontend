@@ -1,3 +1,42 @@
+@font-face {
+    font-family: 'robotomedium';
+    src: url('font/Roboto-Medium-webfont.eot');
+    src: url('font/Roboto-Medium-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Material Icons';
+    src: url('font/MaterialIcons-Regular.eot');
+    src: url('font/MaterialIcons-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;  /* Preferred icon size */
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
 $color1: #4990E2;
 $color2: #868686;
 $color3: #D8D8D8;
@@ -53,16 +92,10 @@ input, textarea, select {
     padding-left: 3px;
 }
 
-button {
-    background-color: $color1;
-    border-radius: 4px;
-    border: none;
-    box-shadow: $shadow1;
-    color: $text-color1;
+button.md-button {
     font-size: $default-fontsize;
-
-    margin: 0.5rem 0;
-    padding: 0.4rem;
+    line-height: $todo-lineheight;
+    min-height: $todo-lineheight;
 }
 
 header {
@@ -83,24 +116,6 @@ header {
 }
 
 
-button.disabled {
-    background-color: $color2;
-}
-
-
-html paper-button {
-    background-color: $color1;
-    color: $color4;
-    margin: 3px 0;
-    display: inline-block;
-}
-
-html iron-icon {
-    color: white;
-    height: $todo-lineheight -0.1;
-    width: $todo-lineheight -0.1;
-}
-
 html .header {
     height: $header-height;
     padding: 2px;
@@ -117,10 +132,12 @@ html .header {
 
     .menu-logo {
         cursor: pointer;
-        max-height: $header-height;
-        min-height: $header-height -1;
-        height: 60%;
-        width: auto;
+        background-color: white;
+        md-icon {
+            max-height: $header-height;
+            min-height: $header-height -1;
+            width: auto;
+        }
     }
 }
 
@@ -145,8 +162,7 @@ html .panel {
             max-width: $menu-maxwidth;
             min-width: 300px;
             margin: 2rem auto auto auto;
-
-            paper-button, input {
+            .md-button, input {
                 font-size: $fontsize-subtitle;
                 width: 100%;
             }
@@ -155,10 +171,6 @@ html .panel {
     .menu {
         margin: 0 auto;
         max-width: $menu-maxwidth;
-
-        paper-button {
-            width: 100%;
-        }
     }
     .todolist {
         width: 700px;
@@ -184,11 +196,6 @@ html .panel {
                     -webkit-border-radius: 18px;
                     border-radius: 18px;
                     cursor: pointer;
-
-                    iron-icon {
-                        width: 36px;
-                        height: 36px;
-                    }
                 }
                 .color1 {
                     background-color: $color1
@@ -274,16 +281,7 @@ html .panel {
                     line-height: 3.2rem;
                     font-size: $fontsize-title;
                 }
-                paper-button.clear {
-                    margin: 0 0 0 0.3rem;
-                    background-color: $color2;
-                    padding: 0;
 
-                    iron-icon {
-                        width: $fontsize-subtitle;
-                        height: $fontsize-subtitle;
-                    }
-                }
                 &.alarm, &.repeat {
                     input {
                         width: auto;
@@ -292,8 +290,6 @@ html .panel {
                     }
                 }
             }
-
-
         }
     }
 

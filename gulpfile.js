@@ -79,6 +79,17 @@ var webpackConfig = {
                 loader: 'raw'
             },
             {
+                test: /\.(eot|ttf)$/,
+                loader: 'url?limit=1000000'
+            },
+            {
+                test: /\.css$/,
+                loaders: [
+                    'style',
+                    'css'
+                ]
+            },
+            {
                 test: /\.scss$/,
                 loaders: [
                     'style',

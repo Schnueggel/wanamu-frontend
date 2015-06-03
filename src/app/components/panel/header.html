@@ -1,5 +1,13 @@
-<div class="header">
-    <iron-icon ng-if="!Header.menuopen" icon="menu" class="menu-icon" ng-class="{open: Header.menuopen}" ui-sref="panel.view.menu"></iron-icon>
-    <iron-icon ng-if="Header.menuopen" icon="menu" class="menu-icon" ng-class="{open: Header.menuopen}" ui-sref="{{Header.laststate}}"></iron-icon>
-    <iron-icon src="/images/Wanamu.svg" class="menu-logo" ui-sref="panel.view.todos" ng-hide="Header.hideHeaderLogo"></iron-icon>
-</div>
+<md-toolbar class="header">
+    <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" ng-show="!Header.menuopen" ui-sref="panel.view.menu" ng-class="{open: Header.menuopen}" >
+        <md-icon alt="face" md-font-library="material-icons">&#xE5D2;</md-icon>
+    </md-button>
+
+    <md-button class="menu-logo"  ui-sref="panel.view.todos"  ng-hide="Header.hideHeaderLogo">
+        <md-icon alt="Wanamu Logo"  md-svg-src="/images/Wanamu.svg"></md-icon>
+    </md-button>
+        <span flex></span>
+    <iron-icon ng-if="Header.menuopen"  ng-class="{open: Header.menuopen}" ui-sref="{{Header.laststate}}"></iron-icon>
+    </div>
+</md-toolbar>
