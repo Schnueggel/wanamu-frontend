@@ -4,7 +4,7 @@
 'use strict';
 
 module.exports = angular.module('home', [
-    require('../panel').name
+    'panel'
 ]).config(['$stateProvider', function ($stateProvider) {
         // States/Routes
         $stateProvider

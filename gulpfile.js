@@ -17,6 +17,7 @@ var gulp = require('gulp'),
     webpack = require('webpack'),
     path = require('path'),
     ngConstant = require('gulp-ng-constant'),
+    gulptypescript = require('gulp-typescript'),
     karma = require('karma').server,
     fs = require('fs'),
     del = require('del');
@@ -31,7 +32,7 @@ var srcPath = path.join(__dirname, 'src'),
     srcAppPath = path.join(srcPath, 'app'),
     srcStaticFolder = path.join(__dirname, 'src', 'static'),
     srcConfigPath = path.join(__dirname, 'src', 'config.json'),
-    appscript = 'app.js',
+    appscript = 'bootstrap.js',
     tmpPath = path.join(__dirname, 'tmp'),
     tmpAppPath = path.join(tmpPath, 'app'),
     tmpIndexHtml = path.join(tmpAppPath, 'index.html'),
@@ -40,7 +41,8 @@ var srcPath = path.join(__dirname, 'src'),
     distAppPath = path.join(distPath, 'app'),
     distIndexHtml = path.join(distAppPath, 'index.html'),
     env = process.APP_ENV || 'development',
-    indexFileName = 'index.js';
+    indexFileName = 'index.js',
+    typescriptOutFile =path.join(tmpAppPath, 'modules/wanamu//Application.js');
 
 /**
  * ######################################################################################
@@ -70,10 +72,10 @@ var webpackConfig = {
                 test: /\.es6\.js$/,
                 loader: 'babel'
             },
-            {
-                test: /\.ts$/,
-                loaders: ['babel', 'typescript']
-            },
+            //{
+            //    test: /\.ts$/,
+            //    loaders: ['typescript']
+            //},
             {
                 test: /\.html$/,
                 loader: 'raw'
@@ -146,6 +148,7 @@ gulp.task('build-app', function (cb) {
         'build-clean-app',
         'move-tmp',
         'tmp-app-static',
+        'build-typescript',
         'constants',
         'build-webpack',
         'build-app-html',
@@ -181,6 +184,18 @@ gulp.task('build-clean', ['build-clean-app'], function (cb) {
 // ==========================================================
 gulp.task('build-clean-app', function (cb) {
     return del([distAppPath, tmpPath], {}, cb);
+});
+
+// ==========================================================
+// Remove all app code in dist folder
+// ==========================================================
+gulp.task('build-typescript', function () {
+    var tsResult = gulp.src(path.join( srcAppPath,'**', '*.ts'))
+        .pipe(gulptypescript({
+            noImplicitAny: true,
+            out: typescriptOutFile
+        }));
+    return tsResult.js.pipe(gulp.dest(tmpAppPath));
 });
 // ==========================================================================
 // Creates a config files as angular module
@@ -247,7 +262,7 @@ gulp.task('watch', ['watch-app'], function (cb) {
 // Watch frontend code and reload the webpage if changes occur
 // ===================================================================
 gulp.task('watch-app',  function () {
-    gulp.watch(['src/app/**/*.html', 'src/app/**/*.js', 'src/styles/**/*.scss'], {debounceDelay: 2000}, function () {
+    gulp.watch(['src/app/**/*.html', 'src/app/**/*.js', 'src/styles/**/*.scss', 'src/app/**/*.ts',], {debounceDelay: 2000}, function () {
         runSequence('build-app', 'livereload');
     });
 });
@@ -279,10 +294,10 @@ gulp.task('build-app-html', function () {
 gulp.task('move-tmp',['move-tmp-app', 'move-tmp-styles']);
 
 gulp.task('move-tmp-app', function(){
-    return gulp.src([
-        path.join(srcPath,'app', '**')
-    ])
-        .pipe(gulp.dest(path.join(tmpPath, 'app')));
+   return gulp.src([
+        path.join(srcPath,'app', '**', '*.js'),
+       path.join(srcPath,'app', '**', '*.html'),
+    ]).pipe(gulp.dest(path.join(tmpPath, 'app')));
 });
 
 gulp.task('move-tmp-styles', function(){

@@ -1,6 +1,6 @@
 <div class="todo-details">
     <div class="form-container">
-        <form name="todoform" role="form" ng-submit="Todo.submit()" novalidate>
+        <form name="Todo.todoform" role="form" ng-submit="Todo.submit()" novalidate>
             <div ng-messages="Login.form.error">
                 <div ng-message="error" class="error">{{Todo.form.error.message}}</div>
             </div>
@@ -38,6 +38,7 @@
                         <div ng-message="maxlength" class="error">{{'validation.messages.fieldToLong' | translate}}</div>
                     </div>
             </div>
+
             <div class="input-container alarm">
                 <label>{{'todo.form.alarm' | translate}}</label>
                 <paper-input type="text" name="alarm" value=""

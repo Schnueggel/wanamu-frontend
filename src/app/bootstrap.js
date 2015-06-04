@@ -1,3 +1,4 @@
+
 /**
  * Created by Christian on 4/30/2015.
  */
@@ -11,8 +12,13 @@ require('angular-touch');
 require('angular-material');
 require('angular-animate');
 
-var ngModule = require ('./components');
+
 require("../../node_modules/angular-material/angular-material.css");
 require('../styles/index.scss');
 
-require('./services')(ngModule);
+/// <reference path="./modules/Application.ts"/>
+/// <reference path="./services/AuthService.ts />
+
+require('./services/constants');
+
+var module = require('./modules/wanamu/Application.js');
