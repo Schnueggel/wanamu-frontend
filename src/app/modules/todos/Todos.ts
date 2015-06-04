@@ -4,6 +4,7 @@
 'use strict';
 
 import AuthService = require('../wanamu/AuthService');
+import TodoDirective = require('./directives/TodoDirective');
 
 /**
  * Module name
@@ -136,5 +137,6 @@ export class TodoController {
 
 todosModule.config(config)
     .controller('TodolistCtrl', TodoListController)
-    .controller('TodoCtrl', TodoController);
+    .controller('TodoCtrl', TodoController)
+    .directive('wuTodoItem', TodoDirective.wuTodo);
 

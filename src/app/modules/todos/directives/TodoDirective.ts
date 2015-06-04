@@ -1,19 +1,22 @@
 /// <reference path="../../../libs/angular/angular.d.ts" />
 
-module todos {
-    /**
-     *
-     * @param auth
-     */
-    export function todo(): angular.IDirective {
-        return {
-            link: function ($scope: angular.IScope, element: JQuery, attributes : any) {
+/**
+ *
+ * @param auth
+ */
+export function wuTodo(): angular.IDirective {
+    return {
+        scope: {
+            title: '= title'
+        },
+        link: function ($scope: angular.IScope, element: JQuery, attributes : any) {
 
-            },
-            restrict: "E"
-        }
+        },
+        template : require('./todo.html'),
+        restrict: "E"
     }
-
-    //Inject services
-    todo.$inject = [];
 }
+
+//Inject services
+wuTodo.$inject = [];
+

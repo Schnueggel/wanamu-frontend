@@ -9,9 +9,7 @@
             <button><iron-icon icon="add"></iron-icon></button>
         </div>
     </div>
-    <div class="todo" ng-repeat="todo in Todolist.list">
-        <span class="left"><iron-icon icon="delete"></iron-icon></span>
-        <span class="center" ui-sref="panel.view.todos.todo({ id: todo.id })">{{todo.title}}</span>
-        <span class="right" ui-sref="panel.view.todo.todo({ id: todo.id })">Icon</span>
-    </div>
+    <md-list class="todolist">
+       <wu-todo-item ng-repeat="todo in Todolist.list" title="todo.title" class="todo"></wu-todo-item>
+    </md-list>
 </div>
