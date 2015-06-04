@@ -1,10 +1,11 @@
 /// <reference path="../../libs/angular/angular.d.ts" />
-/// <reference path="./services/AuthService.ts" />
-/// <reference path="./directives/AuthDirective.ts" />
-/// <reference path="../panel/Panel.ts" />
-/// <reference path="../menu/Menu.ts" />
-/// <reference path="../auth/Auth.ts" />
-/// <reference path="../todos/Todos.ts" />
+
+import Auth = require('../auth/Auth');
+import Menu = require('../menu/Menu');
+import Panel = require('../panel/Panel');
+import Todos = require ('../todos/Todos');
+import AuthService = require('./AuthService');
+import WuAuthDirective = require('./AuthDirective');
 
 module wanamu {
     'use strict';
@@ -16,10 +17,10 @@ module wanamu {
         'ngMessages',
         'config',
         'ngMaterial',
-        'panel',
-        'auth',
-        'todos',
-        'menu',
+        Panel.name,
+        Auth.name,
+        Todos.name,
+        Menu.name,
         'pascalprecht.translate'
     ]);
 
@@ -75,6 +76,6 @@ module wanamu {
     .run([ function () {
    }]);
 
-    wanamuModule.service('auth', AuthService);
-    wanamuModule.directive('tdIsAuth', tdIsAuthDirective);
+    wanamuModule.service('auth', AuthService.AuthService);
+    wanamuModule.directive('tdIsAuth', WuAuthDirective.wuIsAuthDirective);
 }

@@ -1,11 +1,10 @@
-/// <reference path="../../../libs/angular/angular.d.ts" />
+/// <reference path="../../libs/angular/angular.d.ts" />
 
 /**
  * This Module create a Service named auth and a directive named tdIsAuth
  * @param {Object} ngModule
  */
 
-module wanamu {
     'use strict';
 
     export class AuthService {
@@ -144,4 +143,3 @@ module wanamu {
             return false;
         }
     }
-}

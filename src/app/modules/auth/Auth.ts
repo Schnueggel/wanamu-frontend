@@ -1,9 +1,15 @@
 ///<reference path="./auth.d.ts" />
+'use strict';
 
-module Auth {
-    'use strict';
+import AuthService = require('../wanamu/AuthService');
 
-    export function config($stateProvider : ngui.IStateProvider) {
+/**
+ * Module name
+ * @type {string}
+ */
+export var name = 'auth';
+
+export function config($stateProvider : ngui.IStateProvider) {
     // States/Routes
     $stateProvider
         .state('panel.view.login', {
@@ -12,7 +18,7 @@ module Auth {
             views: {
                 '@panel': {
                     controller: 'LoginCtrl as Login',
-                    template: require('../auth//login.html')
+                    template: require('./login.html')
                 }
             }
         }).state('panel.view.logout', {
@@ -25,88 +31,88 @@ module Auth {
             },
             cache: false
         });
-    }
-    config.$inject = ['$stateProvider'];
+}
+config.$inject = ['$stateProvider'];
 
-    /**
-     * Controller for Login
-     */
-    export class LoginController {
-        //angular inject
-        static $inject = ['$scope', '$state', 'auth'];
+/**
+ * Controller for Login
+ */
+export class LoginController {
+    //angular inject
+    static $inject = ['$scope', '$state', 'auth'];
 
-        public loginform : wanamu.LoginForm;
+    public loginform : wanamu.LoginForm;
 
-        public loading : boolean = false;
-        public pattern : RegExp = /^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
+    public loading : boolean = false;
+    public pattern : RegExp = /^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
 
-        public form : any = {
-            error: {}
-        };
-
-
-        constructor(
-            public $scope : angular.IScope,
-            public $state : ngui.IStateService,
-            public auth : wanamu.AuthService
-        ) {
-
-            if (auth.isLoggedIn()) {
-                $state.go('panel.view.todos');
-                return;
-            }
-        }
-
-        public login () {
-            var that = this;
-            if (this.loading === true) {
-                return;
-            }
-            //Reset errors
-            this.form.$error = {};
-            this.loginform.username.$untouched = true;
-            this.loginform.password.$untouched = true;
+    public form : any = {
+        error: {}
+    };
 
 
-            if (this.loginform.$valid) {
-                //Set state loading
-                this.loading = true;
+    constructor(
+        public $scope : angular.IScope,
+        public $state : ngui.IStateService,
+        public auth : AuthService.AuthService
+    ) {
 
-                this.auth.login(this.form.username, this.form.password)
-                    .then(function () {
-                        that.$state.go('panel.view.todos');
-                    }).catch(function (err : any) {
-                        that.form.error.error = true;
-                        that.form.error.message = err.message;
-                    }).finally(function () {
-                        that.loading = false;
-                    });
-            }
+        if (auth.isLoggedIn()) {
+            $state.go('panel.view.todos');
+            return;
         }
     }
 
-    export class LogoutController {
-        constructor (
-            public $state : ngui.IStateService,
-            public auth : wanamu.AuthService
-        ){
-            auth
-                .logout()
-                .then(function () {})
-                .catch(function (err) {
-                    console.log(err);
+    public login () {
+        var that = this;
+        if (this.loading === true) {
+            return;
+        }
+        //Reset errors
+        this.form.$error = {};
+        this.loginform.username.$untouched = true;
+        this.loginform.password.$untouched = true;
+
+
+        if (this.loginform.$valid) {
+            //Set state loading
+            this.loading = true;
+
+            this.auth.login(this.form.username, this.form.password)
+                .then(function () {
+                    that.$state.go('panel.view.todos');
+                }).catch(function (err : any) {
+                    that.form.error.error = true;
+                    that.form.error.message = err.message;
                 }).finally(function () {
-                    $state.go('panel.view.login');
+                    that.loading = false;
                 });
         }
     }
-    export var authModule = angular.module('auth', [
-        'panel'
-    ]);
-
-
-    authModule
-        .config(config)
-        .controller('LoginCtrl', LoginController)
-        .controller('LogoutCtrl', LogoutController);
 }
+
+export class LogoutController {
+    constructor (
+        public $state : ngui.IStateService,
+        public auth : AuthService.AuthService
+    ){
+        auth
+            .logout()
+            .then(function () {})
+            .catch(function (err) {
+                console.log(err);
+            }).finally(function () {
+                $state.go('panel.view.login');
+            });
+    }
+}
+export var authModule = angular.module('auth', [
+    'panel'
+]);
+
+
+authModule
+    .config(config)
+    .controller('LoginCtrl', LoginController)
+    .controller('LogoutCtrl', LogoutController);
+

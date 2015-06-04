@@ -193,7 +193,7 @@ gulp.task('build-typescript', function () {
     var tsResult = gulp.src(path.join( srcAppPath,'**', '*.ts'))
         .pipe(gulptypescript({
             noImplicitAny: true,
-            out: typescriptOutFile
+            module : 'commonjs'
         }));
     return tsResult.js.pipe(gulp.dest(tmpAppPath));
 });
