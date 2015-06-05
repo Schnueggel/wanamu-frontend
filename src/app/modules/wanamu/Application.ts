@@ -46,14 +46,25 @@ module wanamu {
                 .primaryPalette('blue');
 
             var wanamuMap = $mdThemingProvider.extendPalette('blue', {
-                '500': '4990E2'
+                '500': 'rgb(80, 94, 110);'
             });
+            var wanamuAccentMap = $mdThemingProvider.extendPalette('blue', {
+                '500':'rgb(116, 127, 144)',
+
+            });
+
             // Register the new color palette map with the name <code>neonRed</code>
             $mdThemingProvider.definePalette('wanamu', wanamuMap);
+            $mdThemingProvider.definePalette('wanamuAccent', wanamuAccentMap);
+
             // Use that theme for the primary intentions
             $mdThemingProvider.theme('default')
-                .primaryPalette('wanamu')
-                .accentPalette('blue');
+                .primaryPalette('wanamu', {
+                    'default': '500'
+                })
+                .accentPalette('wanamuAccent', {
+                    'default': '500'
+                });
 
             /*
              * translate settings

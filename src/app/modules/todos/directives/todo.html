@@ -1,11 +1,30 @@
-<md-list-item>
-    <md-input-container class="title" ng-click="showedit=true">
-        <input type="text" ng-model="title" name="title" aria-label="title">
-    </md-input-container>
-    <md-icon alt="Delete Icon" md-font-library="material-icons">&#xE872;</md-icon>
-
-</md-list-item>
-<md-list-item ng-if="showedit" class="editor">
-    EDIT
-</md-list-item>
-<md-divider ></md-divider>
+<div class="todo-container">
+    <div class="color-stripe" ng-click="editTodo(true)">&nbsp;</div>
+    <div class="todo-content">
+        <md-list-item>
+            <md-input-container class="title" ng-click="editTodo(true)">
+                <input type="text" ng-model="todo.title" name="title" aria-label="title">
+            </md-input-container>
+            <md-icon alt="Delete Icon" ng-hide="edit" md-font-library="material-icons">&#xE872;</md-icon>
+            <md-icon alt="Done Icon" ng-show="edit" md-font-library="material-icons" ng-click="done()">&#xE876;</md-icon>
+        </md-list-item>
+        <md-divider ng-show="edit"></md-divider>
+        <md-list-item ng-show="edit" class="editor">
+            <md-toolbar class="md-accent">
+                <div class="md-toolbar-tools">
+                    <md-button class="md-raised md-primary" flex="5">
+                        <md-icon class="material-icons" md-font-library="material-icons">&#xE3B7;</md-icon>
+                    </md-button>
+                    <md-button class="md-raised md-primary">
+                        <md-icon class="material-icons" md-font-library="material-icons">&#xE191;</md-icon>
+                        <span>20-03-2015</span>
+                    </md-button>
+                    <md-button class="md-raised md-primary">
+                        <md-icon class="material-icons" md-font-library="material-icons">&#xE040;</md-icon>
+                        <span>Weekly..</span>
+                    </md-button>
+                </div>
+            </md-toolbar>
+        </md-list-item>
+    </div>
+</div>
