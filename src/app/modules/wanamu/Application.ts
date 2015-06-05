@@ -6,6 +6,7 @@ import Panel = require('../panel/Panel');
 import Todos = require ('../todos/Todos');
 import AuthService = require('./AuthService');
 import WuAuthDirective = require('./AuthDirective');
+import HttpInterceptor = require('./HttpInterceptor');
 
 module wanamu {
     'use strict';
@@ -24,69 +25,90 @@ module wanamu {
         'pascalprecht.translate'
     ]);
 
+    /**
+     * Application config
+     * @param $urlRouterProvider
+     * @param $translateProvider
+     * @param $logProvider
+     * @param $mdThemingProvider
+     * @param $httpProvider
+     */
+    export function config ($urlRouterProvider : any,
+                            $translateProvider : any,
+                            $logProvider : angular.ILogProvider,
+                            $mdThemingProvider :any,
+                            $httpProvider : angular.IHttpProvider) : any {
 
-    wanamuModule.config([
-        '$urlRouterProvider',
-        '$translateProvider',
-        '$logProvider',
-        '$mdThemingProvider',
-        function ($urlRouterProvider : any,
-                  $translateProvider : any,
-                  $logProvider : angular.ILogProvider,
-                  $mdThemingProvider :any) {
-            /*
-             * $log provider enable disable on dev environment
-             */
-            $logProvider.debugEnabled(true);
+        $httpProvider.defaults.withCredentials = true;
+        $httpProvider.interceptors.push('httpInterceptor');
 
-            // Fallback on unknown state/route
-            $urlRouterProvider.otherwise('/login');
+        /*
+         * $log provider enable disable on dev environment
+         */
+        $logProvider.debugEnabled(true);
 
-            $mdThemingProvider.theme('default')
-                .primaryPalette('blue');
+        // Fallback on unknown state/route
+        $urlRouterProvider.otherwise('/login');
 
-            var wanamuMap = $mdThemingProvider.extendPalette('blue', {
-                '500': 'rgb(80, 94, 110);'
+        configMaterialStyle($mdThemingProvider);
+
+
+        /*
+         * translate settings
+         */
+        $translateProvider.useStaticFilesLoader({
+            prefix: 'l10n/locale-',
+            suffix: '.json'
+        });
+
+        $translateProvider.determinePreferredLanguage(function () {
+
+            var preferredLangKey = 'en';
+
+            return preferredLangKey;
+        });
+
+        $translateProvider.fallbackLanguage('en');
+    }
+    config.$inject = ['$urlRouterProvider', '$translateProvider', '$logProvider', '$mdThemingProvider', '$httpProvider'];
+
+    /**
+     * Configure the material style
+     * @param $mdThemingProvider
+     */
+    export function configMaterialStyle($mdThemingProvider: any){
+        $mdThemingProvider.theme('default')
+            .primaryPalette('blue');
+
+        var wanamuMap = $mdThemingProvider.extendPalette('blue', {
+            '500': 'rgb(80, 94, 110);'
+        });
+        var wanamuAccentMap = $mdThemingProvider.extendPalette('blue', {
+            '500':'rgb(116, 127, 144)',
+
+        });
+
+        //$http.defaults.headers.common.WithCredentials = 'true';
+
+        // Register the new color palette map with the name <code>neonRed</code>
+        $mdThemingProvider.definePalette('wanamu', wanamuMap);
+        $mdThemingProvider.definePalette('wanamuAccent', wanamuAccentMap);
+
+        // Use that theme for the primary intentions
+        $mdThemingProvider.theme('default')
+            .primaryPalette('wanamu', {
+                'default': '500'
+            })
+            .accentPalette('wanamuAccent', {
+                'default': '500'
             });
-            var wanamuAccentMap = $mdThemingProvider.extendPalette('blue', {
-                '500':'rgb(116, 127, 144)',
+    }
 
-            });
+    wanamuModule
+        .config(config)
+        .run([ function () {}]);
 
-            // Register the new color palette map with the name <code>neonRed</code>
-            $mdThemingProvider.definePalette('wanamu', wanamuMap);
-            $mdThemingProvider.definePalette('wanamuAccent', wanamuAccentMap);
-
-            // Use that theme for the primary intentions
-            $mdThemingProvider.theme('default')
-                .primaryPalette('wanamu', {
-                    'default': '500'
-                })
-                .accentPalette('wanamuAccent', {
-                    'default': '500'
-                });
-
-            /*
-             * translate settings
-             */
-            $translateProvider.useStaticFilesLoader({
-                prefix: 'l10n/locale-',
-                suffix: '.json'
-            });
-
-            $translateProvider.determinePreferredLanguage(function () {
-
-                var preferredLangKey = 'en';
-
-                return preferredLangKey;
-            });
-
-            $translateProvider.fallbackLanguage('en');
-        }
-    ])
-    .run([ function () {
-   }]);
-
+    wanamuModule.service('httpInterceptor', HttpInterceptor.HttpInterceptor);
     wanamuModule.service('auth', AuthService.AuthService);
     wanamuModule.directive('tdIsAuth', WuAuthDirective.wuIsAuthDirective);
 }

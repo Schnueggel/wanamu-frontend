@@ -25,13 +25,63 @@
              */
             try{
                 this.currentuser = JSON.parse($window.localStorage.getItem('user'));
+                //Reload userdata in background
+                if (this.currentuser) {
+                    this.reloadUser(this.currentuser);
+                }
             } catch (err) {
                 console.error(err);
                 this.currentuser = null;
             }
 
             this.$window = $window;
-            console.log("hundAuth");
+        }
+
+        /**
+         *
+         * @param user
+         * @returns {IPromise<T>}
+         */
+        public reloadUser(user : any) {
+            var that = this;
+            var deferred = this.$q.defer();
+            var promise = deferred.promise;
+
+            this.$http.get(this.constants.apiurl +'/user/' + user.id, { withCredentials: true })
+                .success(function (data: any, status: number) {
+                var isObject = angular.isObject(data);
+
+                if (!isObject || !angular.isArray(data.data) || data.data.length !== 1 || !angular.isNumber(data.data[0].id)) {
+                    deferred.reject({
+                        name: 'unkown', message: 'Invalid data received from server'
+                    });
+                    return;
+                } else {
+                    that.currentuser = data.data[0];
+                    that.$window.localStorage.setItem('user', JSON.stringify(that.currentuser));
+
+                    deferred.resolve(that.currentuser);
+                }
+
+            }).error(function (data, status) {
+                if (status === 401 || status == 403) {
+                    deferred.reject({
+                        name: 'AuthError', message: 'Not authicated. Please login'
+                    });
+                } else if (status === 500) {
+                    deferred.reject({
+                        name: 'ServerError', message: 'The anwser from the server was invalid. Please try again'
+                    });
+                } else if (data && data.error) {
+                    deferred.reject(data.error);
+                } else {
+                    deferred.reject({
+                        name: 'UnkownError',
+                        message: 'Invalid data received from server or server did not respond'
+                    });
+                }
+            });
+            return promise;
         }
 
         /**

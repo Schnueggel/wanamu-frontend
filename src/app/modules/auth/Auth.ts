@@ -50,7 +50,12 @@ export class LoginController {
         error: {}
     };
 
-
+    /**
+     *
+     * @param $scope
+     * @param $state
+     * @param auth
+     */
     constructor(
         public $scope : angular.IScope,
         public $state : ngui.IStateService,
@@ -72,7 +77,6 @@ export class LoginController {
         this.form.$error = {};
         this.loginform.username.$untouched = true;
         this.loginform.password.$untouched = true;
-
 
         if (this.loginform.$valid) {
             //Set state loading
