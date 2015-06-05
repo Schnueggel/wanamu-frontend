@@ -1,14 +1,4 @@
 <div class="todolist">
-    <div class="toolbar">
-        <div class="colors">
-            <div class="full-circle color1">
-                <iron-icon icon="done"></iron-icon>
-            </div>
-        </div>
-        <div class="buttons">
-            <button><iron-icon icon="add"></iron-icon></button>
-        </div>
-    </div>
     <md-list class="todolist">
        <wu-todo-item ng-repeat="todo in Todolist.list" title="todo.title" class="todo"></wu-todo-item>
     </md-list>

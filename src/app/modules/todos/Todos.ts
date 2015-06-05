@@ -25,7 +25,10 @@ export function config ($stateProvider: ngui.IStateProvider) {
             views: {
                 '@panel': {
                     controller: 'TodolistCtrl as Todolist',
-                    template: require('../todos/content.html')
+                    template: require('./content.html')
+                },
+                'headertoolbar@panel.view' : {
+                    template: require('./headertoolbar.html')
                 }
             }
         })
@@ -35,7 +38,7 @@ export function config ($stateProvider: ngui.IStateProvider) {
             views: {
                 '@panel': {
                     controller: 'TodoCtrl as Todo',
-                    template: require('../todos/details.html')
+                    template: require('./details.html')
                 }
             }
         });

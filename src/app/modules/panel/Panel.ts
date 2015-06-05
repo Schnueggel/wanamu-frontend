@@ -70,12 +70,11 @@ export function config($stateProvider : ngui.IStateProvider) {
         template: require('./panel.html'),
         role: 'public'
     }).state('panel.view', {
-
         views: {
             'header@panel': {
                 controller: 'HeaderCtrl as Header',
-                template: require('./header.html')
-            }
+                template: require('./header.html'),
+            },
         }
     });
 }
