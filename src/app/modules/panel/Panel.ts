@@ -4,6 +4,7 @@
  */
 'use strict';
 
+import AuthService = require('../wanamu/AuthService');
 export var name = 'panel';
 /**
  * Controls the Panel
@@ -18,17 +19,25 @@ export class PanelController  {
  */
 export class HeaderController {
 
-    static $inject = ['$rootScope', '$scope', '$state'];
+    static $inject = ['$rootScope', '$scope', '$state', 'auth'];
 
     public menuopen : boolean ;
     public laststate : String = 'panel.view.todos';
     public hideHeaderLogo : boolean;
     public off : Function;
+    public user : any;
 
+    /**
+     *
+     * @param $rootScope
+     * @param $scope
+     * @param $state
+     */
     constructor(
         public $rootScope : angular.IRootScopeService,
         public $scope : angular.IScope,
-        public $state : any
+        public $state : any,
+        public auth : AuthService.AuthService
     ) {
         // ==========================================================================
         // If client come to the menu with a deeplink we mark the menu as open
@@ -43,6 +52,7 @@ export class HeaderController {
         // This should perhaps go into a service to make it  reusable
         // ==========================================================================
         var that = this;
+
         this.off = $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
             if (to.name !== 'panel.view.menu') {
                 that.laststate = 'panel.view.menu';
@@ -59,6 +69,8 @@ export class HeaderController {
         $scope.$on('$destroy', function(event : angular.IAngularEvent){
             that.off();
         });
+
+        this.user = auth.currentUser();
     }
 }
 

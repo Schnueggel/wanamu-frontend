@@ -8,7 +8,7 @@
     'use strict';
 
     export class AuthService {
-        public currentuser : any;
+        private currentuser : any;
         //Dependencies
         static $inject = ['$q', '$http', '$window', 'constants'];
 
