@@ -1,20 +1,28 @@
 /// <reference path="../../libs/angular/angular.d.ts" />
-
+'use strict';
 /**
  * This Module create a Service named auth and a directive named tdIsAuth
  * @param {Object} ngModule
  */
-
-    'use strict';
-
+/**
+ * We make this class Singleton even noramly services it angular are used as singleton.
+ * But it seems that the methods of this class are used without binding inside angular
+ */
     export class HttpInterceptor {
         //Dependencies
         static $inject = ['$q', '$injector'];
+        static instance : HttpInterceptor = null;
 
         constructor(
             public $q : angular.IQService,
             public $injector : angular.auto.IInjectorService
-        ) {}
+        ) {
+
+            if (HttpInterceptor.instance !== null ) {
+                return HttpInterceptor.instance;
+            }
+            HttpInterceptor.instance = this;
+        }
 
         // optional method
          request (config: angular.IRequestConfig) {
@@ -24,7 +32,7 @@
 
         // optional method
         requestError (rejection : any) {
-            return this.$q.reject(rejection);
+            return HttpInterceptor.instance.$q.reject(rejection);
         }
 
 
@@ -37,11 +45,11 @@
         // optional method
         responseError (rejection: any) {
             if (rejection.status === 401 || rejection.status === 403 ) {
-                var $state = this.$injector.get('$state');
+                var $state = HttpInterceptor.instance.$injector.get('$state');
                 if ($state.current.name !== 'panel.view.login'){
                     $state.go('panel.view.login');
                 }
             }
-            return this.$q.reject(rejection);
+            return HttpInterceptor.instance.$q.reject(rejection);
         }
     }

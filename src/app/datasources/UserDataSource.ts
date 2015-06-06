@@ -33,9 +33,7 @@ export class UserDataSource {
             .success(function (data: any, status: number) {
 
                 if (!that.isValidUserData(data)) {
-                    deferred.reject({
-                        name: 'unkown', message: 'Invalid data received from server'
-                    });
+                    deferred.reject(new Errors.InvalidResponseDataError());
                     return;
                 } else {
                     var user = that.mapData(data.data[0]);
@@ -112,6 +110,8 @@ export class UserDataSource {
     public mapData(values : any) : User.User {
         var user = new User.User();
         console.log(values);
+
+        user.id = values.id;
         user.firstname = values.firstname;
         user.lastname = values.lastname;
         user.email = values.email;
@@ -120,7 +120,7 @@ export class UserDataSource {
     }
 
     /**
-     *
+     * Checks if the result from server is a valid user
      * @param user
      * @returns {boolean}
      */
