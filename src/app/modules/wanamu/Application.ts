@@ -7,6 +7,7 @@ import Todos = require ('../todos/Todos');
 import AuthService = require('./AuthService');
 import WuAuthDirective = require('./AuthDirective');
 import HttpInterceptor = require('./HttpInterceptor');
+import UserDataSource = require('../../datasources/UserDataSource');
 
 module wanamu {
     'use strict';
@@ -51,7 +52,6 @@ module wanamu {
         $urlRouterProvider.otherwise('/login');
 
         configMaterialStyle($mdThemingProvider);
-
 
         /*
          * translate settings
@@ -110,5 +110,6 @@ module wanamu {
 
     wanamuModule.service('httpInterceptor', HttpInterceptor.HttpInterceptor);
     wanamuModule.service('auth', AuthService.AuthService);
+    wanamuModule.service('userDataSource', UserDataSource.UserDataSource);
     wanamuModule.directive('tdIsAuth', WuAuthDirective.wuIsAuthDirective);
 }

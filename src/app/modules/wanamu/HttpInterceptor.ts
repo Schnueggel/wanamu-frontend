@@ -37,7 +37,10 @@
         // optional method
         responseError (rejection: any) {
             if (rejection.status === 401 || rejection.status === 403 ) {
-                this.$injector.get('$state').go('panel.view.login');
+                var $state = this.$injector.get('$state');
+                if ($state.current.name !== 'panel.view.login'){
+                    $state.go('panel.view.login');
+                }
             }
             return this.$q.reject(rejection);
         }
