@@ -25,7 +25,6 @@ export class AuthService {
                 public userDataSource : UserDataSource.UserDataSource
     ) {
 
-        console.log('AuthService', 'logout');
         this.currentuser = null;
 
         /**
@@ -48,14 +47,15 @@ export class AuthService {
     /**
      * Reloads the user data from the server
      * @param user
-     * @returns {IPromise<T>}
+     * @returns {IPromise<User>}
      */
-    public reloadUser(user : any) {
+    public reloadUser(user : User.User) {
         var that = this;
 
         return this.userDataSource
         .getUser(user.id)
-            .then(function(user : User.User){
+        .then(
+            function(user : User.User){
             that.currentuser = user;
         }).catch(function(err){
             that.currentuser = null;
