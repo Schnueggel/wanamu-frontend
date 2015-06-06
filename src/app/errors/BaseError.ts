@@ -11,10 +11,12 @@ declare class Error {
 }
 
 export class BaseError extends Error {
-    public name: string = 'Error';
-    constructor(public message: string) {
+    public name: string = 'BaseError';
+    constructor(public message?: string) {
         super(message);
-        this.message = message;
+        if (message !== undefined) {
+            this.message = message;
+        }
         this.stack = '';
     }
     toString() {
