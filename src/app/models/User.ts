@@ -26,7 +26,7 @@ export class User extends Base.Base {
 
     public defaulttodolist : wanamu.ITodoList;
 
-    public setting : wanamu.ISetting;
+    public Setting : wanamu.ISetting;
 
     public usertype : string  = User.TYPE_GUEST;
 
@@ -51,7 +51,7 @@ export class User extends Base.Base {
         this.firstname = data.firstname;
         this.lastname = data.lastname;
         this.DefaultTodoListId = data.DefaultTodoListId;
-        this.setting = new Setting.Setting(data.Setting);
+        this.Setting = new Setting.Setting(data.Setting);
 
         this.TodoLists = [];
 

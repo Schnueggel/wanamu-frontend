@@ -71,7 +71,7 @@ export class TodoListController {
 
         this.list = auth.currentUser().todos();
         console.log(auth.currentUser());
-        this.setting = auth.currentUser().setting;
+        this.setting = auth.currentUser().Setting;
     }
 }
 

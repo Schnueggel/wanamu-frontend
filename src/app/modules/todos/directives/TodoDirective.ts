@@ -14,7 +14,7 @@ export function wuTodo(): angular.IDirective {
     return {
         scope: {
             todo: '=todo',
-            setting :'=_setting'
+            setting :'=setting'
         },
         link: function ($scope: wanamu.ITodoScope, element: JQuery, attributes : any) {
             $scope.edit = false;
