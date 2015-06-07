@@ -56,7 +56,8 @@ config.$inject = ['$stateProvider'];
 export class TodoListController {
 
     static $inject : any = ['$state', 'auth'];
-    public list : Todo.Todo[];
+    public list : wanamu.ITodo[];
+    public setting : wanamu.ISetting;
 
     constructor(
         public $state: ngui.IStateService,
@@ -68,8 +69,9 @@ export class TodoListController {
             return;
         }
 
-        this.list = auth.currentUser().todosAsArray();
-        console.log(this.list);
+        this.list = auth.currentUser().todos();
+        console.log(auth.currentUser());
+        this.setting = auth.currentUser().setting;
     }
 }
 
@@ -102,7 +104,7 @@ export class TodoController {
 
         var TodoCtrl = this;
         TodoCtrl.loading = false;
-        TodoCtrl.list = auth.currentUser().todosAsArray();
+        TodoCtrl.list = auth.currentUser().todos();
         TodoCtrl.form = {
             error: {}
         };

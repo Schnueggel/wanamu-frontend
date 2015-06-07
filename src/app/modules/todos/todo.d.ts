@@ -8,14 +8,6 @@ declare module wanamu {
         alarm : angular.INgModelController;
         description : angular.INgModelController;
     }
-    interface ITodo {
-        id : number;
-        title : string;
-        alarm : string;
-        description : string;
-        repeat : string;
-        deleted : boolean;
-    }
 
     interface ITodoScope extends angular.IScope{
         edit : boolean;
@@ -23,6 +15,11 @@ declare module wanamu {
         alarm : string;
         done : Function;
         editTodo : Function;
+        colorSelect : Function;
         todo : ITodo;
+        setting : ISetting;
+        editcolors : boolean;
+        currentColor : any;
+        colors : IColor;
     }
 }

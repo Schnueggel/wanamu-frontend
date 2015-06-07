@@ -21,40 +21,6 @@ export class TodoListDataSource {
     ){
 
     }
-
-    /**
-     *
-     * @param values
-     * @returns {User}
-     */
-    public static mapData(values : any) : TodoList.TodoList {
-        var todolist = new TodoList.TodoList();
-
-        todolist.id = values.id;
-        todolist.name = values.firstname;
-        todolist.addTodos(TodoDataSource.TodoDataSource.mapDataList(values.Todos));
-
-        return todolist;
-    }
-
-    /**
-     *
-     * @param values
-     * @returns {TodoList.TodoList[]}
-     */
-    public static mapDataList(values : any[]) : TodoList.TodoList[] {
-        var result : TodoList.TodoList[] = [],
-            values = values || [];
-
-        for (var i = 0; i < values.length; i++) {
-            if (_.isPlainObject(values[i])) {
-                result.push(TodoListDataSource.mapData(values[i]));
-            }
-        }
-
-        return result;
-    }
-
     /**
      * Checks if the result from server is a valid user
      * @param user

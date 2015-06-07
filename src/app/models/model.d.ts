@@ -1,50 +1,93 @@
 /**
  * Created by Christian on 07.06.2015.
  */
-interface Base extends angular.INgModelController {
-    $render():void;
 
-    $setValidity(validationErrorKey:string, isValid:boolean):void;
+declare module wanamu {
+    interface Base extends angular.INgModelController {
+        $render():void;
 
-    // Documentation states viewValue and modelValue to be a string but other
-    // types do work and it's common to use them.
-    $setViewValue(value:any, trigger?:string):void;
+        $setValidity(validationErrorKey:string, isValid:boolean):void;
 
-    $setPristine():void;
+        // Documentation states viewValue and modelValue to be a string but other
+        // types do work and it's common to use them.
+        $setViewValue(value:any, trigger?:string):void;
 
-    $setDirty():void;
+        $setPristine():void;
 
-    $validate():void;
+        $setDirty():void;
 
-    $setTouched():void;
+        $validate():void;
 
-    $setUntouched():void;
+        $setTouched():void;
 
-    $rollbackViewValue():void;
+        $setUntouched():void;
 
-    $commitViewValue():void;
+        $rollbackViewValue():void;
 
-    $isEmpty(value:any):boolean;
+        $commitViewValue():void;
 
-    $viewValue:any;
+        $isEmpty(value:any):boolean;
 
-    $modelValue:any;
+        $viewValue:any;
 
-    $parsers:angular.IModelParser[];
-    $formatters:angular.IModelFormatter[];
-    $viewChangeListeners:angular.IModelViewChangeListener[];
-    $error:any;
-    $name:string;
+        $modelValue:any;
 
-    $touched:boolean;
-    $untouched:boolean;
+        $parsers:angular.IModelParser[];
+        $formatters:angular.IModelFormatter[];
+        $viewChangeListeners:angular.IModelViewChangeListener[];
+        $error:any;
+        $name:string;
 
-    $validators:angular.IModelValidators;
-    $asyncValidators:angular.IAsyncModelValidators;
+        $touched:boolean;
+        $untouched:boolean;
 
-    $pending:any;
-    $pristine:boolean;
-    $dirty:boolean;
-    $valid:boolean;
-    $invalid:boolean;
+        $validators:angular.IModelValidators;
+        $asyncValidators:angular.IAsyncModelValidators;
+
+        $pending:any;
+        $pristine:boolean;
+        $dirty:boolean;
+        $valid:boolean;
+        $invalid:boolean;
+    }
+
+    interface ITodo {
+        id : number;
+        title : string;
+        alarm : string;
+        description : string;
+        repeat : string;
+        deleted : boolean;
+        color : string;
+    }
+    interface IColor {
+        color1 : string;
+        color2 : string;
+        color3 : string;
+        color4 : string;
+        color5 : string;
+    }
+
+    interface ITodoList {
+        id : number;
+        name : string;
+        Todos : ITodo[];
+    }
+    interface ISetting extends IColor {
+        id : number;
+        face : string;
+
+        /**
+         * Returns all colors as an array
+         * @returns {{}}
+         */
+        colors() : IColor;
+
+        /**
+         *
+         * @param color
+         * @returns {String}
+         */
+        color(color:string) : string
+    }
 }

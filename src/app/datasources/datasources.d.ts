@@ -20,7 +20,8 @@ declare module wanamu {
         email: string;
         TodoLists : ITodoListData[];
         Setting: ISettingData;
-        DefaultTodoList : number;
+        DefaultTodoListId : number;
+
     }
 
     interface ITodoListData {
@@ -36,5 +37,6 @@ declare module wanamu {
         alarm : string;
         repeat : string;
         deleted: boolean;
+        color: string;
     }
 }

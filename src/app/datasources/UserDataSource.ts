@@ -36,7 +36,7 @@ export class UserDataSource {
                 if (!UserDataSource.isValidUserData(data)) {
                     deferred.reject(new Errors.InvalidResponseDataError());
                 } else {
-                    var user = UserDataSource.mapData(data.data[0]);
+                    var user = new User.User(data.data[0]);
                     deferred.resolve(user);
                 }
             }).error(function (data, status) {
@@ -75,7 +75,7 @@ export class UserDataSource {
                     name: 'Unkown', message: 'Invalid data received from server'
                 });
             } else {
-                var user = UserDataSource.mapData(data.data[0]);
+                var user = new User.User(data.data[0]);
                 deferred.resolve(user);
             }
         }).error(function (data, status) {
@@ -96,25 +96,6 @@ export class UserDataSource {
         });
 
         return promise;
-    }
-
-    /**
-     *
-     * @param values
-     * @returns {User}
-     */
-    public static mapData(values : wanamu.IUserData) : User.User {
-        var user = new User.User();
-
-        user.id = values.id;
-        user.firstname = values.firstname;
-        user.lastname = values.lastname;
-        user.email = values.email;
-        user.setTodoLists(TodoListDataSource.TodoListDataSource.mapDataList(values.TodoLists));
-        user.setSetting(SettingDataSource.SettingDataSource.mapData(values.Setting));
-        user.defaulttodolist = user.todolist(values.DefaultTodoList);
-
-        return user;
     }
 
     /**

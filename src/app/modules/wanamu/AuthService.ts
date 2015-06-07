@@ -33,35 +33,16 @@ export class AuthService {
         try{
             var userdata = JSON.parse($window.localStorage.getItem('user'));
             //Reload userdata in background
-            if (!userdata) {
-                this.reloadUser(this.currentuser);
-            } else {
-                this.currentuser = _.extend(new User.User(), userdata);
+            if (_.isPlainObject(userdata) && _.isNumber(userdata.id)) {
+                this.currentuser = new User.User(userdata);
             }
+
         } catch (err) {
             console.error(err);
             this.currentuser = null;
         }
 
         this.$window = $window;
-    }
-
-    /**
-     * Reloads the user data from the server
-     * @param user
-     * @returns {IPromise<User>}
-     */
-    public reloadUser(user : User.User) {
-        var that = this;
-
-        return this.userDataSource
-        .getUser(user.id)
-        .then(
-            function(user : User.User){
-            that.currentuser = user;
-        }).catch(function(err){
-            that.currentuser = null;
-        });
     }
 
     /**

@@ -19,36 +19,6 @@ export class TodoDataSource {
     ){}
 
     /**
-     *
-     * @param values
-     * @returns {Todo}
-     */
-    public static mapData(values : wanamu.ITodoData) : Todo.Todo {
-        var todo = new Todo.Todo();
-
-        todo.id = values.id;
-        todo.title = values.title;
-        todo.alarm = values.alarm;
-        todo.description = values.description;
-        todo.repeat = values.repeat;
-        todo.deleted = values.deleted;
-
-        return todo;
-    }
-    /**
-     *
-     * @param values
-     * @returns {Todo}
-     */
-    public static mapDataList(values : wanamu.ITodoData[]) : Todo.Todo[] {
-        var result : Todo.Todo[] = [];
-
-        for(var i = 0; i < values.length; i++){
-            result.push(TodoDataSource.mapData(values[i]));
-        }
-        return result;
-    }
-    /**
      * Checks if the result from server is a valid user
      * @param user
      * @returns {boolean}

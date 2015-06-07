@@ -19,24 +19,6 @@ export class SettingDataSource {
     ){}
 
     /**
-     *
-     * @param values
-     * @returns {Setting}
-     */
-    public static mapData(values : wanamu.ISettingData) : Setting.Setting {
-        var setting = new Setting.Setting();
-
-        setting.color1 = values.color1;
-        setting.color2 = values.color2;
-        setting.color3 = values.color3;
-        setting.color4 = values.color4;
-        setting.color5 = values.color5;
-        setting.face = values.face;
-
-        return setting;
-    }
-
-    /**
      * Checks if the result from server is a valid user
      * @param user
      * @returns {boolean}

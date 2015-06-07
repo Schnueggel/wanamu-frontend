@@ -12,30 +12,75 @@ import Base = require('./Base');
 
 export class User extends Base.Base {
 
-    public id : number;
-    public username : string;
-    public email : string;
-    public firstname : string;
+    public static TYPE_GUEST = 'guest';
+    public static TYPE_USER = 'user';
 
+    public id : number;
+    public email : string;
+    public firstname : string = 'Guest';
     public lastname : string;
 
-    public defaulttodolist : TodoList.TodoList;
+    public DefaultTodoListId : number;
 
-    public setting : Setting.Setting;
+    public TodoLists : wanamu.ITodoList[];
 
-    public todolists : {[s: number]: TodoList.TodoList;} = <any>{};
+    public defaulttodolist : wanamu.ITodoList;
 
-    public _todos : {[s: number]: Todo.Todo;} = null;
+    public setting : wanamu.ISetting;
 
+    public usertype : string  = User.TYPE_GUEST;
+
+    /**
+     *
+     * @param data
+     */
+    constructor(data: wanamu.IUserData){
+        this.fromJSON(data);
+    }
+
+    /**
+     *
+     * @param data
+     */
+    public fromJSON(data: wanamu.IUserData) {
+        var data = data || {},
+            todolist : wanamu.ITodoList;
+
+        this.id = data.id;
+        this.email = data.email;
+        this.firstname = data.firstname;
+        this.lastname = data.lastname;
+        this.DefaultTodoListId = data.DefaultTodoListId;
+        this.setting = new Setting.Setting(data.Setting);
+
+        this.TodoLists = [];
+
+        if (_.isArray(data.TodoLists)) {
+            for (var i = 0; i < data.TodoLists.length; i++) {
+                todolist = new TodoList.TodoList(data.TodoLists[i]);
+                if (todolist.id === this.DefaultTodoListId){
+                    this.defaulttodolist = todolist;
+                }
+                this.TodoLists.push(todolist);
+            }
+        }
+
+        if (this.id){
+            this.usertype = User.TYPE_USER;
+        }
+    }
     /**
      *
      * @param id
      * @returns {TodoList|null}
      */
-    public todolist (id : number) {
-        if (this.todolists[id]  instanceof TodoList.TodoList) {
-            return this.todolists[id];
+    public todolist (id : number) : wanamu.ITodoList {
+        for(var i = 0; i < this.TodoLists.length; i++){
+            if (this.TodoLists[i].id === id) {
+                return this.TodoLists[i];
+            }
         }
+
         return null;
     }
     /**
@@ -44,80 +89,39 @@ export class User extends Base.Base {
      * @returns {TodoList}
      */
     public todo (id : number) {
+        var todolist : wanamu.ITodoList;
+        for(var i = 0; i < this.TodoLists.length; i++){
+            todolist = this.TodoLists[i];
 
-        if (this._todos == null) {
-            this.loadTodos();
+            for(var t = 0; t < todolist.Todos.length; t++){
+                if (todolist.Todos[t].id === id){
+                    return todolist.Todos[t];
+                }
+            }
         }
-
-        if (this._todos[id] instanceof Todo.Todo) {
-            return this._todos[id];
-        }
-
         return null;
     }
 
     /**
      *
-     * @returns {{}}
+     * @param  {number} id TodoListId
+     * @returns {wanamu.ITodo[]}
      */
-    public todos() : {[s: number]: Todo.Todo;} {
-        if (this._todos == null) {
-            this.loadTodos();
-        }
-        return this._todos;
-    }
+    public todos(id?: number) : wanamu.ITodo[] {
 
-    /**
-     *
-     * @returns {any[]}
-     */
-    public todosAsArray() : Todo.Todo[] {
-        return _.values(this.todos());
-    }
+        var todolist : wanamu.ITodoList,
+            todos : wanamu.ITodo[] = [];
 
-    /**
-     * Sets the todolists. This will delete all todolists
-     * @param todolists
-     */
-    public setTodoLists(todolists : TodoList.TodoList[]) : void {
-        this.todolists = <any>{};
-        var todolist : TodoList.TodoList;
+        for(var i = 0; i < this.TodoLists.length; i++){
+            todolist = this.TodoLists[i];
+            if (id && todolist.id !== id) {
+                continue;
+            }
 
-        for(var i = 0; i < todolists.length; i++) {
-            todolist = todolists[i];
-            if (todolist instanceof TodoList.TodoList){
-                this.todolists[todolist.id] = todolist;
+            for(var t = 0; t < todolist.Todos.length; t++){
+                todos.push(todolist.Todos[t]);
             }
         }
-
-        this.loadTodos();
+        return todos;
     }
-
-    /**
-     *
-     * @param setting
-     */
-    public setSetting(setting : Setting.Setting) : void {
-        this.setting = setting;
-    }
-
-    /**
-     * Extracts all todos from the todolists and put them in the todomap
-     */
-    protected loadTodos () : void {
-        var todos : Todo.Todo[];
-
-        this._todos = <any>{};
-
-        for (var todolist in this.todolists) {
-            if (this.todolists[todolist] instanceof TodoList.TodoList){
-                todos = this.todolists[todolist].todos();
-
-                for(var i = 0; i < todos.length; i++) {
-                    this._todos[todos[i].id] = todos[i];
-                }
-            }
-        }
-    }
-
 }
