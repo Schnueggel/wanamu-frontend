@@ -222,7 +222,7 @@ html .panel {
                     text-align: left;
                 }
                 md-input-container {
-                    input {
+                    input, textarea {
                         line-height: $fontsize-title;
                         font-size: $fontsize-title;
                     }

@@ -3,7 +3,7 @@
     <div class="todo-content">
         <md-list-item>
             <md-input-container class="title" ng-click="editTodo(true)">
-                <input type="text" ng-model="todo.title" name="title" aria-label="title">
+                <textarea type="text" ng-model="todo.title" columns="1" rows="1" name="title" aria-label="title"></textarea>
             </md-input-container>
             <md-icon alt="Delete Icon" ng-hide="edit" md-font-library="material-icons">&#xE872;</md-icon>
             <md-icon alt="Done Icon" ng-show="edit" md-font-library="material-icons" ng-click="done()">&#xE876;</md-icon>
