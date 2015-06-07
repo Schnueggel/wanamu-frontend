@@ -10,9 +10,9 @@
         </md-list-item>
         <md-divider ng-show="edit"></md-divider>
         <md-list-item ng-show="edit" class="editor">
-            <md-toolbar class="md-accent" ng-hide="editcolor">
+            <md-toolbar class="md-accent" ng-hide="editcolors">
                 <div class="md-toolbar-tools">
-                    <md-button class="md-raised md-primary" flex="5">
+                    <md-button class="md-raised md-primary" flex="5" aria-label="Pick Color Button" ng-click="editcolors=true">
                         <md-icon class="material-icons" md-font-library="material-icons">&#xE3B7;</md-icon>
                     </md-button>
                     <md-button class="md-raised md-primary">
@@ -25,8 +25,8 @@
                     </md-button>
                 </div>
             </md-toolbar>
-            <md-toolbar ng-show="editcolor">
-                <div flex ng-style="{'background-color':color}" ng-repeat="(name,color) in colors" ng-click="selectColor(name)"></div>
+            <md-toolbar ng-show="editcolors" layout="row" class="colors">
+                <div flex ng-style="{'background-color':color}" ng-repeat="(name,color) in colors" ng-click="selectColor(name);"></div>
             </md-toolbar>
         </md-list-item>
     </div>

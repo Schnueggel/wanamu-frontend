@@ -220,6 +220,11 @@ html .panel {
                 }
                 .editor {
                     text-align: left;
+                    .colors {
+                        box-shadow: 0px 2px 5px 0 rgba(0,0,0,0.16);
+                        opacity: 0.9;
+                        color: white;
+                    }
                 }
                 md-input-container {
                     input, textarea {

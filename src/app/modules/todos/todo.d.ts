@@ -15,7 +15,7 @@ declare module wanamu {
         alarm : string;
         done : Function;
         editTodo : Function;
-        colorSelect : Function;
+        selectColor : Function;
         todo : ITodo;
         setting : ISetting;
         editcolors : boolean;

@@ -48,9 +48,10 @@ export function wuTodo(): angular.IDirective {
                 }
             };
 
-            $scope.colorSelect = function(color : string) : void {
+            $scope.selectColor = function(color : string) : void {
                 $scope.todo.color = color;
                 setColor(color);
+                $scope.editcolors = false;
             };
         },
         template : require('./todo.html'),
