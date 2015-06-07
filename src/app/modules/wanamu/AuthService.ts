@@ -73,6 +73,7 @@ export class AuthService {
         return this.userDataSource.login(username, password)
             .then(function(user : User.User){
                 that.currentuser = user;
+                console.log(that.currentuser);
                 that.$window.localStorage.setItem('user', JSON.stringify(that.currentuser));
         }).catch(function(err){
                 console.log(err);

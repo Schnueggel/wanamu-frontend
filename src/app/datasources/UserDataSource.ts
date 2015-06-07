@@ -10,6 +10,7 @@ import _  = require('lodash');
 import User = require('../models/User');
 import Errors = require('../errors/Errors');
 import TodoListDataSource = require('./TodoListDataSource');
+import SettingDataSource = require('./SettingDataSource');
 
 export class UserDataSource {
     static $inject  = ['$http', '$q', 'constants'];
@@ -66,7 +67,6 @@ export class UserDataSource {
      * @returns {IPromise<User>}
      */
     public login(username : string, password : string) : angular.IPromise<User.User> {
-        var that = this;
         var deferred = this.$q.defer();
         var promise = deferred.promise;
         this.$http.post(this.constants.loginurl, {
@@ -77,7 +77,6 @@ export class UserDataSource {
                 deferred.reject({
                     name: 'Unkown', message: 'Invalid data received from server'
                 });
-                return;
             } else {
                 var user = UserDataSource.mapData(data.data[0]);
                 deferred.resolve(user);
@@ -107,14 +106,17 @@ export class UserDataSource {
      * @param values
      * @returns {User}
      */
-    public static mapData(values : any) : User.User {
+    public static mapData(values : wanamu.IUserData) : User.User {
         var user = new User.User();
 
         user.id = values.id;
         user.firstname = values.firstname;
         user.lastname = values.lastname;
         user.email = values.email;
-        user.setTodoLists();
+        user.setTodoLists(TodoListDataSource.TodoListDataSource.mapDataList(values.TodoLists));
+        user.setSetting(SettingDataSource.SettingDataSource.mapData(values.Setting));
+        user.defaulttodolist = user.todolist(values.DefaultTodoList);
+
         return user;
     }
 

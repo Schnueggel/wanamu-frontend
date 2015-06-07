@@ -37,9 +37,21 @@ export class TodoList extends Base.Base{
 
     /**
      *
+     * @param todos
+     */
+    public addTodos(todos : Todo.Todo[]){
+        var todos = todos || [];
+
+        for(var i = 0; i < todos.length; i++){
+            this.addTodo(todos[i]);
+        }
+    }
+
+    /**
+     *
      * @returns {Todo[]}
      */
     public todos() {
-        return _.values(this.todos);
+        return _.values(this._todos);
     }
 }

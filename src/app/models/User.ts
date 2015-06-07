@@ -20,7 +20,7 @@ export class User extends Base.Base {
 
     public defaulttodolist : TodoList.TodoList;
 
-    public settings : Setting.Setting;
+    public setting : Setting.Setting;
 
     public todolists : {[s: number]: TodoList.TodoList;} = <any>{};
 
@@ -29,7 +29,7 @@ export class User extends Base.Base {
     /**
      *
      * @param id
-     * @returns {TodoList.TodoList}
+     * @returns {TodoList|null}
      */
     public todolist (id : number) {
         if (this.todolists[id]  instanceof TodoList.TodoList) {
@@ -40,7 +40,7 @@ export class User extends Base.Base {
     /**
      *
      * @param id
-     * @returns {TodoList.TodoList}
+     * @returns {TodoList}
      */
     public todo (id : number) {
 
@@ -57,7 +57,7 @@ export class User extends Base.Base {
 
     /**
      *
-     * @returns {{[s: number]: Todo}}
+     * @returns {{}}
      */
     public todos() : {[s: number]: Todo.Todo;} {
         return this._todos;
@@ -65,16 +65,36 @@ export class User extends Base.Base {
 
     /**
      *
+     * @returns {any[]}
+     */
+    public todosAsArray() : Todo.Todo[] {
+        return _.values(this._todos);
+    }
+
+    /**
+     * Sets the todolists. This will delete all todolists
      * @param todolists
      */
     public setTodoLists(todolists : TodoList.TodoList[]) : void {
+        this.todolists = <any>{};
         var todolist : TodoList.TodoList;
+
         for(var i = 0; i < todolists.length; i++) {
             todolist = todolists[i];
             if (todolist instanceof TodoList.TodoList){
                 this.todolists[todolist.id] = todolist;
             }
         }
+
+        this.loadTodos();
+    }
+
+    /**
+     *
+     * @param setting
+     */
+    public setSetting(setting : Setting.Setting) : void {
+        this.setting = setting;
     }
 
     /**
@@ -86,9 +106,12 @@ export class User extends Base.Base {
         this._todos = <any>{};
 
         for (var todolist in this.todolists) {
-            todos = todolist.todos();
-            for(var i = 0; i < todos.length; i++) {
-                this._todos[todos[i].id] = todos[i];
+            if (this.todolists[todolist] instanceof TodoList.TodoList){
+                todos = this.todolists[todolist].todos();
+
+                for(var i = 0; i < todos.length; i++) {
+                    this._todos[todos[i].id] = todos[i];
+                }
             }
         }
     }

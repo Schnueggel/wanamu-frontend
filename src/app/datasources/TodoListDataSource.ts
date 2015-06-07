@@ -9,6 +9,7 @@
 import _  = require('lodash');
 import TodoList = require('../models/TodoList');
 import Errors = require('../errors/Errors');
+import TodoDataSource = require('./TodoDataSource');
 
 export class TodoListDataSource {
     static $inject  = ['$http', '$q', 'constants'];
@@ -31,6 +32,7 @@ export class TodoListDataSource {
 
         todolist.id = values.id;
         todolist.name = values.firstname;
+        todolist.addTodos(TodoDataSource.TodoDataSource.mapDataList(values.Todos));
 
         return todolist;
     }
@@ -44,7 +46,7 @@ export class TodoListDataSource {
         var result : TodoList.TodoList[] = [],
             values = values || [];
 
-        for(var i = 0; i < values.length; i++) {
+        for (var i = 0; i < values.length; i++) {
             if (_.isPlainObject(values[i])) {
                 result.push(TodoListDataSource.mapData(values[i]));
             }
