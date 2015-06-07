@@ -5,6 +5,7 @@
 
 import AuthService = require('../wanamu/AuthService');
 import TodoDirective = require('./directives/TodoDirective');
+import Todo = require('../../models/Todo');
 
 /**
  * Module name
@@ -16,6 +17,10 @@ export var todosModule = angular.module('todos', [
     'panel'
 ]);
 
+/**
+ * Config for this module states
+ * @param $stateProvider
+ */
 export function config ($stateProvider: ngui.IStateProvider) {
     // States/Routes
     $stateProvider
@@ -51,7 +56,7 @@ config.$inject = ['$stateProvider'];
 export class TodoListController {
 
     static $inject : any = ['$state', 'auth'];
-    public list : any [];
+    public list : Todo.Todo[];
 
     constructor(
         public $state: ngui.IStateService,
@@ -63,12 +68,13 @@ export class TodoListController {
             return;
         }
 
-        this.list = auth.currentUser().TodoLists[0].Todos;
+        this.list = auth.currentUser().todosAsArray();
+        console.log(this.list);
     }
 }
 
 /**
- * Controls a singnle todo
+ * Controls a single todo
  */
 export class TodoController {
     //angular injects
@@ -80,7 +86,7 @@ export class TodoController {
         error : {}
     }
 
-    public todoform : wanamu.TodoForm;
+    public todoform : wanamu.ITodoForm;
 
     public todo : any = null;
 
@@ -94,22 +100,22 @@ export class TodoController {
             return;
         }
 
-        var Todo = this;
-        Todo.loading = false;
-        Todo.list = auth.currentUser().TodoLists[0].Todos;
-        Todo.form = {
+        var TodoCtrl = this;
+        TodoCtrl.loading = false;
+        TodoCtrl.list = auth.currentUser().todosAsArray();
+        TodoCtrl.form = {
             error: {}
         };
-        Todo.todo = null;
+        TodoCtrl.todo = null;
 
-        for (var i = 0; i < Todo.list.length; i++) {
+        for (var i = 0; i < TodoCtrl.list.length; i++) {
 
-            if (Todo.list[i].id === $state.params.id) {
-                Todo.todo = Todo.list[i];
+            if (TodoCtrl.list[i].id === $state.params.id) {
+                TodoCtrl.todo = TodoCtrl.list[i];
             }
         }
 
-        if (!Todo.todo) {
+        if (!TodoCtrl.todo) {
             $state.go('panel.view.todos');
             // TODO show message Todo not found
             return;

@@ -1,8 +1,9 @@
 /// <reference path="../../../libs/angular/angular.d.ts" />
 
-// Store the current in edit todo $scope
 // this is static
-export var currentInEdit = null;
+export var currentInEdit : wanamu.ITodoScope = null;
+
+
 /**
  *
  * @param auth
@@ -12,11 +13,11 @@ export function wuTodo(): angular.IDirective {
         scope: {
             todo: '=todo'
         },
-        link: function ($scope: angular.IScope, element: JQuery, attributes : any) {
+        link: function ($scope: wanamu.ITodoScope, element: JQuery, attributes : any) {
             $scope.edit = false;
             $scope.repeat = '';
 
-            $scope.editTodo = function(edit) {
+            $scope.editTodo = function(edit : boolean) {
                 if (edit === true) {
                     if (currentInEdit !== null) {
                         currentInEdit.edit = false;
@@ -28,9 +29,9 @@ export function wuTodo(): angular.IDirective {
                 $scope.edit = edit;
             };
 
-            $scope.done = function() {
+            $scope.done = function() :void {
                 $scope.editTodo(false);
-                if ($scope.todo.$dirty) {
+                if ($scope.todo) {
                     //TODO start sync
                 }
             }

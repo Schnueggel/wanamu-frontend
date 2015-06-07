@@ -31,10 +31,12 @@ export class AuthService {
          * We try to load the user from localstorage
          */
         try{
-            this.currentuser = JSON.parse($window.localStorage.getItem('user'));
+            var userdata = JSON.parse($window.localStorage.getItem('user'));
             //Reload userdata in background
-            if (this.currentuser) {
+            if (!userdata) {
                 this.reloadUser(this.currentuser);
+            } else {
+                this.currentuser = _.extend(new User.User(), userdata);
             }
         } catch (err) {
             console.error(err);
@@ -133,7 +135,7 @@ export class AuthService {
      * Get the current user or null
      * @returns {any|null}
      */
-    public currentUser() : any {
+    public currentUser() : User.User {
         return this.currentuser;
     }
 

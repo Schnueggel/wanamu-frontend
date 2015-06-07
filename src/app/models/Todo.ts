@@ -3,7 +3,7 @@
  */
 import Base = require('./Base');
 
-export class Todo extends Base.Base {
+export class Todo extends Base.Base implements wanamu.ITodo {
 
     public id : number;
     public title : string;

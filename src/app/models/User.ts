@@ -1,3 +1,4 @@
+///<reference path="./model.d.ts"/>
 /**
  * Created by Christian on 06.06.2015.
  */
@@ -24,7 +25,7 @@ export class User extends Base.Base {
 
     public todolists : {[s: number]: TodoList.TodoList;} = <any>{};
 
-    private _todos : {[s: number]: Todo.Todo;} = null;
+    public _todos : {[s: number]: Todo.Todo;} = null;
 
     /**
      *
@@ -60,6 +61,9 @@ export class User extends Base.Base {
      * @returns {{}}
      */
     public todos() : {[s: number]: Todo.Todo;} {
+        if (this._todos == null) {
+            this.loadTodos();
+        }
         return this._todos;
     }
 
@@ -68,7 +72,7 @@ export class User extends Base.Base {
      * @returns {any[]}
      */
     public todosAsArray() : Todo.Todo[] {
-        return _.values(this._todos);
+        return _.values(this.todos());
     }
 
     /**
@@ -115,4 +119,5 @@ export class User extends Base.Base {
             }
         }
     }
+
 }

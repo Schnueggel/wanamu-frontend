@@ -35,12 +35,10 @@ export class UserDataSource {
 
                 if (!UserDataSource.isValidUserData(data)) {
                     deferred.reject(new Errors.InvalidResponseDataError());
-                    return;
                 } else {
                     var user = UserDataSource.mapData(data.data[0]);
                     deferred.resolve(user);
                 }
-
             }).error(function (data, status) {
                 if (status === 401 || status == 403) {
                     deferred.reject(new Errors.AuthError('You need to to login'));
@@ -71,8 +69,7 @@ export class UserDataSource {
         var promise = deferred.promise;
         this.$http.post(this.constants.loginurl, {
             username: username, password: password
-        }).success(function (data:any, status:number) {
-
+        }).success(function (data: any, status: number) {
             if (!UserDataSource.isValidUserData(data)) {
                 deferred.reject({
                     name: 'Unkown', message: 'Invalid data received from server'

@@ -1,7 +1,7 @@
 /**
  * Created by Christian on 07.06.2015.
  */
-declare class Base implements angular.INgModelController {
+interface Base extends angular.INgModelController {
     $render():void;
 
     $setValidity(validationErrorKey:string, isValid:boolean):void;
