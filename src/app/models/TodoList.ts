@@ -3,8 +3,9 @@
  */
 import _ = require('lodash');
 import Todo = require('./Todo');
+import Base = require('./Base');
 
-export class TodoList {
+export class TodoList extends Base.Base{
 
     public id : number;
     public name : string;

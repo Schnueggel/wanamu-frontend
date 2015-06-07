@@ -1,9 +1,9 @@
 /**
  * Created by Christian on 06.06.2015.
  */
+import Base = require('./Base');
 
-
-export class Setting {
+export class Setting extends Base.Base {
 
     public id : Number;
     public color1 : String;

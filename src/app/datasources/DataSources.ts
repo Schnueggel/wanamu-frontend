@@ -5,8 +5,5 @@
 
 import UserDataSourceModule = require('./UserDataSource');
 
-import u = UserDataSourceModule.UserDataSource;
+export var UserDataSource = UserDataSourceModule.UserDataSource;
 
-export module C {
-    export var UserDataSource = u;
-}

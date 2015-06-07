@@ -7,8 +7,9 @@ import _ = require('lodash');
 import Setting = require('./Setting');
 import TodoList = require('./TodoList');
 import Todo = require('./Todo');
+import Base = require('./Base');
 
-export class User {
+export class User extends Base.Base {
 
     public id : number;
     public username : string;
@@ -24,7 +25,6 @@ export class User {
     public todolists : {[s: number]: TodoList.TodoList;} = <any>{};
 
     private _todos : {[s: number]: Todo.Todo;} = null;
-
 
     /**
      *
@@ -62,10 +62,25 @@ export class User {
     public todos() : {[s: number]: Todo.Todo;} {
         return this._todos;
     }
+
+    /**
+     *
+     * @param todolists
+     */
+    public setTodoLists(todolists : TodoList.TodoList[]) : void {
+        var todolist : TodoList.TodoList;
+        for(var i = 0; i < todolists.length; i++) {
+            todolist = todolists[i];
+            if (todolist instanceof TodoList.TodoList){
+                this.todolists[todolist.id] = todolist;
+            }
+        }
+    }
+
     /**
      * Extracts all todos from the todolists and put them in the todomap
      */
-    loadTodos () {
+    protected loadTodos () : void {
         var todos : Todo.Todo[];
 
         this._todos = <any>{};

@@ -9,6 +9,7 @@
 import _  = require('lodash');
 import User = require('../models/User');
 import Errors = require('../errors/Errors');
+import TodoListDataSource = require('./TodoListDataSource');
 
 export class UserDataSource {
     static $inject  = ['$http', '$q', 'constants'];
@@ -25,18 +26,17 @@ export class UserDataSource {
      * @returns {IPromise<User>}
      */
     public getUser(id : number) : angular.IPromise<User.User> {
-        var that = this;
         var deferred = this.$q.defer();
         var promise = deferred.promise;
 
         this.$http.get(this.constants.apiurl +'/user/' + id, { withCredentials: true })
             .success(function (data: any, status: number) {
 
-                if (!that.isValidUserData(data)) {
+                if (!UserDataSource.isValidUserData(data)) {
                     deferred.reject(new Errors.InvalidResponseDataError());
                     return;
                 } else {
-                    var user = that.mapData(data.data[0]);
+                    var user = UserDataSource.mapData(data.data[0]);
                     deferred.resolve(user);
                 }
 
@@ -73,13 +73,13 @@ export class UserDataSource {
             username: username, password: password
         }).success(function (data:any, status:number) {
 
-            if (!that.isValidUserData(data)) {
+            if (!UserDataSource.isValidUserData(data)) {
                 deferred.reject({
                     name: 'Unkown', message: 'Invalid data received from server'
                 });
                 return;
             } else {
-                var user = that.mapData(data.data[0]);
+                var user = UserDataSource.mapData(data.data[0]);
                 deferred.resolve(user);
             }
         }).error(function (data, status) {
@@ -107,15 +107,14 @@ export class UserDataSource {
      * @param values
      * @returns {User}
      */
-    public mapData(values : any) : User.User {
+    public static mapData(values : any) : User.User {
         var user = new User.User();
-        console.log(values);
 
         user.id = values.id;
         user.firstname = values.firstname;
         user.lastname = values.lastname;
         user.email = values.email;
-
+        user.setTodoLists();
         return user;
     }
 
@@ -124,7 +123,7 @@ export class UserDataSource {
      * @param user
      * @returns {boolean}
      */
-    public isValidUserData(data : any) : boolean {
+    public static isValidUserData(data : any) : boolean {
         return _.isObject(data) &&
             _.isArray(data.data) &&
             data.data.length === 1 &&
