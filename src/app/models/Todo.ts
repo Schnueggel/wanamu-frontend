@@ -7,12 +7,12 @@ import _ = require ('lodash');
 class Todo extends Base.Base implements wanamu.ITodo {
 
     public id : number;
-    public title : string;
-    public alarm : string;
-    public description : string;
-    public repeat : string;
+    public title : string = '';
+    public alarm : string = null;
+    public description : string = '';
+    public repeat : string = null;
     public order : number = 1;
-    public color : string;
+    public color : string = null;
     public deleted : boolean = false;
 
     constructor( data?: wanamu.ITodoData) {

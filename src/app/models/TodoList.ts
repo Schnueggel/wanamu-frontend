@@ -11,7 +11,7 @@ class TodoList extends Base.Base implements wanamu.ITodoList {
     public name : string;
     public Todos : Todo[];
 
-    protected highestOrderNumber : number;
+    protected highestOrderNumber : number = -1;
 
     /**
      *
@@ -37,6 +37,7 @@ class TodoList extends Base.Base implements wanamu.ITodoList {
             for(var i = 0; i < data.Todos.length; i++){
                 this.addTodo(new Todo(data.Todos[i]));
             }
+            this.sort();
         }
     }
     /**
@@ -75,30 +76,25 @@ class TodoList extends Base.Base implements wanamu.ITodoList {
      */
     public addNewTodo(todo : Todo) : void {
         if (todo instanceof Todo){
-            todo.order = this.highestOrderNumber +1;
+            todo.order = this.highestOrderNumber = this.highestOrderNumber +1;
             this.addTodo(todo);
+            this.sort();
         }
     }
 
     /**
-     *
-     * @param todos
-     */
-    public addTodos(todos : Todo[]) : void {
-        var todos = todos || [];
-
-        for(var i = 0; i < todos.length; i++){
-            this.addTodo(todos[i]);
-        }
-    }
-
-    /**
-     *
+     * Returns todos sorted
      * @returns {Todo[]}
      */
     public todos() {
-        return this.Todos.sort(TodoList.compareOrder);
+        this.sort();
+        return this.Todos;
     }
+
+    public sort = () : void => {
+        this.Todos.sort(TodoList.compareOrder);
+    };
+
     /**
      * Sorts Todo Objects by the order property. Order direction is desc
      * @param a

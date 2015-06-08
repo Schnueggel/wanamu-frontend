@@ -19,7 +19,6 @@ module wanamu {
         'ngMessages',
         'config',
         'ngMaterial',
-        'ngNewRouter',
         Panel.name,
         Auth.name,
         Todos.name,

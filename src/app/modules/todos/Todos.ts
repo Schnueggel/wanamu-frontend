@@ -34,7 +34,7 @@ export function config ($stateProvider: ngui.IStateProvider) {
                     template: require('./content.html')
                 },
                 'headertoolbar@panel.view' : {
-                    controller: 'TodoHeaderCtrl as HeaderCtrl',
+                    controller: 'TodoHeaderCtrl as Ctrl',
                     template: require('./headertoolbar.html')
                 }
             }
