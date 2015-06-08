@@ -5,17 +5,20 @@ import _ = require('lodash');
 import Todo = require('./Todo');
 import Base = require('./Base');
 
-export class TodoList extends Base.Base implements wanamu.ITodoList {
+class TodoList extends Base.Base implements wanamu.ITodoList {
 
     public id : number;
     public name : string;
-    public Todos : Todo.Todo[];
+    public Todos : Todo[];
+
+    protected highestOrderNumber : number;
 
     /**
      *
      * @param data
      */
     constructor(data : wanamu.ITodoListData){
+        super();
         this.fromJSON(data);
     }
 
@@ -24,7 +27,7 @@ export class TodoList extends Base.Base implements wanamu.ITodoList {
      * @param data
      */
     public fromJSON (data: wanamu.ITodoListData) : void {
-        var data = data || {};
+        var data = data || <wanamu.ITodoListData>{};
 
         this.Todos = [];
         this.id = data.id;
@@ -32,7 +35,7 @@ export class TodoList extends Base.Base implements wanamu.ITodoList {
 
         if (_.isArray(data.Todos)) {
             for(var i = 0; i < data.Todos.length; i++){
-                this.addTodo(new Todo.Todo(data.Todos[i]));
+                this.addTodo(new Todo(data.Todos[i]));
             }
         }
     }
@@ -41,7 +44,7 @@ export class TodoList extends Base.Base implements wanamu.ITodoList {
      * @param id
      * @returns {Todo}
      */
-    public todo(id : number) : wanamu.ITodo {
+    public todo(id : number) : Todo {
 
         for(var i = 0; i < this.Todos.length; i++){
             if (this.Todos[i].id === id){
@@ -53,12 +56,27 @@ export class TodoList extends Base.Base implements wanamu.ITodoList {
     }
 
     /**
-     *
+     * Adds a Todo to the end of the TodoList
      * @param todo
      */
-    public addTodo(todo : Todo.Todo) : void {
-        if (todo instanceof Todo.Todo) {
+    public addTodo(todo : Todo) : void {
+        if (todo instanceof Todo) {
+            if (todo.order > this.highestOrderNumber) {
+                this.highestOrderNumber = todo.order;
+            }
             this.Todos.push(todo);
+        }
+    }
+
+    /**
+     * This adds a new Todo and automatically gives it the highest order number possible adding it to the beginning of
+     * the TodoList if sorted Desc
+     * @param todo
+     */
+    public addNewTodo(todo : Todo) : void {
+        if (todo instanceof Todo){
+            todo.order = this.highestOrderNumber +1;
+            this.addTodo(todo);
         }
     }
 
@@ -66,7 +84,7 @@ export class TodoList extends Base.Base implements wanamu.ITodoList {
      *
      * @param todos
      */
-    public addTodos(todos : Todo.Todo[]) : void {
+    public addTodos(todos : Todo[]) : void {
         var todos = todos || [];
 
         for(var i = 0; i < todos.length; i++){
@@ -79,6 +97,22 @@ export class TodoList extends Base.Base implements wanamu.ITodoList {
      * @returns {Todo[]}
      */
     public todos() {
-        return this.Todos;
+        return this.Todos.sort(TodoList.compareOrder);
+    }
+    /**
+     * Sorts Todo Objects by the order property. Order direction is desc
+     * @param a
+     * @param b
+     * @returns {number}
+     */
+    public static compareOrder(a : Todo, b : Todo) {
+        if (a.order < b.order) {
+            return 1;
+        }
+        if (a.order > b.order) {
+            return -1;
+        }
+        return 0;
     }
 }
+export = TodoList;

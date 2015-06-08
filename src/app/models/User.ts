@@ -7,6 +7,7 @@
 import _ = require('lodash');
 import Setting = require('./Setting');
 import TodoList = require('./TodoList');
+import TodoListNotFoundError = require('./errors/TodoListNotFoundError');
 import Todo = require('./Todo');
 import Base = require('./Base');
 
@@ -22,9 +23,9 @@ export class User extends Base.Base {
 
     public DefaultTodoListId : number;
 
-    public TodoLists : wanamu.ITodoList[];
+    public TodoLists : TodoList[];
 
-    public defaulttodolist : wanamu.ITodoList;
+    public defaulttodolist : TodoList;
 
     public Setting : wanamu.ISetting;
 
@@ -35,6 +36,7 @@ export class User extends Base.Base {
      * @param data
      */
     constructor(data: wanamu.IUserData){
+        super();
         this.fromJSON(data);
     }
 
@@ -43,8 +45,8 @@ export class User extends Base.Base {
      * @param data
      */
     public fromJSON(data: wanamu.IUserData) {
-        var data = data || {},
-            todolist : wanamu.ITodoList;
+        var data = data || <wanamu.IUserData>{},
+            todolist : TodoList;
 
         this.id = data.id;
         this.email = data.email;
@@ -57,7 +59,7 @@ export class User extends Base.Base {
 
         if (_.isArray(data.TodoLists)) {
             for (var i = 0; i < data.TodoLists.length; i++) {
-                todolist = new TodoList.TodoList(data.TodoLists[i]);
+                todolist = new TodoList(data.TodoLists[i]);
                 if (todolist.id === this.DefaultTodoListId){
                     this.defaulttodolist = todolist;
                 }
@@ -74,7 +76,7 @@ export class User extends Base.Base {
      * @param id
      * @returns {TodoList|null}
      */
-    public todolist (id : number) : wanamu.ITodoList {
+    public todolist (id : number) : TodoList {
         for(var i = 0; i < this.TodoLists.length; i++){
             if (this.TodoLists[i].id === id) {
                 return this.TodoLists[i];
@@ -89,7 +91,7 @@ export class User extends Base.Base {
      * @returns {TodoList}
      */
     public todo (id : number) {
-        var todolist : wanamu.ITodoList;
+        var todolist : TodoList;
         for(var i = 0; i < this.TodoLists.length; i++){
             todolist = this.TodoLists[i];
 
@@ -103,25 +105,53 @@ export class User extends Base.Base {
     }
 
     /**
-     *
-     * @param  {number} id TodoListId
-     * @returns {wanamu.ITodo[]}
+     * Adds a new TodoITem to the todolist. If no todolistId is given the default TodoList will be used.
+     * If no TodoList could be found at all a TodoListNotFoundError will be thrown.
+     * @param todo
+     * @param id
+     * @throws TodoListNotFoundError
      */
-    public todos(id?: number) : wanamu.ITodo[] {
-
-        var todolist : wanamu.ITodoList,
-            todos : wanamu.ITodo[] = [];
-
-        for(var i = 0; i < this.TodoLists.length; i++){
-            todolist = this.TodoLists[i];
-            if (id && todolist.id !== id) {
-                continue;
+    public addNewTodo(todo : Todo, id? : number) : void {
+        var todolist : TodoList;
+        if (todo instanceof Todo) {
+            if (id) {
+                todolist = this.todolist(id);
+                if (todolist === null) {
+                    throw new TodoListNotFoundError();
+                }
+            } else if (this.defaulttodolist instanceof TodoList) {
+                todolist = this.defaulttodolist;
+            } else {
+                throw new TodoListNotFoundError();
             }
-
-            for(var t = 0; t < todolist.Todos.length; t++){
-                todos.push(todolist.Todos[t]);
-            }
+            todolist.addNewTodo(todo);
+        } else {
+            console.warn('New Todo must be of type Todo');
         }
-        return todos;
+    }
+
+    /**
+     * Returns the todos from a
+     * @param  {number} id TodoListId
+     * @returns {Todo[]}
+     * @throws TodoListNotFoundError
+     */
+    public todos(id?: number) : Todo[] {
+
+        var todolist : TodoList = null;
+
+        if (id) {
+            todolist = this.todolist(id);
+        }
+
+        if (todolist === null) {
+            todolist = this.defaulttodolist;
+        }
+
+        if (todolist instanceof TodoList) {
+            return todolist.todos();
+        } else {
+            throw new TodoListNotFoundError();
+        }
     }
 }

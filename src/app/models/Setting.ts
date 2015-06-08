@@ -18,6 +18,7 @@ export class Setting extends Base.Base implements wanamu.ISetting {
      * @param data
      */
     constructor(data : wanamu.ISettingData){
+        super();
         this.fromJSON(data);
     }
 
@@ -26,7 +27,7 @@ export class Setting extends Base.Base implements wanamu.ISetting {
      * @param data
      */
     public fromJSON(data : wanamu.ISettingData) : void {
-        var data = data || {};
+        var data = data || <wanamu.ISettingData>{};
 
         this.id = data.id;
         this.color1 = data.color1;

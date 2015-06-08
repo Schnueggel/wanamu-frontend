@@ -5,7 +5,7 @@
             <md-input-container class="title" ng-click="editTodo(true)">
                 <textarea type="text" ng-model="todo.title" columns="1" rows="1" name="title" aria-label="title"></textarea>
             </md-input-container>
-            <md-icon alt="Delete Icon" ng-hide="edit" md-font-library="material-icons">&#xE872;</md-icon>
+            <md-icon alt="Delete Icon" ng-hide="edit" md-font-library="material-icons" ng-click="delete(todo)">&#xE872;</md-icon>
             <md-icon alt="Done Icon" ng-show="edit" md-font-library="material-icons" ng-click="done()">&#xE876;</md-icon>
         </md-list-item>
         <md-divider ng-show="edit"></md-divider>
@@ -22,6 +22,10 @@
                     <md-button class="md-raised md-primary">
                         <md-icon class="material-icons" md-font-library="material-icons">&#xE040;</md-icon>
                         <span>Weekly..</span>
+                    </md-button>
+                    <span flex></span>
+                    <md-button class="md-raised md-primary">
+                        <md-icon alt="Delete Icon" class="material-icons" md-font-library="material-icons" ng-click="delete(todo)">&#xE872;</md-icon>
                     </md-button>
                 </div>
             </md-toolbar>

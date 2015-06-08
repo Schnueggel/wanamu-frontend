@@ -36,6 +36,7 @@ declare module wanamu {
         description : string;
         alarm : string;
         repeat : string;
+        order : number;
         deleted: boolean;
         color: string;
     }

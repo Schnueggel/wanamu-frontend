@@ -21,5 +21,6 @@ declare module wanamu {
         editcolors : boolean;
         currentColor : any;
         colors : IColor;
+        delete : Function;
     }
 }

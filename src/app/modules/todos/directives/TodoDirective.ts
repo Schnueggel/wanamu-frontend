@@ -21,7 +21,6 @@ export function wuTodo(): angular.IDirective {
             $scope.repeat = '';
             $scope.editcolors = false;
             $scope.colors = $scope.setting.colors();
-            console.log($scope.setting);
 
             function setColor(color : string){
                 $scope.currentColor = {'background-color': $scope.setting.color(color) || 'white'};
@@ -52,6 +51,10 @@ export function wuTodo(): angular.IDirective {
                 $scope.todo.color = color;
                 setColor(color);
                 $scope.editcolors = false;
+            };
+
+            $scope.delete = (todo: wanamu.ITodo) => {
+                console.log(todo);
             };
         },
         template : require('./todo.html'),

@@ -5,6 +5,9 @@
 
 import AuthService = require('../wanamu/AuthService');
 import TodoDirective = require('./directives/TodoDirective');
+import TodoListController = require('./controllers/TodoListController');
+import TodoHeaderController = require('./controllers/TodoHeaderController');
+import TodosVars = require('./services/TodosVars');
 import Todo = require('../../models/Todo');
 
 /**
@@ -33,6 +36,7 @@ export function config ($stateProvider: ngui.IStateProvider) {
                     template: require('./content.html')
                 },
                 'headertoolbar@panel.view' : {
+                    controller: 'TodoHeaderCtrl as HeaderCtrl',
                     template: require('./headertoolbar.html')
                 }
             }
@@ -50,104 +54,7 @@ export function config ($stateProvider: ngui.IStateProvider) {
 }
 config.$inject = ['$stateProvider'];
 
-/**
- * Controls the TodoList
- */
-export class TodoListController {
-
-    static $inject : any = ['$state', 'auth'];
-    public list : wanamu.ITodo[];
-    public setting : wanamu.ISetting;
-
-    constructor(
-        public $state: ngui.IStateService,
-        public auth : AuthService.AuthService
-    ){
-        if (!auth.isLoggedIn()) {
-            console.log('Not authed');
-            $state.go('panel.view.login');
-            return;
-        }
-
-        this.list = auth.currentUser().todos();
-        console.log(auth.currentUser());
-        this.setting = auth.currentUser().Setting;
-    }
-}
-
-/**
- * Controls a single todo
- */
-export class TodoController {
-    //angular injects
-    static $inject : any =  ['$state', 'auth', '$scope'];
-
-    public loading : boolean;
-    public list : any[];
-    public form : any = {
-        error : {}
-    }
-
-    public todoform : wanamu.ITodoForm;
-
-    public todo : any = null;
-
-    constructor(
-        public $state : ngui.IStateService,
-        public auth : AuthService.AuthService,
-        public $scope : angular.IScope
-    ){
-        if (!auth.isLoggedIn()) {
-            $state.go('panel.view.login');
-            return;
-        }
-
-        var TodoCtrl = this;
-        TodoCtrl.loading = false;
-        TodoCtrl.list = auth.currentUser().todos();
-        TodoCtrl.form = {
-            error: {}
-        };
-        TodoCtrl.todo = null;
-
-        for (var i = 0; i < TodoCtrl.list.length; i++) {
-
-            if (TodoCtrl.list[i].id === $state.params.id) {
-                TodoCtrl.todo = TodoCtrl.list[i];
-            }
-        }
-
-        if (!TodoCtrl.todo) {
-            $state.go('panel.view.todos');
-            // TODO show message Todo not found
-            return;
-        }
-    }
-
-    /**
-     * Submits a todo to the backend
-     */
-    public submit (): void {
-        //Prevent submit multiple times
-        if (this.loading === true) {
-            return;
-        }
-        //Reset errors
-        this.form.$error = {};
-
-        if (this.todoform.$valid) {
-            //Set state loading
-            this.loading = true;
-
-            //TODO do submit todo
-        } else {
-
-        }
-    }
-}
-
 todosModule.config(config)
+    .controller('TodoHeaderCtrl', TodoHeaderController)
     .controller('TodolistCtrl', TodoListController)
-    .controller('TodoCtrl', TodoController)
     .directive('wuTodoItem', TodoDirective.wuTodo);
-
