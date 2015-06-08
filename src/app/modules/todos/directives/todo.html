@@ -1,18 +1,18 @@
 <div class="todo-container">
-    <div class="color-stripe" ng-click="editTodo(true)" ng-style="currentColor">&nbsp;</div>
+    <div class="color-stripe" ng-click="Ctrl.editTodo(true)" ng-style="Ctrl.currentColor">&nbsp;</div>
     <div class="todo-content">
         <md-list-item>
-            <md-input-container class="title" ng-click="editTodo(true)">
-                <textarea type="text" ng-model="todo.title" columns="1" rows="1" name="title" aria-label="title"></textarea>
+            <md-input-container class="title" ng-click="Ctrl.editTodo(true)">
+                <textarea type="text" ng-model="Ctrl.todo.title" columns="1" rows="1" name="title" aria-label="title"></textarea>
             </md-input-container>
-            <md-icon alt="Delete Icon" ng-hide="edit" md-font-library="material-icons" ng-click="delete(todo)">&#xE872;</md-icon>
-            <md-icon alt="Done Icon" ng-show="edit" md-font-library="material-icons" ng-click="done()">&#xE876;</md-icon>
+            <md-icon alt="Delete Icon" ng-hide="Ctrl.edit" md-font-library="material-icons" ng-click="Ctrl.delete(todo)">&#xE872;</md-icon>
+            <md-icon alt="Done Icon" ng-show="Ctrl.edit" md-font-library="material-icons" ng-click="Ctrl.done()">&#xE876;</md-icon>
         </md-list-item>
-        <md-divider ng-show="edit"></md-divider>
-        <md-list-item ng-show="edit" class="editor">
-            <md-toolbar class="md-accent" ng-hide="editcolors">
+        <md-divider ng-show="Ctrl.edit"></md-divider>
+        <md-list-item ng-show="Ctrl.edit" class="editor">
+            <md-toolbar class="md-accent" ng-hide="Ctrl.editcolors">
                 <div class="md-toolbar-tools">
-                    <md-button class="md-raised md-primary" flex="5" aria-label="Pick Color Button" ng-click="editcolors=true">
+                    <md-button class="md-raised md-primary" flex="5" aria-label="Pick Color Button" ng-click="Ctrl.editcolors=true">
                         <md-icon class="material-icons" md-font-library="material-icons">&#xE3B7;</md-icon>
                     </md-button>
                     <md-button class="md-raised md-primary">
@@ -25,12 +25,12 @@
                     </md-button>
                     <span flex></span>
                     <md-button class="md-raised md-primary">
-                        <md-icon alt="Delete Icon" class="material-icons" md-font-library="material-icons" ng-click="delete(todo)">&#xE872;</md-icon>
+                        <md-icon alt="Delete Icon" class="material-icons" md-font-library="material-icons" ng-click="Ctrl.delete(todo)">&#xE872;</md-icon>
                     </md-button>
                 </div>
             </md-toolbar>
-            <md-toolbar ng-show="editcolors" layout="row" class="colors">
-                <div flex ng-style="{'background-color':color}" ng-repeat="(name,color) in colors" ng-click="selectColor(name);"></div>
+            <md-toolbar ng-show="Ctrl.editcolors" layout="row" class="colors">
+                <div flex ng-style="{'background-color':color}" ng-repeat="(name,color) in Ctrl.colors" ng-click="Ctrl.selectColor(name);"></div>
             </md-toolbar>
         </md-list-item>
     </div>

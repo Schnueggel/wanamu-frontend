@@ -85,6 +85,7 @@ export class User extends Base.Base {
 
         return null;
     }
+
     /**
      *
      * @param id
