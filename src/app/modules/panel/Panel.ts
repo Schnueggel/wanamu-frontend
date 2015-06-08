@@ -4,8 +4,11 @@
  */
 'use strict';
 
-import AuthService = require('../wanamu/AuthService');
+import AuthService = require('../wanamu/services/AuthService');
 export var name = 'panel';
+
+//TODO Moveout the Controller Code
+
 /**
  * Controls the Panel
  */
@@ -37,7 +40,7 @@ export class HeaderController {
         public $rootScope : angular.IRootScopeService,
         public $scope : angular.IScope,
         public $state : any,
-        public auth : AuthService.AuthService
+        public auth : AuthService
     ) {
         // ==========================================================================
         // If client come to the menu with a deeplink we mark the menu as open
@@ -93,7 +96,7 @@ export function config($stateProvider : ngui.IStateProvider) {
 
 config.$inject = ['$stateProvider'];
 
-export var panelModule = angular.module('panel', [])
+export var ngmodule = angular.module('panel', [])
     .config(config)
     .controller('PanelCtrl', PanelController)
     .controller('HeaderCtrl', HeaderController);

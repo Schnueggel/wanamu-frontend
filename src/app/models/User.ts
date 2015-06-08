@@ -57,6 +57,9 @@ export class User extends Base.Base {
 
         this.TodoLists = [];
 
+        this.TodoLists.forEach(v => {
+
+        });
         if (_.isArray(data.TodoLists)) {
             for (var i = 0; i < data.TodoLists.length; i++) {
                 todolist = new TodoList(data.TodoLists[i]);

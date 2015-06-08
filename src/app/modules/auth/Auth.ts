@@ -1,7 +1,7 @@
 ///<reference path="./auth.d.ts" />
 'use strict';
 
-import AuthService = require('../wanamu/AuthService');
+import AuthService = require('../wanamu/services/AuthService');
 
 /**
  * Module name
@@ -59,7 +59,7 @@ export class LoginController {
     constructor(
         public $scope : angular.IScope,
         public $state : ngui.IStateService,
-        public auth : AuthService.AuthService
+        public auth : AuthService
     ) {
 
         if (auth.isLoggedIn()) {
@@ -98,7 +98,7 @@ export class LoginController {
 export class LogoutController {
     constructor (
         public $state : ngui.IStateService,
-        public auth : AuthService.AuthService
+        public auth : AuthService
     ){
         auth
             .logout()

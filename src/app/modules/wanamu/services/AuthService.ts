@@ -1,18 +1,18 @@
-/// <reference path="../../libs/angular/angular.d.ts" />
+/// <reference path="../../../libs/angular/angular.d.ts" />
 'use strict';
 /**
  * This Module create a Service named auth and a directive named tdIsAuth
  * @param {Object} ngModule
  */
 
-import UserDataSource = require('../../datasources/UserDataSource');
-import User = require ('../../models/User');
+import UserDataSource = require('../../../datasources/UserDataSource');
+import User = require ('../../../models/User');
 import _ = require('lodash');
 
 /**
  * AuthService
  */
-export class AuthService {
+class AuthService {
 
     private currentuser : any;
     //Dependencies
@@ -51,7 +51,7 @@ export class AuthService {
      * @param password
      * @returns {IPromise<any>}
      */
-    public login(username:String, password:String) : angular.IPromise<any> {
+    public login(username: string, password: string) : angular.IPromise<any> {
         var that = this;
         return this.userDataSource.login(username, password)
             .then(function(user : User.User){
@@ -78,7 +78,7 @@ export class AuthService {
         // ==========================================================================
         this.$window.localStorage.removeItem('user');
 
-        this.$http.post(this.constants.logouturl, {}).success(function (data:any, status:number) {
+        this.$http.post(this.constants.logouturl, {}).success(function (data: any, status: number) {
             // ==========================================================================
             // If the was no logged in user we are good anyway
             // ==========================================================================
@@ -124,10 +124,12 @@ export class AuthService {
      * Checks if the user is loggind
      * @returns {boolean}
      */
-    public isLoggedIn() : boolean {
+    public isLoggedIn = () : boolean => {
         if (this.currentuser) {
             return true;
         }
         return false;
     }
 }
+
+export = AuthService;

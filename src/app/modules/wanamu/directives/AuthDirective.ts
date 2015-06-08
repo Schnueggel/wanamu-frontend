@@ -1,13 +1,12 @@
-/// <reference path="../../libs/angular/angular.d.ts" />
-
-import AuthService = require('AuthService');
-
+/// <reference path="../../../libs/angular/angular.d.ts" />
+'use strict';
+import AuthService = require('../services/AuthService');
 
 /**
  *
  * @param auth
  */
-export function wuIsAuthDirective(auth: AuthService.AuthService): angular.IDirective {
+var wuIsAuthDirective = (auth: AuthService): angular.IDirective => {
     return {
         link: function ($scope: angular.IScope, element: JQuery, attributes : any) {
 
@@ -26,7 +25,7 @@ export function wuIsAuthDirective(auth: AuthService.AuthService): angular.IDirec
 
             visisible(auth.isLoggedIn());
 
-            $scope.$watch(angular.bind(auth,auth.isLoggedIn),
+            $scope.$watch(auth.isLoggedIn,
                 function (newValue : boolean, oldValue : boolean) {
                     visisible(newValue);
                 }
@@ -38,4 +37,6 @@ export function wuIsAuthDirective(auth: AuthService.AuthService): angular.IDirec
 
 //Inject service
 wuIsAuthDirective.$inject = ['auth'];
+
+export = wuIsAuthDirective;
 

@@ -1,8 +1,10 @@
 /**
  * Created by Schnueggel on 08.06.2015.
  */
+
 import Todo = require('../../../models/Todo');
 import TodoVars = require('../services/TodosVars');
+import AuthService = require('../../wanamu/services/AuthService')
 /**
  * Controls the TodoList
  */
@@ -15,7 +17,7 @@ class TodoListController {
 
     constructor(
         public $state: ngui.IStateService,
-        public auth : AuthService.AuthService,
+        public auth : AuthService,
         public $rootScope : angular.IRootScopeService
     ){
         if (!auth.isLoggedIn()) {
@@ -25,7 +27,8 @@ class TodoListController {
 
         var that = this;
 
-        var removeAddTodoListener = $rootScope.$on(TodoVars.EVENT_TODO_ADD, () => that.addNewTodo() );
+        var removeAddTodoListener = <Function>$rootScope.$on(TodoVars.EVENT_TODO_ADD, () => that.addNewTodo() );
+
         $rootScope.$on('destroy', () => removeAddTodoListener());
 
         this.loadTodoList();

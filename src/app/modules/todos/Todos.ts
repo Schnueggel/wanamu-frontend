@@ -3,12 +3,10 @@
  */
 'use strict';
 
-import AuthService = require('../wanamu/AuthService');
 import TodoDirective = require('./directives/TodoDirective');
 import TodoListController = require('./controllers/TodoListController');
 import TodoHeaderController = require('./controllers/TodoHeaderController');
 import TodosVars = require('./services/TodosVars');
-import Todo = require('../../models/Todo');
 
 /**
  * Module name

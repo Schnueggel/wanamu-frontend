@@ -22,7 +22,7 @@ class TodoController {
         this.setColor(this.todo.color);
     }
 
-    setColor = (color : string) =>{
+    setColor = (color : string) : void => {
         this.currentColor = {'background-color': this.setting.color(color) || 'white'};
     }
 
@@ -41,12 +41,6 @@ class TodoController {
 
     delete = (todo: wanamu.ITodo) => {
         console.log(todo);
-    };
-
-    selectColor = (color : string) : void =>{
-        this.todo.color = color;
-        this.setColor(color);
-        this.editcolors = false;
     };
 
     editTodo = (edit : boolean) :void => {
