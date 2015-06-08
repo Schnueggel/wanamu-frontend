@@ -5,6 +5,7 @@
 'use strict';
 
 import AuthService = require('../wanamu/services/AuthService');
+
 export var name = 'panel';
 
 //TODO Moveout the Controller Code
@@ -54,26 +55,39 @@ export class HeaderController {
         // We listen to stateChange events to store the last state.
         // This should perhaps go into a service to make it  reusable
         // ==========================================================================
-        var that = this;
-
-        this.off = $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
-            if (to.name !== 'panel.view.menu') {
-                that.laststate = 'panel.view.menu';
-                that.menuopen = false;
-            } else {
-                that.laststate = from.name + '(' + JSON.stringify(fromParams) + ')';
-                that.menuopen = true;
-            }
-            that.hideHeaderLogo = to.name === 'panel.view.login';
-        });
+        this.off = $rootScope.$on('$stateChangeSuccess', this.onStateChange);
 
         //Destroy the listener if this $scope dies to prevent multiple listener
-        // Normally this should not happend
-        $scope.$on('$destroy', function(event : angular.IAngularEvent){
-            that.off();
-        });
+        //Normally this should not happend as the header is fixed
+        $scope.$on('$destroy', this.onDestroy);
 
         this.user = auth.currentUser();
+    }
+
+    /**
+     *
+     * @param ev
+     * @param to
+     * @param toParams
+     * @param from
+     * @param fromParams
+     */
+    onStateChange = (ev, to, toParams, from, fromParams) =>  {
+        if (to.name !== 'panel.view.menu') {
+            this.laststate = 'panel.view.menu';
+            this.menuopen = false;
+        } else {
+            this.laststate = from.name + '(' + JSON.stringify(fromParams) + ')';
+            this.menuopen = true;
+        }
+        this.hideHeaderLogo = to.name === 'panel.view.login';
+    };
+
+    /**
+     * will be callend when this Controller gets destroyed
+     */
+    onDestroy = () => {
+        this.off();
     }
 }
 
