@@ -10,7 +10,6 @@ require('angular-messages');
 require('angular-translate/dist/angular-translate-loader-static-files/angular-translate-loader-static-files');
 require('angular-touch');
 require('angular-material');
-require('angular-new-router');
 require('angular-animate');
 
 
