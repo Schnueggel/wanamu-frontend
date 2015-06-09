@@ -21,4 +21,5 @@ require('../styles/index.scss');
 
 require('./services/constants');
 
+//We require a js file this is what it will be when its Typescript is compiled
 var module = require('./modules/wanamu/Application.js');

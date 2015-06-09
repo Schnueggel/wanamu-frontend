@@ -4,11 +4,11 @@ import Auth = require('../auth/Auth');
 import Menu = require('../menu/Menu');
 import Panel = require('../panel/Panel');
 import Todos = require ('../todos/Todos');
+import {DatepickerModule} from '../datepicker/DatepickerModule';
 import HttpInterceptor = require('./services/HttpInterceptor');
 import UserDataSource = require('../../datasources/UserDataSource');
 
 module wanamu {
-
     export var wanamuModule = angular.module('wanamu', [
         'ui.router',
         'ngAnimate',
@@ -20,6 +20,7 @@ module wanamu {
         Auth.name,
         Todos.name,
         Menu.name,
+        DatepickerModule.name,
         'pascalprecht.translate'
     ]);
 
