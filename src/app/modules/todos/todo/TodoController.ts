@@ -2,9 +2,15 @@
  * Created by Schnueggel on 08.06.2015.
  */
 'use strict';
+import _ = require('lodash');
 import Todo = require('../../../models/Todo');
+import {TodosService} from '../services/TodosService';
 
-class TodoController {
+/**
+ * This Controller manages a single TodoDirective
+ */
+export class TodoController {
+    static $inject = ['todosService', '$scope'];
     public static currentInEdit : TodoController = null;
 
     public edit : boolean = false;
@@ -18,15 +24,24 @@ class TodoController {
         this.edit = false;
         this.editcolors = false;
         this.colors = this.setting.colors();
-
         this.setColor(this.todo.color);
+
+        // If a new Todo is added we put it in edit mode
+        // New Todos dont have and ID
+        if (!_.isNumber(this.todo.id)) {
+            this.editTodo(true);
+        }
     }
 
+    /**
+     * Set the color of the todo
+     * @param color
+     */
     setColor = (color : string) : void => {
         this.currentColor = {'background-color': this.setting.color(color) || 'white'};
-    }
+    };
 
-    done = () :void => {
+    done = () : void => {
         this.editTodo(false);
         if (this.todo) {
             //TODO start sync
@@ -43,7 +58,11 @@ class TodoController {
         console.log(todo);
     };
 
-    editTodo = (edit : boolean) :void => {
+    /**
+     * Set the edit mode of this Directive and cancels the editmode of other directives
+     * @param edit
+     */
+    editTodo = (edit : boolean) : void => {
         if (edit === true) {
             if (TodoController.currentInEdit !== null) {
                 TodoController.currentInEdit.edit = false;
@@ -55,5 +74,3 @@ class TodoController {
         this.edit = edit;
     };
 }
-
-export = TodoController;

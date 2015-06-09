@@ -6,7 +6,7 @@
 
 import _ = require('lodash');
 import Setting = require('./Setting');
-import TodoList = require('./TodoList');
+import {TodoList} from './TodoList';
 import TodoListNotFoundError = require('./errors/TodoListNotFoundError');
 import Todo = require('./Todo');
 import Base = require('./Base');
@@ -112,17 +112,13 @@ export class User extends Base.Base {
      * @param id
      * @throws TodoListNotFoundError
      */
-    public addNewTodo(todo : Todo, id? : number) : void {
-        var todolist : TodoList;
+    public addNewTodo(todo : Todo, todolist?: TodoList) : void {
+        console.log(todolist instanceof TodoList);
         if (todo instanceof Todo) {
-            if (id) {
-                todolist = this.todolist(id);
-                if (todolist === null) {
-                    throw new TodoListNotFoundError();
-                }
-            } else if (this.defaulttodolist instanceof TodoList) {
+            if (!(todolist instanceof TodoList) && this.defaulttodolist instanceof TodoList) {
                 todolist = this.defaulttodolist;
-            } else {
+            }
+            if (!todolist) {
                 throw new TodoListNotFoundError();
             }
             todolist.addNewTodo(todo);

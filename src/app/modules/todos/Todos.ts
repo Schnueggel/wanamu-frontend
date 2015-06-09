@@ -3,10 +3,10 @@
  */
 'use strict';
 
-import TodoDirective = require('./directives/TodoDirective');
-import TodoListController = require('./controllers/TodoListController');
-import TodoHeaderController = require('./controllers/TodoHeaderController');
-import TodosVars = require('./services/TodosVars');
+import TodoDirective = require('./todo/TodoDirective');
+import TodoListController = require('./todolist/TodoListController');
+import {HeaderToolbarController} from './headertoolbar/HeaderToolbarController';
+import {TodosService} from './services/TodosService';
 
 /**
  * Module name
@@ -31,21 +31,11 @@ export function config ($stateProvider: ngui.IStateProvider) {
             views: {
                 '@panel': {
                     controller: 'TodolistCtrl as Todolist',
-                    template: require('./content.html')
+                    template: require('./todolist/content.html')
                 },
                 'headertoolbar@panel.view' : {
                     controller: 'TodoHeaderCtrl as Ctrl',
-                    template: require('./headertoolbar.html')
-                }
-            }
-        })
-        .state('panel.view.todos.todo', {
-            url: '/todo/{id:int}',
-            role: 'public',
-            views: {
-                '@panel': {
-                    controller: 'TodoCtrl as Todo',
-                    template: require('./details.html')
+                    template: require('./headertoolbar/headertoolbar.html')
                 }
             }
         });
@@ -53,6 +43,7 @@ export function config ($stateProvider: ngui.IStateProvider) {
 config.$inject = ['$stateProvider'];
 
 todosModule.config(config)
-    .controller('TodoHeaderCtrl', TodoHeaderController)
+    .controller('TodoHeaderCtrl', HeaderToolbarController)
+    .service('todosService',TodosService)
     .controller('TodolistCtrl', TodoListController)
     .directive('wuTodoItem', TodoDirective.wuTodo);

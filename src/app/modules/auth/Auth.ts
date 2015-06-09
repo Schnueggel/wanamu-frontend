@@ -1,8 +1,8 @@
 ///<reference path="./auth.d.ts" />
 'use strict';
 
-import AuthService = require('../wanamu/services/AuthService');
-
+import AuthService = require('./services/AuthService');
+import IsAuthDirective = require('./isauth/IsAuthDirective');
 /**
  * Module name
  * @type {string}
@@ -118,5 +118,7 @@ export var authModule = angular.module('auth', [
 authModule
     .config(config)
     .controller('LoginCtrl', LoginController)
+    .directive('wuIsAuth', IsAuthDirective)
+    .service('auth', AuthService)
     .controller('LogoutCtrl', LogoutController);
 

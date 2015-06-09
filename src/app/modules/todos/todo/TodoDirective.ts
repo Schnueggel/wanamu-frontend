@@ -2,7 +2,7 @@
 'use strict';
 
 import _ = require('lodash');
-import TodoController = require('./TodoController');
+import {TodoController} from './TodoController';
 
 /**
  *

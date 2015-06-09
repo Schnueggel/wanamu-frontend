@@ -1,16 +1,13 @@
 /// <reference path="../../libs/angular/angular.d.ts" />
-
+'use strict';
 import Auth = require('../auth/Auth');
 import Menu = require('../menu/Menu');
 import Panel = require('../panel/Panel');
 import Todos = require ('../todos/Todos');
-import AuthService = require('./services/AuthService');
-import WuAuthDirective = require('./directives/AuthDirective');
 import HttpInterceptor = require('./services/HttpInterceptor');
 import UserDataSource = require('../../datasources/UserDataSource');
 
 module wanamu {
-    'use strict';
 
     export var wanamuModule = angular.module('wanamu', [
         'ui.router',
@@ -109,7 +106,5 @@ module wanamu {
         .run([ function () {}]);
 
     wanamuModule.service('httpInterceptor', HttpInterceptor);
-    wanamuModule.service('auth', AuthService);
     wanamuModule.service('userDataSource', UserDataSource.UserDataSource);
-    wanamuModule.directive('tdIsAuth', WuAuthDirective);
 }

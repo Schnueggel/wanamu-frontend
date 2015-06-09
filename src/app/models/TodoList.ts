@@ -5,7 +5,7 @@ import _ = require('lodash');
 import Todo = require('./Todo');
 import Base = require('./Base');
 
-class TodoList extends Base.Base implements wanamu.ITodoList {
+export class TodoList extends Base.Base implements wanamu.ITodoList {
 
     public id : number;
     public name : string;
@@ -111,4 +111,3 @@ class TodoList extends Base.Base implements wanamu.ITodoList {
         return 0;
     }
 }
-export = TodoList;

@@ -4,7 +4,7 @@
  */
 'use strict';
 
-import AuthService = require('../wanamu/services/AuthService');
+import AuthService = require('../auth/services/AuthService');
 
 export var name = 'panel';
 
@@ -72,7 +72,7 @@ export class HeaderController {
      * @param from
      * @param fromParams
      */
-    onStateChange = (ev, to, toParams, from, fromParams) =>  {
+    onStateChange = (ev : any, to : any, toParams :any, from :any, fromParams : any) : void =>  {
         if (to.name !== 'panel.view.menu') {
             this.laststate = 'panel.view.menu';
             this.menuopen = false;

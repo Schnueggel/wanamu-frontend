@@ -1,14 +1,21 @@
 <div class="todo-container">
     <div class="color-stripe" ng-click="Ctrl.editTodo(true)" ng-style="Ctrl.currentColor">&nbsp;</div>
     <div class="todo-content">
+
+        <!-- The Input Field -->
+
         <md-list-item>
-            <md-input-container class="title" ng-click="Ctrl.editTodo(true)">
-                <textarea type="text" ng-model="Ctrl.todo.title" columns="1" rows="1" name="title" aria-label="title"></textarea>
+            <md-input-container class="title" ng-click="Ctrl.editTodo(true)" md-no-float >
+                <textarea type="text" ng-model="Ctrl.todo.title" columns="1" rows="1" name="title" aria-label="title" placeholder="Type your Text here"></textarea>
             </md-input-container>
             <md-icon alt="Delete Icon" ng-hide="Ctrl.edit" md-font-library="material-icons" ng-click="Ctrl.delete(todo)">&#xE872;</md-icon>
             <md-icon alt="Done Icon" ng-show="Ctrl.edit" md-font-library="material-icons" ng-click="Ctrl.done()">&#xE876;</md-icon>
         </md-list-item>
+
         <md-divider ng-show="Ctrl.edit"></md-divider>
+
+        <!-- The Editor -->
+
         <md-list-item ng-show="Ctrl.edit" class="editor">
             <md-toolbar class="md-accent" ng-hide="Ctrl.editcolors">
                 <div class="md-toolbar-tools">

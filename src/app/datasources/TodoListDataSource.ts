@@ -7,7 +7,7 @@
  * This class is a angular service to use it add it as service
  */
 import _  = require('lodash');
-import TodoList = require('../models/TodoList');
+import {TodoList} from '../models/TodoList';
 import Errors = require('../errors/Errors');
 import TodoDataSource = require('./TodoDataSource');
 

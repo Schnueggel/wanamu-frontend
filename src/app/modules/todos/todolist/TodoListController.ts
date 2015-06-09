@@ -3,46 +3,43 @@
  */
 
 import Todo = require('../../../models/Todo');
-import TodoVars = require('../services/TodosVars');
-import AuthService = require('../../wanamu/services/AuthService')
+import AuthService = require('../../auth/services/AuthService')
 /**
  * Controls the TodoList
  */
 class TodoListController {
 
-    static $inject : any = ['$state', 'auth', '$rootScope'];
-    public list : wanamu.ITodo[];
+    static $inject : any = ['$state', 'auth'];
+    public list : Todo[];
     public setting : wanamu.ISetting;
     public currentTodoListId : number = null;
 
     constructor(
         public $state: ngui.IStateService,
-        public auth : AuthService,
-        public $rootScope : angular.IRootScopeService
+        public auth : AuthService
     ){
         if (!auth.isLoggedIn()) {
             $state.go('panel.view.login');
             return;
         }
 
-        var that = this;
-
-        var removeAddTodoListener = <Function>$rootScope.$on(TodoVars.EVENT_TODO_ADD, () => that.addNewTodo() );
-
-        $rootScope.$on('destroy', () => removeAddTodoListener());
-
         this.loadTodoList();
         this.setting = auth.currentUser().Setting;
-
     }
 
+    /**
+     * Load todolist
+     */
     loadTodoList () : void {
         this.list = this.auth.currentUser().todos(this.currentTodoListId);
     }
 
+    /**
+     * View Method
+     */
     addNewTodo() : void {
         var todo = new Todo();
-        this.auth.currentUser().addNewTodo(todo, this.currentTodoListId);
+        console.log('hund');
     }
 }
 

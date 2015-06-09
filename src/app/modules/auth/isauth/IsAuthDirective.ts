@@ -6,7 +6,7 @@ import AuthService = require('../services/AuthService');
  *
  * @param auth
  */
-var wuIsAuthDirective = (auth: AuthService): angular.IDirective => {
+var IsAuthDirective = (auth: AuthService): angular.IDirective => {
     return {
         link: function ($scope: angular.IScope, element: JQuery, attributes : any) {
 
@@ -36,7 +36,7 @@ var wuIsAuthDirective = (auth: AuthService): angular.IDirective => {
 }
 
 //Inject service
-wuIsAuthDirective.$inject = ['auth'];
+IsAuthDirective.$inject = ['auth'];
 
-export = wuIsAuthDirective;
+export = IsAuthDirective;
 
