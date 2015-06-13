@@ -62,10 +62,7 @@ var webpackConfig = {
     devtool: '',
     module: {
         noParse: [
-            /[\/\\]angular\.js$/,
-            /[\/\\]angular-ui-router\.js$/,
-            /[\/\\]angular-translate\.js$/,
-            /[\/\\]angular-messages\.js$/
+            /[\/\\]node_modules\.js$/
         ],
         loaders : [
             {
@@ -77,7 +74,7 @@ var webpackConfig = {
             //    loaders: ['typescript']
             //},
             {
-                test: /\.html$/,
+                test: /\.(html|svg)$/,
                 loader: 'raw'
             },
             {
@@ -264,7 +261,14 @@ gulp.task('watch', ['watch-app'], function (cb) {
 // Watch frontend code and reload the webpage if changes occur
 // ===================================================================
 gulp.task('watch-app',  function () {
-    gulp.watch(['src/app/**/*.html', 'src/app/**/*.js', 'src/styles/**/*.scss', 'src/app/**/*.ts',], {debounceDelay: 2000}, function () {
+    gulp.watch([
+        'src/app/**/*.html',
+        'src/app/**/*.js',
+        'src/styles/**/*.scss',
+        'src/app/**/*.ts',
+        'src/app/**/*.scss',
+        'src/app/**/*.svg'
+    ], {debounceDelay: 2000}, function () {
         runSequence('build-app', 'livereload');
     });
 });
@@ -297,8 +301,10 @@ gulp.task('move-tmp',['move-tmp-app', 'move-tmp-styles']);
 
 gulp.task('move-tmp-app', function(){
    return gulp.src([
-        path.join(srcPath,'app', '**', '*.js'),
-       path.join(srcPath,'app', '**', '*.html'),
+       path.join(srcAppPath, '**', '*.js'),
+       path.join(srcAppPath, '**', '*.html'),
+       path.join(srcAppPath, '**', '*.svg'),
+       path.join(srcAppPath, '**', '*.scss')
     ]).pipe(gulp.dest(path.join(tmpPath, 'app')));
 });
 
