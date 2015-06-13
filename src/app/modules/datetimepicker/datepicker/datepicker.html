@@ -1,0 +1,41 @@
+<div class="datepicker">
+    <div layout="column" layout-align="start center">
+        <md-toolbar layout-align="center center" class="md-datepicker-dow md-primary"><span>{{ DatePicker.currentMoment.format("dddd") }}</span>
+        </md-toolbar>
+        <md-toolbar layout-align="center center" class="md-datepicker-date md-hue-1 md-primary" layout="column">
+            <div class="md-datepicker-month">{{ DatePicker.currentMoment.format("MMM") }}</div>
+            <div class="md-datepicker-day">{{ DatePicker.currentMoment.format("DD") }}</div>
+            <md-select class="md-datepicker-year" placeholder="{{ DatePicker.currentMoment.format('YYY') }}"
+                       ng-model="DatePicker.year" ng-change="DatePicker.setYear()">
+                <md-option ng-value="year" ng-repeat="year in DatePicker.yearsOptions">{{ year }}</md-option>
+            </md-select>
+        </md-toolbar>
+    </div>
+    <div layout="column" layout-align="start center" class="md-datepicker-calendar">
+        <div layout="row" layout-align="space-between center" class="md-datepicker-monthyear">
+            <md-button aria-label="mese precedente" class="md-icon-button" ng-click="DatePicker.prevMonth()">
+                <md-icon
+                    md-svg-src="/images/ic_chevron_left_black_24px.svg"></md-icon>
+            </md-button>
+            {{ DatePicker.currentMoment.format("MMMM YYYY") }}
+            <md-button aria-label="mese successivo" class="md-icon-button" ng-click="DatePicker.nextMonth()">
+                <md-icon
+                    md-svg-src="/images/ic_chevron_right_black_24px.svg"></md-icon>
+            </md-button>
+        </div>
+        <div layout="row" layout-align="space-around center" class="md-datepicker-week-days">
+            <div layout layout-align="center center" ng-repeat="d in DatePicker.weekDays track by $index">{{ d }}
+            </div>
+        </div>
+        <div layout="row" layout-wrap class="md-datepicker-days">
+            <div layout layout-align="center center"
+                 ng-repeat-start="n in DatePicker.getDaysInMonth() track by $index">
+                <md-button aria-label="seleziona giorno" ng-if="n !== false"
+                           ng-class="{'md-accent': DatePicker.currentMoment.date() == n}"
+                           ng-click="DatePicker.selectDate(n)">{{ n }}
+                </md-button>
+            </div>
+            <div flex ng-if="($index + 1) % 7 == 0" ng-repeat-end></div>
+        </div>
+    </div>
+</div>

@@ -10,7 +10,7 @@ import {TodosService} from '../services/TodosService';
  * This Controller manages a single TodoDirective
  */
 export class TodoController {
-    static $inject = ['todosService', '$scope'];
+    static $inject = [];
     public static currentInEdit : TodoController = null;
 
     public edit : boolean = false;

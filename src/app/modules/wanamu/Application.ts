@@ -4,7 +4,7 @@ import Auth = require('../auth/Auth');
 import Menu = require('../menu/Menu');
 import Panel = require('../panel/Panel');
 import Todos = require ('../todos/Todos');
-import {DatepickerModule} from '../datepicker/DatepickerModule';
+import {DateTimePickerModule} from '../datetimepicker/datetimepicker';
 import HttpInterceptor = require('./services/HttpInterceptor');
 import UserDataSource = require('../../datasources/UserDataSource');
 
@@ -20,7 +20,7 @@ module wanamu {
         Auth.name,
         Todos.name,
         Menu.name,
-        DatepickerModule.name,
+        DateTimePickerModule.name,
         'pascalprecht.translate'
     ]);
 
