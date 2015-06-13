@@ -1,9 +1,12 @@
 <div class="wu-timepicker">
-    <md-toolbar layout="row" layout-align="center center" class="md-datepicker-dow md-primary">
-        <div flex="50">AM</div><div flex="50">PM</div>
-    </md-toolbar>
+    <div layout="row">
+        <md-button flex class="daytime-button" ng-class="{'md-primary md-raised': TimePicker.isam}" ng-click="TimePicker.setAM()">AM</md-button>
+        <md-button  flex class="daytime-button" ng-class="{'md-primary md-raised': TimePicker.ispm}" ng-click="TimePicker.setPM()">PM</md-button>
+    </div>
     <div layout="column" layout-align="start center" class="timepicker">
         <div ng-include="'clock.svg'" class="clock-svg-box"></div>
-        <div style="position : absolute">12:30</div>
+        <div class="time-label wu-bg md-default-theme md-primary">
+            {{TimePicker.currentMoment.format('hh')}}:{{TimePicker.currentMoment.format('mm')}} {{TimePicker.currentMoment.format('A')}}
+        </div>
     </div>
 </div>

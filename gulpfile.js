@@ -74,7 +74,7 @@ var webpackConfig = {
             //    loaders: ['typescript']
             //},
             {
-                test: /\.(html|svg)$/,
+                test: /\.(html|svg|txt)$/,
                 loader: 'raw'
             },
             {
@@ -304,7 +304,8 @@ gulp.task('move-tmp-app', function(){
        path.join(srcAppPath, '**', '*.js'),
        path.join(srcAppPath, '**', '*.html'),
        path.join(srcAppPath, '**', '*.svg'),
-       path.join(srcAppPath, '**', '*.scss')
+       path.join(srcAppPath, '**', '*.scss'),
+       path.join(srcAppPath, '**', '*.txt')
     ]).pipe(gulp.dest(path.join(tmpPath, 'app')));
 });
 

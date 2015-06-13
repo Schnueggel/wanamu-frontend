@@ -76,30 +76,32 @@ module wanamu {
      */
     export function configMaterialStyle($mdThemingProvider: any){
         $mdThemingProvider.theme('default')
-            .primaryPalette('blue');
+            .primaryPalette('blue-grey')
+            .accentPalette('grey')
+            .warnPalette('red');
 
-        var wanamuMap = $mdThemingProvider.extendPalette('blue', {
-            '500': 'rgb(80, 94, 110);'
-        });
-        var wanamuAccentMap = $mdThemingProvider.extendPalette('blue', {
-            '500':'rgb(116, 127, 144)',
-
-        });
-
-        //$http.defaults.headers.common.WithCredentials = 'true';
-
-        // Register the new color palette map with the name <code>neonRed</code>
-        $mdThemingProvider.definePalette('wanamu', wanamuMap);
-        $mdThemingProvider.definePalette('wanamuAccent', wanamuAccentMap);
-
-        // Use that theme for the primary intentions
-        $mdThemingProvider.theme('default')
-            .primaryPalette('wanamu', {
-                'default': '500'
-            })
-            .accentPalette('wanamuAccent', {
-                'default': '500'
-            });
+        //var wanamuMap = $mdThemingProvider.extendPalette('blue', {
+        //    '500': 'rgb(80, 94, 110);'
+        //});
+        //var wanamuAccentMap = $mdThemingProvider.extendPalette('blue', {
+        //    '500':'rgb(116, 127, 144)',
+        //
+        //});
+        //
+        ////$http.defaults.headers.common.WithCredentials = 'true';
+        //
+        //// Register the new color palette map with the name <code>neonRed</code>
+        //$mdThemingProvider.definePalette('wanamu', wanamuMap);
+        //$mdThemingProvider.definePalette('wanamuAccent', wanamuAccentMap);
+        //
+        //// Use that theme for the primary intentions
+        //$mdThemingProvider.theme('default')
+        //    .primaryPalette('wanamu', {
+        //        'default': '500'
+        //    })
+        //    .accentPalette('wanamuAccent', {
+        //        'default': '500'
+        //    });
     }
 
     wanamuModule

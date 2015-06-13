@@ -19,9 +19,17 @@ export class TimePickerController {
     public date : Date;
     public minutemarker : SVGGElement = null;
     public hourmarker : SVGGElement = null;
-    public hour : number;
-    public minute : number;
+
     public daytime : string;
+    public static AM : string = 'am';
+    public static PM : string  = 'pm';
+
+    public currentMoment : momentM.Moment;
+
+    public changed : Function;
+
+    public isam : boolean = false;
+    public ispm : boolean = false;
 
     public minrots : {[s:string] : number} =  {
             '0': 90,
@@ -60,30 +68,47 @@ export class TimePickerController {
         if ( !(this.date instanceof Date)){
             this.date = new Date();
         }
+
+        if (!_.isFunction(this.changed)){
+            this.changed = function(){};
+        }
+
         //Round the date to the nearest next 5 minute tick
         var coeff = 1000 * 60 * 5;
         var rounded = new Date(Math.ceil(this.date.getTime() / coeff) * coeff);
 
-        this.daytime = rounded.getHours() >= 12 ? 'pm' : 'am';
+        this.currentMoment = moment(rounded);
 
-        this.hour = rounded.getHours() % 12 || 12;
-        this.minute = rounded.getMinutes();
+        this.setDaytime(this.currentMoment.format('a'));
 
         $document.ready(function(){
-            this.selectMinute(this.minute);
-            this.selectHour(this.hour);
+            this.selectMinute(  this.currentMoment.format('m') );
+            this.selectHour( this.currentMoment.format('h') );
         }.bind(this));
 
     }
 
     selectMinute(min : number) {
         if (this.minrots.hasOwnProperty(min.toString())) {
+            this.currentMoment.minute(min);
+            this.date.setMinutes(this.currentMoment.minute());
+            this.changed();
             this.setMarkerRot(this.getMinuteMarker(), this.minrots[min.toString()]);
         }
     }
 
     selectHour(hour : number) {
         if (this.hourrots.hasOwnProperty(hour.toString())) {
+            var hour24 = this.ispm ? hour +12 : hour;
+
+            if (hour24 === 24) {
+                hour24 = 0;
+            }
+
+            this.currentMoment.hour(hour24);
+            this.date.setHours(this.currentMoment.hours());
+            this.changed();
+
             this.setMarkerRot(this.getHourMarker(), this.hourrots[hour.toString()]);
         }
     }
@@ -91,9 +116,38 @@ export class TimePickerController {
      * @param {string} id
      * @param {number} rot
      */
-    setMarkerRot(markerelement : SVGGElement, rot :number) {
+    setMarkerRot(markerelement : SVGGElement, rot : number) {
         var transforms = markerelement.transform.baseVal;
         this.rotateTransforms(transforms, rot);
+    }
+
+    setDaytime(daytime) : void {
+        this.daytime = daytime;
+
+        var hour = this.currentMoment.hour();
+
+        if (this.daytime === TimePickerController.AM) {
+            this.isam = true;
+            this.ispm = false;
+            if (hour >= 12) {
+                this.currentMoment.hour(hour-12);
+            }
+        }
+        if (this.daytime === TimePickerController.PM) {
+            this.isam = false;
+            this.ispm = true;
+            if (hour < 12) {
+                this.currentMoment.hour(hour+12);
+            }
+        }
+    }
+
+    setAM () {
+        this.setDaytime(TimePickerController.AM);
+    }
+
+    setPM () {
+        this.setDaytime(TimePickerController.PM);
     }
 
     getMinuteMarker () : SVGGElement {
@@ -111,6 +165,7 @@ export class TimePickerController {
 
         return this.hourmarker;
     }
+
     /**
      * Rotate the first rotation transform in a transformlist the specified roation
      */

@@ -17,5 +17,14 @@ export function datetimepicker() {
 }
 
 export class DateTimePickerController {
+    public date : Date;
 
+    constructor(){
+        this.date.setSeconds(0);
+    }
+
+    changed () {
+        console.log(this.date);
+    }
 }
+DateTimePickerController.$inject = ['$timeout'];
