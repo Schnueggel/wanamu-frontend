@@ -105,8 +105,8 @@ export class TimePickerController {
         this.setDaytime(this.currentMoment.format('a'));
 
         $document.ready(() =>{
-            this.selectMinute( <any>this.currentMoment.format('m') );
-            this.selectHour( <any>this.currentMoment.format('h') );
+            this.selectMinute( _.parseInt(this.currentMoment.format('m')) );
+            this.selectHour(  _.parseInt(this.currentMoment.format('h')) );
         });
 
     }
@@ -121,6 +121,8 @@ export class TimePickerController {
             this.date.setMinutes(this.currentMoment.minute());
             this.changed();
             this.setMarkerRot(this.getMinuteMarker(), this.minrots[min.toString()]);
+        } else {
+            console.warn('Timepicker no rotation found for minute: ' + min);
         }
     }
 
@@ -142,16 +144,18 @@ export class TimePickerController {
                     hour24 = 0;
                 }
             }
-
+            console.log(hour24);
             this.currentMoment.hour(hour24);
             this.date.setHours(this.currentMoment.hours());
             this.changed();
 
             this.setMarkerRot(this.getHourMarker(), this.hourrots[hour.toString()]);
+        } else {
+            console.warn('Timepicker no rotation found for hour: ' + hour);
         }
     }
     /**
-     * @param {string} id
+     * @param {SVGGElement} markerelement
      * @param {number} rot
      */
     setMarkerRot(markerelement : SVGGElement, rot : number) {
