@@ -4,7 +4,7 @@
  */
 'use strict';
 
-import AuthService = require('../auth/services/AuthService');
+import {AuthService} from '../auth/services/AuthService';
 
 export var name = 'panel';
 
@@ -36,6 +36,7 @@ export class HeaderController {
      * @param $rootScope
      * @param $scope
      * @param $state
+     * @param auth
      */
     constructor(
         public $rootScope : angular.IRootScopeService,
@@ -55,7 +56,7 @@ export class HeaderController {
         // We listen to stateChange events to store the last state.
         // This should perhaps go into a service to make it  reusable
         // ==========================================================================
-        this.off = $rootScope.$on('$stateChangeSuccess', this.onStateChange);
+        this.off = <Function>$rootScope.$on('$stateChangeSuccess', this.onStateChange);
 
         //Destroy the listener if this $scope dies to prevent multiple listener
         //Normally this should not happend as the header is fixed

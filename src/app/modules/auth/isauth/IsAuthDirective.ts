@@ -1,6 +1,6 @@
 /// <reference path="../../../libs/angular/angular.d.ts" />
 'use strict';
-import AuthService = require('../services/AuthService');
+import {AuthService} from '../services/AuthService';
 
 /**
  *

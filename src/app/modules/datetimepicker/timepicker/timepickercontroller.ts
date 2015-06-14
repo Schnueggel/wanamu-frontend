@@ -3,35 +3,54 @@
 import _  = require('lodash');
 import moment = require('moment');
 
-declare interface RotConfig {
-    id : string;
-    rot : number;
-    type : string;
-}
-
 /**
  * Class that controller the timepicker template
  */
 export class TimePickerController {
 
-    static $inject = ['$document'];
+    static $inject : Array<string> = ['$document'];
 
+    /**
+     * @scopevar
+     */
     public date : Date;
+
     public minutemarker : SVGGElement = null;
     public hourmarker : SVGGElement = null;
 
+    /**
+     * @viewvar
+     */
     public daytime : string;
+
     public static AM : string = 'am';
     public static PM : string  = 'pm';
 
+    /**
+     * @viewvar
+     */
     public currentMoment : momentM.Moment;
 
+    /**
+     * @scopevar
+     */
     public changed : Function;
-
+    /**
+     * @viewvar
+     * @type {boolean}
+     */
     public isam : boolean = false;
+    /**
+     * @viewvar
+     * @type {boolean}
+     */
     public ispm : boolean = false;
 
-    public minrots : {[s:string] : number} =  {
+    /**
+     * SVG rotation for the minute hand
+     * @type {{0: number, 5: number, 10: number, 15: number, 20: number, 25: number, 30: number, 35: number, 40: number, 45: number, 50: number, 55: number}}
+     */
+    protected minrots : {[s:string] : number} =  {
             '0': 90,
             '5'  : 120,
             '10'  : 150,
@@ -46,7 +65,11 @@ export class TimePickerController {
             '55' : 60
     };
 
-    public hourrots : {[s:string] : number} =  {
+    /**
+     * SVG rotations for the hour hand
+     * @type {{12: number, 1: number, 2: number, 3: number, 4: number, 5: number, 6: number, 7: number, 8: number, 9: number, 10: number, 11: number}}
+     */
+    protected hourrots : {[s:string] : number} =  {
         '12': 90,
         '1' : 120,
         '2': 150,
@@ -70,7 +93,7 @@ export class TimePickerController {
         }
 
         if (!_.isFunction(this.changed)){
-            this.changed = function(){};
+            this.changed = () => {};
         }
 
         //Round the date to the nearest next 5 minute tick
@@ -81,13 +104,17 @@ export class TimePickerController {
 
         this.setDaytime(this.currentMoment.format('a'));
 
-        $document.ready(function(){
-            this.selectMinute(  this.currentMoment.format('m') );
-            this.selectHour( this.currentMoment.format('h') );
-        }.bind(this));
+        $document.ready(() =>{
+            this.selectMinute( <any>this.currentMoment.format('m') );
+            this.selectHour( <any>this.currentMoment.format('h') );
+        });
 
     }
 
+    /**
+     * @viewfunction
+     * @param min
+     */
     selectMinute(min : number) {
         if (this.minrots.hasOwnProperty(min.toString())) {
             this.currentMoment.minute(min);
@@ -97,12 +124,23 @@ export class TimePickerController {
         }
     }
 
+    /**
+     * @viewfunction
+     * @param hour
+     */
     selectHour(hour : number) {
         if (this.hourrots.hasOwnProperty(hour.toString())) {
-            var hour24 = this.ispm ? hour +12 : hour;
+            var hour24 : number;
 
-            if (hour24 === 24) {
-                hour24 = 0;
+            if (this.ispm) {
+                hour24 = hour + 12;
+                if (hour24 === 24){
+                    hour24 = 12;
+                }
+            } else {
+                if (hour === 12) {
+                    hour24 = 0;
+                }
             }
 
             this.currentMoment.hour(hour24);
@@ -121,7 +159,7 @@ export class TimePickerController {
         this.rotateTransforms(transforms, rot);
     }
 
-    setDaytime(daytime) : void {
+    setDaytime(daytime : string) : void {
         this.daytime = daytime;
 
         var hour = this.currentMoment.hour();
@@ -142,17 +180,23 @@ export class TimePickerController {
         }
     }
 
+    /**
+     * @viewfunction
+     */
     setAM () {
         this.setDaytime(TimePickerController.AM);
     }
 
+    /**
+     * @viewfunction
+     */
     setPM () {
         this.setDaytime(TimePickerController.PM);
     }
 
     getMinuteMarker () : SVGGElement {
         if (this.minutemarker === null) {
-            this.minutemarker = <SVGGElement>document.getElementById('background-minute');
+            this.minutemarker = <any>document.getElementById('background-minute');
         }
 
         return this.minutemarker;
@@ -160,7 +204,7 @@ export class TimePickerController {
 
     getHourMarker () : SVGGElement {
         if (this.hourmarker === null) {
-            this.hourmarker = <SVGGElement>document.getElementById('background-hour');
+            this.hourmarker = <any>document.getElementById('background-hour');
         }
 
         return this.hourmarker;
@@ -171,7 +215,7 @@ export class TimePickerController {
      */
      rotateTransforms(transforms : SVGTransformList, rot : number) {
         var len = transforms.numberOfItems,
-            item;
+            item : SVGTransform;
 
         for( var i = 0; i < len; i++ ) {
             item = transforms.getItem(i);

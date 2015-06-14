@@ -12,7 +12,7 @@ import _ = require('lodash');
 /**
  * AuthService
  */
-class AuthService {
+export class AuthService {
 
     private currentuser : any;
     //Dependencies
@@ -127,5 +127,3 @@ class AuthService {
         return this.currentuser instanceof User.User && this.currentuser.usertype !== User.User.TYPE_GUEST;
     }
 }
-
-export = AuthService;

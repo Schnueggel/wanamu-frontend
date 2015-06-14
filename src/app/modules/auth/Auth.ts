@@ -1,7 +1,7 @@
 ///<reference path="./auth.d.ts" />
 'use strict';
 
-import AuthService = require('./services/AuthService');
+import {AuthService} from './services/AuthService';
 import IsAuthDirective = require('./isauth/IsAuthDirective');
 /**
  * Module name
@@ -103,7 +103,7 @@ export class LogoutController {
         auth
             .logout()
             .then(function () {})
-            .catch(function (err) {
+            .catch(function (err : any) {
                 console.log(err);
             }).finally(function () {
                 $state.go('panel.view.login');

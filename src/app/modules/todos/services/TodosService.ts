@@ -4,7 +4,7 @@
 'use strict';
 
 import Todo = require('../../../models/Todo');
-import AuthService = require('../../auth/services/AuthService');
+import {AuthService} from '../../auth/services/AuthService';
 import {User} from '../../../models/User';
 import {TodoList} from '../../../models/TodoList';
 

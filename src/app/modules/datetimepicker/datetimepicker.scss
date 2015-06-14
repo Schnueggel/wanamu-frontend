@@ -2,7 +2,7 @@
     max-height: initial;
     .daygrid {
         width: 100%;
-        md-grid-tile button{
+        md-grid-tile button {
             width: 100%;
             margin: 0;
             min-width: 0;
@@ -18,30 +18,14 @@
     border: 0 !important;
     padding-bottom: 0px !important;
 }
-.wu-datepicker-week-days,
-.wu-datepicker-days {
-    font-size: 0.75rem;
-}
-.wu-datepicker-week-days .md-button,
-.wu-datepicker-days .md-button,
-.wu-datepicker-week-days > *,
-.wu-datepicker-days > * {
-    width: 22px;
-    height: 22px;
-    line-height : 22px;
-    margin: 0;
-    padding: 0;
-    min-width: 0px;
-    min-height: 0px;
-}
 .wu-datepicker-monthyear,
-.wu-datepicker-dow {
-    font-size: 0.8125rem;
-    min-height: 22px;
-}
+
 .wu-datepicker-monthyear {
     font-weight: bold;
     width: 100%;
+    button[disabled] svg {
+        fill: gray;
+    }
 }
 .wu-datepicker-monthyear .md-button.md-icon-button {
     height: 36px;
@@ -72,23 +56,6 @@
     margin-left: 10px;
 }
 
-.wu-datepicker.portrait {
-    width: 244px;
-}
-.wu-datepicker.portrait .wu-datepicker-calendar {
-    margin-left: 0;
-    text-align: center;
-    overflow: auto;
-}
-.wu-datepicker.portrait .wu-datepicker-date {
-    padding: 10px 0;
-}
-.wu-datepicker.portrait .wu-datepicker-dow,
-.wu-datepicker.portrait .wu-datepicker-date,
-.wu-datepicker.portrait .wu-datepicker-calendar {
-    padding-left: 10px;
-    padding-right: 10px;
-}
 .wu-datepicker-days {
     font-size: 1rem;
     max-width: 100%;

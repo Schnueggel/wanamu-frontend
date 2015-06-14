@@ -1,5 +1,5 @@
-export function lpad() {
-    return function(input, len, pad){
+export function lpad() : Function {
+    return function(input : any, len : number, pad : string){
         input = input.toString();
         if(input.length >= len) return input;
         else{

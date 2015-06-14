@@ -3,7 +3,7 @@
  */
 
 import Todo = require('../../../models/Todo');
-import AuthService = require('../../auth/services/AuthService')
+import {AuthService} from '../../auth/services/AuthService';
 /**
  * Controls the TodoList
  */
