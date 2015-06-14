@@ -1,4 +1,3 @@
-/// <reference path="../../../libs/angular/angular.d.ts" />
 'use strict';
 
 import _ = require('lodash');
@@ -15,7 +14,7 @@ export function wuTodo(): angular.IDirective {
             todo: '=todo',
             setting :'=setting'
         },
-        controllerAs: 'Ctrl',
+        controllerAs: 'Todo',
         controller : TodoController ,
         template : require('./todo.html'),
         restrict: "E"

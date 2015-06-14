@@ -29,15 +29,15 @@ export class DateTimePickerController {
     /**
      * @scopevar
      */
-    public changed:Function;
+    public changed: Function;
     /**
      * @scopevar
      */
-    public allowpast:boolean;
+    public allowpast: boolean;
     /**
      * @scopevar
      */
-    public yearrange:YearRange
+    public yearrange: dateTimePicker.YearRange
 
     constructor() {
         if (!(this.date instanceof Date)) {

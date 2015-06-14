@@ -47,7 +47,7 @@ export class DatePickerController {
     /**
      * @scopevar
      */
-    public yearrange : {min: number, max: number};
+    public yearrange : dateTimePicker.YearRange;
     /**
      * Callback function triggered on date change
      * @scopevar
@@ -76,7 +76,7 @@ export class DatePickerController {
         if (!_.isFunction(this.changed)){
             this.changed = () =>{};
         }
-        if (!_.isObject(this.yearrange)) {
+        if (!_.isPlainObject(this.yearrange)) {
             this.yearrange = {min: 3, max: 3};
         }
 
@@ -149,7 +149,7 @@ export class DatePickerController {
             firstDay : number  = moment(this.currentMoment).date(1).day(),
             arr : Array<any> = [],
             minday : number = 0,
-            dayconf : {day : number, disabled : boolean, valid: boolean};
+            dayconf : dateTimePicker.DayConf;
 
         if (!this.hasprevmonth) {
             minday = this.nowMoment.date();

@@ -1,4 +1,4 @@
-///<reference path="../../libs/angular/angular.d.ts" />
+///<reference path="../../libs/angularjs/angular.d.ts" />
 
 declare module wanamu {
     interface LoginForm extends angular.IFormController {

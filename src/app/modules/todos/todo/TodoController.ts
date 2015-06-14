@@ -4,13 +4,13 @@
 'use strict';
 import _ = require('lodash');
 import Todo = require('../../../models/Todo');
-import {TodosService} from '../services/TodosService';
 
 /**
  * This Controller manages a single TodoDirective
  */
 export class TodoController {
-    static $inject : Array<string> = [];
+    static $inject : Array<string> = ['wuDateDialog'];
+
     public static currentInEdit : TodoController = null;
 
     public edit : boolean = false;
@@ -19,8 +19,9 @@ export class TodoController {
     public colors : wanamu.IColor;
     public setting : wanamu.ISetting;
     public currentColor : {};
+    public alarm : Date;
 
-    constructor() {
+    constructor(public wuDateDialog: wanamu.dialogs.DateDialogService ) {
         this.edit = false;
         this.editcolors = false;
         this.colors = this.setting.colors();
@@ -73,4 +74,23 @@ export class TodoController {
         }
         this.edit = edit;
     };
+
+    /**
+     * @viewfunction
+     * @param ev
+     */
+    setAlarm (ev : angular.IAngularEvent) {
+        console.log(ev);
+        var alarm;
+        if ( !(this.alarm instanceof Date) ) {
+            alarm = new Date();
+        }
+        else {
+            alarm = this.alarm;
+        }
+
+        this.wuDateDialog.show(alarm, ev).then((alarm) => {
+            this.alarm = alarm;
+        });
+    }
 }

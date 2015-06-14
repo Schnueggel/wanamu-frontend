@@ -1,4 +1,3 @@
-/// <reference path="../../../libs/angular/angular.d.ts" />
 'use strict';
 import {AuthService} from '../services/AuthService';
 

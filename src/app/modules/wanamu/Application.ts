@@ -1,10 +1,10 @@
-/// <reference path="../../libs/angular/angular.d.ts" />
 'use strict';
 import Auth = require('../auth/Auth');
 import Menu = require('../menu/Menu');
 import Panel = require('../panel/Panel');
 import Todos = require ('../todos/Todos');
 import {DateTimePickerModule} from '../datetimepicker/datetimepicker';
+import {DialogsModule} from '../dialogs/dialogs';
 import HttpInterceptor = require('./services/HttpInterceptor');
 import UserDataSource = require('../../datasources/UserDataSource');
 
@@ -21,6 +21,7 @@ module wanamu {
         Todos.name,
         Menu.name,
         DateTimePickerModule.name,
+        DialogsModule.name,
         'pascalprecht.translate'
     ]);
 

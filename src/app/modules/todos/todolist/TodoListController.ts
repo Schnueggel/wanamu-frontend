@@ -13,10 +13,6 @@ class TodoListController {
     public list : Todo[];
     public setting : wanamu.ISetting;
     public currentTodoListId : number = null;
-    /**
-     * TODO REMOVE THIS
-     */
-    public currentdate : Date;
 
     constructor(
         public $state: ngui.IStateService,
@@ -26,8 +22,7 @@ class TodoListController {
             $state.go('panel.view.login');
             return;
         }
-        // TODO REMOVE THIS ITS FOR TESTING ONLY
-        this.currentdate = new Date();
+
         this.loadTodoList();
         this.setting = auth.currentUser().Setting;
     }

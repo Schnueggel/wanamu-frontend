@@ -157,6 +157,10 @@ html .header {
         line-height: 30px;
     }
 }
+md-dialog {
+    min-width: 700px;
+    max-height: 90%;
+}
 
 html .panel {
     width: 100%;

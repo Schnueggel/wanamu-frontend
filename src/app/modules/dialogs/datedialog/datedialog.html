@@ -1,0 +1,14 @@
+<md-dialog aria-label="Datepicker Dialog" class="datedialog">
+    <md-dialog-content>
+        <wu-date-time-picker date="DateDialog.date" allowpast="false"></wu-date-time-picker>
+    </md-dialog-content>
+    <div class="md-actions" layout="row">
+        <span flex></span>
+        <md-button ng-click="DateDialog.ok(DateDialog.date)" class="md-primary" arial-labe="ok">
+            OK
+        </md-button>
+        <md-button ng-click="DateDialog.cancel()" class="md-primary" arial-label="cancel">
+            Cancel
+        </md-button>
+    </div>
+</md-dialog>
