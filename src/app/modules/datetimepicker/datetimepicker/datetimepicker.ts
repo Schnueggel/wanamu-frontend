@@ -3,12 +3,17 @@
  */
 'use strict';
 
+import _ = require('lodash');
+
 export function datetimepicker() {
     return  {
         scope: true,
         restrict: 'EA',
         bindToController: {
-            date: '=date'
+            date: '=',
+            yearrange: '&?',
+            changed : '&?',
+            allowpast : '&?'
         },
         controllerAs: 'DateTimePicker',
         template: require('./datetimepicker.html'),
@@ -17,14 +22,28 @@ export function datetimepicker() {
 }
 
 export class DateTimePickerController {
-    public date : Date;
+    /**
+     * @scopevar
+     */
+    public date:Date;
+    /**
+     * @scopevar
+     */
+    public changed:Function;
+    /**
+     * @scopevar
+     */
+    public allowpast:boolean;
+    /**
+     * @scopevar
+     */
+    public yearrange:YearRange
 
-    constructor(){
+    constructor() {
+        if (!(this.date instanceof Date)) {
+            this.date = new Date();
+        }
+        //We dont support seconds
         this.date.setSeconds(0);
     }
-
-    changed () {
-        console.log(this.date);
-    }
 }
-DateTimePickerController.$inject = ['$timeout'];

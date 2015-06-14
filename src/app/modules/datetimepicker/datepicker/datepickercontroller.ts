@@ -3,6 +3,7 @@
 import _  = require('lodash');
 import moment = require('moment');
 
+
 export class DatePickerController {
 
     static $inject : Array<string> = [];
@@ -42,7 +43,7 @@ export class DatePickerController {
      * @scopevar
      * @type {boolean}
      */
-    public allowPast : boolean = true;
+    public allowPast : boolean;
     /**
      * @scopevar
      */
@@ -62,6 +63,11 @@ export class DatePickerController {
      * DatePickerController
      */
     constructor() {
+
+        if (!(this.date instanceof Date)) {
+            this.date = new Date();
+        }
+
         this.currentMoment = moment(this.date);
         this.nowMoment = moment();
 
@@ -72,6 +78,10 @@ export class DatePickerController {
         }
         if (!_.isObject(this.yearrange)) {
             this.yearrange = {min: 3, max: 3};
+        }
+
+        if (!_.isBoolean(this.allowPast)) {
+            this.allowPast = true;
         }
 
         this.year = this.currentMoment.year();

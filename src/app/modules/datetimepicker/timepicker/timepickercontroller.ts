@@ -88,11 +88,11 @@ export class TimePickerController {
      *
      */
     constructor($document : angular.IDocumentService) {
-        if ( !(this.date instanceof Date)){
+        if ( !(this.date instanceof Date)) {
             this.date = new Date();
         }
 
-        if (!_.isFunction(this.changed)){
+        if (!_.isFunction(this.changed)) {
             this.changed = () => {};
         }
 
