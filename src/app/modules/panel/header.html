@@ -1,12 +1,12 @@
 <md-toolbar class="header md-accent">
     <div class="md-toolbar-tools">
         <span ng-if="!Header.menuopen">
-             <md-button class="md-icon-button" ui-sref="panel.view.menu" ng-class="{open: Header.menuopen}" >
+             <md-button class="md-icon-button md-primary md-raised" ui-sref="panel.view.menu" ng-class="{open: Header.menuopen}">
                  <md-icon alt="Menu Icon" md-font-library="material-icons">&#xE5D2;</md-icon>
              </md-button>
         </span>
        <span ng-if="Header.menuopen">
-            <md-button class="md-icon-button" ui-sref="{{Header.laststate}}" ng-class="{open: Header.menuopen}" >
+            <md-button class="md-icon-button md-primary md-raised" ui-sref="{{Header.laststate}}" ng-class="{open: Header.menuopen}" >
                 <md-icon alt="Menu Icon" md-font-library="material-icons">&#xE5CB;</md-icon>
             </md-button>
        </span>
