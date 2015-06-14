@@ -148,9 +148,9 @@ export class DatePickerController {
      * @returns {Array<number>}
      */
     getDaysInMonth() : Array<number> {
-        var days : number = this.currentMoment.daysInMonth(),
+        var weekdays : number = this.currentMoment.daysInMonth(),
             firstDay : number  = moment(this.currentMoment).date(1).day(),
-            arr : Array<any> = [],
+            days : Array<any> = [],
             minday : number = 0,
             dayconf : wanamu.dateTimePicker.DayConf;
 
@@ -158,9 +158,9 @@ export class DatePickerController {
             minday = this.nowMoment.date();
         }
 
-        for (var i = 1; i <= (firstDay + days); i++) {
+        for (var i = 1; i <= (firstDay + weekdays); i++) {
             dayconf = {day: (i - firstDay), disabled : false, valid: true};
-            arr.push(dayconf);
+            days.push(dayconf);
 
             if (i > firstDay ) {
                 // Allow past days
@@ -173,7 +173,15 @@ export class DatePickerController {
             }
         }
 
-        return arr;
+        // Fill up the array to 36 field so we have always 6 rows in the day picker
+        // This prevents change of size when selecting a month that needs 6 rows to display days
+        dayconf = {day: 0, disabled : true, valid: false};
+
+        for( var i = days.length; i < 37; i++ ) {
+            days.push(dayconf);
+        }
+
+        return days;
     }
 
     /**
