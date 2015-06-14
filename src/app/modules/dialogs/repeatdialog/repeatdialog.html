@@ -1,21 +1,52 @@
-<md-dialog aria-label="Datepicker Dialog" class="datedialog" flex flex-md="100">
+<md-dialog aria-label="Repeat Dialog" class="repeatdialog" flex flex-md="100">
+    <md-toolbar>
+        <md-switch ng-model="RepeatDialog.repeat" aria-label="Switch Weekly" class="md-primary md-hue-3">
+            Enable alarm interval
+        </md-switch>
+    </md-toolbar>
     <md-dialog-content>
-        <div layout="row">
-            <md-button flex ng-click="selectDay('mo')" class="md-primary" ng-class="{'md-raised' : !RepeatDialog.">Mo</md-button>
-            <md-button flex>Tu</md-button>
-            <md-button flex>We</md-button>
-            <md-button flex>Th</md-button>
-            <md-button flex>Fr</md-button>
-            <md-button flex>Sa</md-button>
-            <md-button flex>Su</md-button>
+        <div layout="row" class="weekdays">
+            <md-button ng-repeat="(day, selected) in RepeatDialog.weekdays" flex ng-click="RepeatDialog.selectWeekly(day)" class="md-primary"
+                       ng-class="{'md-raised' : !RepeatDialog.weekdays[day]}" ng-disabled="!RepeatDialog.repeat">
+                {{day}}
+            </md-button>
+        </div>
+        <div>
+            <md-switch ng-model="RepeatDialog.isMonthly" aria-label="Switch Monthly" ng-disabled="!RepeatDialog.repeat"
+                       ng-change="RepeatDialog.onIsMonthly(RepeatDialog.isMonthly)">
+                Monthly
+            </md-switch>
+            <div ng-if="RepeatDialog.isMonthly && RepeatDialog.repeat">
+                <h2 class="md-subhead">Repeat every:</h2>
+                <md-grid-list
+                    md-cols="7"
+                    md-row-height="1.5:1"
+                    md-gutter="0"
+                    class="daygrid"
+                    >
+                    <md-grid-tile
+                        ng-repeat="n in RepeatDialog.daysInMonth"
+                        >
+                        <md-button
+                            aria-label="day selection"
+                            ng-class="{'md-raised': RepeatDialog.monthly == n}"
+                            ng-click="RepeatDialog.selectMonthly(n)">
+                            {{ n }}
+                        </md-button>
+                    </md-grid-tile>
+                </md-grid-list>
+            </div>
+            <md-switch ng-model="RepeatDialog.yearly" aria-label="Switch Yearly" ng-disabled="!RepeatDialog.repeat">
+                Yearly
+            </md-switch>
         </div>
     </md-dialog-content>
     <div class="md-actions" layout="row">
         <span flex></span>
-        <md-button ng-click="DateDialog.ok(DateDialog.date)" class="md-primary" arial-labe="ok">
+        <md-button ng-click="RepeatDialog.ok()" class="md-primary" arial-labe="ok">
             OK
         </md-button>
-        <md-button ng-click="DateDialog.cancel()" class="md-primary" arial-label="cancel">
+        <md-button ng-click="RepeatDialog.cancel()" class="md-primary" arial-label="cancel">
             Cancel
         </md-button>
     </div>

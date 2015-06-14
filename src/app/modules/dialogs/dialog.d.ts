@@ -12,7 +12,26 @@ declare module wanamu {
         interface RepeatDialogService {
             $mdDialog : angularmaterial.MDDialogService,
 
-            show (date: Date, ev?: MouseEvent) : angular.IPromise<Date>;
+            show (repeatoptions : RepeatOptions, ev?: MouseEvent) : angular.IPromise<RepeatOptions>;
+        }
+
+        interface RepeatOptions {
+            [index: string]: any;
+            yearly: string;
+            monthly : string;
+            repeat : boolean;
+            weekly : Array<string>;
+        }
+
+        interface WeekDays {
+            [index: string]: boolean;
+            mo : boolean;
+            tu : boolean;
+            we : boolean;
+            th : boolean;
+            fr : boolean;
+            sa : boolean;
+            su : boolean;
         }
     }
 }

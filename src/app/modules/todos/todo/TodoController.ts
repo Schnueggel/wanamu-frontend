@@ -5,11 +5,12 @@
 import _ = require('lodash');
 import Todo = require('../../../models/Todo');
 
+
 /**
  * This Controller manages a single TodoDirective
  */
 export class TodoController {
-    static $inject : Array<string> = ['wuDateDialog'];
+    static $inject : Array<string> = ['wuDateDialog', 'wuRepeatDialog'];
 
     public static currentInEdit : TodoController = null;
 
@@ -21,7 +22,14 @@ export class TodoController {
     public currentColor : {};
     public alarm : Date;
 
-    constructor(public wuDateDialog: wanamu.dialogs.DateDialogService ) {
+    public repeat : boolean;
+    public yearly : string;
+    public monthly : string;
+    public weekly : Array<string>;
+
+    constructor(public wuDateDialog: wanamu.dialogs.DateDialogService,
+                public wuRepeatDialog: wanamu.dialogs.RepeatDialogService ) {
+
         this.edit = false;
         this.editcolors = false;
         this.colors = this.setting.colors();
@@ -31,6 +39,14 @@ export class TodoController {
         // New Todos dont have and ID
         if (!_.isNumber(this.todo.id)) {
             this.editTodo(true);
+        }
+
+        if ( !_.isArray(this.weekly)) {
+            this.weekly = [];
+        }
+
+        if ( !_.isBoolean(this.repeat)) {
+            this.repeat = false;
         }
     }
 
@@ -73,6 +89,25 @@ export class TodoController {
             TodoController.currentInEdit = null;
         }
         this.edit = edit;
+    };
+
+    setRepeat(ev : MouseEvent) {
+        var inopts : wanamu.dialogs.RepeatOptions = {
+            monthly: this.monthly,
+            yearly: this.yearly,
+            weekly: this.weekly,
+            repeat: this.repeat
+        };
+        this.wuRepeatDialog.show(inopts, ev)
+            .then(this.onRepeatDialogSuccess);
+    }
+
+    /**
+     * @callback
+     * @param opts
+     */
+    onRepeatDialogSuccess = (opts : wanamu.dialogs.RepeatOptions) : void => {
+        _.assign(this, opts);
     };
 
     /**

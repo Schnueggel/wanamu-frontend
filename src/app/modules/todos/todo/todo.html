@@ -26,9 +26,9 @@
                         <md-icon class="material-icons" md-font-library="material-icons">&#xE191;</md-icon>
                         <span>{{Todo.alarm | date : 'yyyy-MM-dd' }}</span>
                     </md-button>
-                    <md-button class="md-raised md-primary">
+                    <md-button class="md-raised md-primary repeat-button" arial-label="Select alarm interval" ng-click="Todo.setRepeat($event)">
                         <md-icon class="material-icons" md-font-library="material-icons">&#xE040;</md-icon>
-                        <span>Weekly..</span>
+                        <span>{{Todo.repeattext}}</span>
                     </md-button>
                     <span flex></span>
                     <md-button class="md-raised md-primary">

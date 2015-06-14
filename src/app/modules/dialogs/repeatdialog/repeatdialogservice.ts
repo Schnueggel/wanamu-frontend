@@ -21,12 +21,8 @@ export class RepeatDialogService implements wanamu.dialogs.RepeatDialogService {
      * @param ev
      * @returns {Promise}
      */
-    public show (date : Date, ev : MouseEvent) : angular.IPromise<Date> {
+    public show (repeatopts : wanamu.dialogs.RepeatOptions , ev : MouseEvent) : angular.IPromise<wanamu.dialogs.RepeatOptions> {
 
-        if ( !(date instanceof  Date) ) {
-            console.error('DateDialog expect a Date Object');
-            return;
-        }
         var doc : Document = <any>this.$document[0];
 
         var opts : angularmaterial.MDDialogOptions = <angularmaterial.MDDialogOptions>{
@@ -35,14 +31,13 @@ export class RepeatDialogService implements wanamu.dialogs.RepeatDialogService {
             targetEvent : ev,
             controller: RepeatDialogController,
             bindToController: true,
-            locals : {
-                selected : date,
-                changed : () => {}
-            },
-            controllerAs : 'DateDialog',
+            controllerAs : 'RepeatDialog',
             clickOutsideToClose: true,
             escapeToClose : true,
         };
+
+        opts.locals = repeatopts;
+
         return this.$mdDialog.show(opts);
     }
 }
