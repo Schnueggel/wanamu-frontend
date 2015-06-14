@@ -1,0 +1,22 @@
+<md-dialog aria-label="Datepicker Dialog" class="datedialog" flex flex-md="100">
+    <md-dialog-content>
+        <div layout="row">
+            <md-button flex ng-click="selectDay('mo')" class="md-primary" ng-class="{'md-raised' : !RepeatDialog.">Mo</md-button>
+            <md-button flex>Tu</md-button>
+            <md-button flex>We</md-button>
+            <md-button flex>Th</md-button>
+            <md-button flex>Fr</md-button>
+            <md-button flex>Sa</md-button>
+            <md-button flex>Su</md-button>
+        </div>
+    </md-dialog-content>
+    <div class="md-actions" layout="row">
+        <span flex></span>
+        <md-button ng-click="DateDialog.ok(DateDialog.date)" class="md-primary" arial-labe="ok">
+            OK
+        </md-button>
+        <md-button ng-click="DateDialog.cancel()" class="md-primary" arial-label="cancel">
+            Cancel
+        </md-button>
+    </div>
+</md-dialog>

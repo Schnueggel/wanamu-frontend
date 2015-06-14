@@ -9,5 +9,10 @@ declare module wanamu {
 
             show (date: Date, ev?: MouseEvent) : angular.IPromise<Date>;
         }
+        interface RepeatDialogService {
+            $mdDialog : angularmaterial.MDDialogService,
+
+            show (date: Date, ev?: MouseEvent) : angular.IPromise<Date>;
+        }
     }
 }
