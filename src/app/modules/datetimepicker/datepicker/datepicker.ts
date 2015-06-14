@@ -1,4 +1,4 @@
-import {DatePickerController} from './../datetimepicker/datepickercontroller';
+import {DatePickerController} from './datepickercontroller';
 
 import moment = require('moment');
 
