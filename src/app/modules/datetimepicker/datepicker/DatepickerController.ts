@@ -1,68 +1,191 @@
-/**
- * Created by Schnueggel on 10.06.2015.
- */
 /// <reference path="../../../libs/moment/moment-node.d.ts" />
 'use strict';
 import _  = require('lodash');
 import moment = require('moment');
 
-export class DatepickerController {
+export class DatePickerController {
 
-    static $inject = ['$scope', '$mdDialog', 'currentDate', '$mdMedia'];
-
-    public datedata:datepicker.DataModel = <any>{};
+    static $inject : Array<string> = [];
+    /**
+     * @viewvar
+     */
     public year: number;
-    public yearOptions: number;
-    public weekDays: any;
+    /**
+     * @viewvar
+     */
+    public weekDays: Array<string>;
+    /**
+     * Moment wrapper for currentdate
+     * @viewvar
+     */
     public currentMoment: momentM.Moment;
-    public yearsOptions:Array = [];
+    /**
+     * @viewvar
+     * @type {Array}
+     */
+    public yearsOptions: Array<number> = [];
+    /**
+     * @viewvar
+     * @type {boolean}
+     */
+    public hasprevmonth: boolean = true;
+    /**
+     * @viewvar
+     */
+    public daysInMonth : Array<any>;
 
-    constructor(public $scope:angular.IScope, public $mdDialog: any, public currentDate:any, public $mdMedia: any) {
-        this.currentMoment = moment(this.datedata.date);
+    /**
+     * @scopevar
+     */
+    public date : Date;
+    /**
+     * @scopevar
+     * @type {boolean}
+     */
+    public allowPast : boolean = true;
+    /**
+     * @scopevar
+     */
+    public yearrange : {min: number, max: number};
+    /**
+     * Callback function triggered on date change
+     * @scopevar
+     */
+    public changed : Function;
+
+    /**
+     * Now
+     */
+    protected nowMoment : momentM.Moment;
+
+    /**
+     * DatePickerController
+     */
+    constructor() {
+        this.currentMoment = moment(this.date);
+        this.nowMoment = moment();
+
         this.weekDays = moment.weekdaysMin();
+
+        if (!_.isFunction(this.changed)){
+            this.changed = () =>{};
+        }
+        if (!_.isObject(this.yearrange)) {
+            this.yearrange = {min: 3, max: 3};
+        }
+
+        this.year = this.currentMoment.year();
+
+        this.calcYearOptions();
+        this.setYear();
+    }
+
+    /**
+     * Check if prev month is allowed and if prev month is in the past
+     * @returns {boolean}
+     */
+    hasPrevMonth() : boolean  {
+
+        return !(!this.allowPast && this.currentMoment.month() === this.nowMoment.month() && this.currentMoment.year() === this.nowMoment.year());
+    }
+
+    /**
+     * Calculate the options for the year selection
+     */
+    calcYearOptions() {
+        var max : number, min : number;
+
         this.yearsOptions = [];
 
-        for (var i = this.currentMoment.year(); i <= (this.currentMoment.year() + 3); i++) {
+        if (!this.allowPast) {
+            min = this.nowMoment.year();
+        } else {
+            min = this.nowMoment.year() - this.yearrange.min;
+        }
+        max = this.nowMoment.year() + this.yearrange.max;
+
+        for (var i = min; i <= max; i++) {
             this.yearsOptions.push(i);
         }
-        this.year = this.currentMoment.year();
     }
-
+    /**
+     * Sets the current year
+     * @viewfunction
+     */
     setYear() {
         this.currentMoment.year(this.year);
+        this.calcMonth();
+        this.date.setFullYear(this.year);
+        this.changed();
     }
 
-    selectDate(dom : number) {
-        console.log(dom);
+    /**
+     * Sets the current day
+     * @viewfunction
+     * @param dom
+     */
+    selectDate(dom : number) :void {
         this.currentMoment.date(dom);
+        this.date.setDate(dom);
+        this.changed();
     }
 
-    cancel() {
-        this.$mdDialog.cancel();
-    }
+    /**
+     * Calculates the days in the month
+     * @returns {Array<number>}
+     */
+    getDaysInMonth() : Array<number> {
+        var days : number = this.currentMoment.daysInMonth(),
+            firstDay : number  = moment(this.currentMoment).date(1).day(),
+            arr : Array<any> = [],
+            minday : number = 0,
+            dayconf : {day : number, disabled : boolean, valid: boolean};
 
-    confirm() {
-        this.$mdDialog.hide(this.currentMoment.toDate());
-    }
+        if (!this.hasprevmonth) {
+            minday = this.nowMoment.date();
+        }
 
-    getDaysInMonth() {
-        var days = this.currentMoment.daysInMonth(),
-            firstDay = moment(this.currentMoment).date(1).day();
+        for (var i = 1; i <= (firstDay + days); i++) {
+            dayconf = {day: (i - firstDay), disabled : false, valid: true};
+            arr.push(dayconf);
 
-        var arr = [];
-        for (var i = 1; i <= (firstDay + days); i++)
-            arr.push(i > firstDay ? (i - firstDay) : false);
+            if (i > firstDay ) {
+                // Allow past days
+                if (dayconf.day < minday) {
+                    dayconf.disabled = true;
+                }
+            } else {
+                // If a weekday belongs to the old we make this day invalid
+                dayconf.valid = false;
+            }
+        }
 
         return arr;
     }
 
+    /**
+     * Calcs the days in month and check if prev month is allowed
+     */
+    calcMonth () {
+        this.hasprevmonth = this.hasPrevMonth();
+        this.daysInMonth = this.getDaysInMonth();
+    }
+
+    /**
+     * @viewfunction
+     */
     nextMonth() {
         this.currentMoment.add(1, 'months');
         this.year = this.currentMoment.year();
+        this.calcMonth()
     }
 
+    /**
+     * @viewfunction
+     */
     prevMonth() {
         this.currentMoment.subtract(1, 'months');
         this.year = this.currentMoment.year();
+        this.calcMonth();
     }
 }
