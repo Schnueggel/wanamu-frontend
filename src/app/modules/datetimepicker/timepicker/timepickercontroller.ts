@@ -92,9 +92,13 @@ export class TimePickerController {
             this.date = new Date();
         }
 
-        if (!_.isFunction(this.changed)) {
-            this.changed = () => {};
+        //unwrap
+        if (_.isFunction(this.changed)){
+            this.changed = this.changed();
+        } else {
+            this.changed = () =>{};
         }
+
 
         //Round the date to the nearest next 5 minute tick
         var coeff = 1000 * 60 * 5;

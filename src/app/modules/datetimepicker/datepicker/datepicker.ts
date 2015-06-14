@@ -8,9 +8,9 @@ export function datepicker() {
         restrict: 'EA',
         bindToController: {
             date: '=',
-            changed:  '&',
-            allowpast: '&?',
-            yearrange: '&?'
+            changed:  '&?',
+            allowpast: '=?',
+            yearrange: '=?'
         },
         controllerAs: 'DatePicker',
         template : require('./datepicker.html'),

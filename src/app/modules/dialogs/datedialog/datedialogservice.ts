@@ -3,31 +3,7 @@
  */
 'use strict';
 
-export class DateDialogController {
-
-    /**
-     * @scopevar
-     * @viewvar
-     */
-    public date : Date;
-
-    constructor(public $scope : angular.IScope, public $mdDialog : angularmaterial.MDDialogService) {}
-
-    /**
-     * @viewfunction
-     * @param date
-     */
-    ok(date : Date) {
-        this.$mdDialog.hide(date);
-    }
-
-    /**
-     * @viewfunction
-     */
-    cancel() {
-        this.$mdDialog.cancel();
-    }
-}
+import {DateDialogController} from './datedialog';
 
 /**
  * Service for opening the Dialog
@@ -45,7 +21,7 @@ export class DateDialogService implements wanamu.dialogs.DateDialogService {
      * @param ev
      * @returns {Promise}
      */
-    public show (date : Date, ev : ng.IAngularEvent) : angular.IPromise {
+    public show (date : Date, ev : MouseEvent) : angular.IPromise<Date> {
 
         if ( !(date instanceof  Date) ) {
             console.error('DateDialog expect a Date Object');
@@ -59,15 +35,14 @@ export class DateDialogService implements wanamu.dialogs.DateDialogService {
             controller: DateDialogController,
             bindToController: true,
             locals : {
-                date : date
+                date : date,
+                allowpast : false,
+                changed : () => {console.log('hund');}
             },
             controllerAs : 'DateDialog',
             clickOutsideToClose: true,
             escapeToClose : true,
         };
-
-
-        console.log(opts);
 
         return this.$mdDialog.show(opts);
     }

@@ -1,6 +1,3 @@
-/**
- * Created by Schnueggel on 13.06.2015.
- */
 'use strict';
 
 import _ = require('lodash');
@@ -11,9 +8,9 @@ export function datetimepicker() {
         restrict: 'EA',
         bindToController: {
             date: '=',
-            yearrange: '&?',
+            yearrange: '=?',
             changed : '&?',
-            allowpast : '&?'
+            allowpast : '=?'
         },
         controllerAs: 'DateTimePicker',
         template: require('./datetimepicker.html'),
@@ -37,9 +34,14 @@ export class DateTimePickerController {
     /**
      * @scopevar
      */
-    public yearrange: dateTimePicker.YearRange
+    public yearrange: wanamu.dateTimePicker.YearRange;
 
     constructor() {
+        //unwrap callback
+        if (_.isFunction(this.changed)) {
+            this.changed = this.changed();
+        }
+
         if (!(this.date instanceof Date)) {
             this.date = new Date();
         }

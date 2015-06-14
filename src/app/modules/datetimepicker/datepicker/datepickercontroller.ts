@@ -3,7 +3,6 @@
 import _  = require('lodash');
 import moment = require('moment');
 
-
 export class DatePickerController {
 
     static $inject : Array<string> = [];
@@ -43,11 +42,11 @@ export class DatePickerController {
      * @scopevar
      * @type {boolean}
      */
-    public allowPast : boolean;
+    public allowpast : boolean;
     /**
      * @scopevar
      */
-    public yearrange : dateTimePicker.YearRange;
+    public yearrange : wanamu.dateTimePicker.YearRange;
     /**
      * Callback function triggered on date change
      * @scopevar
@@ -73,15 +72,19 @@ export class DatePickerController {
 
         this.weekDays = moment.weekdaysMin();
 
-        if (!_.isFunction(this.changed)){
+        //unwrap
+        if (_.isFunction(this.changed)){
+            this.changed = this.changed();
+        } else {
             this.changed = () =>{};
         }
+
         if (!_.isPlainObject(this.yearrange)) {
             this.yearrange = {min: 3, max: 3};
         }
 
-        if (!_.isBoolean(this.allowPast)) {
-            this.allowPast = true;
+        if (!_.isBoolean(this.allowpast)) {
+            this.allowpast = true;
         }
 
         this.year = this.currentMoment.year();
@@ -96,7 +99,7 @@ export class DatePickerController {
      */
     hasPrevMonth() : boolean  {
 
-        return !(!this.allowPast && this.currentMoment.month() === this.nowMoment.month() && this.currentMoment.year() === this.nowMoment.year());
+        return !(!this.allowpast && this.currentMoment.month() === this.nowMoment.month() && this.currentMoment.year() === this.nowMoment.year());
     }
 
     /**
@@ -107,7 +110,7 @@ export class DatePickerController {
 
         this.yearsOptions = [];
 
-        if (!this.allowPast) {
+        if (!this.allowpast) {
             min = this.nowMoment.year();
         } else {
             min = this.nowMoment.year() - this.yearrange.min;
@@ -134,9 +137,9 @@ export class DatePickerController {
      * @viewfunction
      * @param dom
      */
-    selectDate(dom : number) :void {
-        this.currentMoment.date(dom);
-        this.date.setDate(dom);
+    selectDate(dom : wanamu.dateTimePicker.DayConf) :void {
+        this.currentMoment.date(dom.day);
+        this.date.setDate(dom.day);
         this.changed();
     }
 
@@ -149,7 +152,7 @@ export class DatePickerController {
             firstDay : number  = moment(this.currentMoment).date(1).day(),
             arr : Array<any> = [],
             minday : number = 0,
-            dayconf : dateTimePicker.DayConf;
+            dayconf : wanamu.dateTimePicker.DayConf;
 
         if (!this.hasprevmonth) {
             minday = this.nowMoment.date();

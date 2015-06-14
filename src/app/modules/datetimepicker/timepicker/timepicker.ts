@@ -11,7 +11,7 @@ export function timepicker($templateCache : angular.ITemplateCacheService) {
         restrict: 'EA',
         bindToController: {
             date: '=date',
-            changed: '&'
+            changed: '&?'
         },
         controllerAs: 'TimePicker',
         template : require('./timepicker.html'),

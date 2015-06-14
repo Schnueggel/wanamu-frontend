@@ -80,7 +80,6 @@ export class TodoController {
      * @param ev
      */
     setAlarm (ev : angular.IAngularEvent) {
-        console.log(ev);
         var alarm;
         if ( !(this.alarm instanceof Date) ) {
             alarm = new Date();
