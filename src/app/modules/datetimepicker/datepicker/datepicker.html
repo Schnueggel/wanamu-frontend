@@ -39,7 +39,7 @@
                     <md-button
                         aria-label="day selection"
                         ng-if="n.valid === true"
-                        ng-class="{'md-raised': DatePicker.currentMoment.date() == n}"
+                        ng-class="{'md-raised': DatePicker.currentMoment.date() == n.day}"
                         ng-click="DatePicker.selectDate(n)"
                         ng-disabled="n.disabled">
                         {{ n.day }}
