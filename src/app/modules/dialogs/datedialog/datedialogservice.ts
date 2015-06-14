@@ -27,23 +27,23 @@ export class DateDialogService implements wanamu.dialogs.DateDialogService {
             console.error('DateDialog expect a Date Object');
             return;
         }
+        var doc : Document = <any>this.$document[0];
 
         var opts : angularmaterial.MDDialogOptions = <angularmaterial.MDDialogOptions>{
             template : require('./datedialog.html'),
-            parent: this.$document[0].body,
+            parent: <HTMLElement>doc.body,
             targetEvent : ev,
             controller: DateDialogController,
             bindToController: true,
             locals : {
                 date : date,
                 allowpast : false,
-                changed : () => {console.log('hund');}
+                changed : () => {}
             },
             controllerAs : 'DateDialog',
             clickOutsideToClose: true,
             escapeToClose : true,
         };
-
         return this.$mdDialog.show(opts);
     }
 }

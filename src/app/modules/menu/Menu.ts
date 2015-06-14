@@ -1,9 +1,3 @@
-/// <reference path="../../libs/angular/angular.d.ts" />
-/// <reference path="../../libs/angular/angular-ui-router.d.ts" />
-/**
- * Created by Christian on 5/23/2015.
- */
-
 'use strict';
 export var name = 'menu';
 

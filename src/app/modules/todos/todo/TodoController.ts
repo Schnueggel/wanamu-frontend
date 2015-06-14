@@ -79,8 +79,8 @@ export class TodoController {
      * @viewfunction
      * @param ev
      */
-    setAlarm (ev : angular.IAngularEvent) {
-        var alarm;
+    setAlarm (ev : MouseEvent) {
+        var alarm : Date;
         if ( !(this.alarm instanceof Date) ) {
             alarm = new Date();
         }
@@ -88,7 +88,7 @@ export class TodoController {
             alarm = this.alarm;
         }
 
-        this.wuDateDialog.show(alarm, ev).then((alarm) => {
+        this.wuDateDialog.show(alarm, ev).then((alarm : Date) => {
             this.alarm = alarm;
         });
     }

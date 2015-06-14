@@ -1,7 +1,3 @@
-/// <reference path="../../libs/angular/angular.d.ts" />
-/**
- * Created by Christian on 5/23/2015.
- */
 'use strict';
 
 import {AuthService} from '../auth/services/AuthService';

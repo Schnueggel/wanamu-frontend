@@ -3,10 +3,11 @@
  */
 
 declare module wanamu {
-    declare module dialogs {
+    module dialogs {
         interface DateDialogService {
-            $mdDialog : any,
-            show (date:Date, ev?:angular.IAngularEvent);
+            $mdDialog : angularmaterial.MDDialogService,
+
+            show (date: Date, ev?: MouseEvent) : angular.IPromise<Date>;
         }
     }
 }

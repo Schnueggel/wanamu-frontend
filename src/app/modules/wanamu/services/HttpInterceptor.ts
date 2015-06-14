@@ -1,5 +1,5 @@
-/// <reference path="../../../libs/angular/angular.d.ts" />
 'use strict';
+
 /**
  * This Module create a Service named auth and a directive named tdIsAuth
  * @param {Object} ngModule

@@ -1,6 +1,3 @@
-///<reference path="../../libs/angular/angular.d.ts" />
-///<reference path="./Todos.ts" />
-
 declare module wanamu {
 
     interface ITodoForm extends angular.IFormController {
