@@ -1,20 +1,21 @@
 /**
  * Created by Schnueggel on 08.06.2015.
  */
-'use strict';
 import _ = require('lodash');
 import Todo = require('../../../models/Todo');
+import {log, dirty} from '../../../decorators/decorators';
 
-
+'use strict';
 /**
  * This Controller manages a single TodoDirective
  */
 export class TodoController {
+
     static $inject : Array<string> = ['wuDateDialog', 'wuRepeatDialog'];
 
     public static currentInEdit : TodoController = null;
 
-    public edit : boolean = false;
+    private _edit : boolean = false;
     public todo : Todo;
     public editcolors : boolean;
     public colors : wanamu.IColor;
@@ -54,9 +55,13 @@ export class TodoController {
      * Set the color of the todo
      * @param color
      */
-    setColor = (color : string) : void => {
+    @log
+    setColor (color : string) : void {
         this.currentColor = {'background-color': this.setting.color(color) || 'white'};
-    };
+    }
+    @dirty
+    get edit () : boolean { return this._edit;}
+    set edit (val : boolean) {this._edit = val}
 
     done = () : void => {
         this.editTodo(false);

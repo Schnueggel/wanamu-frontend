@@ -1,7 +1,3 @@
-'use strict';
-/**
- * Created by Christian on 4/30/2015.
- */
 require('angular');
 require('angular-i18n/angular-locale_de-de');
 require('angular-ui-router');
