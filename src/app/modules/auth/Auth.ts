@@ -1,7 +1,7 @@
 ///<reference path="./auth.d.ts" />
 'use strict';
 
-import {AuthService} from './services/AuthService';
+import { AuthService } from './services/AuthService';
 import IsAuthDirective = require('./isauth/IsAuthDirective');
 /**
  * Module name

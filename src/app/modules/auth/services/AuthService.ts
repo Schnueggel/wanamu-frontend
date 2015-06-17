@@ -4,7 +4,7 @@
  * @param {Object} ngModule
  */
 
-import UserDataSource = require('../../../datasources/UserDataSource');
+import { UserDataSource }from '../../datasources/datasources';
 import User = require ('../../../models/User');
 import _ = require('lodash');
 
@@ -21,7 +21,7 @@ export class AuthService {
                 public $http:angular.IHttpService,
                 public $window:angular.IWindowService,
                 public constants : any,
-                public userDataSource : UserDataSource.UserDataSource
+                public userDataSource : UserDataSource
     ) {
 
         this.currentuser = null;
