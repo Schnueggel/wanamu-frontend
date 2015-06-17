@@ -8,7 +8,7 @@
  */
 import _  = require('lodash');
 import {TodoList} from '../models/TodoList';
-import Errors = require('../errors/Errors');
+import Errors = require('../errors/errors');
 import TodoDataSource = require('./TodoDataSource');
 
 export class TodoListDataSource {
