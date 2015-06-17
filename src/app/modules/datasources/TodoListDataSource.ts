@@ -1,18 +1,9 @@
-/**
- * Created by Christian on 06.06.2015.
- */
-'use strict';
+import {TodoList} from '../../models/TodoList';
+import {TodoDataSource} from './TodoDataSource';
+import { InjectC } from '../../decorators/decorators';
 
-/**
- * This class is a angular service to use it add it as service
- */
-import _  = require('lodash');
-import {TodoList} from '../models/TodoList';
-import Errors = require('../errors/errors');
-import TodoDataSource = require('./TodoDataSource');
-
+@InjectC('$http', '$q', 'constants')
 export class TodoListDataSource {
-    static $inject  = ['$http', '$q', 'constants'];
 
     public constructor(
         public $http : angular.IHttpService,
