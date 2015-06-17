@@ -4,8 +4,8 @@ import { PanelModule } from '../panel/PanelModule';
 import { MenuModule } from '../menu/Menu';
 
 import Todos = require ('../todos/Todos');
-import {DateTimePickerModule} from '../datetimepicker/datetimepicker';
-import {DialogsModule} from '../dialogs/dialogs';
+import { DateTimePickerModule } from '../datetimepicker/datetimepicker';
+import { DialogsModule } from '../dialogs/dialogs';
 import HttpInterceptor = require('./services/HttpInterceptor');
 import UserDataSource = require('../../datasources/UserDataSource');
 
@@ -17,6 +17,7 @@ export class WanamuModule {
         this.ngModule = angular.module(this.name, []);
     }
 }
+
 module wanamu {
     export var wanamuModule = angular.module('wanamu', [
         'ui.router',
