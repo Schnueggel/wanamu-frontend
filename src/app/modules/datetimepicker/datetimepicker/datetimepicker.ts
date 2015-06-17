@@ -9,7 +9,6 @@ export function datetimepicker() {
         bindToController: {
             date: '=',
             yearrange: '=?',
-            changed : '&?',
             allowpast : '=?'
         },
         controllerAs: 'DateTimePicker',
@@ -23,10 +22,7 @@ export class DateTimePickerController {
      * @scopevar
      */
     public date:Date;
-    /**
-     * @scopevar
-     */
-    public changed: Function;
+
     /**
      * @scopevar
      */
@@ -37,10 +33,6 @@ export class DateTimePickerController {
     public yearrange: wanamu.dateTimePicker.YearRange;
 
     constructor() {
-        //unwrap callback
-        if (_.isFunction(this.changed)) {
-            this.changed = this.changed();
-        }
 
         if (!(this.date instanceof Date)) {
             this.date = new Date();

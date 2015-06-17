@@ -4,7 +4,7 @@
 import Base = require('./Base');
 import _ = require ('lodash');
 
-class Todo extends Base.Base implements wanamu.ITodo {
+export class Todo extends Base.Base implements wanamu.ITodo {
 
     public id : number;
     public title : string = '';
@@ -35,5 +35,3 @@ class Todo extends Base.Base implements wanamu.ITodo {
         this.deleted = data.deleted;
     }
 }
-
-export = Todo;

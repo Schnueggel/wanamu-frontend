@@ -5,10 +5,10 @@
 'use strict';
 
 import _ = require('lodash');
-import Setting = require('./Setting');
-import {TodoList} from './TodoList';
-import TodoListNotFoundError = require('./errors/TodoListNotFoundError');
-import Todo = require('./Todo');
+import { Setting } from './Setting';
+import { TodoList } from './TodoList';
+import { TodoListNotFoundError }  from './errors/TodoListNotFoundError';
+import { Todo } from './Todo';
 import Base = require('./Base');
 
 export class User extends Base.Base {
@@ -53,7 +53,7 @@ export class User extends Base.Base {
         this.firstname = data.firstname;
         this.lastname = data.lastname;
         this.DefaultTodoListId = data.DefaultTodoListId;
-        this.Setting = new Setting.Setting(data.Setting);
+        this.Setting = new Setting(data.Setting);
 
         this.TodoLists = [];
 

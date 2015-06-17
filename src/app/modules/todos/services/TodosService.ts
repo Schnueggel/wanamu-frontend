@@ -3,10 +3,10 @@
  */
 'use strict';
 
-import Todo = require('../../../models/Todo');
-import {AuthService} from '../../auth/services/AuthService';
-import {User} from '../../../models/User';
-import {TodoList} from '../../../models/TodoList';
+import { Todo } from '../../../models/models';
+import { AuthService } from '../../auth/services/AuthService';
+import { User } from '../../../models/models';
+import { TodoList } from '../../../models/models';
 
 export class TodosService {
 

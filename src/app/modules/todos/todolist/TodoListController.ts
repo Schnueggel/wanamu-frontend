@@ -1,9 +1,6 @@
-/**
- * Created by Schnueggel on 08.06.2015.
- */
 
-import Todo = require('../../../models/Todo');
-import {AuthService} from '../../auth/services/AuthService';
+import { Todo } from '../../../models/Todo';
+import { AuthService } from '../../auth/services/AuthService';
 /**
  * Controls the TodoList
  */

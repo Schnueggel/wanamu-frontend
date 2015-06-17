@@ -2,7 +2,7 @@
  * Created by Schnueggel on 08.06.2015.
  */
 import _ = require('lodash');
-import Todo = require('../../../models/Todo');
+import { Todo } from '../../../models/Todo';
 import {log, dirty} from '../../../decorators/decorators';
 
 'use strict';
@@ -76,7 +76,7 @@ export class TodoController {
         this.editcolors = false;
     };
 
-    delete = (todo: wanamu.ITodo) => {
+    delete = (todo: Todo) => {
         console.log(todo);
     };
 

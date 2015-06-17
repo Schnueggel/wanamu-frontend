@@ -47,11 +47,6 @@ export class DatePickerController {
      * @scopevar
      */
     public yearrange : wanamu.dateTimePicker.YearRange;
-    /**
-     * Callback function triggered on date change
-     * @scopevar
-     */
-    public changed : Function;
 
     /**
      * Now
@@ -71,13 +66,6 @@ export class DatePickerController {
         this.nowMoment = moment();
 
         this.weekDays = moment.weekdaysMin();
-
-        //unwrap
-        if (_.isFunction(this.changed)){
-            this.changed = this.changed();
-        } else {
-            this.changed = () =>{};
-        }
 
         if (!_.isPlainObject(this.yearrange)) {
             this.yearrange = {min: 3, max: 3};
@@ -129,7 +117,6 @@ export class DatePickerController {
         this.currentMoment.year(this.year);
         this.calcMonth();
         this.date.setFullYear(this.year);
-        this.changed();
     }
 
     /**
@@ -140,7 +127,6 @@ export class DatePickerController {
     selectDate(dom : wanamu.dateTimePicker.DayConf) :void {
         this.currentMoment.date(dom.day);
         this.date.setDate(dom.day);
-        this.changed();
     }
 
     /**

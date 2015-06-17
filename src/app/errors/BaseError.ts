@@ -1,7 +1,3 @@
-/**
- * Created by Christian on 06.06.2015.
- */
-'use strict';
 
 declare class Error {
     public name: string;

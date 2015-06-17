@@ -8,7 +8,6 @@ export function datepicker() {
         restrict: 'EA',
         bindToController: {
             date: '=',
-            changed:  '&?',
             allowpast: '=?',
             yearrange: '=?'
         },

@@ -1,13 +1,22 @@
-'use strict';
 import Auth = require('../auth/Auth');
 import Menu = require('../menu/Menu');
-import Panel = require('../panel/Panel');
+import { PanelModule } from '../panel/PanelModule';
+import { MenuModule } from '../menu/Menu';
+
 import Todos = require ('../todos/Todos');
 import {DateTimePickerModule} from '../datetimepicker/datetimepicker';
 import {DialogsModule} from '../dialogs/dialogs';
 import HttpInterceptor = require('./services/HttpInterceptor');
 import UserDataSource = require('../../datasources/UserDataSource');
 
+export class WanamuModule {
+    public name  : string;
+    public ngModule : angular.IModule;
+
+    constructor() {
+        this.ngModule = angular.module(this.name, []);
+    }
+}
 module wanamu {
     export var wanamuModule = angular.module('wanamu', [
         'ui.router',
@@ -16,10 +25,10 @@ module wanamu {
         'ngMessages',
         'config',
         'ngMaterial',
-        Panel.name,
+        new PanelModule().name,
         Auth.name,
         Todos.name,
-        Menu.name,
+        new MenuModule().name,
         DateTimePickerModule.name,
         DialogsModule.name,
         'pascalprecht.translate'

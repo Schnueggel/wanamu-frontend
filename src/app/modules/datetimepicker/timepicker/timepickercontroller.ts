@@ -32,10 +32,6 @@ export class TimePickerController {
     public currentMoment : momentM.Moment;
 
     /**
-     * @scopevar
-     */
-    public changed : Function;
-    /**
      * @viewvar
      * @type {boolean}
      */
@@ -92,14 +88,6 @@ export class TimePickerController {
             this.date = new Date();
         }
 
-        //unwrap
-        if (_.isFunction(this.changed)){
-            this.changed = this.changed();
-        } else {
-            this.changed = () =>{};
-        }
-
-
         //Round the date to the nearest next 5 minute tick
         var coeff = 1000 * 60 * 5;
         var rounded = new Date(Math.ceil(this.date.getTime() / coeff) * coeff);
@@ -123,7 +111,6 @@ export class TimePickerController {
         if (this.minrots.hasOwnProperty(min.toString())) {
             this.currentMoment.minute(min);
             this.date.setMinutes(this.currentMoment.minute());
-            this.changed();
             this.setMarkerRot(this.getMinuteMarker(), this.minrots[min.toString()]);
         } else {
             console.warn('Timepicker no rotation found for minute: ' + min);
@@ -151,7 +138,6 @@ export class TimePickerController {
             console.log(hour24);
             this.currentMoment.hour(hour24);
             this.date.setHours(this.currentMoment.hours());
-            this.changed();
 
             this.setMarkerRot(this.getHourMarker(), this.hourrots[hour.toString()]);
         } else {
@@ -167,6 +153,10 @@ export class TimePickerController {
         this.rotateTransforms(transforms, rot);
     }
 
+    /**
+     * Set daytime am or pm
+     * @param daytime
+     */
     setDaytime(daytime : string) : void {
         this.daytime = daytime;
 

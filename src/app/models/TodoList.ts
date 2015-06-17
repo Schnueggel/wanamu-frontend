@@ -2,7 +2,7 @@
  * Created by Christian on 06.06.2015.
  */
 import _ = require('lodash');
-import Todo = require('./Todo');
+import { Todo } from './Todo';
 import Base = require('./Base');
 
 export class TodoList extends Base.Base implements wanamu.ITodoList {

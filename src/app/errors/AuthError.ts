@@ -6,5 +6,5 @@
 import BaseError = require('./BaseError');
 
 export class AuthError extends BaseError.BaseError {
-    public name: string = 'Error';
+    public name: string = 'AuthError';
 }
