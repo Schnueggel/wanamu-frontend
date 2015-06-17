@@ -1,5 +1,4 @@
-import Auth = require('../auth/Auth');
-import Menu = require('../menu/Menu');
+import { AuthModule } from '../auth/Auth';
 import { PanelModule } from '../panel/PanelModule';
 import { MenuModule } from '../menu/Menu';
 
@@ -7,7 +6,6 @@ import Todos = require ('../todos/Todos');
 import { DateTimePickerModule } from '../datetimepicker/datetimepicker';
 import { DialogsModule } from '../dialogs/dialogs';
 import HttpInterceptor = require('./services/HttpInterceptor');
-import UserDataSource = require('../../datasources/UserDataSource');
 
 export class WanamuModule {
     public name  : string;
@@ -27,7 +25,7 @@ module wanamu {
         'config',
         'ngMaterial',
         new PanelModule().name,
-        Auth.name,
+        AuthModule.name,
         Todos.name,
         new MenuModule().name,
         DateTimePickerModule.name,
@@ -120,5 +118,4 @@ module wanamu {
         .run([ function () {}]);
 
     wanamuModule.service('httpInterceptor', HttpInterceptor);
-    wanamuModule.service('userDataSource', UserDataSource.UserDataSource);
 }

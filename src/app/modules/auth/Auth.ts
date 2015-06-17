@@ -35,6 +35,7 @@ export function config($stateProvider : ngui.IStateProvider) {
 config.$inject = ['$stateProvider'];
 
 /**
+ * TODO move into file
  * Controller for Login
  */
 export class LoginController {
@@ -94,7 +95,9 @@ export class LoginController {
         }
     }
 }
-
+/**
+ * TODO move into file
+ */
 export class LogoutController {
     constructor (
         public $state : ngui.IStateService,
@@ -110,12 +113,12 @@ export class LogoutController {
             });
     }
 }
-export var authModule = angular.module('auth', [
+export var AuthModule = angular.module('auth', [
     'panel'
 ]);
 
 
-authModule
+AuthModule
     .config(config)
     .controller('LoginCtrl', LoginController)
     .directive('wuIsAuth', IsAuthDirective)
