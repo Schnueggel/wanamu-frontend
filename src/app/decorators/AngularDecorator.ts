@@ -11,8 +11,8 @@ export class ServiceOptions {
 export class Registry {
     public static controller :  ServiceOptions[] = [];
     public static services : ServiceOptions[] = [];
-    public static moduleArgs : {[modulename: string] : any[]} = [];
-    public static modules : {[modulename: string] : angular.IModule} = [];
+    public static moduleArgs : {[modulename: string] : any[]} = {};
+    public static modules : {[modulename: string] : angular.IModule} = {};
 
     public static bootstrap (moduleClass: Function, name : string) {
 
@@ -20,7 +20,7 @@ export class Registry {
             return Registry.modules[name];
         }
 
-        let moduleargs = [];
+        let moduleargs : string[] = [];
 
         if (_.isArray(Registry.moduleArgs[name])) {
 

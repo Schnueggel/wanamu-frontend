@@ -17,6 +17,7 @@ config.$inject = ['$stateProvider'];
 export class MenuController {
 
 }
+
 @Module('menu', 'panel')
 @Controller('MenuCtrl', MenuController)
 export class MenuModule {
