@@ -1,7 +1,7 @@
 import { AuthModule } from '../auth/Auth';
 import { PanelModule } from '../panel/PanelModule';
 import { MenuModule } from '../menu/Menu';
-
+import { DataSourceModule } from '../datasources/DataSourceModule';
 import Todos = require ('../todos/Todos');
 import { DateTimePickerModule } from '../datetimepicker/datetimepicker';
 import { DialogsModule } from '../dialogs/dialogs';
@@ -24,6 +24,7 @@ module wanamu {
         'ngMessages',
         'config',
         'ngMaterial',
+        new DataSourceModule().name,
         new PanelModule().name,
         AuthModule.name,
         Todos.name,

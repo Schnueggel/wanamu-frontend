@@ -7,7 +7,7 @@
  * This class is a angular service to use it add it as service
  */
 import _  = require('lodash');
-import Todo = require('../models/Todo');
+import Todo = require('../../models/Todo');
 
 export class TodoDataSource {
     static $inject  = ['$http', '$q', 'constants'];

@@ -7,7 +7,7 @@
  * This class is a angular service to use it add it as service
  */
 import _  = require('lodash');
-import Setting = require('../models/Setting');
+import Setting = require('../../models/Setting');
 
 export class SettingDataSource {
     static $inject  = ['$http', '$q', 'constants'];

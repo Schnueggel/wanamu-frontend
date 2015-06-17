@@ -1,5 +1,5 @@
-import {TodoList} from '../../models/TodoList';
-import {TodoDataSource} from './TodoDataSource';
+import { TodoList } from '../../models/TodoList';
+import { TodoDataSource } from './TodoDataSource';
 import { InjectC } from '../../decorators/decorators';
 
 @InjectC('$http', '$q', 'constants')
