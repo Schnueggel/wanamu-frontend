@@ -4,7 +4,7 @@ import { InjectC } from '../../../decorators/decorators';
 import { BaseController } from '../../../wanamu/wanamu';
 import { PanelService } from '../../panel/PanelService';
 import { DateTimePickerOptions } from '../../datetimepicker/datetimepicker/datetimepickeroptions';
-
+import { RepeatDirectiveOptions } from '../../repeatpicker/RepeatDirectiveOptions';
 /**
  * This Controller manages a single TodoDirective
  * @alias Todo
@@ -95,21 +95,20 @@ export class TodoController extends BaseController {
     };
 
     setRepeat(ev : MouseEvent) {
-        var inopts : wanamu.dialogs.RepeatOptions = {
-            monthly: this.monthly,
-            yearly: this.yearly,
-            weekly: this.weekly,
-            repeat: this.repeat
-        };
-        this.wuRepeatDialog.show(inopts, ev)
-            .then(this.onRepeatDialogSuccess);
+        var inopts = new RepeatDirectiveOptions();
+        inopts.monthly =  this.monthly;
+        inopts.yearly = this.yearly;
+        inopts.weekly = this.weekly;
+        inopts.repeat = this.repeat;
+
+        this.panelService.showRepeatPicker(inopts).then(this.onRepeatDialogSuccess);
     }
 
     /**
      * @callback
      * @param opts
      */
-    onRepeatDialogSuccess = (opts : wanamu.dialogs.RepeatOptions) : void => {
+    onRepeatDialogSuccess = (opts : RepeatDirectiveOptions) : void => {
         _.assign(this, opts);
     };
 

@@ -1,5 +1,3 @@
-'use strict';
-
 import _ = require('lodash');
 import { TodoController } from './TodoController';
 import { BaseDirective, BaseController } from '../../../wanamu/wanamu';

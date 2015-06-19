@@ -17,7 +17,6 @@ import { Module, InjectM, ModuleOptions } from '../../decorators/decorators';
             AuthModule.name,
             TodosModule.mname,
             MenuModule.mname,
-            DateTimePickerModule.name,
             DialogsModule.name],
         services : [HttpInterceptor],
         controller : [], directives: []

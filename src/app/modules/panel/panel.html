@@ -1,6 +1,7 @@
 <header ui-view="header" class="header-container"></header>
 <div class="panel">
     <div class="components" ng-show="Panel.panelService.isComponentOpen">
+        <!---DateTimePicker --->
         <div ng-show="Panel.panelService.isDateTimePickerOpen">
             <wu-date-time-picker date="Panel.panelService.dtpopts.date"></wu-date-time-picker>
             <div class="md-actions" layout="row">
@@ -13,7 +14,21 @@
                 </md-button>
             </div>
         </div>
+        <!--- RepeatPicker --->
+        <div ng-show="Panel.panelService.isRepeatPickerOpen">
+            <wu-repeat repeatOpts="Panel.panelService.repeatOpts"></wu-repeat>
+            <div class="md-actions" layout="row">
+                <span flex></span>
+                <md-button ng-click="Panel.panelService.resolveRepeatPicker()" class="md-primary md-raised" arial-labe="ok">
+                    OK
+                </md-button>
+                <md-button ng-click="Panel.panelService.rejectRepeatPicker()" class="md-primary md-raised" arial-label="cancel">
+                    Cancel
+                </md-button>
+            </div>
+        </div>
     </div>
+    <!-- Content -->
     <content ui-view ng-show="!Panel.panelService.isComponentOpen"></content>
 </div>
 <footer ui-view="footer"></footer>

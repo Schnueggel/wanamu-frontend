@@ -1,0 +1,41 @@
+<div layout="row" class="weekdays">
+    <md-switch ng-model="Repeat.repeatOpts.repeat" aria-label="Switch Weekly" class="md-primary md-raised">
+        Enable alarm interval
+    </md-switch>
+</div>
+<div layout="row" class="weekdays">
+    <md-button ng-repeat="(day, selected) in Repeat.weekdays" flex ng-click="Repeat.selectWeekly(day)" class="md-primary"
+               ng-class="{'md-raised' : !Repeat.weekdays[day]}" ng-disabled="!Repeat.repeatOpts.repeat">
+        {{day}}
+    </md-button>
+</div>
+
+<div>
+    <md-switch ng-model="Repeat.isMonthly" aria-label="Switch Monthly" ng-disabled="!Repeat.repeatOpts.repeat"
+               ng-change="Repeat.onIsMonthly(Repeat.isMonthly)">
+        Monthly
+    </md-switch>
+    <div ng-if="Repeat.isMonthly && Repeat.repeat">
+        <h2 class="md-subhead">Repeat every:</h2>
+        <md-grid-list
+            md-cols="7"
+            md-row-height="1.5:1"
+            md-gutter="0"
+            class="daygrid"
+            >
+            <md-grid-tile
+                ng-repeat="n in Repeat.daysInMonth"
+                >
+                <md-button
+                    aria-label="day selection"
+                    ng-class="{'md-raised': Repeat.repeatOpts.monthly == n}"
+                    ng-click="Repeat.selectMonthly(n)">
+                    {{ n }}
+                </md-button>
+            </md-grid-tile>
+        </md-grid-list>
+    </div>
+    <md-switch ng-model="Repeat.repeatOpts.yearly" aria-label="Switch Yearly" ng-disabled="!Repeat.repeatOpts.repeat">
+        Yearly
+    </md-switch>
+</div>

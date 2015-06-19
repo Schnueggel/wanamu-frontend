@@ -1,6 +1,7 @@
 import { DateTimePickerOptions } from '../datetimepicker/datetimepicker/datetimepickeroptions';
 import { Service, InjectC } from '../../decorators/decorators';
 import { BaseService } from '../../wanamu/wanamu';
+import { RepeatDirectiveOptions } from '../repeatpicker/RepeatDirectiveOptions';
 /**
  * Service to Control the global datepicker and repeatpicker element
  * @alias panelService
@@ -11,12 +12,12 @@ import { BaseService } from '../../wanamu/wanamu';
 export class PanelService extends BaseService {
 
     private _isDateTimePickerOpen : boolean = false;
-    private _isOpenRepeatPicker : boolean = false;
+    private _isRepeatPickerOpen : boolean = false;
     private _isComponentOpen : boolean = false;
 
     private dtpdefer : angular.IDeferred<Date> = null;
-
-    public repeatopts : wanamu.dialogs.RepeatOptions;
+    private repeatdefer : angular.IDeferred<RepeatDirectiveOptions> = null;
+    public repeatopts : RepeatDirectiveOptions;
 
     public dtpopts : DateTimePickerOptions;
 
@@ -35,7 +36,7 @@ export class PanelService extends BaseService {
         if (!this.isDateTimePickerOpen) {
             this.dtpopts = opts;
             this.isDateTimePickerOpen = true;
-            this.isOpenRepeatPicker = false;
+            this.isRepeatPickerOpen = false;
         } else {
             this.dtpdefer.reject('Datepicker is already open');
             console.warn('DateTimePicker is already open and cannot be opend again');
@@ -72,8 +73,53 @@ export class PanelService extends BaseService {
         this.isDateTimePickerOpen = false;
     }
 
-    public showRepeatPicker (opts : wanamu.dialogs.RepeatOptions) {
+    /**
+     * Resolve an open repeatpicker request
+     * @param date
+     */
+    public resolveRepeatPicker() {
+        if (this.repeatdefer !== null) {
+            this.repeatdefer.resolve(this.repeatopts);
+            this.repeatdefer = null;
+        } else {
+            console.warn('Could not resolve RepeatPicker as no valid deferred was found');
+        }
+        this.isRepeatPickerOpen = false;
+    }
 
+    /**
+     * Reject an open repeatpicker request
+     * @param msg
+     */
+    public rejectRepeatPicker(msg?: string) {
+        if (this.repeatdefer !== null){
+            this.repeatdefer.reject(msg);
+            this.repeatdefer = null;
+        } else {
+            console.warn('Could not resolve RepeatPicker as no valid deferred was found');
+        }
+        this.isRepeatPickerOpen = false;
+    }
+
+    /**
+     * Shows the RepeatPicker if it is not already visible
+     * @param opts
+     * @returns {IPromise<Date>}
+     */
+    public showRepeatPicker (opts : RepeatDirectiveOptions) : angular.IPromise<RepeatDirectiveOptions>{
+        this.repeatdefer = this.$q.defer<RepeatDirectiveOptions>();
+        var promise = this.repeatdefer.promise;
+
+        if (!this.isRepeatPickerOpen) {
+            this.repeatopts = opts;
+            this.isRepeatPickerOpen = true;
+            this.isDateTimePickerOpen = false;
+        } else {
+            this.repeatdefer.reject('RepeatPicker is already open');
+            console.warn('RepeatPicker is already open and cannot be opend again');
+        }
+
+        return promise;
     }
 
     public get isDateTimePickerOpen():boolean {
@@ -84,12 +130,12 @@ export class PanelService extends BaseService {
         this._isDateTimePickerOpen = value;
     }
 
-    public get isOpenRepeatPicker():boolean {
-        return this._isOpenRepeatPicker;
+    public get isRepeatPickerOpen():boolean {
+        return this._isRepeatPickerOpen;
     }
 
-    public set isOpenRepeatPicker(value:boolean) {
-        this._isOpenRepeatPicker = value;
+    public set isRepeatPickerOpen(value:boolean) {
+        this._isRepeatPickerOpen = value;
     }
 
     /**
@@ -97,12 +143,12 @@ export class PanelService extends BaseService {
      */
     public hideAll() {
         this.isDateTimePickerOpen = false;
-        this.isOpenRepeatPicker = false;
+        this.isRepeatPickerOpen = false;
     }
 
 
     public get isComponentOpen():boolean {
-        this.isComponentOpen = this.isDateTimePickerOpen || this.isOpenRepeatPicker;
+        this.isComponentOpen = this.isDateTimePickerOpen || this.isRepeatPickerOpen;
         return this._isComponentOpen;
     }
 

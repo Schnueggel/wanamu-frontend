@@ -1,6 +1,10 @@
 import _ = require('lodash');
 import { BaseDirective, BaseModule, BaseController, BaseService } from '../wanamu/wanamu';
 
+interface ngModule {
+    ngModule : angular.IModule;
+}
+
 export enum TYPE {
     SERVICE,
     CONTROLLER,
@@ -44,7 +48,6 @@ export class Registry {
         let module = new moduleClass();
         let ngModule = angular.module(name, moduleargs.modules);
         ngModule.config(module.config);
-        module.ngModule = ngModule;
 
         moduleargs.controller = moduleargs.controller || [];
 
@@ -110,7 +113,7 @@ export function Module (name : string, data? : ModuleOptions) {
  */
 export function Controller (controllerName: string) {
 
-    return function<T extends BaseController>(target : {new(): T}) {
+    return function(target : any) {
         let opts : ServiceOptions = {
             type: TYPE.CONTROLLER,
             serviceName: controllerName,

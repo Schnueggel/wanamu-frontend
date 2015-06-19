@@ -3,13 +3,15 @@ import { PanelController } from './PanelController';
 import { HeaderController } from './header/HeaderController';
 import { PanelService } from './PanelService';
 import { BaseModule } from '../../wanamu/BaseModule';
-
+import { DateTimePickerModule } from '../datetimepicker/datetimepicker';
+import { RepeatModule } from '../repeatpicker/RepeatModule';
 /**
  * Panel Module is the Basis for the Layout
  */
 @Module('panel', {
     controller: [PanelController, HeaderController],
-    modules : [], directives: [],
+    modules : [ DateTimePickerModule.name, RepeatModule.mname ],
+    directives: [],
     services  : [PanelService]
 })
 export class PanelModule extends BaseModule {

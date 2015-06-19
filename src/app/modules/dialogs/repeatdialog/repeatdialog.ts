@@ -79,7 +79,7 @@ export class RepeatDialogController {
     }
 
     /**
-     *
+     * Helper Method
      */
     setupDaysInMonth() : void {
 

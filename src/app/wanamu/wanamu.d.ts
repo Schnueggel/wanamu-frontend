@@ -7,7 +7,6 @@ declare module wanamu {
 
     }
     interface IModule {
-        ngModule : angular.IModule;
         config (...args : any[]) : void;
     }
 }
