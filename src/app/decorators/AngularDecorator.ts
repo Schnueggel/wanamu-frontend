@@ -1,10 +1,11 @@
 import _ = require('lodash');
-import '../wanamu/wanamu';
+import { BaseDirective, BaseModule, BaseController, BaseService } from '../wanamu/wanamu';
 
-enum TYPE {
+export enum TYPE {
     SERVICE,
     CONTROLLER,
-    MODULE
+    MODULE,
+    DIRECTIVE
 }
 export class ServiceOptions {
     type : TYPE;
@@ -16,13 +17,12 @@ export class ModuleOptions {
     services : Array<Function> = [];
     controller : Array<Function> = [];
     modules : Array<string> = [];
+    directives : Array<Function> = [];
 }
-
 /**
  * Registry for Controller and Services
  */
 export class Registry {
-    public static moduleServices : {[moduleName : string] : Array<Function> } = {};
     public static services : ServiceOptions[] = [];
     public static moduleArgs : {[modulename: string] : ModuleOptions} = {};
 
@@ -34,17 +34,19 @@ export class Registry {
      * @param name
      * @returns {any}
      */
-    public static bootstrap (moduleClass: any, name : string) : angular.IModule {
+    public static bootstrap(moduleClass: {new(): BaseModule}, name : string) : angular.IModule {
 
         if (!_.isUndefined(Registry.modules[name])) {
             return Registry.modules[name];
         }
 
         let moduleargs : ModuleOptions = Registry.moduleArgs[name];
-        let module = <wanamu.IModule>new moduleClass();
+        let module = new moduleClass();
         let ngModule = angular.module(name, moduleargs.modules);
         ngModule.config(module.config);
         module.ngModule = ngModule;
+
+        moduleargs.controller = moduleargs.controller || [];
 
         //Bootstrap services
         moduleargs.controller.forEach((serviceClass : Function) => {
@@ -55,6 +57,8 @@ export class Registry {
             })
         });
 
+        moduleargs.services = moduleargs.services || [];
+
         moduleargs.services.forEach((serviceClass : Function) => {
             Registry.services.forEach((serviceOpts : ServiceOptions) => {
                 if (serviceClass === serviceOpts.serviceClass) {
@@ -63,6 +67,15 @@ export class Registry {
             })
         });
 
+        moduleargs.directives = moduleargs.directives || [];
+
+        moduleargs.directives.forEach((serviceClass :{new(): BaseDirective}) => {
+            Registry.services.forEach((serviceOpts : ServiceOptions) => {
+                if (serviceClass === serviceOpts.serviceClass) {
+                    ngModule.directive(serviceOpts.serviceName, () => new serviceClass());
+                }
+            })
+        });
         Registry.modules[name] = ngModule;
 
         return ngModule;
@@ -83,7 +96,7 @@ export function Module (name : string, data? : ModuleOptions) {
     }
     Registry.moduleArgs[name] = data;
 
-    return function (target : any) : any {
+    return function<T extends typeof BaseModule>(target : T) : T {
         Registry.bootstrap(target, name);
         return target;
     };
@@ -97,10 +110,29 @@ export function Module (name : string, data? : ModuleOptions) {
  */
 export function Controller (controllerName: string) {
 
-    return function(target : any) {
-        let opts : ServiceOptions = <ServiceOptions>{
+    return function<T extends BaseController>(target : {new(): T}) {
+        let opts : ServiceOptions = {
             type: TYPE.CONTROLLER,
             serviceName: controllerName,
+            serviceClass: target
+        };
+        Registry.services.push(opts);
+
+        return target;
+    }
+}
+
+/**
+ * Declare a class as Directive.
+ * @param directiveName
+ * @returns {function(any): *}
+ * @constructor
+ */
+export function Directive (directiveName: string) {
+    return function<T extends BaseDirective>(target : { new() : T }) {
+        let opts : ServiceOptions = <ServiceOptions>{
+            type: TYPE.DIRECTIVE,
+            serviceName: directiveName,
             serviceClass: target
         };
         Registry.services.push(opts);
