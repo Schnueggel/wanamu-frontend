@@ -12,8 +12,8 @@ export class DateTimePickerOptions {
      * @throws InvalidArugmentError
      */
     constructor(date : Date) {
-        if ( date instanceof Date ) {
-            throw new InvalidArgumentError('DatePickerOptions expecting instanfe of Date');
+        if ( !(date instanceof Date) ) {
+            throw new InvalidArgumentError('DatePickerOptions expecting instance of Date');
         } else {
             this.date = date;
         }

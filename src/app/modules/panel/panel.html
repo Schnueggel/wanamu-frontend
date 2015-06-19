@@ -1,3 +1,19 @@
 <header ui-view="header" class="header-container"></header>
-<div class="panel" ui-view></div>
+<div class="panel">
+    <div class="components" ng-show="Panel.panelService.isComponentOpen">
+        <div ng-show="Panel.panelService.isDateTimePickerOpen">
+            <wu-date-time-picker date="Panel.panelService.dtpopts.date"></wu-date-time-picker>
+            <div class="md-actions" layout="row">
+                <span flex></span>
+                <md-button ng-click="Panel.panelService.resolveDateTimePicker()" class="md-primary md-raised" arial-labe="ok">
+                    OK
+                </md-button>
+                <md-button ng-click="Panel.panelService.rejectDateTimePicker()" class="md-primary md-raised" arial-label="cancel">
+                    Cancel
+                </md-button>
+            </div>
+        </div>
+    </div>
+    <content ui-view ng-show="!Panel.panelService.isComponentOpen"></content>
+</div>
 <footer ui-view="footer"></footer>

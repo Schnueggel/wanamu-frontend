@@ -10,7 +10,7 @@ import { BaseModule } from '../../wanamu/BaseModule';
 @Module('panel', {
     controller: [PanelController, HeaderController],
     modules : [],
-    services  : []
+    services  : [PanelService]
 })
 export class PanelModule extends BaseModule {
 

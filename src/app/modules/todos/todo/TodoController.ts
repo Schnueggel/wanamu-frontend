@@ -1,17 +1,15 @@
-/**
- * Created by Schnueggel on 08.06.2015.
- */
 import _ = require('lodash');
 import { Todo } from '../../../models/Todo';
-import {log, dirty} from '../../../decorators/decorators';
-
-'use strict';
+import { InjectC } from '../../../decorators/decorators';
+import { PanelService } from '../../panel/PanelService';
+import { DateTimePickerOptions } from '../../datetimepicker/datetimepicker/datetimepickeroptions';
 /**
  * This Controller manages a single TodoDirective
+ * @alias Todo
+ * @namespace todo
  */
+@InjectC('wuRepeatDialog','panelService')
 export class TodoController {
-
-    static $inject : Array<string> = ['wuDateDialog', 'wuRepeatDialog'];
 
     public static currentInEdit : TodoController = null;
 
@@ -28,8 +26,7 @@ export class TodoController {
     public monthly : string;
     public weekly : Array<string>;
 
-    constructor(public wuDateDialog: wanamu.dialogs.DateDialogService,
-                public wuRepeatDialog: wanamu.dialogs.RepeatDialogService ) {
+    constructor(public wuRepeatDialog: wanamu.dialogs.RepeatDialogService, public panelService: PanelService) {
 
         this.edit = false;
         this.editcolors = false;
@@ -55,11 +52,10 @@ export class TodoController {
      * Set the color of the todo
      * @param color
      */
-    @log
     setColor (color : string) : void {
         this.currentColor = {'background-color': this.setting.color(color) || 'white'};
     }
-    @dirty
+
     get edit () : boolean { return this._edit;}
     set edit (val : boolean) {this._edit = val}
 
@@ -128,7 +124,9 @@ export class TodoController {
             alarm = this.alarm;
         }
 
-        this.wuDateDialog.show(alarm, ev).then((alarm : Date) => {
+        let opts = new DateTimePickerOptions(alarm);
+
+        this.panelService.showDateTimePicker(opts).then((alarm : Date) => {
             this.alarm = alarm;
         });
     }

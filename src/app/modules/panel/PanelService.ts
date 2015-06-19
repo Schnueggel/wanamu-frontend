@@ -4,18 +4,21 @@ import { BaseService } from '../../wanamu/wanamu';
 /**
  * Service to Control the global datepicker and repeatpicker element
  * @alias panelService
+ * @namespace panel
  */
 @Service('panelService')
 @InjectC('$q')
 export class PanelService extends BaseService {
 
-    private _opendatepicker : boolean = false;
-    private _openrepeatpicker : boolean = false;
+    private _isDateTimePickerOpen : boolean = false;
+    private _isOpenRepeatPicker : boolean = false;
+    private _isComponentOpen : boolean = false;
 
-    private _datetimepickerdefer : angular.IDeferred<Date> = null;
+    private dtpdefer : angular.IDeferred<Date> = null;
 
     public repeatopts : wanamu.dialogs.RepeatOptions;
-    public datetimepickeropts : DateTimePickerOptions;
+
+    public dtpopts : DateTimePickerOptions;
 
     constructor(public $q : angular.IQService) {
         super();
@@ -26,14 +29,15 @@ export class PanelService extends BaseService {
      * @param opts
      */
     public showDateTimePicker (opts : DateTimePickerOptions) : angular.IPromise<Date>{
-        this._datetimepickerdefer = this.$q.defer<Date>();
-        var promise = this._datetimepickerdefer.promise;
+        this.dtpdefer = this.$q.defer<Date>();
+        var promise = this.dtpdefer.promise;
 
-        if (!this.opendatepicker) {
-            this.datetimepickeropts = opts;
-            this.openrepeatpicker = false;
+        if (!this.isDateTimePickerOpen) {
+            this.dtpopts = opts;
+            this.isDateTimePickerOpen = true;
+            this.isOpenRepeatPicker = false;
         } else {
-            this._datetimepickerdefer.reject('Datepicker is already open');
+            this.dtpdefer.reject('Datepicker is already open');
             console.warn('DateTimePicker is already open and cannot be opend again');
         }
 
@@ -44,13 +48,14 @@ export class PanelService extends BaseService {
      * Resolve an open datetimepicker request
      * @param date
      */
-    public resolveDateTimePicker(date : Date) {
-        if (this._datetimepickerdefer !== null) {
-            this._datetimepickerdefer.resolve(date);
-            this._datetimepickerdefer = null;
+    public resolveDateTimePicker() {
+        if (this.dtpdefer !== null) {
+            this.dtpdefer.resolve(this.dtpopts.date);
+            this.dtpdefer = null;
         } else {
             console.warn('Could not resolve datetimepicker as no valid deferred was found');
         }
+        this.isDateTimePickerOpen = false;
     }
 
     /**
@@ -58,49 +63,50 @@ export class PanelService extends BaseService {
      * @param msg
      */
     public rejectDateTimePicker(msg?: string) {
-        if (this._datetimepickerdefer !== null){
-            this._datetimepickerdefer.reject(msg);
-            this._datetimepickerdefer = null;
+        if (this.dtpdefer !== null){
+            this.dtpdefer.reject(msg);
+            this.dtpdefer = null;
         } else {
             console.warn('Could not resolve datetimepicker as no valid deferred was found');
         }
-    }
-    /**
-     * Hide the datepicker
-     */
-    public hideDateTimePicker () {
-        this.opendatepicker = false;
-    }
-
-    public hideRepeatPicker() {
-        this.openrepeatpicker = false;
+        this.isDateTimePickerOpen = false;
     }
 
     public showRepeatPicker (opts : wanamu.dialogs.RepeatOptions) {
 
     }
 
-    public get opendatepicker():boolean {
-        return this._opendatepicker;
+    public get isDateTimePickerOpen():boolean {
+        return this._isDateTimePickerOpen;
     }
 
-    public set opendatepicker(value:boolean) {
-        this._opendatepicker = value;
+    public set isDateTimePickerOpen(value:boolean) {
+        this._isDateTimePickerOpen = value;
     }
 
-    public get openrepeatpicker():boolean {
-        return this._openrepeatpicker;
+    public get isOpenRepeatPicker():boolean {
+        return this._isOpenRepeatPicker;
     }
 
-    public set openrepeatpicker(value:boolean) {
-        this._openrepeatpicker = value;
+    public set isOpenRepeatPicker(value:boolean) {
+        this._isOpenRepeatPicker = value;
     }
 
     /**
      * Hides all open elements
      */
     public hideAll() {
-        this.opendatepicker = false;
-        this.openrepeatpicker = false;
+        this.isDateTimePickerOpen = false;
+        this.isOpenRepeatPicker = false;
+    }
+
+
+    public get isComponentOpen():boolean {
+        this.isComponentOpen = this.isDateTimePickerOpen || this.isOpenRepeatPicker;
+        return this._isComponentOpen;
+    }
+
+    public set isComponentOpen(value:boolean) {
+        this._isComponentOpen = value;
     }
 }
