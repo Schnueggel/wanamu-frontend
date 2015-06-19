@@ -8,7 +8,8 @@ import { BaseModule } from '../../wanamu/wanamu';
 @Module('dataSource', <ModuleOptions>{
     services: [UserDataSource, TodoDataSource, TodoListDataSource, SettingDataSource],
     controller : [],
-    modules: []
+    modules: [],
+    directives: []
 })
 export class DataSourceModule extends BaseModule{
     public static mname: string = 'dataSource';

@@ -2,7 +2,7 @@ import { PanelModule } from '../panel/PanelModule';
 import { AuthModule } from '../auth/Auth';
 import { MenuModule } from '../menu/MenuModule';
 import { DataSourceModule } from '../datasources/DataSourceModule';
-import Todos = require ('../todos/Todos');
+import { TodosModule } from '../todos/TodosModule';
 import { DateTimePickerModule } from '../datetimepicker/datetimepicker';
 import { DialogsModule } from '../dialogs/dialogs';
 import { HttpInterceptor } from  './services/HttpInterceptor';
@@ -10,17 +10,17 @@ import { BaseModule } from '../../wanamu/wanamu';
 import { Module, InjectM, ModuleOptions } from '../../decorators/decorators';
 
 @Module('wanamu',
-    <ModuleOptions>{
+    {
         modules : ['ui.router', 'ngAnimate', 'ngTouch', 'ngMessages','config', 'ngMaterial', 'pascalprecht.translate',
             DataSourceModule.mname,
             PanelModule.mname,
             AuthModule.name,
-            Todos.name,
+            TodosModule.mname,
             MenuModule.mname,
             DateTimePickerModule.name,
             DialogsModule.name],
         services : [HttpInterceptor],
-        controller : []
+        controller : [], directives: []
     }
 )
 export class WanamuModule extends BaseModule {

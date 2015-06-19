@@ -5,7 +5,7 @@ import { InjectM, Module } from '../../decorators/decorators';
 @Module('menu', {
     modules : ['panel'],
     controller : [MenuController],
-    services: []
+    services: [], directives: []
 })
 export class MenuModule extends BaseModule{
 
