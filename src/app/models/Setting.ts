@@ -1,9 +1,6 @@
-/**
- * Created by Christian on 06.06.2015.
- */
-import Base = require('./Base');
+import { BaseModel }  from './BaseModel';
 
-export class Setting extends Base.Base implements wanamu.ISetting {
+export class Setting extends BaseModel implements wanamu.ISetting {
 
     public id : number;
     public color1 : string;

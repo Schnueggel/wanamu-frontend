@@ -1,19 +1,15 @@
 /**
  * Created by Schnueggel on 18.06.2015.
  */
-import { Module, Service } from '../../decorators/decorators';
-import {SettingDataSource, TodoDataSource, TodoListDataSource, UserDataSource} from './datasources';
+import { Module, Service, ModuleOptions } from '../../decorators/decorators';
+import { UserDataSource, TodoDataSource, TodoListDataSource, SettingDataSource} from './datasources';
+import { BaseModule } from '../../wanamu/wanamu';
 
-@Module('dataSourceModule')
-@Service('userDataSource', UserDataSource)
-@Service('settingDataSource', SettingDataSource)
-@Service('todoDataSource', TodoDataSource)
-@Service('todoListDataSource', TodoListDataSource)
-export class DataSourceModule {
-    public name: string = 'dataSourceModule';
-    public ngModule : angular.IModule;
-
-    constructor(...args : string[]) {
-        this.ngModule = angular.module(this.name,[]);
-    }
+@Module('dataSource', <ModuleOptions>{
+    services: [UserDataSource, TodoDataSource, TodoListDataSource, SettingDataSource],
+    controller : [],
+    modules: []
+})
+export class DataSourceModule extends BaseModule{
+    public static mname: string = 'dataSource';
 }

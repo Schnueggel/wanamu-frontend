@@ -5,7 +5,7 @@ import { Controller } from '../../../decorators/decorators';
  * Controls the Header Toolbar
  */
 @InjectC('$rootScope', '$scope', '$state', 'auth')
-@Controller('HeaderCtrl','panel')
+@Controller('HeaderController')
 export class HeaderController {
     public menuopen : boolean ;
     public laststate : String = 'panel.view.todos';

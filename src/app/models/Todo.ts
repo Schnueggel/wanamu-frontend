@@ -1,10 +1,7 @@
-/**
- * Created by Christian on 06.06.2015.
- */
-import Base = require('./Base');
+import { BaseModel }  from './BaseModel';
 import _ = require ('lodash');
 
-export class Todo extends Base.Base implements wanamu.ITodo {
+export class Todo extends BaseModel implements wanamu.ITodo {
 
     public id : number;
     public title : string = '';

@@ -3,25 +3,30 @@
  */
 import _  = require('lodash');
 import { User } from '../../models/User';
-import { InvalidResponseDataError, AuthError } from '../errors/errors';
+import { InvalidResponseDataError, AuthError } from '../../errors/errors';
 import { TodoListDataSource } from './TodoListDataSource';
 import { SettingDataSource } from './SettingDataSource';
+import { BaseService } from '../../wanamu/wanamu';
+import { Service, InjectC } from '../../decorators/decorators';
 
-export class UserDataSource {
-    static $inject  = ['$http', '$q', 'constants'];
+@Service('userDataSource')
+@InjectC('$http', '$q', 'constants')
+export class UserDataSource extends BaseService {
 
     public constructor(
         public $http : angular.IHttpService,
         public $q : angular.IQService,
         public constants : any
-    ){}
+    ){
+        super();
+    }
 
     /**
      *
      * @param id
      * @returns {IPromise<User>}
      */
-    public getUser(id : number) : angular.IPromise<User.User> {
+    public getUser(id : number) : angular.IPromise<User> {
         var deferred = this.$q.defer();
         var promise = deferred.promise;
 
@@ -31,7 +36,7 @@ export class UserDataSource {
                 if (!UserDataSource.isValidUserData(data)) {
                     deferred.reject(new InvalidResponseDataError());
                 } else {
-                    var user = new User.User(data.data[0]);
+                    var user = new User(data.data[0]);
                     deferred.resolve(user);
                 }
             }).error(function (data, status) {
@@ -59,7 +64,7 @@ export class UserDataSource {
      * @param password
      * @returns {IPromise<User>}
      */
-    public login(username : string, password : string) : angular.IPromise<User.User> {
+    public login(username : string, password : string) : angular.IPromise<User> {
         var deferred = this.$q.defer();
         var promise = deferred.promise;
         this.$http.post(this.constants.loginurl, {
@@ -70,7 +75,7 @@ export class UserDataSource {
                     name: 'Unkown', message: 'Invalid data received from server'
                 });
             } else {
-                var user = new User.User(data.data[0]);
+                var user = new User(data.data[0]);
                 deferred.resolve(user);
             }
         }).error(function (data, status) {
@@ -95,7 +100,7 @@ export class UserDataSource {
 
     /**
      * Checks if the result from server is a valid user
-     * @param user
+     * @param data
      * @returns {boolean}
      */
     public static isValidUserData(data : any) : boolean {

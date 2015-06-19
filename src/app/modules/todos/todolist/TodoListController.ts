@@ -4,7 +4,7 @@ import { AuthService } from '../../auth/services/AuthService';
 /**
  * Controls the TodoList
  */
-class TodoListController {
+export class TodoListController {
 
     static $inject : any = ['$state', 'auth'];
     public list : Todo[];
@@ -39,5 +39,3 @@ class TodoListController {
         console.log('hund');
     }
 }
-
-export = TodoListController;

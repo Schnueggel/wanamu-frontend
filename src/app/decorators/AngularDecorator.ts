@@ -1,101 +1,109 @@
 import _ = require('lodash');
+import '../wanamu/wanamu';
+
+enum TYPE {
+    SERVICE,
+    CONTROLLER,
+    MODULE
+}
 export class ServiceOptions {
+    type : TYPE;
     serviceName : string;
     serviceClass : Function;
-    moduleClass : Function;
+}
+
+export class ModuleOptions {
+    services : Array<Function> = [];
+    controller : Array<Function> = [];
+    modules : Array<string> = [];
 }
 
 /**
  * Registry for Controller and Services
  */
 export class Registry {
-    public static controller :  ServiceOptions[] = [];
+    public static moduleServices : {[moduleName : string] : Array<Function> } = {};
     public static services : ServiceOptions[] = [];
-    public static moduleArgs : {[modulename: string] : any[]} = {};
+    public static moduleArgs : {[modulename: string] : ModuleOptions} = {};
+
     public static modules : {[modulename: string] : angular.IModule} = {};
 
-    public static bootstrap (moduleClass: Function, name : string) {
+    /**
+     *
+     * @param moduleClass
+     * @param name
+     * @returns {any}
+     */
+    public static bootstrap (moduleClass: any, name : string) : angular.IModule {
 
         if (!_.isUndefined(Registry.modules[name])) {
             return Registry.modules[name];
         }
 
-        let moduleargs : string[] = [];
-
-        if (_.isArray(Registry.moduleArgs[name])) {
-
-            Registry.moduleArgs[name].forEach((mod) => {
-                if (_.isString(mod)) {
-                    moduleargs.push(mod);
-                } else if (_.isFunction(mod)){
-
-                    moduleargs.push(mod().name);
-                } else {
-                    throw Error('Invalid module type. Expect string or class');
-                }
-            });
-        }
-
-        var o = Object.create(moduleClass.prototype);
-        moduleClass.apply(o, moduleargs);
-        var module = o.ngModule;
-
-        //Bootstrap controller
-        Registry.controller.forEach((opts : ServiceOptions) => {
-            if (opts.moduleClass === moduleClass) {
-                module.controller(opts.serviceName, opts.serviceClass);
-            }
-        });
+        let moduleargs : ModuleOptions = Registry.moduleArgs[name];
+        let module = <wanamu.IModule>new moduleClass();
+        let ngModule = angular.module(name, moduleargs.modules);
+        ngModule.config(module.config);
+        module.ngModule = ngModule;
 
         //Bootstrap services
-        Registry.services.forEach((opts : ServiceOptions) => {
-            if (opts.moduleClass === moduleClass) {
-                module.service(opts.serviceName, opts.serviceClass);
-            }
+        moduleargs.controller.forEach((serviceClass : Function) => {
+            Registry.services.forEach((serviceOpts : ServiceOptions) => {
+                if (serviceClass === serviceOpts.serviceClass) {
+                    ngModule.controller(serviceOpts.serviceName, serviceClass);
+                }
+            })
         });
 
-        Registry.modules[name] = module;
+        moduleargs.services.forEach((serviceClass : Function) => {
+            Registry.services.forEach((serviceOpts : ServiceOptions) => {
+                if (serviceClass === serviceOpts.serviceClass) {
+                    ngModule.service(serviceOpts.serviceName, serviceClass);
+                }
+            })
+        });
 
-        return module;
+        Registry.modules[name] = ngModule;
+
+        return ngModule;
     }
 }
 
 /**
  * Declara class to module
  * @param name
- * @param args dependend modules string or class
+ * @param data
  * @returns {function(Function): any}
  * @constructor
  */
-export function Module (name : string, ...args : any[]) {
+export function Module (name : string, data? : ModuleOptions) {
 
-    Registry.moduleArgs[name] = args;
+    if (!data) {
+        data = new ModuleOptions();
+    }
+    Registry.moduleArgs[name] = data;
 
-    return function (target : Function) : any {
-
-        //If module get instantiated we bootstrap all registered services, controller aso
-        return function (...args : any[]) {
-            return Registry.bootstrap(target, name);
-        }
+    return function (target : any) : any {
+        Registry.bootstrap(target, name);
+        return target;
     };
 }
 
 /**
  * Declare class to angular Controller
  * @param controllerName
- * @param controllerClass
  * @returns {function(Function): any}
  * @constructor
  */
-export function Controller (controllerName : string, controllerClass : Function) {
+export function Controller (controllerName: string) {
 
-    return function(target : Function) {
-        var opts : ServiceOptions = {
-            moduleClass : target,
-            serviceName  : controllerName,
-            serviceClass: controllerClass
+    return function(target : any) {
+        let opts : ServiceOptions = <ServiceOptions>{
+            type: TYPE.CONTROLLER,
+            serviceName: controllerName,
+            serviceClass: target
         };
-        Registry.controller.push(opts);
+        Registry.services.push(opts);
 
         return target;
     }
@@ -103,20 +111,20 @@ export function Controller (controllerName : string, controllerClass : Function)
 /**
  * Declare class to angular Service
  * @param serviceName
- * @param serviceClass
  * @returns {function(Function): any}
  * @constructor
  */
-export function Service (serviceName : string, serviceClass : Function) {
+export function Service (serviceName : string) {
 
-    return function(target : Function) {
-        var opts : ServiceOptions = {
-            moduleClass : target,
-            serviceName  : serviceName,
-            serviceClass: serviceClass
+    return function(target : any) {
+        let opts : ServiceOptions = <ServiceOptions>{
+            type: TYPE.SERVICE,
+            serviceName: serviceName,
+            serviceClass: target
         };
         Registry.services.push(opts);
 
         return target;
     }
 }
+

@@ -187,12 +187,14 @@ gulp.task('build-clean-app', function (cb) {
 // Remove all app code in dist folder
 // ==========================================================
 gulp.task('build-typescript', function () {
+    // TODO remove custom typescript lib if typescript update comes
     var tsResult = gulp.src(path.join( srcAppPath,'**', '*.ts'))
         .pipe(gulptypescript({
             noImplicitAny: true,
+            experimentalDecorators: true,
             module : 'commonjs',
             target: 'ES5',
-            typescript : require('typescript')
+            typescript : require('./libs/typescript')
         }));
     return tsResult.js.pipe(gulp.dest(tmpAppPath));
 });

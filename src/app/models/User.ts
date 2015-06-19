@@ -7,11 +7,11 @@
 import _ = require('lodash');
 import { Setting } from './Setting';
 import { TodoList } from './TodoList';
-import { TodoListNotFoundError }  from './errors/TodoListNotFoundError';
+import { TodoListNotFoundError } from './errors/TodoListNotFoundError';
 import { Todo } from './Todo';
-import Base = require('./Base');
+import { BaseModel }  from './BaseModel';
 
-export class User extends Base.Base {
+export class User extends BaseModel {
 
     public static TYPE_GUEST = 'guest';
     public static TYPE_USER = 'user';

@@ -4,9 +4,9 @@
 'use strict';
 
 import TodoDirective = require('./todo/TodoDirective');
-import TodoListController = require('./todolist/TodoListController');
-import {HeaderToolbarController} from './headertoolbar/HeaderToolbarController';
-import {TodosService} from './services/TodosService';
+import { TodoListController } from './todolist/TodoListController';
+import { HeaderToolbarController } from './headertoolbar/HeaderToolbarController';
+import { TodosService} from './services/TodosService';
 
 /**
  * Module name

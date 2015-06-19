@@ -1,37 +1,33 @@
 import { Module, InjectM, Controller, Service } from '../../decorators/decorators';
-import { PanelController } from './Panel';
+import { PanelController } from './PanelController';
 import { HeaderController } from './header/HeaderController';
 import { PanelService } from './PanelService';
+import { BaseModule } from '../../wanamu/BaseModule';
 
 /**
  * Panel Module is the Basis for the Layout
  */
-@Module('panel')
-@Controller('PanelCtrl', PanelController)
-@Controller('HeaderCtrl', HeaderController)
-@Service ('PanelService', PanelService)
-export class PanelModule {
+@Module('panel', {
+    controller: [PanelController, HeaderController],
+    modules : [],
+    services  : []
+})
+export class PanelModule extends BaseModule {
 
-    public name : string = 'panel';
-    public ngModule : angular.IModule;
-
-    constructor (...args : any[]) {
-        this.ngModule = angular.module(this.name, args);
-        this.ngModule.config(this.config);
-    }
+    public static mname : string = 'panel';
 
     @InjectM('$stateProvider')
     config($stateProvider : ngui.IStateProvider) {
 
         $stateProvider.state('panel', {
             abstract: true,
-            controller: 'PanelCtrl as Panel',
+            controller: 'PanelController as Panel',
             template: require('./panel.html'),
             role: 'public'
         }).state('panel.view', {
             views: {
                 'header@panel': {
-                    controller: 'HeaderCtrl as Header',
+                    controller: 'HeaderController as Header',
                     template: require('./header/header.html'),
                 }
             }

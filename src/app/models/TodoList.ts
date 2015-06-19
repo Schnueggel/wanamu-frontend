@@ -3,9 +3,9 @@
  */
 import _ = require('lodash');
 import { Todo } from './Todo';
-import Base = require('./Base');
+import { BaseModel }  from './BaseModel';
 
-export class TodoList extends Base.Base implements wanamu.ITodoList {
+export class TodoList extends BaseModel implements wanamu.ITodoList {
 
     public id : number;
     public name : string;

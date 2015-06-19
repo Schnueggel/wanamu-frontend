@@ -1,5 +1,5 @@
-'use strict';
-
+import { Service, InjectC } from '../../../decorators/decorators';
+import { BaseService } from '../../../wanamu/wanamu';
 /**
  * This Module create a Service named auth and a directive named tdIsAuth
  * @param {Object} ngModule
@@ -8,15 +8,15 @@
  * We make this class Singleton even noramly services it angular are used as singleton.
  * But it seems that the methods of this class are used without binding inside angular
  */
-class HttpInterceptor {
+@Service('httpInterceptor')
+@InjectC('$q', '$injector')
+export class HttpInterceptor extends BaseService {
     //Dependencies
-    static $inject = ['$q', '$injector'];
-    public hund = 3;
     constructor(
         public $q : angular.IQService,
         public $injector : angular.auto.IInjectorService
     ) {
-
+        super();
     }
 
     // optional method
@@ -48,5 +48,3 @@ class HttpInterceptor {
         return this.$q.reject(rejection);
     }
 }
-
-export = HttpInterceptor;

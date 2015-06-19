@@ -1,11 +1,13 @@
 import { DateTimePickerOptions } from '../datetimepicker/datetimepicker/datetimepickeroptions';
+import { Service, InjectC } from '../../decorators/decorators';
+import { BaseService } from '../../wanamu/wanamu';
 /**
  * Service to Control the global datepicker and repeatpicker element
  * @alias panelService
  */
-export class PanelService {
-
-    static $inject = ['$q'];
+@Service('panelService')
+@InjectC('$q')
+export class PanelService extends BaseService {
 
     private _opendatepicker : boolean = false;
     private _openrepeatpicker : boolean = false;
@@ -15,7 +17,9 @@ export class PanelService {
     public repeatopts : wanamu.dialogs.RepeatOptions;
     public datetimepickeropts : DateTimePickerOptions;
 
-    constructor(public $q : angular.IQService) { }
+    constructor(public $q : angular.IQService) {
+        super();
+    }
 
     /**
      *

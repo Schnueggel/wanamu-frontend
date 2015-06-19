@@ -1,26 +1,28 @@
-/**
- * Created by Christian on 06.06.2015.
- */
-'use strict';
 
 /**
  * This class is a angular service to use it add it as service
  */
 import _  = require('lodash');
-import Todo = require('../../models/Todo');
+import { Todo } from '../../models/Todo';
+import { BaseService } from '../../wanamu/wanamu';
+import { Service, InjectC } from '../../decorators/decorators';
 
-export class TodoDataSource {
+@Service('todoDataSource')
+@InjectC('$http', '$q', 'constants')
+export class TodoDataSource extends BaseService {
     static $inject  = ['$http', '$q', 'constants'];
 
     public constructor(
         public $http : angular.IHttpService,
         public $q : angular.IQService,
         public constants : any
-    ){}
+    ){
+        super();
+    }
 
     /**
      * Checks if the result from server is a valid user
-     * @param user
+     * @param data
      * @returns {boolean}
      */
     public static isValidUserData(data : any) : boolean {
