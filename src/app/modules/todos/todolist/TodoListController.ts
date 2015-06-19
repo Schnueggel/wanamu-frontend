@@ -1,12 +1,13 @@
 
 import { Todo } from '../../../models/Todo';
 import { AuthService } from '../../auth/services/AuthService';
-/**
- * Controls the TodoList
- */
-export class TodoListController {
+import { BaseController } from '../../../wanamu/wanamu';
+import { InjectC, Controller } from '../../../decorators/decorators';
 
-    static $inject : any = ['$state', 'auth'];
+@Controller('TodoListController')
+@InjectC('$state', 'auth')
+export class TodoListController extends BaseController{
+
     public list : Todo[];
     public setting : wanamu.ISetting;
     public currentTodoListId : number = null;
@@ -15,6 +16,7 @@ export class TodoListController {
         public $state: ngui.IStateService,
         public auth : AuthService
     ){
+        super();
         if (!auth.isLoggedIn()) {
             $state.go('panel.view.login');
             return;

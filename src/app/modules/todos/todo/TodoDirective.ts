@@ -1,26 +1,19 @@
 'use strict';
 
 import _ = require('lodash');
-import {TodoController} from './TodoController';
+import { TodoController } from './TodoController';
+import { BaseDirective, BaseController } from '../../../wanamu/wanamu';
+import { Directive } from '../../../decorators/decorators';
 
-/**
- *
- * @param auth
- */
-export function wuTodo(): angular.IDirective {
-    return {
-        scope: true,
-        bindToController: {
-            todo: '=todo',
-            setting :'=setting'
-        },
-        controllerAs: 'Todo',
-        controller : TodoController ,
-        template : require('./todo.html'),
-        restrict: "E"
-    }
+@Directive('wuTodoItem')
+export class TodoDirective extends BaseDirective {
+    public scope: boolean = true;
+    public bindToController: Object ={
+        todo: '=todo',
+        setting :'=setting'
+    };
+    controllerAs: string = 'Todo';
+    controller: typeof TodoController = TodoController;
+    template: string = require('./todo.html');
+    restrict: string = "E";
 }
-
-//Inject services
-wuTodo.$inject = [];
-

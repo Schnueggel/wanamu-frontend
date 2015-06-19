@@ -1,15 +1,17 @@
 import _ = require('lodash');
 import { Todo } from '../../../models/Todo';
 import { InjectC } from '../../../decorators/decorators';
+import { BaseController } from '../../../wanamu/wanamu';
 import { PanelService } from '../../panel/PanelService';
 import { DateTimePickerOptions } from '../../datetimepicker/datetimepicker/datetimepickeroptions';
+
 /**
  * This Controller manages a single TodoDirective
  * @alias Todo
  * @namespace todo
  */
 @InjectC('wuRepeatDialog','panelService')
-export class TodoController {
+export class TodoController extends BaseController {
 
     public static currentInEdit : TodoController = null;
 
@@ -27,7 +29,7 @@ export class TodoController {
     public weekly : Array<string>;
 
     constructor(public wuRepeatDialog: wanamu.dialogs.RepeatDialogService, public panelService: PanelService) {
-
+        super();
         this.edit = false;
         this.editcolors = false;
         this.colors = this.setting.colors();

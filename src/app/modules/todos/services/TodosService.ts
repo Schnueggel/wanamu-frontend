@@ -7,10 +7,12 @@ import { Todo } from '../../../models/models';
 import { AuthService } from '../../auth/services/AuthService';
 import { User } from '../../../models/models';
 import { TodoList } from '../../../models/models';
+import { BaseService } from '../../../wanamu/wanamu';
+import { InjectC, Service } from '../../../decorators/decorators';
 
-export class TodosService {
-
-    static $inject = ['auth', '$rootScope'];
+@InjectC('auth', '$rootScope')
+@Service('todosService')
+export class TodosService extends BaseService {
 
     public static EVENT_ADD_TODO : string = 'EVENT_ADD_TODO';
 
@@ -19,7 +21,7 @@ export class TodosService {
     public selectedTodoList : TodoList = null;
 
     constructor(public auth : AuthService, public $rootScope : angular.IRootScopeService){
-        console.log(auth.currentUser());
+        super();
         this.selectedTodoList = auth.currentUser().defaulttodolist;
     }
 
