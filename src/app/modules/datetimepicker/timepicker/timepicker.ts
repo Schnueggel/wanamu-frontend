@@ -1,6 +1,5 @@
 import {TimePickerController} from './timepickercontroller';
 export var clocksvg = require('./clock.svg');
-import moment = require('moment');
 
 export function timepicker($templateCache : angular.ITemplateCacheService) {
 

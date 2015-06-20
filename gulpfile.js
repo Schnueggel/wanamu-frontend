@@ -65,13 +65,9 @@ var webpackConfig = {
             /[\/\\]node_modules\.js$/
         ],
         loaders : [
-            {
-                test: /\.es6\.js$/,
-                loader: 'babel'
-            },
             //{
-            //    test: /\.ts$/,
-            //    loaders: ['typescript']
+            //    test: /\.js$/,
+            //    loader: 'babel'
             //},
             {
                 test: /\.(html|svg|txt)$/,

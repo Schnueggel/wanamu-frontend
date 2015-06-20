@@ -60,10 +60,10 @@ export class DatePickerController {
             this.date = new Date();
         }
 
-        this.currentMoment = moment(this.date);
-        this.nowMoment = moment();
+        this.currentMoment = mom(this.date);
+        this.nowMoment = mom();
 
-        this.weekDays = moment.weekdaysMin();
+        this.weekDays = mom.weekdaysMin();
 
         if (!_.isPlainObject(this.yearrange)) {
             this.yearrange = {min: 3, max: 3};
@@ -133,7 +133,7 @@ export class DatePickerController {
      */
     getDaysInMonth() : Array<number> {
         var weekdays : number = this.currentMoment.daysInMonth(),
-            firstDay : number  = moment(this.currentMoment).date(1).day(),
+            firstDay : number  = mom(this.currentMoment).date(1).day(),
             days : Array<any> = [],
             minday : number = 0,
             dayconf : wanamu.dateTimePicker.DayConf;

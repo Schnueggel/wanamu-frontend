@@ -1,6 +1,5 @@
 import _  = require('lodash');
 import mom = require('moment');
-
 /**
  * Class that controller the timepicker template
  */
@@ -90,7 +89,7 @@ export class TimePickerController {
         var coeff = 1000 * 60 * 5;
         var rounded = new Date(Math.ceil(this.date.getTime() / coeff) * coeff);
 
-        this.currentMoment = moment(rounded);
+        this.currentMoment = mom(rounded);
 
         this.setDaytime(this.currentMoment.format('a'));
 
@@ -133,7 +132,7 @@ export class TimePickerController {
                     hour24 = 0;
                 }
             }
-            console.log(hour24);
+
             this.currentMoment.hour(hour24);
             this.date.setHours(this.currentMoment.hours());
 
