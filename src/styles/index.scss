@@ -25,79 +25,54 @@ $shadow1:  0px 2px 5px rgba(0, 0, 0, 0.26);
 $default-fontsize: 1.4rem;
 $fontsize-title: 2.8rem;
 $fontsize-subtitle: 2rem;
-$front-icon-size: 36px;
+$font-icon-size: 47px;
 $menu-maxwidth: 700px;
 $todo-lineheight: 3rem;
-$header-height: 4rem;
+$header-height: 3rem;
 
 $text-color1: #ffffff;
 
-
-.material-icons {
-    font-family: 'Material Icons';
-    font-weight: normal;
-    font-style: normal;
-    font-size: $front-icon-size;  /* Preferred icon size */
-    display: inline-block;
-    width: 1em;
-    height: 1em;
-    line-height: 1;
-    text-transform: none;
-    letter-spacing: normal;
-
-    /* Support for all WebKit browsers. */
-    -webkit-font-smoothing: antialiased;
-    /* Support for Safari and Chrome. */
-    text-rendering: optimizeLegibility;
-
-    /* Support for Firefox. */
-    -moz-osx-font-smoothing: grayscale;
-
-    /* Support for IE. */
-    font-feature-settings: 'liga';
-}
-
-md-icon {
-    width: $front-icon-size;
-    height : $front-icon-size;
+@mixin keyframes ($name) {
+    @-webkit-keyframes #{$name} {
+        @content;
+    }
+    @keyframes #{$name} {
+        @content;
+    }
 }
 
 html {
+    font-size:22px;
     height: 100%;
     font-family: 'Roboto', sans-serif;
+    @media (max-width: 1000px) {
+        font-size: 19px;
+    }
+    @media (max-width: 800px) {
+        font-size: 18px;
+    }
+    @media (max-width: 700px) {
+        font-size: 17px;
+    }
+    @media (max-width: 600px) {
+        font-size: 15px;
+    }
+    @media (max-width: 500px) {
+        font-size: 14px;
+    }
+    @media (max-width: 400px) {
+        font-size: 12px;
+    }
+    @media (max-width: 350px) {
+        font-size: 11px;
+    }
 }
 
 body {
-    font-size:22px;
-    height: 100%;
+    overflow: hidden;
+    max-width: 100%;
+    max-height: 100%;
     background-color: #ffffff;
-    @media (max-width: 1000px) {
-            font-size: 19px;
-    }
-    @media (max-width: 800px) {
-            font-size: 18px;
-    }
-    @media (max-width: 700px) {
-            font-size: 17px;
-    }
-    @media (max-width: 600px) {
-            font-size: 15px;
-    }
-    @media (max-width: 500px) {
-            font-size: 14px;
-    }
-    @media (max-width: 400px) {
-            font-size: 12px;
-    }
-    @media (max-width: 350px) {
-            font-size: 11px;
-    }
-}
-
-main {
-    padding-top: $header-height +2rem;
-    height: 100%;
-    box-sizing: border-box;
 }
 
 footer {
@@ -121,25 +96,9 @@ input, textarea, select {
     padding-left: 3px;
 }
 
-.md-button {
-    font-size: $default-fontsize;
-    line-height: $todo-lineheight;
-    min-height: $todo-lineheight;
-}
 .font-size-2{
     font-size: $fontsize-subtitle;
     line-height: $fontsize-subtitle * 1.8;
-}
-
-header {
-    height: $header-height;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.26);
-    position: fixed;
-    left: 0;
-    right: 0;
-    z-index: 1;
-    top: 0;
-    box-sizing: border-box;
 }
 
 
@@ -178,11 +137,115 @@ html .header {
         line-height: 30px;
     }
 }
+/**
+    Material Overwrites
+**/
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: $font-icon-size;
+    display: inline-block;
+    width: $font-icon-size;
+    height:$font-icon-size;
+    line-height: $font-icon-size;
+    text-transform: none;
+    letter-spacing: normal;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+.md-button {
+    min-width: 2rem;
+    min-height: $font-icon-size;
+}
+
 md-dialog {
     max-height: 90%;
     max-width: 1200px;
 }
 
+md-switch {
+    .md-container {
+        width: 52px;
+        height: 40px;
+        margin-right: 34px;
+    }
+    .md-bar {
+        left: 16px;
+        width: 51px;
+        top: 7px;
+        height: 28px;
+        border-radius: 16px;
+    }
+    .md-thumb-container {
+        top: 0;
+        left: 0;
+        width: 40px;
+    }
+    .md-thumb {
+        left: 0;
+        top: 0;
+        height: 40px;
+        width: 40px;
+    }
+    .md-label {
+        font-size: 1.2rem;
+    }
+}
+md-icon {
+    width: $font-icon-size;
+    height : $font-icon-size;
+}
+
+.animate-ng-show.ng-hide-remove {
+    -webkit-transform-origin: top;
+    transform-origin: top;
+    -webkit-animation: 1s show;
+    animation: 1s show;
+}
+.animate-ng-show.ng-hide-add {
+    -webkit-transform-origin: top;
+    transform-origin: top;
+    -webkit-animation: 0.7s hide;
+    animation: 0.7s hide;
+}
+
+@include keyframes (hide) {
+    0% {
+        opacity: 1;
+        transform: scaleY(1);
+    }
+    30% {
+        transform: scaleY(1.02);
+    }
+    100% {
+        opacity: 0;
+        transform: scaleY(0.5);
+    }
+}
+
+@include keyframes (show) {
+    0% {
+        opacity: 0;
+        transform: scaleY(0.5);
+    }
+    70% {
+        transform: scaleY(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: scaleY(1);
+    }
+}
 
 html .panel {
     width: 100%;
@@ -226,7 +289,7 @@ html .panel {
         }
     }
     .todolist {
-        width: 700px;
+        max-width: 700px;
         margin: 0 auto;
         align-self: flex-start;
 
@@ -269,6 +332,7 @@ html .panel {
                     input, textarea {
                         line-height: $fontsize-title;
                         font-size: $fontsize-title;
+                        width: 100%;
                     }
                     text-align: left;
                     padding: 1rem 2px;

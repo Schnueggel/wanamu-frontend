@@ -1,5 +1,5 @@
-<header ui-view="header" class="header-container"></header>
-<div class="panel">
+<header ui-view="header"></header>
+<md-content class="panel">
     <div class="components" ng-show="Panel.panelService.isComponentOpen">
         <!---DateTimePicker --->
         <div ng-show="Panel.panelService.isDateTimePickerOpen">
@@ -30,5 +30,5 @@
     </div>
     <!-- Content -->
     <content ui-view ng-show="!Panel.panelService.isComponentOpen"></content>
-</div>
+</md-content>
 <footer ui-view="footer"></footer>
