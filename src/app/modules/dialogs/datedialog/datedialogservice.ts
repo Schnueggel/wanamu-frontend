@@ -1,8 +1,3 @@
-/**
- * Created by Schnueggel on 14.06.2015.
- */
-'use strict';
-
 import {DateDialogController} from './datedialog';
 
 /**
@@ -12,7 +7,7 @@ export class DateDialogService implements wanamu.dialogs.DateDialogService {
 
     static $inject = ['$mdDialog', '$document'];
 
-    constructor(public $mdDialog : angularmaterial.MDDialogService, public $document : angular.IDocumentService) {
+    constructor(public $mdDialog : angular.material.MDDialogService, public $document : angular.IDocumentService) {
     }
 
     /**
@@ -29,7 +24,7 @@ export class DateDialogService implements wanamu.dialogs.DateDialogService {
         }
         var doc : Document = <any>this.$document[0];
 
-        var opts : angularmaterial.MDDialogOptions = <angularmaterial.MDDialogOptions>{
+        var opts : angular.material.MDDialogOptions = <angular.material.MDDialogOptions>{
             template : require('./datedialog.html'),
             parent: <HTMLElement>doc.body,
             targetEvent : ev,

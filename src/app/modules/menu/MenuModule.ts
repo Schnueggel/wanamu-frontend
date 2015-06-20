@@ -12,7 +12,7 @@ export class MenuModule extends BaseModule{
     public static mname : string = 'menu';
 
     @InjectM('$stateProvider')
-    config($stateProvider : ngui.IStateProvider) {
+    config($stateProvider : angular.ui.IStateProvider) {
         $stateProvider.state('panel.view.menu', {
             url: '/menu', role: 'public', views: {
                 '@panel': {

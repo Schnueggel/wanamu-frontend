@@ -1,7 +1,5 @@
-/// <reference path="../../../libs/moment/moment-node.d.ts" />
-'use strict';
 import _  = require('lodash');
-import moment = require('moment');
+import mom = require('moment');
 
 /**
  * Class that controller the timepicker template
@@ -29,7 +27,7 @@ export class TimePickerController {
     /**
      * @viewvar
      */
-    public currentMoment : momentM.Moment;
+    public currentMoment : moment.Moment;
 
     /**
      * @viewvar

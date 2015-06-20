@@ -13,7 +13,7 @@ export class TodoListController extends BaseController{
     public currentTodoListId : number = null;
 
     constructor(
-        public $state: ngui.IStateService,
+        public $state: angular.ui.IStateService,
         public auth : AuthService
     ){
         super();

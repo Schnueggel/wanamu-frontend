@@ -19,7 +19,7 @@ export class PanelModule extends BaseModule {
     public static mname : string = 'panel';
 
     @InjectM('$stateProvider')
-    config($stateProvider : ngui.IStateProvider) {
+    config($stateProvider : angular.ui.IStateProvider) {
 
         $stateProvider.state('panel', {
             abstract: true,

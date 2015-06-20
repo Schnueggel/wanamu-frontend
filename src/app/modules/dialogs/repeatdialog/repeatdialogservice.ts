@@ -12,7 +12,7 @@ export class RepeatDialogService implements wanamu.dialogs.RepeatDialogService {
 
     static $inject = ['$mdDialog', '$document'];
 
-    constructor(public $mdDialog : angularmaterial.MDDialogService, public $document : angular.IDocumentService) {
+    constructor(public $mdDialog : angular.material.MDDialogService, public $document : angular.IDocumentService) {
     }
 
     /**
@@ -25,7 +25,7 @@ export class RepeatDialogService implements wanamu.dialogs.RepeatDialogService {
 
         var doc : Document = <any>this.$document[0];
 
-        var opts : angularmaterial.MDDialogOptions = <angularmaterial.MDDialogOptions>{
+        var opts : angular.material.MDDialogOptions = <angular.material.MDDialogOptions>{
             template : require('./repeatdialog.html'),
             parent: <HTMLElement>doc.body,
             targetEvent : ev,

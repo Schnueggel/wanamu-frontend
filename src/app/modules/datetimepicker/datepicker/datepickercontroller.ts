@@ -1,7 +1,5 @@
-/// <reference path="../../../libs/moment/moment-node.d.ts" />
-'use strict';
 import _  = require('lodash');
-import moment = require('moment');
+import mom = require('moment');
 
 export class DatePickerController {
 
@@ -18,7 +16,7 @@ export class DatePickerController {
      * Moment wrapper for currentdate
      * @viewvar
      */
-    public currentMoment: momentM.Moment;
+    public currentMoment: moment.Moment;
     /**
      * @viewvar
      * @type {Array}
@@ -51,7 +49,7 @@ export class DatePickerController {
     /**
      * Now
      */
-    protected nowMoment : momentM.Moment;
+    protected nowMoment : moment.Moment;
 
     /**
      * DatePickerController

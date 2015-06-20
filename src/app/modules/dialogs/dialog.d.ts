@@ -5,12 +5,12 @@
 declare module wanamu {
     module dialogs {
         interface DateDialogService {
-            $mdDialog : angularmaterial.MDDialogService,
+            $mdDialog : angular.material.MDDialogService,
 
             show (date: Date, ev?: MouseEvent) : angular.IPromise<Date>;
         }
         interface RepeatDialogService {
-            $mdDialog : angularmaterial.MDDialogService,
+            $mdDialog : angular.material.MDDialogService,
 
             show (repeatoptions : RepeatOptions, ev?: MouseEvent) : angular.IPromise<RepeatOptions>;
         }

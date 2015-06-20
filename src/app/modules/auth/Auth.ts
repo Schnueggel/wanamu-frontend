@@ -7,7 +7,7 @@ import IsAuthDirective = require('./isauth/IsAuthDirective');
  */
 export var name = 'auth';
 
-export function config($stateProvider : ngui.IStateProvider) {
+export function config($stateProvider : angular.ui.IStateProvider) {
     // States/Routes
     $stateProvider
         .state('panel.view.login', {
@@ -57,7 +57,7 @@ export class LoginController {
      */
     constructor(
         public $scope : angular.IScope,
-        public $state : ngui.IStateService,
+        public $state : angular.ui.IStateService,
         public auth : AuthService
     ) {
 
@@ -98,7 +98,7 @@ export class LoginController {
  */
 export class LogoutController {
     constructor (
-        public $state : ngui.IStateService,
+        public $state : angular.ui.IStateService,
         public auth : AuthService
     ){
         auth

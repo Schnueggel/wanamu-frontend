@@ -61,7 +61,7 @@ export class RepeatDialogController {
      */
     public weekly : Array<string>;
 
-    constructor(public $scope : angular.IScope, public $mdDialog : angularmaterial.MDDialogService) {
+    constructor(public $scope : angular.IScope, public $mdDialog : angular.material.MDDialogService) {
 
         if (_.isArray(this.weekly) && this.weekly.length > 0) {
             this.weekly.forEach((val : string) => {

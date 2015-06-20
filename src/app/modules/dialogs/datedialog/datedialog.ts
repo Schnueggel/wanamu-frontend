@@ -11,7 +11,7 @@ export class DateDialogController {
     public changed : Function;
     public allowpast : boolean;
 
-    constructor(public $scope : angular.IScope, public $mdDialog : angularmaterial.MDDialogService) {}
+    constructor(public $scope : angular.IScope, public $mdDialog : angular.material.MDDialogService) {}
 
     /**
      * @viewfunction

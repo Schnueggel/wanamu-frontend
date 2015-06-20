@@ -16,7 +16,7 @@ export class TodosModule extends BaseModule {
     public static mname: string = 'todo';
 
     @InjectM('$stateProvider')
-    config ($stateProvider: ngui.IStateProvider) {
+    config ($stateProvider: angular.ui.IStateProvider) {
         // States/Routes
         $stateProvider
             .state('panel.view.todos', {
