@@ -166,6 +166,7 @@ html .header {
 .md-button {
     min-width: 2rem;
     min-height: $font-icon-size;
+    font-size: $default-fontsize;
 }
 
 md-dialog {
@@ -247,22 +248,12 @@ md-icon {
     }
 }
 
-html .panel {
-    width: 100%;
-    margin: 0;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    box-sizing: border-box;
-    padding: 0 1rem 0 1rem;
+.panel {
 
     content, .components {
         height: 100%;
         width: 100%;
     }
-
 
     .input-container {
         margin: 0.9rem 0;
