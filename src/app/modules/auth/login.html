@@ -1,8 +1,9 @@
-<section class="login">
+<div layout="row" flex>
     <img class="logo" src="/images/Wanamu.svg">
-
+</div>
+<section class="login">
     <div class="form-container">
-        <form name="Login.loginform" role="form" ng-submit="Login.login()" novalidate>
+        <form name="Login.loginform" role="form" ng-submit="Login.login()" novalidate autocomplete="off">
             <div ng-messages="Login.form.error">
                 <div ng-message="error" class="error">{{Login.form.error.message}}</div>
             </div>
@@ -10,7 +11,8 @@
                 <input type="text" name="username" placeholder="{{'login.email' | translate}}"
                        ng-pattern="Login.pattern"
                        ng-model="Login.form.username"
-                       ng-required="true">
+                       ng-required="true"
+                       autocomplete="off">
                 <div ng-messages="loginform.username.$error"
                      ng-show="loginform.$submitted && loginform.username.$invalid && loginform.username.$untouched"
                     >

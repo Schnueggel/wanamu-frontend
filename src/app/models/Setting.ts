@@ -3,11 +3,11 @@ import { BaseModel }  from './BaseModel';
 export class Setting extends BaseModel implements wanamu.ISetting {
 
     public id : number;
-    public color1 : string;
-    public color2 : string;
-    public color3 : string;
-    public color4 : string;
-    public color5 : string;
+    public color1 : string = 'rgba(255, 223, 2, 0.8)';
+    public color2 : string = 'rgba(0, 128, 0, 0.8)';
+    public color3 : string = 'rgba(255, 0, 0, 0.8)';
+    public color4 : string = 'rgba(0, 90, 255, 0.8)';
+    public color5 : string = 'rgba(0, 0, 0, 0.8)';
     public face : string;
 
     /**

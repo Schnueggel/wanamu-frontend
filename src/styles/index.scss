@@ -74,7 +74,11 @@ body {
     max-height: 100%;
     background-color: #ffffff;
 }
-
+/* Hack to remove chrome yellowing textboxes */
+textarea:-webkit-autofill,
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset;
+}
 footer {
     text-align: center;
     a {
@@ -120,16 +124,6 @@ html .header {
         }
         cursor: pointer;
     }
-
-    .menu-logo {
-        cursor: pointer;
-        background-color: white;
-        md-icon {
-            max-height: $header-height;
-            min-height: $header-height -1;
-            width: auto;
-        }
-    }
     .color-button {
         width: 30px;
         height: 30px;
@@ -144,14 +138,14 @@ html .header {
     font-family: 'Material Icons';
     font-weight: normal;
     font-style: normal;
-    font-size: $font-icon-size;
+    font-size: 44px;
     display: inline-block;
-    width: $font-icon-size;
-    height:$font-icon-size;
-    line-height: $font-icon-size;
+    width: 44px;
+    height:44px;
+    line-height: 40px;
     text-transform: none;
     letter-spacing: normal;
-
+    vertical-align: middle;
     /* Support for all WebKit browsers. */
     -webkit-font-smoothing: antialiased;
     /* Support for Safari and Chrome. */
@@ -167,8 +161,12 @@ html .header {
     min-width: 2rem;
     min-height: $font-icon-size;
     font-size: $default-fontsize;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
 }
-
+.md-icon-button {
+    padding: 0;
+}
 md-dialog {
     max-height: 90%;
     max-width: 1200px;
@@ -248,8 +246,14 @@ md-icon {
     }
 }
 
-.panel {
+.logo {
+    margin: 2rem auto;
+}
+.colors {
+    background-color: transparent;
+}
 
+.panel {
     content, .components {
         height: 100%;
         width: 100%;
