@@ -2,12 +2,13 @@ import { TodoDirective } from './todo/TodoDirective';
 import { TodoListController } from './todolist/TodoListController';
 import { TodosHeaderController } from './headertoolbar/TodosHeaderController';
 import { TodosService } from './services/TodosService';
+import { TodosHeaderService } from './headertoolbar/TodosHeaderService';
 import { Module, InjectM } from '../../decorators/decorators';
 import { BaseModule } from '../../wanamu/BaseModule';
 
 @Module('todo', {
     controller: [TodoListController, TodosHeaderController],
-    services: [TodosService],
+    services: [TodosService, TodosHeaderService],
     modules: ['panel'],
     directives: [TodoDirective]
 })
@@ -28,7 +29,7 @@ export class TodosModule extends BaseModule {
                     },
                     'headertoolbar@panel.view' : {
                         controller: 'TodosHeaderController as Ctrl',
-                        template: require('./headertoolbar/todoheadertoolbar.html')
+                        template: require('./headertoolbar/todosheadertoolbar.html')
                     }
                 }
             });

@@ -1,8 +1,3 @@
-/**
- * Created by Schnueggel on 09.06.2015.
- */
-'use strict';
-
 import { Todo } from '../../../models/models';
 import { AuthService } from '../../auth/services/AuthService';
 import { User } from '../../../models/models';

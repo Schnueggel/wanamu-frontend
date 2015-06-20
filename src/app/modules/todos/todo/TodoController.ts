@@ -10,7 +10,7 @@ import { RepeatDirectiveOptions } from '../../repeatpicker/RepeatDirectiveOption
  * @alias Todo
  * @namespace todo
  */
-@InjectC('wuRepeatDialog','panelService')
+@InjectC('wuRepeatDialog', 'panelService', 'wuTodosHeaderService')
 export class TodoController extends BaseController {
 
     public static currentInEdit : TodoController = null;
@@ -28,7 +28,11 @@ export class TodoController extends BaseController {
     public monthly : string;
     public weekly : Array<string>;
 
-    constructor(public wuRepeatDialog: wanamu.dialogs.RepeatDialogService, public panelService: PanelService) {
+    constructor(
+        public wuRepeatDialog: wanamu.dialogs.RepeatDialogService,
+        public panelService: PanelService,
+        public wuTodosHeaderService : wanamu.todos.TodosHeaderService
+    ) {
         super();
         this.edit = false;
         this.editcolors = false;
@@ -101,7 +105,14 @@ export class TodoController extends BaseController {
         inopts.weekly = this.weekly;
         inopts.repeat = this.repeat;
 
-        this.panelService.showRepeatPicker(inopts).then(this.onRepeatDialogSuccess);
+        this.wuTodosHeaderService.showAddTodoButton = false;
+
+        this.panelService
+            .showRepeatPicker(inopts)
+            .then(this.onRepeatDialogSuccess)
+            .finally(()=>{
+                this.wuTodosHeaderService.showAddTodoButton = true;
+            });
     }
 
     /**
@@ -127,8 +138,15 @@ export class TodoController extends BaseController {
 
         let opts = new DateTimePickerOptions(alarm);
 
-        this.panelService.showDateTimePicker(opts).then((alarm : Date) => {
-            this.alarm = alarm;
-        });
+        this.wuTodosHeaderService.showAddTodoButton = false;
+
+        this.panelService
+            .showDateTimePicker(opts)
+            .then((alarm : Date) => {
+                this.alarm = alarm;
+            })
+            .finally(()=>{
+                this.wuTodosHeaderService.showAddTodoButton = true;
+            });
     }
 }
