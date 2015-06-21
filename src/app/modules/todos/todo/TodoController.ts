@@ -2,7 +2,6 @@ import _ = require('lodash');
 import { Todo } from '../../../models/Todo';
 import { InjectC } from '../../../decorators/decorators';
 import { BaseController } from '../../../wanamu/wanamu';
-import { PanelService } from '../../panel/PanelService';
 import { DateTimePickerOptions } from '../../datetimepicker/datetimepicker/datetimepickeroptions';
 import { RepeatDirectiveOptions } from '../../repeatpicker/RepeatDirectiveOptions';
 /**
@@ -10,7 +9,7 @@ import { RepeatDirectiveOptions } from '../../repeatpicker/RepeatDirectiveOption
  * @alias Todo
  * @namespace todo
  */
-@InjectC('wuRepeatDialog', 'panelService', 'wuTodosHeaderService')
+@InjectC('wuRepeatDialog', 'panelService', 'wuTodosHeaderService', 'todoDataSource')
 export class TodoController extends BaseController {
 
     public static currentInEdit : TodoController = null;
@@ -27,11 +26,13 @@ export class TodoController extends BaseController {
     public yearly : string;
     public monthly : string;
     public weekly : Array<string>;
+    public moment : moment.MomentStatic = require('moment');
 
     constructor(
         public wuRepeatDialog: wanamu.dialogs.RepeatDialogService,
-        public panelService: PanelService,
-        public wuTodosHeaderService : wanamu.todos.TodosHeaderService
+        public panelService: wanamu.module.panel.PanelService,
+        public wuTodosHeaderService : wanamu.todos.TodosHeaderService,
+        public todoDataSource : wanamu.datasource.ITodoDataSource
     ) {
         super();
         this.edit = false;
@@ -142,7 +143,11 @@ export class TodoController extends BaseController {
         this.panelService
             .showDateTimePicker(opts)
             .then((alarm : Date) => {
+                this.todo.alarm = this.moment(alarm).format('YYYY-MM-DD HH:mm:ss').toString();
                 this.alarm = alarm;
+                this.todoDataSource.sync(this.todo).catch((err: wanamu.errors.BaseError ) => {
+                    this.panelService.showSimpleToast(err.message);
+                });
             })
             .finally(()=>{
                 this.wuTodosHeaderService.showAddTodoButton = true;
