@@ -14,5 +14,10 @@ declare module wanamu {
             disabled : boolean;
             day : number
         }
+        interface DateTimePickerOptions {
+             date: Date;
+             yearrange : YearRange;
+             allowpast : boolean ;
+        }
     }
 }

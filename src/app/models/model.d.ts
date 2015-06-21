@@ -14,6 +14,10 @@ declare module wanamu {
             repeat : string;
             deleted : boolean;
             color : string;
+            /**
+             * Maps the data to the model. this will not trigger the dirty flag
+             * @param data
+             */
             fromJSON(data : ITodoData) : void
             toDataJSON() : ITodoData
 

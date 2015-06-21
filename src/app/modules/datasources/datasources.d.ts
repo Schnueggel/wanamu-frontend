@@ -46,5 +46,9 @@ declare module wanamu {
             error : string;
             data : Array<ITodoData>;
         }
+
+        interface ITodoDataSource {
+            sync(todo: model.ITodo) : angular.IPromise<model.ITodo>;
+        }
     }
 }

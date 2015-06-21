@@ -1,5 +1,5 @@
 
-export class RepeatDirectiveOptions {
+export class RepeatDirectiveOptions implements wanamu.repeatpicker.RepeatDirectiveOptions {
     /**
      * Set day in year
      * @scopevar

@@ -1,6 +1,6 @@
 import {InvalidArgumentError} from '../../../errors/errors';
 
-export class DateTimePickerOptions {
+export class DateTimePickerOptions implements wanamu.dateTimePicker.DateTimePickerOptions {
 
     public date: Date;
     public yearrange : wanamu.dateTimePicker.YearRange;
