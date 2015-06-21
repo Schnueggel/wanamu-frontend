@@ -18,7 +18,7 @@ declare module wanamu {
         firstname : string;
         lastname : string;
         email: string;
-        TodoLists : ITodoListData[];
+        TodoLists : Array<ITodoListData>
         Setting: ISettingData;
         DefaultTodoListId : number;
 

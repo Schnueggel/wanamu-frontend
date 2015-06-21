@@ -38,7 +38,6 @@ export class TodoController extends BaseController {
         this.editcolors = false;
         this.colors = this.setting.colors();
         this.setColor(this.todo.color);
-
         // If a new Todo is added we put it in edit mode
         // New Todos dont have and ID
         if (!_.isNumber(this.todo.id)) {
@@ -59,7 +58,7 @@ export class TodoController extends BaseController {
      * @param color
      */
     setColor (color : string) : void {
-        this.currentColor = {'background-color': this.setting.color(color) || 'white'};
+        this.currentColor =  this.setting.color(color) || 'white';
     }
 
     get edit () : boolean { return this._edit;}

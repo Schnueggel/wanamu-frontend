@@ -1,9 +1,4 @@
 ///<reference path="./model.d.ts"/>
-/**
- * Created by Christian on 06.06.2015.
- */
-'use strict';
-
 import _ = require('lodash');
 import { Setting } from './Setting';
 import { TodoList } from './TodoList';
@@ -23,7 +18,7 @@ export class User extends BaseModel {
 
     public DefaultTodoListId : number;
 
-    public TodoLists : TodoList[];
+    public TodoLists : Array<TodoList>;
 
     public defaulttodolist : TodoList;
 
