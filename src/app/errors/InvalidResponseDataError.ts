@@ -7,5 +7,5 @@ import BaseError = require('./BaseError');
 
 export class InvalidResponseDataError extends BaseError.BaseError {
     public name: string = 'InvalidResponseDataError';
-    public message: string = 'Sorry the server response is invalid';
+    public message: string = 'The server response is invalid';
 }
