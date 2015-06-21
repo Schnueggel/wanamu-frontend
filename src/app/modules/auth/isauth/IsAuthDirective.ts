@@ -27,7 +27,6 @@ export class IsAuthDirective extends BaseDirective {
      * @param attributes
      */
     public link = ($scope: angular.IScope, element: JQuery, attributes : any) => {
-        console.log(this);
         /**
          * Hides or shows the element
          * @param {boolean} show
