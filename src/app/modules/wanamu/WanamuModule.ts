@@ -7,7 +7,7 @@ import { DateTimePickerModule } from '../datetimepicker/datetimepicker';
 import { DialogsModule } from '../dialogs/dialogs';
 import { HttpInterceptor } from  './services/HttpInterceptor';
 import { BaseModule } from '../../wanamu/wanamu';
-import { Module, Config, ModuleOptions } from '../../decorators/decorators';
+import { Module, Config } from '../../decorators/decorators';
 
 @Module('wanamu',
     {
@@ -19,11 +19,14 @@ import { Module, Config, ModuleOptions } from '../../decorators/decorators';
             MenuModule.mname,
             DialogsModule.name],
         services : [HttpInterceptor],
-        controller : [], directives: []
+        controller : [],
+        directives: []
     }
 )
 export class WanamuModule extends BaseModule {
-
+    /**
+     * @type {string}
+     */
     public static mname  : string = 'wanamu';
 
     @Config('$urlRouterProvider', '$translateProvider', '$logProvider', '$mdThemingProvider', '$httpProvider')
@@ -33,7 +36,9 @@ export class WanamuModule extends BaseModule {
             $mdThemingProvider :any,
             $httpProvider : angular.IHttpProvider) : any {
 
+        //We need credentials on xhr requests
         $httpProvider.defaults.withCredentials = true;
+
         $httpProvider.interceptors.push('httpInterceptor');
 
         /*
