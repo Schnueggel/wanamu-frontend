@@ -1,7 +1,11 @@
 
 declare module wanamu {
     module model {
-        interface ITodo {
+        interface IBaseModel {
+            dirty : boolean,
+            toDataJSON() : Object
+        }
+        interface ITodo extends IBaseModel{
             id : number;
             title : string;
             alarm : string;
@@ -10,6 +14,9 @@ declare module wanamu {
             repeat : string;
             deleted : boolean;
             color : string;
+            fromJSON(data : ITodoData) : void
+            toDataJSON() : ITodoData
+
         }
         interface IColor {
             color1 : string;
