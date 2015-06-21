@@ -3,15 +3,21 @@
  */
 import _ = require('lodash');
 
-export function log (target : Object, propertyKey: string, descriptor: TypedPropertyDescriptor<any> ) : any{
-    var originalMethod = descriptor.value; // save a reference to the original method
+export function Log (target : Object, propertyKey: string, descriptor: TypedPropertyDescriptor<any> ) : void{
+    let originalMethod = descriptor.value; // save a reference to the original method
 
-    descriptor.value = function(...args: any[]) {
-        var result = originalMethod.apply(this, args);
-        var constr  = <any>target.constructor;
-        var name = _.isUndefined(constr) ? constr.name : '';
-        console.log( `Call: ${name}${propertyKey}(${JSON.stringify(args)} => ${result})`);
+    let log = (...args: any[]) => {
+        let result = originalMethod.apply(target, args);
+        let constr  = <any>target.constructor;
+
+        let name = constr.name || 'Unkown';
+        console.log( `Call: ${name}.${propertyKey}(${JSON.stringify(args)}) => ${result}`);
     };
+    if (_.isFunction(descriptor.set)) {
+        originalMethod = descriptor.set;
+        descriptor.set = log;
 
-    return descriptor;
+    } else {
+        descriptor.value = log;
+    }
 }
