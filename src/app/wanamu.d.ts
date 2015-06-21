@@ -10,6 +10,11 @@ declare module wanamu {
         dirty : boolean;
     }
 
+    interface IConstants {
+        apiurl: string,
+        loginurl: string,
+        logouturl: string
+    }
     interface IndexableObject extends Object {
         [index: string]: any;
     }
