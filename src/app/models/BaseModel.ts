@@ -4,6 +4,7 @@ export class BaseModel implements wanamu.IDirty {
 
     private _dirty: boolean = false;
 
+    public fronJSON(data: Object) : void;
     public toDataJSON() : Object;
 
     @Log
