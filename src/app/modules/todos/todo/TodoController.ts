@@ -18,8 +18,8 @@ export class TodoController extends BaseController {
     private _edit : boolean = false;
     public todo : Todo;
     public editcolors : boolean;
-    public colors : wanamu.IColor;
-    public setting : wanamu.ISetting;
+    public colors : wanamu.model.IColor;
+    public setting : wanamu.model.ISetting;
     public currentColor : {};
     public alarm : Date;
 

@@ -1,10 +1,10 @@
-import { AuthService } from '../../auth/services/AuthService';
+import { AuthService } from '../../auth/AuthService';
 import { InjectC } from '../../../decorators/decorators';
 import { Controller } from '../../../decorators/decorators';
 /**
  * Controls the Header Toolbar
  */
-@InjectC('$rootScope', '$scope', '$state', 'auth')
+@InjectC('$rootScope', '$scope', '$state', 'wuAuthService')
 @Controller('HeaderController')
 export class HeaderController {
     public menuopen : boolean ;

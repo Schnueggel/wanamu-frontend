@@ -1,5 +1,5 @@
 import { PanelModule } from '../panel/PanelModule';
-import { AuthModule } from '../auth/Auth';
+import { AuthModule } from '../auth/AuthModule';
 import { MenuModule } from '../menu/MenuModule';
 import { DataSourceModule } from '../datasources/DataSourceModule';
 import { TodosModule } from '../todos/TodosModule';
@@ -7,14 +7,14 @@ import { DateTimePickerModule } from '../datetimepicker/datetimepicker';
 import { DialogsModule } from '../dialogs/dialogs';
 import { HttpInterceptor } from  './services/HttpInterceptor';
 import { BaseModule } from '../../wanamu/wanamu';
-import { Module, InjectM, ModuleOptions } from '../../decorators/decorators';
+import { Module, Config, ModuleOptions } from '../../decorators/decorators';
 
 @Module('wanamu',
     {
         modules : ['ui.router', 'ngAnimate', 'ngTouch', 'ngMessages','config', 'ngMaterial', 'pascalprecht.translate',
             DataSourceModule.mname,
             PanelModule.mname,
-            AuthModule.name,
+            AuthModule.mname,
             TodosModule.mname,
             MenuModule.mname,
             DialogsModule.name],
@@ -26,7 +26,7 @@ export class WanamuModule extends BaseModule {
 
     public static mname  : string = 'wanamu';
 
-    @InjectM('$urlRouterProvider', '$translateProvider', '$logProvider', '$mdThemingProvider', '$httpProvider')
+    @Config('$urlRouterProvider', '$translateProvider', '$logProvider', '$mdThemingProvider', '$httpProvider')
     config ($urlRouterProvider : any,
             $translateProvider : any,
             $logProvider : angular.ILogProvider,

@@ -27,7 +27,7 @@ export class User extends BaseModel {
 
     public defaulttodolist : TodoList;
 
-    public Setting : wanamu.ISetting;
+    public Setting : wanamu.model.ISetting;
 
     public usertype : string  = User.TYPE_GUEST;
 

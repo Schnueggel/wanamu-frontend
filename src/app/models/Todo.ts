@@ -1,7 +1,7 @@
 import { BaseModel }  from './BaseModel';
 import _ = require ('lodash');
 
-export class Todo extends BaseModel implements wanamu.ITodo {
+export class Todo extends BaseModel implements wanamu.model.ITodo {
 
     public id : number;
     public title : string = '';

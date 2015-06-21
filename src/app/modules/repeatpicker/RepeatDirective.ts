@@ -6,12 +6,19 @@ import { RepeatDirectiveOptions } from './RepeatDirectiveOptions';
 
 @Directive('wuRepeat')
 export class RepeatDirective extends BaseDirective {
-    public scope: boolean = true;
-    public bindToController: Object = {
-        repeatOpts: '='
+
+    constructor() {
+        super();
+    }
+
+    public directiveOptions  : angular.IDirective = {
+        scope: true,
+        bindToController:{
+            repeatOpts: '='
+        },
+        controllerAs: 'Repeat',
+        controller: RepeatDirectiveController,
+        template: require('./repeat.html'),
+        restrict: "E"
     };
-    controllerAs: string = 'Repeat';
-    controller: typeof RepeatDirectiveController = RepeatDirectiveController;
-    template: string = require('./repeat.html');
-    restrict: string = "E";
 }

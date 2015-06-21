@@ -3,7 +3,7 @@ import { TodoListController } from './todolist/TodoListController';
 import { TodosHeaderController } from './headertoolbar/TodosHeaderController';
 import { TodosService } from './services/TodosService';
 import { TodosHeaderService } from './headertoolbar/TodosHeaderService';
-import { Module, InjectM } from '../../decorators/decorators';
+import { Module, Config } from '../../decorators/decorators';
 import { BaseModule } from '../../wanamu/BaseModule';
 
 @Module('todo', {
@@ -15,7 +15,7 @@ import { BaseModule } from '../../wanamu/BaseModule';
 export class TodosModule extends BaseModule {
     public static mname: string = 'todo';
 
-    @InjectM('$stateProvider')
+    @Config('$stateProvider')
     config ($stateProvider: angular.ui.IStateProvider) {
         // States/Routes
         $stateProvider

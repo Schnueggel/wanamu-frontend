@@ -1,11 +1,11 @@
 import { Todo } from '../../../models/models';
-import { AuthService } from '../../auth/services/AuthService';
+import { AuthService } from '../../auth/AuthService';
 import { User } from '../../../models/models';
 import { TodoList } from '../../../models/models';
 import { BaseService } from '../../../wanamu/wanamu';
 import { InjectC, Service } from '../../../decorators/decorators';
 
-@InjectC('auth', '$rootScope')
+@InjectC('wuAuthService', '$rootScope')
 @Service('todosService')
 export class TodosService extends BaseService {
 

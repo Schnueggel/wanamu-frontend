@@ -13,11 +13,11 @@ declare module wanamu {
         done : Function;
         editTodo : Function;
         selectColor : Function;
-        todo : ITodo;
-        setting : ISetting;
+        todo : model.ITodo;
+        setting : model.ISetting;
         editcolors : boolean;
         currentColor : any;
-        colors : IColor;
+        colors : model.IColor;
         delete : Function;
     }
 }

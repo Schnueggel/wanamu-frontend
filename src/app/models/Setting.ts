@@ -1,6 +1,6 @@
 import { BaseModel }  from './BaseModel';
 
-export class Setting extends BaseModel implements wanamu.ISetting {
+export class Setting extends BaseModel implements wanamu.model.ISetting {
 
     public id : number;
     public color1 : string = 'rgba(255, 223, 2, 0.8)';
@@ -38,7 +38,7 @@ export class Setting extends BaseModel implements wanamu.ISetting {
      * Returns all colors as an array
      * @returns {{}}
      */
-    public colors() : wanamu.IColor {
+    public colors() : wanamu.model.IColor {
         return {
             color1: this.color1,
             color2: this.color2,

@@ -1,13 +1,14 @@
 import { BaseController } from './BaseController';
+import _ = require('lodash');
 
 export class BaseDirective {
+    directiveOptions  : angular.IDirective = {};
 
-    public controller: Function ;
-    public controllerAs: string;
-    public bindToController: Object;
-    public scope: boolean = true;
-    public replace: boolean = false;
-    public restrict: string = 'E';
-    public link: Function;
+    public init(...args : any[]) : angular.IDirective {
+        return this.directiveOptions;
+    }
 
+    public link = ($scope: ng.IScope, element: ng.IAugmentedJQuery, attributes : ng.IAttributes) =>{};
+
+    public compile = (tElement : ng.IAugmentedJQuery, attributes: ng.IAttributes , transclude: ng.ITranscludeFunction) => {};
 }

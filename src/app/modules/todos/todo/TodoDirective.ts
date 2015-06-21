@@ -5,13 +5,20 @@ import { Directive } from '../../../decorators/decorators';
 
 @Directive('wuTodoItem')
 export class TodoDirective extends BaseDirective {
-    public scope: boolean = true;
-    public bindToController: Object ={
-        todo: '=todo',
-        setting :'=setting'
+
+    public directiveOptions  : angular.IDirective = {
+        scope: true,
+        bindToController: {
+            todo: '=todo',
+            setting :'=setting'
+        },
+        controllerAs: 'Todo',
+        controller: TodoController,
+        template: require('./todo.html'),
+        restrict: "E"
     };
-    controllerAs: string = 'Todo';
-    controller: typeof TodoController = TodoController;
-    template: string = require('./todo.html');
-    restrict: string = "E";
+
+    constructor() {
+        super();
+    }
 }

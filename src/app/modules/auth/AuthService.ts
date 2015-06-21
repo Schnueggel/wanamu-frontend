@@ -1,21 +1,17 @@
-'use strict';
-/**
- * This Module create a Service named auth and a directive named tdIsAuth
- * @param {Object} ngModule
- */
-
-import { UserDataSource }from '../../datasources/datasources';
-import User = require ('../../../models/User');
+import { UserDataSource } from '../datasources/datasources';
+import { User } from '../../models/User';
 import _ = require('lodash');
+import { Service, InjectC } from '../../decorators/decorators';
+import { BaseService } from '../../wanamu/wanamu';
 
 /**
- * AuthService
+ * @alias authService
  */
+@Service('wuAuthService')
+@InjectC('$q','$http', '$window', 'constants', 'userDataSource')
 export class AuthService {
 
     private currentuser : any;
-    //Dependencies
-    static $inject = ['$q', '$http', '$window', 'constants', 'userDataSource'];
 
     constructor(public $q:angular.IQService,
                 public $http:angular.IHttpService,
@@ -33,7 +29,7 @@ export class AuthService {
             var userdata = JSON.parse($window.localStorage.getItem('user'));
             //Reload userdata in background
             if (_.isPlainObject(userdata) && _.isNumber(userdata.id)) {
-                this.currentuser = new User.User(userdata);
+                this.currentuser = new User(userdata);
             }
 
         } catch (err) {
@@ -53,7 +49,7 @@ export class AuthService {
     public login(username: string, password: string) : angular.IPromise<any> {
         var that = this;
         return this.userDataSource.login(username, password)
-            .then(function(user : User.User){
+            .then(function(user : User){
                 that.currentuser = user;
                 that.$window.localStorage.setItem('user', JSON.stringify(that.currentuser));
         }).catch(function(err){
@@ -114,7 +110,7 @@ export class AuthService {
      * Get the current user or null
      * @returns {any|null}
      */
-    public currentUser() : User.User {
+    public currentUser() : User {
         return this.currentuser;
     }
 
@@ -123,6 +119,6 @@ export class AuthService {
      * @returns {boolean}
      */
     public isLoggedIn = () : boolean => {
-        return this.currentuser instanceof User.User && this.currentuser.usertype !== User.User.TYPE_GUEST;
+        return this.currentuser instanceof User && this.currentuser.usertype !== User.TYPE_GUEST;
     }
 }

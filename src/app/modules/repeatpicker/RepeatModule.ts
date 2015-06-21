@@ -13,4 +13,7 @@ import { RepeatDirective } from './RepeatDirective';
 })
 export class RepeatModule extends BaseModule {
     public static mname : string  = 'wuRepeatModule';
+    constructor() {
+        super();
+    }
 }

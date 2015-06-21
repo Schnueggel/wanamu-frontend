@@ -1,17 +1,17 @@
 import { MenuController } from './MenuController';
 import { BaseModule } from '../../wanamu/wanamu';
-import { InjectM, Module } from '../../decorators/decorators';
+import { Config, Module } from '../../decorators/decorators';
 
 @Module('menu', {
     modules : ['panel'],
     controller : [MenuController],
     services: [], directives: []
 })
-export class MenuModule extends BaseModule{
+export class MenuModule extends BaseModule {
 
     public static mname : string = 'menu';
 
-    @InjectM('$stateProvider')
+    @Config('$stateProvider')
     config($stateProvider : angular.ui.IStateProvider) {
         $stateProvider.state('panel.view.menu', {
             url: '/menu', role: 'public', views: {

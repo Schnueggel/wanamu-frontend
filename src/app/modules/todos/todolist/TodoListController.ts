@@ -1,17 +1,22 @@
 
 import { Todo } from '../../../models/Todo';
-import { AuthService } from '../../auth/services/AuthService';
+import { AuthService } from '../../auth/AuthService';
 import { BaseController } from '../../../wanamu/wanamu';
 import { InjectC, Controller } from '../../../decorators/decorators';
 
 @Controller('TodoListController')
-@InjectC('$state', 'auth')
+@InjectC('$state', 'wuAuthService')
 export class TodoListController extends BaseController{
 
     public list : Todo[];
-    public setting : wanamu.ISetting;
+    public setting : wanamu.model.ISetting;
     public currentTodoListId : number = null;
 
+    /**
+     *
+     * @param $state
+     * @param auth
+     */
     constructor(
         public $state: angular.ui.IStateService,
         public auth : AuthService

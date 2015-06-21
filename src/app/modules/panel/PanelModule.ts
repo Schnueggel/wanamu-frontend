@@ -1,4 +1,4 @@
-import { Module, InjectM, Controller, Service } from '../../decorators/decorators';
+import { Module, Config, Controller, Service } from '../../decorators/decorators';
 import { PanelController } from './PanelController';
 import { HeaderController } from './header/HeaderController';
 import { PanelService } from './PanelService';
@@ -18,7 +18,7 @@ export class PanelModule extends BaseModule {
 
     public static mname : string = 'panel';
 
-    @InjectM('$stateProvider')
+    @Config('$stateProvider')
     config($stateProvider : angular.ui.IStateProvider) {
 
         $stateProvider.state('panel', {

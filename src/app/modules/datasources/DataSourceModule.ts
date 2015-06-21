@@ -11,6 +11,10 @@ import { BaseModule } from '../../wanamu/wanamu';
     modules: [],
     directives: []
 })
-export class DataSourceModule extends BaseModule{
+export class DataSourceModule extends BaseModule {
     public static mname: string = 'dataSource';
+
+    constructor() {
+        super();
+    }
 }

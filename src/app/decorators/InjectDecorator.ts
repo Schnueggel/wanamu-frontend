@@ -1,3 +1,14 @@
+import _ = require ('lodash');
+import 'reflect-metadata';
+
+/**
+ * Enum
+ */
+export class InjectMetadataKeys {
+    static AngularServiceInjects : string = 'AngularServiceInjects';
+    static AngularMethodInjects : string = 'AngularMethodInjects';
+}
+
 /**
  * Inject Decorator for methods
  * @param args
@@ -7,6 +18,7 @@ export function InjectM (...args : string[]) {
     return function (target : Object, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) : any {
         let method = descriptor.value;
         descriptor.value.$inject = args;
+        //Reflect.defineMetadata(InjectMetadataKeys.AngularMethodInjects, args, target, propertyKey);
         return descriptor;
     };
 }
@@ -17,7 +29,7 @@ export function InjectM (...args : string[]) {
  */
 export function InjectC (...args : string[]) {
     return function (target : Function) : any {
-        target.$inject = args;
-        return target;
+        Reflect.defineMetadata(InjectMetadataKeys.AngularServiceInjects, args, target);
     };
 }
+
