@@ -40,7 +40,10 @@ export class HttpInterceptor extends BaseService {
     // optional method
     responseError = (rejection: any) : angular.IPromise<any> =>  {
         if (rejection.status === 401 || rejection.status === 403 ) {
-            var $state = this.$injector.get('$state');
+            let authService = this.$injector.get('wuAuthService');
+            let $state = this.$injector.get('$state');
+
+            authService.logout();
             if ($state.current.name !== 'panel.view.login'){
                 $state.go('panel.view.login');
             }
