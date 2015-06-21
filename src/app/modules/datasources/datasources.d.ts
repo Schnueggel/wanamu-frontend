@@ -40,4 +40,11 @@ declare module wanamu {
         deleted: boolean;
         color: string;
     }
+
+    module datasource {
+        interface ITodoResponseData {
+            error : string;
+            data : Array<ITodoData>;
+        }
+    }
 }
