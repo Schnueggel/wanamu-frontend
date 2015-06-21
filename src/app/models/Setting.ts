@@ -70,7 +70,7 @@ export class Setting extends BaseModel implements wanamu.model.ISetting {
             return this.color5;
         }
         else {
-            console.warn('Invalid color field selected: ' + this.color1);
+            console.warn('Invalid color field selected: ' + color);
             return this.color1;
         }
     }
