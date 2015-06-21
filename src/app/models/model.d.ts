@@ -7,12 +7,13 @@ declare module wanamu {
         }
         interface ITodo extends IBaseModel{
             id : number;
+            TodoListId: number,
             title : string;
             alarm : string;
             description : string;
             order : number;
             repeat : string;
-            deleted : boolean;
+            deletedAt : boolean;
             color : string;
             /**
              * Maps the data to the model. this will not trigger the dirty flag

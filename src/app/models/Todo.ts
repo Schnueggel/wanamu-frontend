@@ -1,17 +1,18 @@
 import { BaseModel }  from './BaseModel';
 import _ = require ('lodash');
-import { Dirty } from '../decorators/decorators';
+import { Dirty, Json } from '../decorators/decorators';
 
 export class Todo extends BaseModel implements wanamu.model.ITodo {
 
     private _id : number;
+    private _TodoListId: number;
     private _title : string = '';
     private _alarm : string = null;
     private _description : string = '';
     private _repeat : string = null;
     private _order : number = 1;
     private _color : string = null;
-    private _deleted : boolean = false;
+    private _deletedAt : boolean = false;
 
     constructor( data?: wanamu.ITodoData) {
         super();
@@ -25,15 +26,15 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
      */
     public fromJSON (data: wanamu.ITodoData) {
         var data = data || <wanamu.ITodoData>{};
-
         this._id = data.id;
+        this._TodoListId = data.TodoListId;
         this._title = data.title;
         this._alarm = data.alarm;
         this._description = data.description;
         this._repeat = data.repeat;
         this._color = data.color;
         this._order = _.isNumber(data.order) ? data.order : this._order;
-        this._deleted = data.deleted;
+        this._deletedAt = data.deletedAt;
     }
 
     /**
@@ -42,13 +43,14 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
     public toDataJSON() : wanamu.ITodoData {
         return {
             id: this._id,
+            TodoListId: this._TodoListId,
             title: this._title,
             alarm: this._alarm,
             description: this._description,
             repeat: this._repeat,
             color: this._color,
             order: this._order,
-            deleted: this._deleted
+            deletedAt: this._deletedAt
         };
     }
 
@@ -59,7 +61,19 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
     public set id(value : number) {
         console.warn('Field id is readonly');
     }
+
     @Dirty
+    @Json
+    public get TodoListId():number {
+        return this._TodoListId;
+    }
+
+    public set TodoListId(value:number) {
+        this._TodoListId = value;
+    }
+
+    @Dirty
+    @Json
     public get title():string {
         return this._title;
     }
@@ -68,6 +82,7 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
     }
 
     @Dirty
+    @Json
     public get alarm():string {
         return this._alarm;
     }
@@ -76,6 +91,7 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
         this._alarm = value;
     }
     @Dirty
+    @Json
     public get description():string {
         return this._description;
     }
@@ -85,6 +101,7 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
         this._description = value;
     }
     @Dirty
+    @Json
     public get repeat():string {
         return this._repeat;
     }
@@ -93,6 +110,7 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
         this._repeat = value;
     }
     @Dirty
+    @Json
     public get order():number {
         return this._order;
     }
@@ -101,6 +119,7 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
         this._order = value;
     }
     @Dirty
+    @Json
     public get color():string {
         return this._color;
     }
@@ -108,10 +127,11 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
         this._color = value;
     }
     @Dirty
-    public get deleted():boolean {
-        return this._deleted;
+    @Json
+    public get deletedAt():boolean {
+        return this._deletedAt;
     }
-    public set deleted(value:boolean) {
-        this._deleted = value;
+    public set deletedAt(value:boolean) {
+        this._deletedAt = value;
     }
 }

@@ -32,12 +32,13 @@ declare module wanamu {
 
     interface ITodoData {
         id : number;
+        TodoListId: number;
         title : string;
         description : string;
         alarm : string;
         repeat : string;
         order : number;
-        deleted: boolean;
+        deletedAt: boolean;
         color: string;
     }
 

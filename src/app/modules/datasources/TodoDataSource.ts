@@ -40,7 +40,7 @@ export class TodoDataSource extends BaseService implements wanamu.datasource.ITo
         let deferred = this.$q.defer();
         let promise = deferred.promise;
 
-        let httpPromise : ng.IHttpPromise;
+        let httpPromise : ng.IHttpPromise<wanamu.datasource.ITodoResponseData>;
         if (todo.id) {
             httpPromise = this.$http.put(this.constants.apiurl + '/todo/' + todo.id, todo.toDataJSON());
         } else {
@@ -54,7 +54,7 @@ export class TodoDataSource extends BaseService implements wanamu.datasource.ITo
         return promise;
     }
 
-    private resolveSyncSuccess(deferred: ng.IDeferred, todo: wanamu.model.ITodo, data : wanamu.datasource.ITodoResponseData) {
+    private resolveSyncSuccess(deferred: ng.IDeferred<wanamu.model.ITodo>, todo: wanamu.model.ITodo, data : wanamu.datasource.ITodoResponseData) {
         if (!TodoDataSource.isValidTodoData(data)) {
             return deferred.reject( new InvalidResponseDataError() );
         }
@@ -62,7 +62,7 @@ export class TodoDataSource extends BaseService implements wanamu.datasource.ITo
         deferred.resolve(todo);
     }
 
-    private resolveSyncError(deferred : ng.IDeferred, err : wanamu.datasource.ITodoResponseData, status: number ) {
+    private resolveSyncError(deferred : ng.IDeferred<wanamu.errors.BaseError>, err : wanamu.datasource.ITodoResponseData, status: number ) {
         if (status === 401 || status == 403) {
             deferred.reject( new AuthError( 'Login failed. Please check your login data'));
         } else if (status === 500) {

@@ -75,7 +75,7 @@ export class UserDataSource extends BaseService {
                     name: 'Unkown', message: 'Invalid data received from server'
                 });
             } else {
-                var user = new User(data.data[0]);
+                let user = new User(data.data[0]);
                 deferred.resolve(user);
             }
         }).error(function (data, status) {
