@@ -8,8 +8,8 @@ import { RepeatDirectiveOptions } from '../repeatpicker/RepeatDirectiveOptions';
  * @namespace panel
  */
 @Service('panelService')
-@InjectC('$q')
-export class PanelService extends BaseService {
+@InjectC('$q', '$mdToast')
+export class PanelService extends BaseService implements wanamu.module.panel.PanelService {
 
     private _isDateTimePickerOpen : boolean = false;
     private _isRepeatPickerOpen : boolean = false;
@@ -21,10 +21,20 @@ export class PanelService extends BaseService {
 
     public dtpopts : DateTimePickerOptions;
 
-    constructor(public $q : angular.IQService) {
+    constructor(private $q : angular.IQService, private $mdToast : angular.material.MDToastService) {
         super();
     }
 
+    /**
+     * Shows a simple toast at the right bottom of the page
+     * @param msg
+     */
+    public showSimpleToast(msg : string): void {
+        this.$mdToast.show({
+            template : `<md-toast class="simple-toast"><p>${msg}</p></md-toast>`,
+            position: 'bottom right'
+        });
+    }
     /**
      *
      * @param opts
