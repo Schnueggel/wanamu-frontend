@@ -1,6 +1,6 @@
 import { BaseModel }  from './BaseModel';
 import _ = require ('lodash');
-import { Dirty, Json } from '../decorators/decorators';
+import { Dirty, Json, OnDirty } from '../decorators/decorators';
 
 export class Todo extends BaseModel implements wanamu.model.ITodo {
 
@@ -13,11 +13,15 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
     private _order : number = 1;
     private _color : string = null;
     private _deletedAt : boolean = false;
+    private _updatedOnClient : string;
+    private _createdOnClient : string;
 
-    constructor( data?: wanamu.ITodoData) {
+    constructor( data?: wanamu.ITodoData ) {
         super();
         if (_.isPlainObject(data)){
             this.fromJSON(data);
+        } else {
+            this.createdOnClient = this.moment().format(BaseModel.defaultTimeFormat);
         }
     }
 
@@ -35,6 +39,7 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
         this._color = data.color;
         this._order = _.isNumber(data.order) ? data.order : this._order;
         this._deletedAt = data.deletedAt;
+        console.log(data);
     }
 
     /**
@@ -53,7 +58,7 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
             deletedAt: this._deletedAt
         };
     }
-
+    @Json
     public get id():number {
         return this._id;
     }
@@ -87,9 +92,10 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
         return this._alarm;
     }
 
-    public set alarm(value:string) {;
+    public set alarm(value:string) {
         this._alarm = value;
     }
+
     @Dirty
     @Json
     public get description():string {
@@ -133,5 +139,27 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
     }
     public set deletedAt(value:boolean) {
         this._deletedAt = value;
+    }
+
+    @Json
+    public get updatedOnClient():string {
+        return this._updatedOnClient;
+    }
+
+    public set updatedOnClient(value:string) {
+        this._updatedOnClient = value;
+    }
+
+    @Json
+    public get createdOnClient():string {
+        return this._createdOnClient;
+    }
+
+    public set createdOnClient(value:string) {
+        this._createdOnClient = value;
+    }
+    @OnDirty
+    private updated() {
+        this._updatedOnClient = this.moment().format(BaseModel.defaultTimeFormat);
     }
 }

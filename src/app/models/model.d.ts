@@ -3,7 +3,8 @@ declare module wanamu {
     module model {
         interface IBaseModel {
             dirty : boolean,
-            toDataJSON() : Object
+            toJSON : Function
+            onDirty : Function
         }
         interface ITodo extends IBaseModel{
             id : number;
@@ -15,6 +16,8 @@ declare module wanamu {
             repeat : string;
             deletedAt : boolean;
             color : string;
+            createdOnClient: string,
+            updatedOnClient: string
             /**
              * Maps the data to the model. this will not trigger the dirty flag
              * @param data
