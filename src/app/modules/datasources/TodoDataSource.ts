@@ -32,19 +32,22 @@ export class TodoDataSource extends BaseService implements wanamu.datasource.ITo
     }
 
     /**
-     * Sny a Todo Model with the database. And maps the result to the model
+     * Sync a Todo Model with the database. And maps the result to the model
      * @param todo
      * @returns {IPromise<T>}
      */
     public sync(todo: wanamu.model.ITodo): angular.IPromise<wanamu.model.ITodo> {
         let deferred = this.$q.defer();
         let promise = deferred.promise;
+        let data : wanamu.datasource.IRequestTodoData  = {
+            data: todo.toJSON()
+        };
 
         let httpPromise : ng.IHttpPromise<wanamu.datasource.ITodoResponseData>;
         if (todo.id) {
-            httpPromise = this.$http.put(this.constants.apiurl + '/todo/' + todo.id, todo.toDataJSON());
+            httpPromise = this.$http.put(this.constants.apiurl + '/todo/' + todo.id, data );
         } else {
-            httpPromise =this.$http.post(this.constants.apiurl + '/todo', todo.toDataJSON())
+            httpPromise =this.$http.post(this.constants.apiurl + '/todo', data);
         }
 
         httpPromise

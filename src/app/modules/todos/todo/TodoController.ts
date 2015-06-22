@@ -143,7 +143,7 @@ export class TodoController extends BaseController {
         this.panelService
             .showDateTimePicker(opts)
             .then((alarm : Date) => {
-                this.todo.alarm = this.moment(alarm).format('YYYY-MM-DD HH:mm:ss').toString();
+                this.todo.alarm = this.moment(alarm).format('YYYY-MM-DD HH:mm:ss');
                 this.alarm = alarm;
                 this.todoDataSource.sync(this.todo).catch((err: wanamu.errors.BaseError ) => {
                     this.panelService.showSimpleToast(err.message);
