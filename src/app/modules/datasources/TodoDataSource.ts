@@ -7,13 +7,14 @@ import { Service, InjectC } from '../../decorators/decorators';
 import { InvalidResponseDataError, AuthError, ServerError } from '../../errors/errors';
 
 @Service('todoDataSource')
-@InjectC('$http', '$q', 'constants')
+@InjectC('$http', '$q', 'constants', 'wuAuthService')
 export class TodoDataSource extends BaseService implements wanamu.datasource.ITodoDataSource {
 
     public constructor(
         public $http : angular.IHttpService,
         public $q : angular.IQService,
-        public constants : wanamu.IConstants
+        public constants : wanamu.IConstants,
+        public authService : wanamu.auth.IAuthService
     ){
         super();
     }
@@ -62,6 +63,9 @@ export class TodoDataSource extends BaseService implements wanamu.datasource.ITo
             return deferred.reject( new InvalidResponseDataError() );
         }
         todo.fromJSON(data.data[0]);
+
+        this.authService.storeUser();
+
         deferred.resolve(todo);
     }
 
