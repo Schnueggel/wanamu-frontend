@@ -6,8 +6,6 @@ interface ToJSON extends Object {
 }
 
 export function Json <T extends ToJSON> (target : T, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) : void {
-    let setter = descriptor.set;
-    let getter = descriptor.get;
 
     if (!target.hasOwnProperty('___tojsonprops')) {
         target.___tojsonprops = [propertyKey];
@@ -16,9 +14,9 @@ export function Json <T extends ToJSON> (target : T, propertyKey: string, descri
             this.___tojsonprops.forEach((v: string) => {
                 result[v] = this[v];
             });
-            console.log(result);
+            console.log(result, 'JSON Decorator Result');
             return result;
-        }
+        };
     } else {
         target.___tojsonprops.push(propertyKey);
     }
