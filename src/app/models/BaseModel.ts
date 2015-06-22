@@ -1,10 +1,15 @@
 import { Log } from '../decorators/decorators';
+import _ = require('lodash');
 
-export class BaseModel implements wanamu.IDirty {
+export class BaseModel {
 
     private _dirty: boolean = false;
+    onDirty : Function;
+    moment : moment.MomentStatic = require('moment');
+    toJSON : Function;
 
-    @Log
+    static defaultTimeFormat : string = 'YYYY-MM-DD HH:mm:ss';
+
     public get dirty():boolean {
         return this._dirty;
     }
