@@ -85,6 +85,10 @@ var webpackConfig = {
                 ]
             },
             {
+                test: /package\.json$/,
+                loader: 'environment-config-webpack-loader?environment=' + (process.env.APP_ENV || 'develop')
+            },
+            {
                 test: /\.scss$/,
                 loaders: [
                     'style',
@@ -295,7 +299,13 @@ gulp.task('build-app-html', function () {
         .pipe(gulp.dest(tmpAppPath));
 });
 
-gulp.task('move-tmp',['move-tmp-app', 'move-tmp-styles']);
+gulp.task('move-tmp',['move-tmp-app', 'move-tmp-styles'], function() {
+    return gulp.src([
+        'robots.txt',
+        'humans.txt',
+        'crossdomain.xml'
+    ]).pipe(gulp.dest(tmpPath));
+});
 
 gulp.task('move-tmp-app', function(){
    return gulp.src([
