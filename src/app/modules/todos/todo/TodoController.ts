@@ -20,7 +20,6 @@ export class TodoController extends BaseController {
     public colors : wanamu.model.IColor;
     public setting : wanamu.model.ISetting;
     public currentColor : {};
-    public alarm : Date;
 
     public repeat : boolean;
     public yearly : string;
@@ -128,15 +127,8 @@ export class TodoController extends BaseController {
      * @param ev
      */
     setAlarm (ev : MouseEvent) {
-        var alarm : Date;
-        if ( !(this.alarm instanceof Date) ) {
-            alarm = new Date();
-        }
-        else {
-            alarm = this.alarm;
-        }
 
-        let opts = new DateTimePickerOptions(alarm);
+        let opts = new DateTimePickerOptions(this.todo.alarmDate || new Date());
 
         this.wuTodosHeaderService.showAddTodoButton = false;
 
@@ -144,7 +136,7 @@ export class TodoController extends BaseController {
             .showDateTimePicker(opts)
             .then((alarm : Date) => {
                 this.todo.alarm = this.moment(alarm).format('YYYY-MM-DD HH:mm:ss');
-                this.alarm = alarm;
+                this.todo.alarmDate = alarm;
                 this.todoDataSource.sync(this.todo).catch((err: wanamu.errors.BaseError ) => {
                     this.panelService.showSimpleToast(err.message);
                 });
