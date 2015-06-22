@@ -11,6 +11,7 @@ declare module wanamu {
             TodoListId: number,
             title : string;
             alarm : string;
+            alarmDate : Date;
             description : string;
             order : number;
             repeat : string;
@@ -23,7 +24,6 @@ declare module wanamu {
              * @param data
              */
             fromJSON(data : ITodoData) : void
-            toDataJSON() : ITodoData
 
         }
         interface IColor {

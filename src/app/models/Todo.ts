@@ -8,6 +8,7 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
     private _TodoListId: number;
     private _title : string = '';
     private _alarm : string = null;
+    private _alarmDate : Date = null;
     private _description : string = '';
     private _repeat : string = null;
     private _order : number = 1;
@@ -39,25 +40,12 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
         this._color = data.color;
         this._order = _.isNumber(data.order) ? data.order : this._order;
         this._deletedAt = data.deletedAt;
-        console.log(data);
+
+        if (this._alarm) {
+            this._alarmDate = this.moment(this._alarm, BaseModel.defaultTimeFormat).toDate();
+        }
     }
 
-    /**
-     * Returns the JSON Date for syncing with the server
-     */
-    public toDataJSON() : wanamu.ITodoData {
-        return {
-            id: this._id,
-            TodoListId: this._TodoListId,
-            title: this._title,
-            alarm: this._alarm,
-            description: this._description,
-            repeat: this._repeat,
-            color: this._color,
-            order: this._order,
-            deletedAt: this._deletedAt
-        };
-    }
     @Json
     public get id():number {
         return this._id;
@@ -92,7 +80,10 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
         return this._alarm;
     }
 
-    public set alarm(value:string) {
+    public set alarm( value: string ) {
+        if (value && value.length > 0 ){
+            this._alarmDate = this.moment(value).toDate();
+        }
         this._alarm = value;
     }
 
@@ -161,5 +152,16 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
     @OnDirty
     private updated() {
         this._updatedOnClient = this.moment().format(BaseModel.defaultTimeFormat);
+    }
+
+    public get alarmDate():Date {
+        return this._alarmDate;
+    }
+
+    public set alarmDate(value: Date) {
+        if (value instanceof Date){
+            this._alarm = this.moment(value).format(BaseModel.defaultTimeFormat);
+        }
+        this._alarmDate = value;
     }
 }
