@@ -9,7 +9,7 @@ import { BaseService } from '../../wanamu/wanamu';
  */
 @Service('wuAuthService')
 @InjectC('$q','$http', '$window', 'constants', 'userDataSource')
-export class AuthService {
+export class AuthService implements wanamu.auth.IAuthService {
 
     private currentuser : any;
 
@@ -47,14 +47,13 @@ export class AuthService {
      * @returns {IPromise<any>}
      */
     public login(username: string, password: string) : angular.IPromise<any> {
-        var that = this;
         return this.userDataSource.login(username, password)
-            .then(function(user : User){
-                that.currentuser = user;
-                that.$window.localStorage.setItem('user', JSON.stringify(that.currentuser));
-        }).catch(function(err){
+            .then((user : User) => {
+                this.currentuser = user;
+                this.storeUser();
+        }).catch((err) => {
                 console.log(err);
-                that.currentuser = null;
+                this.currentuser = null;
         });
     }
 
@@ -104,6 +103,13 @@ export class AuthService {
         });
 
         return promise;
+    }
+
+    /**
+     * Stores the user in the localstorage
+     */
+    public storeUser() {
+        this.$window.localStorage.setItem('user', JSON.stringify(this.currentuser));
     }
 
     /**
