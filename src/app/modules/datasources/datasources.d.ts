@@ -3,6 +3,7 @@
  */
 
 declare module wanamu {
+
     interface ISettingData {
         id : number;
         color1: string;
@@ -50,6 +51,10 @@ declare module wanamu {
 
         interface ITodoDataSource {
             sync(todo: model.ITodo) : angular.IPromise<model.ITodo>;
+        }
+
+        interface IRequestTodoData {
+            data : Array<ITodoData>;
         }
     }
 }
