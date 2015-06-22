@@ -1,7 +1,7 @@
 {
   "name": "Wanamu",
   "version": "1.0.0",
-  "description": "boat marketing",
+  "description": "Todo App",
   "main": "index.js",
   "scripts": {
     "start": "server.js",
