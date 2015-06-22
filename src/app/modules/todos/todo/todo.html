@@ -24,7 +24,7 @@
                     </md-button>
                     <md-button class="md-raised md-primary alarm-button" arial-label="Pick alarm date" ng-click="Todo.setAlarm($event)">
                         <md-icon class="material-icons" md-font-library="material-icons">&#xE191;</md-icon>
-                        <span>{{Todo.todo.alarmDate | date : 'yyyy-MM-dd' }}</span>
+                        <span>{{Todo.todo.alarmDate | date : 'yy-MM-dd HH:mm' }}</span>
                     </md-button>
                     <md-button class="md-raised md-primary repeat-button" arial-label="Select alarm interval" ng-click="Todo.setRepeat($event)">
                         <md-icon class="material-icons" md-font-library="material-icons">&#xE040;</md-icon>
