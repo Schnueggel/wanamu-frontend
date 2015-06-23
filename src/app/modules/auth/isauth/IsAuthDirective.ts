@@ -32,7 +32,6 @@ export class IsAuthDirective extends BaseDirective {
          * @param {boolean} show
          */
         function visisible(show : boolean) {
-            console.log('isVisible', show);
             if (show) {
                 element.removeClass('ng-hide');
             } else {
