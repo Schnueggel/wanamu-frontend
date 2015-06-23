@@ -37,9 +37,12 @@ declare module wanamu {
         title : string;
         description : string;
         alarm : string;
-        repeat : string[];
+        repeat : boolean;
+        repeatWeekly: string[];
+        repeatMonthly: string[];
+        repeatYearly: string[];
         order : number;
-        deletedAt: boolean;
+        deletedAt: string;
         color: string;
     }
 

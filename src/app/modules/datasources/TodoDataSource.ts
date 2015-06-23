@@ -48,12 +48,12 @@ export class TodoDataSource extends BaseService implements wanamu.datasource.ITo
         if (todo.id) {
             httpPromise = this.$http.put(this.constants.apiurl + '/todo/' + todo.id, data );
         } else {
-            httpPromise =this.$http.post(this.constants.apiurl + '/todo', data);
+            httpPromise = this.$http.post(this.constants.apiurl + '/todo', data);
         }
 
         httpPromise
             .success((data : wanamu.datasource.ITodoResponseData) => this.resolveSyncSuccess(deferred, todo, data))
-            .error((err : wanamu.datasource.ITodoResponseData, status : number)=> this.resolveSyncError (deferred, err, status));
+            .error((err : wanamu.datasource.ITodoResponseData, status : number) => this.resolveSyncError (deferred, err, status));
 
         return promise;
     }

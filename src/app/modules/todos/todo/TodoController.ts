@@ -9,12 +9,12 @@ import { RepeatDirectiveOptions } from '../../repeatpicker/RepeatDirectiveOption
  * @alias Todo
  * @namespace todo
  */
-@InjectC('wuRepeatDialog', 'panelService', 'wuTodosHeaderService', 'todoDataSource')
+@InjectC('wuRepeatDialog', 'panelService', 'wuTodosHeaderService', 'todoDataSource', '$scope', '$interval')
 export class TodoController extends BaseController {
 
     public static currentInEdit : TodoController = null;
 
-    private _edit : boolean = false;
+    private edit : boolean = false;
     public todo : Todo;
     public editcolors : boolean;
     public colors : wanamu.model.IColor;
@@ -31,13 +31,16 @@ export class TodoController extends BaseController {
         public wuRepeatDialog: wanamu.dialogs.RepeatDialogService,
         public panelService: wanamu.module.panel.PanelService,
         public wuTodosHeaderService : wanamu.todos.TodosHeaderService,
-        public todoDataSource : wanamu.datasource.ITodoDataSource
+        public todoDataSource : wanamu.datasource.ITodoDataSource,
+        public $scope: ng.IScope,
+        public $interval: ng.IIntervalService
     ) {
         super();
         this.edit = false;
         this.editcolors = false;
         this.colors = this.setting.colors();
         this.setColor(this.todo.color);
+
         // If a new Todo is added we put it in edit mode
         // New Todos dont have and ID
         if (!_.isNumber(this.todo.id)) {
@@ -61,22 +64,32 @@ export class TodoController extends BaseController {
         this.currentColor =  this.setting.color(color) || 'white';
     }
 
-    get edit () : boolean { return this._edit;}
-    set edit (val : boolean) {this._edit = val}
-
-    done = () : void => {
+    /**
+     * @viewfunction
+     */
+    done() : void  {
         this.editTodo(false);
         if (this.todo) {
-            //TODO start sync
+            this.syncTodo();
         }
-    };
+    }
 
+    /**
+     * Selects a color for this todo by the color name e.g.: color1
+     * @viewfunction
+     * @param color
+     */
     selectColor = (color : string) : void => {
         this.todo.color = color;
         this.setColor(color);
         this.editcolors = false;
+        this.syncTodo();
     };
 
+    /**
+     * @viewfunction
+     * @param todo
+     */
     delete = (todo: Todo) => {
         console.log(todo);
     };
@@ -97,6 +110,10 @@ export class TodoController extends BaseController {
         this.edit = edit;
     };
 
+    /**
+     * @viewfunction
+     * @param ev
+     */
     setRepeat(ev : MouseEvent) {
         var inopts = new RepeatDirectiveOptions();
         inopts.monthly =  this.monthly;
@@ -108,18 +125,24 @@ export class TodoController extends BaseController {
 
         this.panelService
             .showRepeatPicker(inopts)
-            .then(this.onRepeatDialogSuccess)
+            .then((opts : RepeatDirectiveOptions ) => this.onRepeatDialogSuccess(opts) )
             .finally(()=>{
                 this.wuTodosHeaderService.showAddTodoButton = true;
             });
     }
 
     /**
+     * TODO support for montly and yearly
      * @callback
      * @param opts
      */
     onRepeatDialogSuccess = (opts : RepeatDirectiveOptions) : void => {
-        _.assign(this, opts);
+        console.log(opts);
+        this.todo.repeatWeekly = opts.weekly || [];
+        this.todo.repeat = opts.repeat;
+        this.todo.repeatMonthly = opts.monthly || [];
+        this.todo.repeatYearly = opts.yearly || [];
+        console.log(this.todo.toJSON());
     };
 
     /**
@@ -137,12 +160,23 @@ export class TodoController extends BaseController {
             .then((alarm : Date) => {
                 this.todo.alarm = this.moment(alarm).format('YYYY-MM-DD HH:mm:ss');
                 this.todo.alarmDate = alarm;
-                this.todoDataSource.sync(this.todo).catch((err: wanamu.errors.BaseError ) => {
-                    this.panelService.showSimpleToast(err.message);
-                });
             })
             .finally(()=>{
                 this.wuTodosHeaderService.showAddTodoButton = true;
             });
+    }
+
+    /**
+     *
+     * @returns {IPromise<TResult>}
+     */
+    syncTodo () : ng.IPromise<wanamu.model.ITodo> {
+        return this.todoDataSource
+            .sync(this.todo)
+            .then (() => {
+            this.panelService.showSimpleToast('Todo Saved');
+        }).catch((err: wanamu.errors.BaseError ) => {
+            this.panelService.showSimpleToast(err.message);
+        });
     }
 }

@@ -10,12 +10,15 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
     private _alarm : string = null;
     private _alarmDate : Date = null;
     private _description : string = '';
-    private _repeat : string[] = [];
+    private _repeat : boolean = false;
     private _order : number = 1;
     private _color : string = null;
-    private _deletedAt : boolean = false;
+    private _deletedAt : string = null;
     private _updatedOnClient : string;
     private _createdOnClient : string;
+    private _repeatWeekly : string[] = [];
+    private _repeatMonthly : string[] = [];
+    private _repeatYearly :  string[] = [];
 
     constructor( data?: wanamu.ITodoData ) {
         super();
@@ -36,7 +39,10 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
         this._title = data.title;
         this._alarm = data.alarm;
         this._description = data.description;
-        this._repeat = data.repeat;
+        this._repeat = data.repeat || this._repeat;
+        this._repeatWeekly =  data.repeatWeekly || [];
+        this._repeatMonthly = data.repeatMonthly || [];
+        this._repeatYearly =  data.repeatYearly || [];
         this._color = data.color;
         this._order = _.isNumber(data.order) ? data.order : this._order;
         this._deletedAt = data.deletedAt;
@@ -97,15 +103,17 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
     public set description(value:string) {
         this._description = value;
     }
+
     @Dirty
     @Json
-    public get repeat():string[] {
+    public get repeat(): boolean {
         return this._repeat;
     }
 
-    public set repeat(value:string[]) {
+    public set repeat(value: boolean) {
         this._repeat = value;
     }
+
     @Dirty
     @Json
     public get order():number {
@@ -125,11 +133,39 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
     }
     @Dirty
     @Json
-    public get deletedAt():boolean {
+    public get deletedAt(): string {
         return this._deletedAt;
     }
-    public set deletedAt(value:boolean) {
+    public set deletedAt(value: string) {
         this._deletedAt = value;
+    }
+
+    @Dirty
+    @Json
+    public get repeatWeekly():string[] {
+        return this._repeatWeekly;
+    }
+
+    public set repeatWeekly(value:Array) {
+        this._repeatWeekly = value;
+    }
+    @Dirty
+    @Json
+    public get repeatMonthly():string[] {
+        return this._repeatMonthly;
+    }
+
+    public set repeatMonthly(value:Array) {
+        this._repeatMonthly = value;
+    }
+    @Dirty
+    @Json
+    public get repeatYearly():string[] {
+        return this._repeatYearly;
+    }
+
+    public set repeatYearly(value:Array) {
+        this._repeatYearly = value;
     }
 
     @Json

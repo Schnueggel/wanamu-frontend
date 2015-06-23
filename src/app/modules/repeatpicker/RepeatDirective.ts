@@ -14,7 +14,7 @@ export class RepeatDirective extends BaseDirective {
     public directiveOptions  : angular.IDirective = {
         scope: true,
         bindToController:{
-            repeatOpts: '='
+            opts: '='
         },
         controllerAs: 'Repeat',
         controller: RepeatDirectiveController,

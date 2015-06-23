@@ -9,7 +9,7 @@
     <div layout="row" class="weekdays">
         <md-button ng-repeat="(day, selected) in Repeat.weekdays" flex ng-click="Repeat.selectWeekly(day)" class="md-primary"
                    ng-class="{'md-raised' : !Repeat.weekdays[day]}" ng-disabled="!Repeat.repeatOpts.repeat">
-            {{day}}
+            {{::day}}
         </md-button>
     </div>
     <h1 class="md-display-1">Monthly</h1>
@@ -31,7 +31,7 @@
                     aria-label="day selection"
                     ng-class="{'md-raised': Repeat.repeatOpts.monthly == n}"
                     ng-click="Repeat.selectMonthly(n)">
-                    {{ n }}
+                    {{ ::n }}
                 </md-button>
             </md-grid-tile>
         </md-grid-list>

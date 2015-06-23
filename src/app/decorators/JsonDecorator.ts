@@ -14,7 +14,6 @@ export function Json <T extends ToJSON> (target : T, propertyKey: string, descri
             this.___tojsonprops.forEach((v: string) => {
                 result[v] = this[v];
             });
-            console.log(result, 'JSON Decorator Result');
             return result;
         };
     } else {

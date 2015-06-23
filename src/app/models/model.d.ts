@@ -14,11 +14,14 @@ declare module wanamu {
             alarmDate : Date;
             description : string;
             order : number;
-            repeat : string[];
-            deletedAt : boolean;
+            repeat : boolean;
+            deletedAt : string;
             color : string;
             createdOnClient: string,
             updatedOnClient: string
+            repeatWeekly  : string[];
+            repeatMonthly : string[];
+            repeatYearly  : string[];
             /**
              * Maps the data to the model. this will not trigger the dirty flag
              * @param data
@@ -39,6 +42,7 @@ declare module wanamu {
             name : string;
             Todos : ITodo[];
         }
+
         interface ISetting extends IColor {
             id : number;
             face : string;

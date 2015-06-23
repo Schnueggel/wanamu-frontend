@@ -26,9 +26,8 @@
                         <md-icon class="material-icons" md-font-library="material-icons">&#xE191;</md-icon>
                         <span>{{Todo.todo.alarmDate | date : 'yy-MM-dd HH:mm' }}</span>
                     </md-button>
-                    <md-button class="md-raised md-primary repeat-button" arial-label="Select alarm interval" ng-click="Todo.setRepeat($event)">
+                    <md-button class="md-raised md-primary repeat-button" arial-label="Select alarm interval" ng-click="Todo.setRepeat($event)" ng-class="{'md-hue-3': Todo.todo.repeat}">
                         <md-icon class="material-icons" md-font-library="material-icons">&#xE040;</md-icon>
-                        <span>{{Todo.repeattext}}</span>
                     </md-button>
                     <span flex></span>
                     <md-button class="md-raised md-primary">
@@ -37,7 +36,21 @@
                 </div>
             </md-toolbar>
             <md-toolbar ng-show="Todo.editcolors" layout="row" class="colors">
-                <div flex ng-style="{'background-color':color}" ng-repeat="(name,color) in Todo.colors" ng-click="Todo.selectColor(name);"></div>
+                    <div flex ng-style="{'background-color':color}" ng-repeat="(name,color) in Todo.colors" ng-click="Todo.selectColor(name);"></div>
+            </md-toolbar>
+        </md-list-item>
+
+        <md-divider></md-divider>
+        <md-list-item class="editor">
+            <md-toolbar class="option-chips md-accent" layout="row">
+               <div class="md-toolbar-tools chips">
+                   <div class="chip" ng-if="Todo.todo.repeatWeekly.length > 0">
+                       <div class="chip-content">Weekly: {{Todo.todo.repeatWeekly.join(',')}}</div>
+                       <md-button class="md-icon-button md-primary md-raised" ng-click="Todo.todo.repeatWeekly=[]">
+                           <md-icon class="material-icons" md-font-library="material-icons">&#xE5CD;</md-icon>
+                       </md-button>
+                   </div>
+               </div>
             </md-toolbar>
         </md-list-item>
     </div>

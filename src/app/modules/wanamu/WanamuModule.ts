@@ -50,7 +50,7 @@ export class WanamuModule extends BaseModule {
         $urlRouterProvider.otherwise('/login');
 
         $mdThemingProvider.theme('default')
-            .primaryPalette('blue-grey')
+            .primaryPalette('blue')
             .accentPalette('grey')
             .warnPalette('red');
 

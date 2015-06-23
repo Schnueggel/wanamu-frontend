@@ -84,6 +84,27 @@ export class PanelService extends BaseService implements wanamu.module.panel.Pan
     }
 
     /**
+     * Shows the RepeatPicker if it is not already visible
+     * @param opts
+     * @returns {IPromise<Date>}
+     */
+    public showRepeatPicker (opts : RepeatDirectiveOptions) : angular.IPromise<RepeatDirectiveOptions>{
+        this.repeatdefer = this.$q.defer<RepeatDirectiveOptions>();
+        var promise = this.repeatdefer.promise;
+
+        if (!this.isRepeatPickerOpen) {
+            this.repeatopts = opts;
+            this.isRepeatPickerOpen = true;
+            this.isDateTimePickerOpen = false;
+        } else {
+            this.repeatdefer.reject('RepeatPicker is already open');
+            console.warn('RepeatPicker is already open and cannot be opend again');
+        }
+
+        return promise;
+    }
+
+    /**
      * Resolve an open repeatpicker request
      * @param date
      */
@@ -109,27 +130,6 @@ export class PanelService extends BaseService implements wanamu.module.panel.Pan
             console.warn('Could not resolve RepeatPicker as no valid deferred was found');
         }
         this.isRepeatPickerOpen = false;
-    }
-
-    /**
-     * Shows the RepeatPicker if it is not already visible
-     * @param opts
-     * @returns {IPromise<Date>}
-     */
-    public showRepeatPicker (opts : RepeatDirectiveOptions) : angular.IPromise<RepeatDirectiveOptions>{
-        this.repeatdefer = this.$q.defer<RepeatDirectiveOptions>();
-        var promise = this.repeatdefer.promise;
-
-        if (!this.isRepeatPickerOpen) {
-            this.repeatopts = opts;
-            this.isRepeatPickerOpen = true;
-            this.isDateTimePickerOpen = false;
-        } else {
-            this.repeatdefer.reject('RepeatPicker is already open');
-            console.warn('RepeatPicker is already open and cannot be opend again');
-        }
-
-        return promise;
     }
 
     public get isDateTimePickerOpen():boolean {

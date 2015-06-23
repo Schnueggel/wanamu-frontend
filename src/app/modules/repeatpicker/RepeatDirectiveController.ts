@@ -44,24 +44,24 @@ export class RepeatDirectiveController extends BaseController {
     /**
      * @scopevar
      */
-    public repeatOpts : RepeatDirectiveOptions;
+    public opts : RepeatDirectiveOptions;
 
     constructor() {
         super();
 
-        if (!(this.repeatOpts instanceof RepeatDirectiveOptions)) {
-            this.repeatOpts = new RepeatDirectiveOptions();
+        if (!(this.opts instanceof RepeatDirectiveOptions)) {
+            this.opts = new RepeatDirectiveOptions();
         }
 
-        if (_.isArray(this.repeatOpts.weekly) && this.repeatOpts.weekly.length > 0) {
-            this.repeatOpts.weekly.forEach((val : string) => {
+        if (_.isArray(this.opts.weekly) && this.opts.weekly.length > 0) {
+            this.opts.weekly.forEach((val : string) => {
                 if (this.weekdays.hasOwnProperty(val)) {
                     this.weekdays[val] = true;
                 }
             });
         }
 
-        if(_.isString(this.repeatOpts.monthly) && this.repeatOpts.monthly.length > 0) {
+        if(_.isString(this.opts.monthly) && this.opts.monthly.length > 0) {
             this.isMonthly = true;
         }
 
@@ -91,25 +91,26 @@ export class RepeatDirectiveController extends BaseController {
         if (this.weekdays.hasOwnProperty(day)) {
             this.weekdays[day] = !this.weekdays[day];
 
-            if (this.weekdays[day]) {
-                this.repeatOpts.weekly.push(day);
-                this.repeatOpts.weekly =  _.uniq(this.repeatOpts.weekly);
-            } else {
-                this.repeatOpts.weekly = _.pull(this.repeatOpts.weekly, day);
-            }
+            let selecteddays = [];
+            _.forEach(this.weekdays, (v, k) => {
+                if (v) {
+                    selecteddays.push(k);
+                }
+            });
+            this.opts.weekly = selecteddays;
         }
     }
 
     onIsMonthly(ismonthly : boolean) {
-        if (ismonthly && !this.repeatOpts.monthly) {
-            this.repeatOpts.monthly = RepeatDirectiveController.FIRST;
+        if (ismonthly && !this.opts.monthly) {
+            this.opts.monthly = RepeatDirectiveController.FIRST;
         } else {
-            this.repeatOpts.monthly = '';
+            this.opts.monthly = '';
         }
     }
 
     selectMonthly(day : string) {
         this.isMonthly = true;
-        this.repeatOpts.monthly = day;
+        this.opts.monthly = day;
     }
 }
