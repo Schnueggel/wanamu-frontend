@@ -63,7 +63,7 @@ export class TodoDataSource extends BaseService implements wanamu.datasource.ITo
             return deferred.reject( new InvalidResponseDataError() );
         }
         todo.fromJSON(data.data[0]);
-
+        todo.dirty = false;
         this.authService.storeUser();
 
         deferred.resolve(todo);
