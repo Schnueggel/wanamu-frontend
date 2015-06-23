@@ -14,7 +14,7 @@ declare module wanamu {
             alarmDate : Date;
             description : string;
             order : number;
-            repeat : string;
+            repeat : string[];
             deletedAt : boolean;
             color : string;
             createdOnClient: string,
@@ -50,11 +50,11 @@ declare module wanamu {
             colors() : IColor;
 
             /**
-             *
-             * @param color
-             * @returns {String}
+             * Returns a single color with its value e.g.: rgba(0,0,0,0)
+             * @param string color e.g.: color1, color2 ... color5
+             * @returns {String} e.g.: rgba(0,0,0,0)
              */
-            color(color:string) : string
+            color(color : string) : string
         }
 
         interface IUser {

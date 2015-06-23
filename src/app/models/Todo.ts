@@ -10,7 +10,7 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
     private _alarm : string = null;
     private _alarmDate : Date = null;
     private _description : string = '';
-    private _repeat : string = null;
+    private _repeat : string[] = [];
     private _order : number = 1;
     private _color : string = null;
     private _deletedAt : boolean = false;
@@ -99,11 +99,11 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
     }
     @Dirty
     @Json
-    public get repeat():string {
+    public get repeat():string[] {
         return this._repeat;
     }
 
-    public set repeat(value:string) {
+    public set repeat(value:string[]) {
         this._repeat = value;
     }
     @Dirty
