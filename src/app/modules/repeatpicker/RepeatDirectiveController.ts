@@ -1,5 +1,5 @@
 import _ = require('lodash');
-import { Controller } from '../../decorators/decorators'
+import { Controller, InjectC } from '../../decorators/decorators'
 import { BaseController } from '../../wanamu/wanamu';
 import { RepeatDirectiveOptions } from './RepeatDirectiveOptions';
 
@@ -12,10 +12,17 @@ export enum MONTHLY {
  * @alias Repeat
  */
 @Controller('RepeatDirectiveController')
+@InjectC('$scope')
 export class RepeatDirectiveController extends BaseController {
 
     static FIRST : string = 'first';
     static LAST : string = 'last';
+
+    /**
+     * @viewvar
+     * @type {boolean}
+     */
+    public isMonthly = false;
 
     /**
      * @viewvar
@@ -42,25 +49,26 @@ export class RepeatDirectiveController extends BaseController {
      */
     public opts : RepeatDirectiveOptions;
 
-    constructor() {
+    constructor(public $scope : ng.IScope) {
         super();
 
         if (!(this.opts instanceof RepeatDirectiveOptions)) {
             this.opts = new RepeatDirectiveOptions();
         }
 
-        if (_.isArray(this.opts.weekly) && this.opts.weekly.length > 0) {
-            this.opts.weekly.forEach((val : string) => {
-                if (this.weekdays.hasOwnProperty(val)) {
-                    this.weekdays[val] = true;
-                }
-            });
-        }
+        $scope.$watch('Repeat.opts', () => this.newOpts());
 
         this.setupDaysInMonth();
-        console.log(this);
     }
 
+    /**
+     * Triggers when new opts come
+     */
+    newOpts() {
+        if (this.opts.monthly.length > 0) {
+            this.isMonthly = true;
+        }
+    }
     /**
      * Helper Method
      */

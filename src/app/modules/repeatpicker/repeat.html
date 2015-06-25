@@ -6,7 +6,7 @@
     </md-toolbar>
     <h1 class="md-display-1">Weekly</h1>
     <div layout="row" class="weekdays">
-        <md-button ng-repeat="(day, selected) in Repeat.weekdays" flex ng-click="Repeat.selectWeekly(day)" class="md-primary"
+        <md-button ng-repeat="(day) in Repeat.weekdays" flex ng-click="Repeat.selectWeekly(day)" class="md-primary"
                    ng-class="{'md-raised' : !Repeat.isInWeekly(day)}" ng-disabled="!Repeat.opts.repeat">
             {{::day}}
         </md-button>
@@ -16,7 +16,7 @@
                ng-change="Repeat.onIsMonthlyChanged(Repeat.isMonthly)">
         Enable
     </md-switch>
-    <div ng-show="Repeat.opts.monthly.length > 0" class="animate-ng-show">
+    <div ng-show="Repeat.isMonthly" class="animate-ng-show">
         <md-grid-list
             md-cols="7"
             md-row-height="1.5:1"
