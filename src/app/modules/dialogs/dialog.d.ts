@@ -24,14 +24,14 @@ declare module wanamu {
         }
 
         interface WeekDays {
-            [index: string]: boolean;
-            mo : boolean;
-            tu : boolean;
-            we : boolean;
-            th : boolean;
-            fr : boolean;
-            sa : boolean;
-            su : boolean;
+            [index: string]: string;
+            mo : string;
+            tu : string;
+            we : string;
+            th : string;
+            fr : string;
+            sa : string;
+            su : string;
         }
     }
 }

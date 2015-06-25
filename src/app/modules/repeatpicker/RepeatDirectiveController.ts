@@ -28,13 +28,13 @@ export class RepeatDirectiveController extends BaseController {
      * @viewvar
      */
     public weekdays : wanamu.dialogs.WeekDays = {
-        mo : false,
-        tu : false,
-        we : false,
-        th : false,
-        fr : false,
-        sa : false,
-        su : false
+        mo : 'Mo',
+        tu : 'Tu',
+        we : 'We',
+        th : 'Th',
+        fr : 'Fr',
+        sa : 'Sa',
+        su : 'Su'
     };
 
     /**

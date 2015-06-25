@@ -6,9 +6,9 @@
     </md-toolbar>
     <h1 class="md-display-1">Weekly</h1>
     <div layout="row" class="weekdays">
-        <md-button ng-repeat="(day) in Repeat.weekdays" flex ng-click="Repeat.selectWeekly(day)" class="md-primary"
+        <md-button ng-repeat="(day, translated) in Repeat.weekdays" flex ng-click="Repeat.selectWeekly(day)" class="md-primary"
                    ng-class="{'md-raised' : !Repeat.isInWeekly(day)}" ng-disabled="!Repeat.opts.repeat">
-            {{::day}}
+            {{::translated}}
         </md-button>
     </div>
     <h1 class="md-display-1">Monthly</h1>
