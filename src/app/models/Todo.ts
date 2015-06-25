@@ -125,10 +125,10 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
     }
     @Dirty
     @Json
-    public get color():string {
+    public get color(): string {
         return this._color;
     }
-    public set color(value:string) {
+    public set color(value: string) {
         this._color = value;
     }
     @Dirty
@@ -142,11 +142,11 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
 
     @Dirty
     @Json
-    public get repeatWeekly():string[] {
+    public get repeatWeekly(): string[] {
         return this._repeatWeekly;
     }
 
-    public set repeatWeekly(value:Array) {
+    public set repeatWeekly(value: string[]) {
         this._repeatWeekly = value;
     }
     @Dirty
@@ -155,7 +155,7 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
         return this._repeatMonthly;
     }
 
-    public set repeatMonthly(value:Array) {
+    public set repeatMonthly(value: string[]) {
         this._repeatMonthly = value;
     }
     @Dirty
@@ -164,7 +164,7 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
         return this._repeatYearly;
     }
 
-    public set repeatYearly(value:Array) {
+    public set repeatYearly(value: string[]) {
         this._repeatYearly = value;
     }
 
@@ -173,16 +173,16 @@ export class Todo extends BaseModel implements wanamu.model.ITodo {
         return this._updatedOnClient;
     }
 
-    public set updatedOnClient(value:string) {
+    public set updatedOnClient(value: string) {
         this._updatedOnClient = value;
     }
 
     @Json
-    public get createdOnClient():string {
+    public get createdOnClient(): string {
         return this._createdOnClient;
     }
 
-    public set createdOnClient(value:string) {
+    public set createdOnClient(value: string) {
         this._createdOnClient = value;
     }
     @OnDirty

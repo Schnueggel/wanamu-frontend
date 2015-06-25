@@ -18,6 +18,7 @@ $color1: #4990E2;
 $color2: #868686;
 $color3: #D8D8D8;
 $color4: #ffffff;
+$color-ok: rgb(25, 166, 25);
 $color-form-input: #212121;
 
 $shadow1:  0px 2px 5px rgba(0, 0, 0, 0.26);
@@ -205,6 +206,10 @@ md-icon {
     height : $font-icon-size;
 }
 
+.wu-ok {
+    color: $color-ok;
+}
+
 .animate-ng-show.ng-hide-remove {
     -webkit-transform-origin: top;
     transform-origin: top;
@@ -251,29 +256,39 @@ md-icon {
     }
     .chip {
         cursor: default;
-        border-radius: 18px;
         display: block;
         height: 32px;
         line-height: 32px;
-        padding: 0 8px 0 12px;
+        padding: 0 2px 0 5px;
         float: left;
         font-size: 0.7rem;
         background-color: #BBBBBB;
         box-sizing: content-box;
-
+        margin-right: 3px;
         .chip-content {
             display: block;
             padding-right: 8px;
             float: left;
             white-space: nowrap;
             color:white;
+            md-icon {
+                $size: 1.2em;
+                height: $size;
+                min-height: $size;
+                width: auto;
+                font-size: $size;
+                line-height: $size;
+            }
         }
         button {
-            width: 26px;
-            height: 26px;
-            min-height: 26px;
-            line-height: 26px;
-            margin: 3px -4px 0 -4px;
+            $size : 26px;
+            width: $size;
+            min-width: $size;
+            height: $size;
+            min-height: $size;
+            line-height: $size;
+            padding: 0;
+            margin: 3px 0 0 4px;
             md-icon {
                 font-size: 25px;
                 width: 25px;

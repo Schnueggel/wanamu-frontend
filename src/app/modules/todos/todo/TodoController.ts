@@ -21,10 +21,6 @@ export class TodoController extends BaseController {
     public setting : wanamu.model.ISetting;
     public currentColor : {};
 
-    public repeat : boolean;
-    public yearly : string;
-    public monthly : string;
-    public weekly : Array<string>;
     public moment : moment.MomentStatic = require('moment');
 
     constructor(
@@ -45,14 +41,6 @@ export class TodoController extends BaseController {
         // New Todos dont have and ID
         if (!_.isNumber(this.todo.id)) {
             this.editTodo(true);
-        }
-
-        if ( !_.isArray(this.weekly)) {
-            this.weekly = [];
-        }
-
-        if ( !_.isBoolean(this.repeat)) {
-            this.repeat = false;
         }
     }
 
@@ -116,10 +104,10 @@ export class TodoController extends BaseController {
      */
     setRepeat(ev : MouseEvent) {
         var inopts = new RepeatDirectiveOptions();
-        inopts.monthly =  this.monthly;
-        inopts.yearly = this.yearly;
-        inopts.weekly = this.weekly;
-        inopts.repeat = this.repeat;
+        inopts.monthly =  this.todo.repeatMonthly;
+        inopts.yearly = this.todo.repeatYearly;
+        inopts.weekly = this.todo.repeatWeekly;
+        inopts.repeat = this.todo.repeat;
 
         this.wuTodosHeaderService.showAddTodoButton = false;
 
@@ -137,12 +125,10 @@ export class TodoController extends BaseController {
      * @param opts
      */
     onRepeatDialogSuccess = (opts : RepeatDirectiveOptions) : void => {
-        console.log(opts);
         this.todo.repeatWeekly = opts.weekly || [];
         this.todo.repeat = opts.repeat;
         this.todo.repeatMonthly = opts.monthly || [];
         this.todo.repeatYearly = opts.yearly || [];
-        console.log(this.todo.toJSON());
     };
 
     /**
@@ -171,12 +157,14 @@ export class TodoController extends BaseController {
      * @returns {IPromise<TResult>}
      */
     syncTodo () : ng.IPromise<wanamu.model.ITodo> {
-        return this.todoDataSource
-            .sync(this.todo)
-            .then (() => {
+        let promise = this.todoDataSource.sync(this.todo);
+
+        promise.then (() => {
             this.panelService.showSimpleToast('Todo Saved');
         }).catch((err: wanamu.errors.BaseError ) => {
             this.panelService.showSimpleToast(err.message);
         });
+
+        return promise;
     }
 }

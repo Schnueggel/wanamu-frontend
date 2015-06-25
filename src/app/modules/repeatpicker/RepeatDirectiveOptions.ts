@@ -5,14 +5,14 @@ export class RepeatDirectiveOptions implements wanamu.repeatpicker.RepeatDirecti
      * @scopevar
      * @type {boolean}
      */
-    public yearly : string = '';
+    public yearly : string[] = [];
 
     /**
      * Day in Month
      * @scopevar
      * @type {boolean}
      */
-    public monthly : string = '';
+    public monthly : string[] = [];
 
     /**
      * Enable or Disable Repeating

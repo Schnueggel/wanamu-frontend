@@ -5,14 +5,14 @@ declare module wanamu.repeatpicker {
          * @scopevar
          * @type {boolean}
          */
-        yearly : string ;
+        yearly : Array<string> ;
 
         /**
          * Day in Month
          * @scopevar
          * @type {boolean}
          */
-        monthly : string;
+        monthly : Array<string>;
 
         /**
          * Enable or Disable Repeating

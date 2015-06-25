@@ -1,3 +1,4 @@
+import _ = require('lodash');
 import { Controller } from '../../decorators/decorators'
 import { BaseController } from '../../wanamu/wanamu';
 import { RepeatDirectiveOptions } from './RepeatDirectiveOptions';
@@ -7,7 +8,8 @@ export enum MONTHLY {
     LAST = 1,
 }
 /**
- * Controls the Panel
+ * @namespace repeatpicker
+ * @alias Repeat
  */
 @Controller('RepeatDirectiveController')
 export class RepeatDirectiveController extends BaseController {
@@ -27,12 +29,6 @@ export class RepeatDirectiveController extends BaseController {
         sa : false,
         su : false
     };
-
-    /**
-     * @viewvar
-     * @type {boolean}
-     */
-    public isMonthly : boolean = false;
 
     /**
      * Days to display
@@ -61,11 +57,8 @@ export class RepeatDirectiveController extends BaseController {
             });
         }
 
-        if(_.isString(this.opts.monthly) && this.opts.monthly.length > 0) {
-            this.isMonthly = true;
-        }
-
         this.setupDaysInMonth();
+        console.log(this);
     }
 
     /**
@@ -81,36 +74,58 @@ export class RepeatDirectiveController extends BaseController {
 
         this.daysInMonth.push(RepeatDirectiveController.LAST);
     }
+    /**
+     * @viewhelper
+     * @param n
+     * @returns {boolean}
+     */
+    isInMonthly(n : string) : boolean {
+        return this.opts.monthly.indexOf(n) !== -1;
+    }
 
     /**
-     * @viewfunction
+     * Check if day is selected in weekly
+     * @param n
+     * @returns {boolean}
+     */
+    isInWeekly(n : string) : boolean {
+        return this.opts.weekly.indexOf(n) !== -1
+    }
+    /**
+     * @viewhelper
      * Toggles a weekday selection
      * @param day
      */
     selectWeekly(day : string) : void {
-        if (this.weekdays.hasOwnProperty(day)) {
-            this.weekdays[day] = !this.weekdays[day];
-
-            let selecteddays = [];
-            _.forEach(this.weekdays, (v, k) => {
-                if (v) {
-                    selecteddays.push(k);
-                }
-            });
-            this.opts.weekly = selecteddays;
-        }
-    }
-
-    onIsMonthly(ismonthly : boolean) {
-        if (ismonthly && !this.opts.monthly) {
-            this.opts.monthly = RepeatDirectiveController.FIRST;
+        if (this.isInWeekly(day)) {
+            _.pull(this.opts.weekly, day);
         } else {
-            this.opts.monthly = '';
+            this.opts.weekly.push(day);
         }
     }
 
+    /**
+     * @viewhelper
+     * @method onIsMonthlyChanged
+     * @param ismonthly
+     */
+    onIsMonthlyChanged(ismonthly : boolean) {
+        if (ismonthly && !this.opts.monthly) {
+            this.opts.monthly.push(RepeatDirectiveController.FIRST);
+        } else {
+            this.opts.monthly = [];
+        }
+    }
+
+    /**
+     * @viewhelper
+     * @param day
+     */
     selectMonthly(day : string) {
-        this.isMonthly = true;
-        this.opts.monthly = day;
+        if (this.isInMonthly(day)) {
+            _.pull(this.opts.monthly, day);
+        } else {
+            this.opts.monthly.push(day);
+        }
     }
 }
