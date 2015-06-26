@@ -8,36 +8,24 @@ import { BaseService } from '../../wanamu/wanamu';
  * @alias authService
  */
 @Service('wuAuthService')
-@InjectC('$q','$http', '$window', 'constants', 'userDataSource')
+@InjectC('$q','$http', 'constants', 'userDataSource', 'CacheFactory', 'panelService')
 export class AuthService implements wanamu.auth.IAuthService {
 
     private currentuser : any;
+    private userCache : any;
+
+    static USER_CACHE_KEY : string  = 'wanamu.user.cache';
+    static USER_KEY : string = 'user';
+    static USER_CACHE_MAX_AGE = 1000 * 60 * 60 // 1 Hour;
 
     constructor(public $q:angular.IQService,
                 public $http:angular.IHttpService,
-                public $window:angular.IWindowService,
                 public constants : any,
-                public userDataSource : UserDataSource
+                public userDataSource : UserDataSource,
+                public cacheFactory : any,
+                public panelService : wu.module.panel.PanelService
     ) {
-
-        this.currentuser = null;
-
-        /**
-         * We try to load the user from localstorage
-         */
-        try{
-            var userdata = JSON.parse($window.localStorage.getItem('user'));
-            //Reload userdata in background
-            if (_.isPlainObject(userdata) && _.isNumber(userdata.id)) {
-                this.currentuser = new User(userdata);
-            }
-
-        } catch (err) {
-            console.error(err);
-            this.currentuser = null;
-        }
-
-        this.$window = $window;
+        this.currentuser = this.restoreUser();
     }
 
     /**
@@ -65,11 +53,7 @@ export class AuthService implements wanamu.auth.IAuthService {
         var deferred = this.$q.defer();
         var promise = deferred.promise;
         this.currentuser = null;
-
-        // ==========================================================================
-        // Remove user from localstorage in any case
-        // ==========================================================================
-        this.$window.localStorage.removeItem('user');
+        this.clearUserCache();
 
         this.$http.post(this.constants.logouturl, {}).success(function (data: any, status: number) {
             // ==========================================================================
@@ -109,15 +93,101 @@ export class AuthService implements wanamu.auth.IAuthService {
      * Stores the user in the localstorage
      */
     public storeUser() {
-        this.$window.localStorage.setItem('user', JSON.stringify(this.currentuser));
+        if ( this.currentuser instanceof User ) {
+            console.log('Storing user');
+            console.log(JSON.stringify(this.currentuser));
+            this.getUserCache().put(AuthService.USER_KEY, JSON.stringify(this.currentuser));
+        }
     }
 
     /**
-     * Get the current user or null
+     * Trys to restore the user from the session cache
+     */
+    public restoreUser() : wu.model.IUser {
+        let user: wu.model.IUser;
+        /**
+         * We try to load the user from cache
+         */
+        try{
+            console.log(this.getUserCache().get(AuthService.USER_KEY));
+            let userdata = JSON.parse(this.getUserCache().get(AuthService.USER_KEY));
+            //Reload userdata in background
+            if (_.isPlainObject(userdata) && _.isNumber(userdata.id)) {
+                 user = new User(userdata);
+            }
+
+        } catch (err) {
+            console.error(err);
+            user = null;
+        }
+
+        return  user;
+    }
+
+    /**
+     * Clears user from cache
+     */
+    public clearUserCache() {
+        this.getUserCache().remove(AuthService.USER_KEY);
+    }
+    /**
+     *
+     * @returns {any}
+     */
+    public getUserCache() {
+
+        if (!this.userCache) {
+            this.userCache = this.cacheFactory.get(AuthService.USER_CACHE_KEY);
+            if (!this.userCache) {
+                console.info('Create new User Cache');
+                this.userCache = this.cacheFactory.createCache(AuthService.USER_CACHE_KEY, {
+                    maxAge: AuthService.USER_CACHE_MAX_AGE,
+                    storageMode: 'localStorage'
+                });
+            }
+        }
+        return this.userCache;
+    }
+
+    /**
+     * Get the current user or try to restore it from session
      * @returns {any|null}
      */
-    public currentUser() : User {
+    public currentUser() : wu.model.IUser {
+        if (!this.currentuser) {
+            this.currentuser = this.restoreUser();
+        }
         return this.currentuser;
+    }
+
+    /**
+     * Try to get user from session
+     * @returns {any}
+     */
+    public queryCurrentUser() : ng.IPromise<wu.model.IUser> {
+
+
+        let deferred = this.$q.defer();
+        let promise = deferred.promise;
+        let user = this.currentUser();
+
+        if (user instanceof User) {
+            deferred.resolve(user);
+            return promise;
+        }
+
+        user = this.restoreUser();
+
+        if (user instanceof User) {
+            deferred.resolve(user);
+            return promise;
+        }
+
+        this.panelService.showLogin()
+            .then( (user: wu.model.IUser) => deferred.resolve(user) )
+            .catch( () => deferred.reject() );
+
+        return promise;
     }
 
     /**
