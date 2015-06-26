@@ -6,7 +6,7 @@ import { TodoListNotFoundError } from './errors/TodoListNotFoundError';
 import { Todo } from './Todo';
 import { BaseModel }  from './BaseModel';
 
-export class User extends BaseModel {
+export class User extends BaseModel implements wu.model.IUser {
 
     public static TYPE_GUEST = 'guest';
     public static TYPE_USER = 'user';
@@ -40,7 +40,7 @@ export class User extends BaseModel {
      * @param data
      */
     public fromJSON(data: wanamu.IUserData) {
-        var data = data || <wanamu.IUserData>{},
+        let data = data || <wanamu.IUserData>{},
             todolist : TodoList;
 
         this.id = data.id;
@@ -53,7 +53,7 @@ export class User extends BaseModel {
         this.TodoLists = [];
 
         if (_.isArray(data.TodoLists)) {
-            for (var i = 0; i < data.TodoLists.length; i++) {
+            for (let i = 0; i < data.TodoLists.length; i++) {
                 todolist = new TodoList(data.TodoLists[i]);
                 if (todolist.id === this.DefaultTodoListId){
                     this.defaulttodolist = todolist;
@@ -72,7 +72,7 @@ export class User extends BaseModel {
      * @returns {TodoList|null}
      */
     public todolist (id : number) : TodoList {
-        for(var i = 0; i < this.TodoLists.length; i++){
+        for(let i = 0; i < this.TodoLists.length; i++){
             if (this.TodoLists[i].id === id) {
                 return this.TodoLists[i];
             }
@@ -87,17 +87,26 @@ export class User extends BaseModel {
      * @returns {TodoList}
      */
     public todo (id : number) {
-        var todolist : TodoList;
-        for(var i = 0; i < this.TodoLists.length; i++){
+        let todolist : TodoList;
+        for(let i = 0; i < this.TodoLists.length; i++){
             todolist = this.TodoLists[i];
 
-            for(var t = 0; t < todolist.Todos.length; t++){
+            for(let t = 0; t < todolist.Todos.length; t++){
                 if (todolist.Todos[t].id === id){
                     return todolist.Todos[t];
                 }
             }
         }
         return null;
+    }
+
+    public deleteTodo(todo : wu.model.ITodo) {
+        if (todo instanceof Todo) {
+            let todolist = this.todolist(todo.TodoListId);
+            if( todolist ) {
+                todolist
+            }
+        }
     }
 
     /**
@@ -130,7 +139,7 @@ export class User extends BaseModel {
      */
     public todos(id?: number) : Todo[] {
 
-        var todolist : TodoList = null;
+        let todolist : TodoList = null;
 
         if (id) {
             todolist = this.todolist(id);

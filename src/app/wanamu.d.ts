@@ -10,7 +10,11 @@
  * Collapse wanamu into wu
  */
 import wu = wanamu;
+declare var packageJson : wanamu.IConstants;
 
+declare module 'package.json' {
+    export = packageJson;
+}
 declare module wanamu {
     interface IDirty {
         dirty : boolean;

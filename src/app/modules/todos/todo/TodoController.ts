@@ -9,7 +9,7 @@ import { RepeatDirectiveOptions } from '../../repeatpicker/RepeatDirectiveOption
  * @alias Todo
  * @namespace todo
  */
-@InjectC('wuRepeatDialog', 'panelService', 'wuTodosHeaderService', 'todoDataSource', '$scope', '$interval')
+@InjectC('panelService', 'wuTodosHeaderService', 'todoDataSource', '$scope', '$interval')
 export class TodoController extends BaseController {
 
     public static currentInEdit : TodoController = null;
@@ -24,10 +24,9 @@ export class TodoController extends BaseController {
     public moment : moment.MomentStatic = require('moment');
 
     constructor(
-        public wuRepeatDialog: wanamu.dialogs.RepeatDialogService,
-        public panelService: wanamu.module.panel.PanelService,
-        public wuTodosHeaderService : wanamu.todos.TodosHeaderService,
-        public todoDataSource : wanamu.datasource.ITodoDataSource,
+        public panelService: wu.module.panel.PanelService,
+        public wuTodosHeaderService : wu.todos.TodosHeaderService,
+        public todoDataSource : wu.datasource.ITodoDataSource,
         public $scope: ng.IScope,
         public $interval: ng.IIntervalService
     ) {
@@ -78,9 +77,14 @@ export class TodoController extends BaseController {
      * @viewfunction
      * @param todo
      */
-    delete = (todo: Todo) => {
-        console.log(todo);
-    };
+    delete(){
+        this.todoDataSource.delete(this.todo).then (() => {
+            this.panelService.showSimpleToast('Todo Deleted');
+        }).catch((err: wu.errors.BaseError ) => {
+            this.panelService.showSimpleToast(err.message);
+        });
+    }
+
 
     /**
      * Set the edit mode of this Directive and cancels the editmode of other directives
@@ -161,7 +165,7 @@ export class TodoController extends BaseController {
 
         promise.then (() => {
             this.panelService.showSimpleToast('Todo Saved');
-        }).catch((err: wanamu.errors.BaseError ) => {
+        }).catch((err: wu.errors.BaseError ) => {
             this.panelService.showSimpleToast(err.message);
         });
 

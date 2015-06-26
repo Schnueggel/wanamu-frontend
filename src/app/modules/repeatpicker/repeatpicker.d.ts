@@ -1,4 +1,7 @@
 declare module wanamu.repeatpicker {
+    interface IWeekDays {
+        [index: string] : string
+    }
     interface RepeatDirectiveOptions {
         /**
          * Set day in year

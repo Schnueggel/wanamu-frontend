@@ -9,7 +9,7 @@ export class TodoList extends BaseModel implements wanamu.model.ITodoList {
 
     public id : number;
     public name : string;
-    public Todos : Todo[];
+    public Todos : Array<Todo> = [];
 
     protected highestOrderNumber : number = -1;
 

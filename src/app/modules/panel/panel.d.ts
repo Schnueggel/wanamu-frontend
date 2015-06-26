@@ -5,6 +5,8 @@ declare module wanamu.module.panel {
         repeatopts : repeatpicker.RepeatDirectiveOptions;
         isDateTimePickerOpen: boolean;
         isRepeatPickerOpen:boolean;
+        isLoginOpen: boolean;
+
         dtpopts : dateTimePicker.DateTimePickerOptions;
         isComponentOpen : boolean
 
@@ -14,6 +16,7 @@ declare module wanamu.module.panel {
         resolveRepeatPicker() : void;
         rejectRepeatPicker(msg?: string) : void;
         showRepeatPicker (opts : repeatpicker.RepeatDirectiveOptions) : angular.IPromise<repeatpicker.RepeatDirectiveOptions>;
+        showLogin () : angular.IPromise<model.IUser>;
         hideAll() : void;
         showSimpleToast(message: string) : void;
     }

@@ -1,5 +1,8 @@
 {
-  "wanamu": {
-    "defaultDateTimeFormat" : "YYYY-MM-TT"
-  }
+    "wanamu": {
+        "defaultDateTimeFormat": "YYYY-MM-TT"
+        "apiurl": "http://localhost:3001",
+        "loginurl": "http://localhost:3001/auth/login",
+        "logouturl": "http://localhost:3001/auth/logout"
+    }
 }

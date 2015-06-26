@@ -2,7 +2,7 @@ import { BaseModel }  from './BaseModel';
 import _ = require ('lodash');
 import { Dirty, Json, OnDirty } from '../decorators/decorators';
 
-export class Todo extends BaseModel implements wanamu.model.ITodo {
+export class Todo extends BaseModel implements wu.model.ITodo {
 
     private _id : number;
     private _TodoListId: number;

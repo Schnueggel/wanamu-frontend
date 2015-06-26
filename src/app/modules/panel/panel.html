@@ -2,14 +2,14 @@
 <md-content class="panel" layout-padding flex>
     <div class="components" ng-show="Panel.panelService.isComponentOpen">
         <!---DateTimePicker --->
-        <div ng-show="Panel.panelService.isDateTimePickerOpen">
+        <div ng-show="Panel.isDateTimePickerOpen()">
             <wu-date-time-picker date="Panel.panelService.dtpopts.date"></wu-date-time-picker>
             <div class="md-actions" layout="row">
                 <span flex></span>
-                <md-button ng-click="Panel.panelService.resolveDateTimePicker()" class="md-primary md-raised" arial-labe="ok">
+                <md-button ng-click="Panel.resolveDateTimePicker()" class="md-primary md-raised" arial-labe="ok">
                     OK
                 </md-button>
-                <md-button ng-click="Panel.panelService.rejectDateTimePicker()" class="md-primary md-raised" arial-label="cancel">
+                <md-button ng-click="Panel.rejectDateTimePicker()" class="md-primary md-raised" arial-label="cancel">
                     Cancel
                 </md-button>
             </div>
@@ -19,16 +19,17 @@
             <wu-repeat opts="Panel.panelService.repeatopts"></wu-repeat>
             <div class="md-actions" layout="row">
                 <span flex></span>
-                <md-button ng-click="Panel.panelService.resolveRepeatPicker()" class="md-primary md-raised" arial-labe="ok">
+                <md-button ng-click="Panel.resolveRepeatPicker()" class="md-primary md-raised" arial-labe="ok">
                     OK
                 </md-button>
-                <md-button ng-click="Panel.panelService.rejectRepeatPicker()" class="md-primary md-raised" arial-label="cancel">
+                <md-button ng-click="Panel.rejectRepeatPicker()" class="md-primary md-raised" arial-label="cancel">
                     Cancel
                 </md-button>
             </div>
         </div>
+        <wu-auth-login login-success-callback="Panel.panelService.loginSuccessCallback" ng-if="Panel.panelService.isLoginOpen"></wu-auth-login>
     </div>
     <!-- Content -->
-    <content ui-view ng-show="!Panel.panelService.isComponentOpen"></content>
+    <content ui-view ng-show="!Panel.isComponentOpen()"></content>
 </md-content>
 <footer ui-view="footer"></footer>

@@ -27,7 +27,7 @@ export class RepeatDirectiveController extends BaseController {
     /**
      * @viewvar
      */
-    public weekdays : wanamu.dialogs.WeekDays = {
+    public weekdays : wanamu.repeatpicker.IWeekDays = {
         mo : 'Mo',
         tu : 'Tu',
         we : 'We',

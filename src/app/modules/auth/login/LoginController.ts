@@ -14,6 +14,8 @@ export class LoginController {
         error: {}
     };
 
+    public loginSuccessCallback : wanamu.auth.ILoginSuccessCallback;
+
     /**
      *
      * @param $scope
@@ -46,8 +48,12 @@ export class LoginController {
             this.loading = true;
 
             this.auth.login(this.form.username, this.form.password)
-                .then(function () {
-                    that.$state.go('panel.view.todos');
+                .then( (user: wanamu.model.IUser) => {
+                    if (this.loginSuccessCallback) {
+                        this.loginSuccessCallback(user);
+                    } else {
+                        that.$state.go('panel.view.todos');
+                    }
                 }).catch(function (err : any) {
                     that.form.error.error = true;
                     that.form.error.message = err.message;

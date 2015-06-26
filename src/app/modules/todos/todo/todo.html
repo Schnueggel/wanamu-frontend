@@ -22,7 +22,7 @@
                     <md-button class="md-raised md-primary" aria-label="Pick Color Button" ng-click="Todo.editcolors=true">
                         <md-icon class="material-icons" md-font-library="material-icons">&#xE3B7;</md-icon>
                     </md-button>
-                    <md-button class="md-raised md-primary alarm-button" arial-label="Pick alarm date" ng-click="Todo.setAlarm($event)" ng-class="{'md-hue-2': Todo.todo.repeat}">
+                    <md-button class="md-raised md-primary alarm-button" arial-label="Pick alarm date" ng-click="Todo.setAlarm($event)" ng-class="{'md-hue-2': Todo.todo.alarm}">
                         <md-icon class="material-icons" md-font-library="material-icons">&#xE191;</md-icon>
                     </md-button>
                     <md-button class="md-raised md-primary repeat-button" arial-label="Select alarm interval" ng-click="Todo.setRepeat($event)" ng-class="{'md-hue-2': Todo.todo.repeat}">
@@ -40,6 +40,8 @@
         </md-list-item>
 
         <md-divider></md-divider>
+
+        <!-- Editor Setting Chips -->
         <md-list-item class="editor">
             <md-toolbar class="option-chips md-accent" layout="row">
                <div class="md-toolbar-tools chips">

@@ -13,13 +13,16 @@ export class PanelService extends BaseService implements wanamu.module.panel.Pan
 
     private _isDateTimePickerOpen : boolean = false;
     private _isRepeatPickerOpen : boolean = false;
+    private _isLoginOpen : boolean = false;
     private _isComponentOpen : boolean = false;
 
     private dtpdefer : angular.IDeferred<Date> = null;
     private repeatdefer : angular.IDeferred<RepeatDirectiveOptions> = null;
-    public repeatopts : RepeatDirectiveOptions;
+    private logindefer : ng.IDeferred<wanamu.model.IUser> = null;
 
+    public repeatopts : RepeatDirectiveOptions;
     public dtpopts : DateTimePickerOptions;
+    public loginSuccessCallback : wanamu.auth.ILoginSuccessCallback;
 
     constructor(private $q : angular.IQService, private $mdToast : angular.material.MDToastService) {
         super();
@@ -41,7 +44,7 @@ export class PanelService extends BaseService implements wanamu.module.panel.Pan
      */
     public showDateTimePicker (opts : DateTimePickerOptions) : angular.IPromise<Date>{
         this.dtpdefer = this.$q.defer<Date>();
-        var promise = this.dtpdefer.promise;
+        let promise = this.dtpdefer.promise;
 
         if (!this.isDateTimePickerOpen) {
             this.dtpopts = opts;
@@ -53,6 +56,47 @@ export class PanelService extends BaseService implements wanamu.module.panel.Pan
         }
 
         return promise;
+    }
+
+    /**
+     * Shows the Login Tab
+     */
+    public showLogin () : angular.IPromise<wu.model.IUser>{
+
+        if (this.logindefer === null) {
+            this.logindefer = this.$q.defer<wu.model.IUser>();
+        }
+
+        let promise = this.logindefer.promise;
+
+        if (!this.isLoginOpen) {
+            if (!this.loginSuccessCallback) {
+                this.loginSuccessCallback = (user : wu.model.IUser) => this.resolveLogin(user);
+            } else {
+                // If there is already a callback we add a new one
+                let callback : wu.auth.ILoginSuccessCallback = this.loginSuccessCallback;
+                this.loginSuccessCallback = (user : wu.model.IUser) => {
+                    callback(user);
+                    this.resolveLogin(user);
+                }
+            }
+            this.hideAll();
+            this.isLoginOpen = true;
+        }
+
+        return promise;
+    }
+
+    /**
+     * Resolve and active login to make this work showLogin must be called
+     * @param user
+     */
+    public resolveLogin(user : wu.model.IUser) {
+        if (this.logindefer !== null) {
+            this.logindefer.resolve(user);
+            this.logindefer = null;
+        }
+        this.loginSuccessCallback = null;
     }
 
     /**
@@ -90,7 +134,7 @@ export class PanelService extends BaseService implements wanamu.module.panel.Pan
      */
     public showRepeatPicker (opts : RepeatDirectiveOptions) : angular.IPromise<RepeatDirectiveOptions>{
         this.repeatdefer = this.$q.defer<RepeatDirectiveOptions>();
-        var promise = this.repeatdefer.promise;
+        let promise = this.repeatdefer.promise;
 
         if (!this.isRepeatPickerOpen) {
             this.repeatopts = opts;
@@ -148,17 +192,26 @@ export class PanelService extends BaseService implements wanamu.module.panel.Pan
         this._isRepeatPickerOpen = value;
     }
 
+    public get isLoginOpen():boolean {
+        return this._isLoginOpen;
+    }
+
+    public set isLoginOpen(value:boolean) {
+        this._isLoginOpen = value;
+    }
+
     /**
      * Hides all open elements
      */
     public hideAll() {
+        this.isLoginOpen = false;
         this.isDateTimePickerOpen = false;
         this.isRepeatPickerOpen = false;
     }
 
 
-    public get isComponentOpen():boolean {
-        this.isComponentOpen = this.isDateTimePickerOpen || this.isRepeatPickerOpen;
+    public get isComponentOpen(): boolean {
+        this.isComponentOpen = this.isDateTimePickerOpen || this.isRepeatPickerOpen || this.isLoginOpen;
         return this._isComponentOpen;
     }
 

@@ -12,8 +12,9 @@ export class TodosService extends BaseService {
     public static EVENT_ADD_TODO : string = 'EVENT_ADD_TODO';
 
     public lastAddedTodo : Todo = null;
+    public lastDeletedTodo: wu.model.ITodo = null;
     public user : User = null;
-    public selectedTodoList : TodoList = null;
+    public selectedTodoList : wu.model.ITodoList = null;
 
     constructor(public auth : AuthService, public $rootScope : angular.IRootScopeService){
         super();
@@ -21,22 +22,13 @@ export class TodosService extends BaseService {
     }
 
     /**
-     * Adds a listener to the given scope
-     * @param $scope
-     * @param listener
-     */
-    onAddNewTodo ($scope : angular.IRootScopeService, listener : (todo : Todo) => any){
-        $scope.$on(TodosService.EVENT_ADD_TODO, <any>listener);
-    }
-
-    /**
      * Adds a new todo
      * @event {TodoService.EVENT_ADD_TODO, Todo}
+     * @deprecated
      */
     addNewTodo() : void {
         var todo : Todo = new Todo();
         this.lastAddedTodo = todo;
         this.auth.currentUser().addNewTodo(todo, this.selectedTodoList);
-        this.$rootScope.$broadcast(TodosService.EVENT_ADD_TODO, todo);
     }
 }

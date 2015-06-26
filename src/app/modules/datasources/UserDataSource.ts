@@ -11,6 +11,7 @@ import { Service, InjectC } from '../../decorators/decorators';
 
 @Service('userDataSource')
 @InjectC('$http', '$q', 'constants')
+
 export class UserDataSource extends BaseService {
 
     public constructor(

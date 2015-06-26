@@ -28,7 +28,7 @@ declare module wanamu {
     interface ITodoListData {
         id : number;
         name : string;
-        Todos : ITodoData [];
+        Todos : Array<ITodoData>;
     }
 
     interface ITodoData {
@@ -54,6 +54,7 @@ declare module wanamu {
 
         interface ITodoDataSource {
             sync(todo: model.ITodo) : angular.IPromise<model.ITodo>;
+            delete(todo: wu.model.ITodo) : ng.IPromise<wanamu.model.ITodo>;
         }
 
         interface IRequestTodoData {
