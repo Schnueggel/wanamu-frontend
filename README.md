@@ -1,5 +1,23 @@
 # ToDoIt
 
+##Prequesite 
+
+### Install tsd for typescript defenitions
+
+http://definitelytyped.org/tsd/
+
+npm install tsd -g
+
+### Install gulp
+
+npm install gulp -g
+
+### Install npm check updates
+
+https://github.com/tjunnone/npm-check-updates
+
+npm install -g npm-check-updates
+ 
 ## Install
 
 Use `npm start` to start the server.
