@@ -5,6 +5,12 @@
 /// <reference path="../../typings/moment/moment.d.ts"/>
 /// <reference path="../../typings/requirejs/require.d.ts"/>
 /// <reference path="../../libs/reflect-metadata.d.ts"/>
+
+/**
+ * Collapse wanamu into wu
+ */
+import wu = wanamu;
+
 declare module wanamu {
     interface IDirty {
         dirty : boolean;
