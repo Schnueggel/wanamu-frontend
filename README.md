@@ -16,6 +16,7 @@ npm-check-updates
 gulp
 typescript
 
+tsd
 
 ## Notice 
 
