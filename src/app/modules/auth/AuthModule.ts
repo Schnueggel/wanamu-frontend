@@ -3,6 +3,7 @@ import { BaseModule } from '../../wanamu/BaseModule';
 import { AuthService } from './AuthService';
 import { LoginController } from './login/LoginController';
 import { LogoutController } from './logout/LogoutController';
+import { LoginDirective } from './login/LoginDirective';
 import { IsAuthDirective } from './isauth/IsAuthDirective';
 /**
  * Panel Module is the Basis for the Layout
@@ -10,7 +11,7 @@ import { IsAuthDirective } from './isauth/IsAuthDirective';
 @Module('auth', {
     controller: [LoginController, LogoutController],
     modules : [ 'panel'],
-    directives: [ IsAuthDirective ],
+    directives: [ IsAuthDirective, LoginDirective ],
     services  : [ AuthService ]
 })
 export class AuthModule extends BaseModule {

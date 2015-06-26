@@ -11,6 +11,11 @@ declare module wanamu {
             isLoggedIn() : boolean;
             storeUser() : void;
             currentUser() : wanamu.model.IUser;
+            queryCurrentUser() : ng.IPromise<wanamu.model.IUser>;
+        }
+
+        interface ILoginSuccessCallback {
+            (user: model.IUser) : void
         }
     }
 }
