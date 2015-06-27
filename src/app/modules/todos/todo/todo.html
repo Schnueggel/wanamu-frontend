@@ -8,18 +8,19 @@
             <md-input-container class="title" ng-click="Todo.editTodo(true)" md-no-float>
                 <textarea type="text" ng-model="Todo.todo.title" columns="1" rows="1" name="title" aria-label="title" placeholder="Type your Text here"></textarea>
             </md-input-container>
-            <md-button ng-hide="Todo.isInEditMode()"
+            <md-button ng-hide="Todo.isInEditMode() || Todo.isSyncing"
                        ng-click="Todo.deleteTodo(todo)"
                        ng-disabled="Todo.isSyncing">
                 <md-icon alt="Delete Icon" md-font-library="material-icons">&#xE872;</md-icon>
             </md-button>
             <md-button
-                ng-show="Todo.isShowDone()"
+                ng-show="Todo.isShowDone() && !Todo.isSyncing"
                 ng-click="Todo.done()"
                 ng-disabled="Todo.isSyncing"
                 ng-class="{'wu-fg md-primary hue-3': Todo.todo.dirty}">
                 <md-icon alt="Done Icon" md-font-library="material-icons">&#xE876;</md-icon>
             </md-button>
+            <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="Todo.isSyncing"  md-diameter="24"></md-progress-circular>
         </md-list-item>
 
         <md-divider ng-show="Todo.isInEditMode()"></md-divider>

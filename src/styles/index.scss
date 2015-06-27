@@ -345,6 +345,10 @@ md-icon {
                     width: 97%;
                     box-sizing: border-box;
                     display: table-cell;
+                    md-progress-circular {
+                        transform: scale(0.6);
+                        -webkit-transform: scale(0.6);
+                    }
                 }
                 md-list-item {
                     padding-left: 0;
