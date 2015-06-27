@@ -110,26 +110,8 @@ input, textarea, select {
     color: #ff6227;
     font-size: 0.8rem;
 }
-
-html .header {
-    height: $header-height;
-    padding: 2px;
-
-    .menu-icon {
-        height: $header-height;
-        width: $header-height;
-        color: $color1;
-        &.open {
-            color: $color2;
-        }
-        cursor: pointer;
-    }
-    .color-button {
-        width: 30px;
-        height: 30px;
-        padding: 4px;
-        line-height: 30px;
-    }
+header {
+    min-height: 64px;
 }
 /**
     Material Overwrites
