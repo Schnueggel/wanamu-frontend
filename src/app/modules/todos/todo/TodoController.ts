@@ -17,8 +17,8 @@ export class TodoController extends BaseController {
     private edit : boolean = false;
     public todo : Todo;
     public editcolors : boolean;
-    public colors : wanamu.model.IColor;
-    public setting : wanamu.model.ISetting;
+    public colors : wu.model.IColor;
+    public setting : wu.model.ISetting;
     public currentColor : {};
 
     public moment : moment.MomentStatic = require('moment');
@@ -81,7 +81,7 @@ export class TodoController extends BaseController {
         this.todoDataSource.delete(this.todo).then (() => {
             this.panelService.showSimpleToast('Todo Deleted');
         }).catch((err: wu.errors.BaseError ) => {
-            this.panelService.showSimpleToast(err.message);
+            this.panelService.showSimpleErrorToast(err.message);
         });
     }
 
@@ -166,7 +166,7 @@ export class TodoController extends BaseController {
         promise.then (() => {
             this.panelService.showSimpleToast('Todo Saved');
         }).catch((err: wu.errors.BaseError ) => {
-            this.panelService.showSimpleToast(err.message);
+            this.panelService.showSimpleErrorToast(err.message);
         });
 
         return promise;

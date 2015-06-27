@@ -18,14 +18,13 @@ export class AuthService implements wanamu.auth.IAuthService {
     static USER_KEY : string = 'user';
     static USER_CACHE_MAX_AGE = 1000 * 60 * 60 // 1 Hour;
 
-    constructor(public $q:angular.IQService,
-                public $http:angular.IHttpService,
+    constructor(public $q: ng.IQService,
+                public $http: ng.IHttpService,
                 public constants : any,
                 public userDataSource : UserDataSource,
                 public cacheFactory : ng.angularcache.ICacheFactory,
                 public panelService : wu.module.panel.PanelService
     ) {
-        this.currentuser = this.restoreUser();
     }
 
     /**
@@ -154,9 +153,6 @@ export class AuthService implements wanamu.auth.IAuthService {
      * @returns {any|null}
      */
     public currentUser() : wu.model.IUser {
-        if (!this.currentuser) {
-            this.currentuser = this.restoreUser();
-        }
         return this.currentuser;
     }
 
@@ -165,7 +161,6 @@ export class AuthService implements wanamu.auth.IAuthService {
      * @returns {any}
      */
     public queryCurrentUser() : ng.IPromise<wu.model.IUser> {
-
 
         let deferred = this.$q.defer();
         let promise = deferred.promise;
@@ -176,12 +171,11 @@ export class AuthService implements wanamu.auth.IAuthService {
             return promise;
         }
 
-        user = this.restoreUser();
+        this.userDataSource.getUser(0).then((user : wu.model.IUser) => {
+            this.currentuser = user;
+        }).catch( (err : Error) =>{
 
-        if (user instanceof User) {
-            deferred.resolve(user);
-            return promise;
-        }
+        });
 
         this.panelService.showLogin()
             .then( (user: wu.model.IUser) => deferred.resolve(user) )

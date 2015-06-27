@@ -37,10 +37,10 @@ export class User extends BaseModel implements wu.model.IUser {
 
     /**
      *
-     * @param data
+     * @param d
      */
-    public fromJSON(data: wanamu.IUserData) {
-        let data = data || <wanamu.IUserData>{},
+    public fromJSON(d: wu.IUserData) {
+        let data = d || <wu.IUserData>{},
             todolist : TodoList;
 
         this.id = data.id;
