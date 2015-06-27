@@ -22,6 +22,7 @@ export class TodoController extends BaseController {
     public currentColor : {};
 
     public moment : moment.MomentStatic = require('moment');
+    public isSyncing : boolean = false;
 
     constructor(
         public panelService: wu.module.panel.IPanelService,
@@ -39,8 +40,6 @@ export class TodoController extends BaseController {
         if (!_.isNumber(this.todo.id) || this.todo.id < 1) {
             this.editTodo(true);
         }
-
-        console.log('TodoController');
     }
 
     /**
@@ -153,14 +152,27 @@ export class TodoController extends BaseController {
      * Deletes this todo
      * @returns {any}
      */
-    deleteTodo(): ng.IPromise<wanamu.model.ITodo> {
-        return this.wuTodosService.deleteTodo(this.todo);
+    deleteTodo(): void {
+        if (this.isSyncing) {
+            this.panelService.showSimpleErrorToast('Please wait Item is syncing with the server');
+            return null;
+        } else {
+            this.isSyncing = true;
+            this.wuTodosService.deleteTodo(this.todo).finally( () => this.isSyncing = false);
+        }
     }
     /**
      *
      * @returns {IPromise<TResult>}
      */
-    syncTodo () : ng.IPromise<wanamu.model.ITodo> {
-       return this.wuTodosService.syncTodo(this.todo);
+    syncTodo () : void {
+        if (this.isSyncing) {
+            this.panelService.showSimpleErrorToast('Please wait Item is syncing with the server');
+            return null;
+        }
+        else {
+            this.isSyncing = true;
+            this.wuTodosService.syncTodo(this.todo).finally( () => this.isSyncing = false);
+        }
     }
 }

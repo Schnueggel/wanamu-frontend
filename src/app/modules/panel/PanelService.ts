@@ -35,7 +35,7 @@ export class PanelService extends BaseService implements wu.module.panel.IPanelS
     public showSimpleToast(msg : string): void {
         this.$mdToast.show({
             template : `<md-toast class="simple-toast"><p>${msg}</p></md-toast>`,
-            position: 'bottom right'
+            position: 'top right'
         });
     }
 
@@ -45,8 +45,8 @@ export class PanelService extends BaseService implements wu.module.panel.IPanelS
      */
     public showSimpleErrorToast (msg : string) : void {
         this.$mdToast.show({
-            template : `<md-toast class="simple-toast wu-bg-warn"><p>${msg}</p></md-toast>`,
-            position: 'bottom right'
+            template : `<md-toast class="simple-toast wu-bg md-warn"><p>${msg}</p></md-toast>`,
+            position: 'top right'
         });
     }
 
