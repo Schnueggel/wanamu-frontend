@@ -19,5 +19,6 @@ declare module wanamu.module.panel {
         showLogin () : angular.IPromise<model.IUser>;
         hideAll() : void;
         showSimpleToast(message: string) : void;
+        showSimpleErrorToast (message : string) : void;
     }
 }

@@ -9,22 +9,22 @@ import { RepeatDirectiveOptions } from '../repeatpicker/RepeatDirectiveOptions';
  */
 @Service('panelService')
 @InjectC('$q', '$mdToast')
-export class PanelService extends BaseService implements wanamu.module.panel.PanelService {
+export class PanelService extends BaseService implements wu.module.panel.PanelService {
 
     private _isDateTimePickerOpen : boolean = false;
     private _isRepeatPickerOpen : boolean = false;
     private _isLoginOpen : boolean = false;
     private _isComponentOpen : boolean = false;
 
-    private dtpdefer : angular.IDeferred<Date> = null;
-    private repeatdefer : angular.IDeferred<RepeatDirectiveOptions> = null;
-    private logindefer : ng.IDeferred<wanamu.model.IUser> = null;
+    private dtpdefer : ng.IDeferred<Date> = null;
+    private repeatdefer : ng.IDeferred<RepeatDirectiveOptions> = null;
+    private logindefer : ng.IDeferred<wu.model.IUser> = null;
 
     public repeatopts : RepeatDirectiveOptions;
     public dtpopts : DateTimePickerOptions;
-    public loginSuccessCallback : wanamu.auth.ILoginSuccessCallback;
+    public loginSuccessCallback : wu.auth.ILoginSuccessCallback;
 
-    constructor(private $q : angular.IQService, private $mdToast : angular.material.MDToastService) {
+    constructor(private $q : angular.IQService, private $mdToast : ng.material.MDToastService) {
         super();
     }
 
@@ -38,6 +38,18 @@ export class PanelService extends BaseService implements wanamu.module.panel.Pan
             position: 'bottom right'
         });
     }
+
+    /**
+     * Shows a warning toast with warn color background
+     * @param msg
+     */
+    public showSimpleErrorToast (msg : string) : void {
+        this.$mdToast.show({
+            template : `<md-toast class="simple-toast wu-bg-warn"><p>${msg}</p></md-toast>`,
+            position: 'bottom right'
+        });
+    }
+
     /**
      *
      * @param opts
