@@ -65,6 +65,7 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
         this.isLoggedIn = false;
 
         this.$http.post(this.constants.logouturl, {}).success(function (data: any, status: number) {
+
             // ==========================================================================
             // If the was no logged in user we are good anyway
             // ==========================================================================
@@ -83,7 +84,7 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
 
             deferred.reject( new UnkownError('Logging out from server failed') );
 
-        }).error( (data) => {
+        }).catch( (data) => {
             if (data && data.error) {
                 deferred.reject(data.error);
             } else {
@@ -178,8 +179,7 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
         let user = this.currentUser();
 
         if (user instanceof User) {
-            this.userdeferred.resolve(user);
-            this.userdeferred = null;
+            this.resolveUser(user);
             return promise;
         }
 
@@ -187,19 +187,18 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
         let upromise = this.queryIsLoggedIn();
 
         upromise.then( (user: wu.model.IUser) => {
-            this.userdeferred.resolve(user);
-            this.userdeferred = null;
+            this.resolveUser(user);
         });
 
         upromise.catch( (err : Error) =>{
             if (err instanceof AuthError || err instanceof AccessError) {
                 console.log('Open Login');
                 let lpromise =  this.panelService.showLogin();
-                lpromise.then( (user: wu.model.IUser) => this.userdeferred.resolve(user) );
-                lpromise.catch( () => this.userdeferred.reject( new UnkownError() ) );
-                lpromise.finally( () => this.userdeferred = null );
+                lpromise.then( (user: wu.model.IUser) => this.resolveUser(user) );
+                lpromise.catch( () => this.rejectUser( new UnkownError() ) );
+
             } else {
-                this.userdeferred.reject(err);
+                this.rejectUser(err);
             }
         });
 
@@ -224,7 +223,7 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
         let user = this.currentUser();
 
         if (user instanceof User) {
-            this.logindeferred.resolve(user);
+            this.resolveLogin(user);
             return promise;
         }
 
@@ -232,15 +231,49 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
         let upromise = this.userDataSource.getUser(0);
 
         upromise.then((user : wu.model.IUser) => {
-            console.log(this)
             this.isLoggedIn = true;
             this.currentuser = user;
-            this.logindeferred.resolve(this.currentuser);
+            this.resolveLogin(user);
         });
 
-        upromise.catch( (err : wu.errors.BaseError) => this.logindeferred.reject(err) );
-        upromise.finally( () => this.logindeferred = null );
+        upromise.catch( (err : wu.errors.BaseError) => this.rejectLogin(err) );
 
         return promise;
+    }
+
+    /**
+     * Resolves the login deferred
+     * @param user
+     */
+    private resolveLogin(user : wu.model.IUser) {
+        this.logindeferred.resolve(user);
+        this.logindeferred = null;
+    }
+
+    /**
+     * Reject the login deferred
+     * @param err
+     */
+    private rejectLogin(err : wu.errors.BaseError) {
+        this.logindeferred.reject(err);
+        this.logindeferred = null;
+    }
+
+    /**
+     * Resolves the user deferred
+     * @param user
+     */
+    private resolveUser(user : wu.model.IUser) {
+        this.userdeferred.resolve(user);
+        this.userdeferred = null;
+    }
+
+    /**
+     * Rejects the user deferred
+     * @param err
+     */
+    private rejectUser(err : wu.errors.BaseError) {
+        this.userdeferred.reject(err);
+        this.userdeferred = null;
     }
 }
