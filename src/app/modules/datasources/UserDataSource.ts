@@ -10,13 +10,14 @@ import { BaseDataSource } from './BaseDataSource';
 import { Service, InjectC } from '../../decorators/decorators';
 
 @Service('userDataSource')
-@InjectC('$http', '$q', 'constants')
+@InjectC('$http', '$q')
 export class UserDataSource extends BaseDataSource {
+
+    private constants : wu.IConstants = require('../../../../package.json').wanamu;
 
     public constructor(
         public $http : ng.IHttpService,
-        public $q : ng.IQService,
-        public constants : any
+        public $q : ng.IQService
     ){
         super();
     }

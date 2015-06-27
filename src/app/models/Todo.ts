@@ -36,9 +36,9 @@ export class Todo extends BaseModel implements wu.model.ITodo {
         var data = data || <wanamu.ITodoData>{};
         this._id = data.id;
         this._TodoListId = data.TodoListId;
-        this._title = data.title;
-        this._alarm = data.alarm;
-        this._description = data.description;
+        this._title = data.title || '';
+        this._alarm = data.alarm || null;
+        this._description = data.description || '';
         this._repeat = data.repeat || this._repeat;
         this._repeatWeekly =  data.repeatWeekly || [];
         this._repeatMonthly = data.repeatMonthly || [];

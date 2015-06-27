@@ -4,13 +4,14 @@ import { BaseService } from '../../wanamu/wanamu';
 import { Service, InjectC } from '../../decorators/decorators';
 
 @Service('todolistDataSource')
-@InjectC('$http', '$q', 'constants')
+@InjectC('$http', '$q')
 export class TodoListDataSource extends BaseService{
+
+    private  constants : wu.IConstants = require('../../../../package.json').wanamu;
 
     public constructor(
         public $http : angular.IHttpService,
-        public $q : angular.IQService,
-        public constants : any
+        public $q : angular.IQService
     ){
         super();
     }

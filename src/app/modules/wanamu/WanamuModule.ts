@@ -11,7 +11,7 @@ import { Module, Config } from '../../decorators/decorators';
 @Module('wanamu',
     {
         modules : [
-            'ui.router', 'ngAnimate', 'ngTouch', 'ngMessages','config', 'ngMaterial', 'pascalprecht.translate',
+            'ui.router', 'ngAnimate', 'ngTouch', 'ngMessages', 'ngMaterial', 'pascalprecht.translate',
             require('angular-cache'),
             DataSourceModule.mname,
             PanelModule.mname,

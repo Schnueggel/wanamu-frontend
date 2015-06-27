@@ -6,7 +6,7 @@ declare module wanamu {
         description : angular.INgModelController;
     }
 
-    interface ITodoScope extends angular.IScope{
+    interface ITodoScope extends angular.IScope {
         edit : boolean;
         repeat : string;
         alarm : string;
@@ -22,15 +22,17 @@ declare module wanamu {
     }
 
     module todos {
-        interface ITodoService {
+        interface ITodosService {
             lastAddedTodo : model.ITodo;
             lastDeletedTodo: model.ITodo;
             user : model.IUser;
-            selectedTodoList : wu.model.ITodoList;
             inEditTodoId : number;
 
             addNewTodo() : model.ITodo;
+            deleteTodo(todo : model.ITodo) : ng.IPromise<wu.model.ITodo>;
+            syncTodo (todo: model.ITodo) : ng.IPromise<wu.model.ITodo>;
         }
+
         interface TodosHeaderService {
             showAddTodoButton : boolean;
         }

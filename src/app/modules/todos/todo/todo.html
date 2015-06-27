@@ -8,8 +8,12 @@
             <md-input-container class="title" ng-click="Todo.editTodo(true)" md-no-float>
                 <textarea type="text" ng-model="Todo.todo.title" columns="1" rows="1" name="title" aria-label="title" placeholder="Type your Text here"></textarea>
             </md-input-container>
-            <md-icon alt="Delete Icon" ng-hide="Todo.isInEditMode()" md-font-library="material-icons" ng-click="Todo.delete(todo)">&#xE872;</md-icon>
-            <md-icon alt="Done Icon" ng-show="Todo.isInEditMode()" md-font-library="material-icons" ng-click="Todo.done()" ng-class="{'wu-fg md-primary hue-3': Todo.todo.dirty}">&#xE876;</md-icon>
+            <md-icon alt="Delete Icon" ng-hide="Todo.isInEditMode()" md-font-library="material-icons" ng-click="Todo.deleteTodo(todo)">&#xE872;</md-icon>
+            <md-icon alt="Done Icon"
+                     ng-show="Todo.isShowDone()"
+                     md-font-library="material-icons"
+                     ng-click="Todo.done()"
+                     ng-class="{'wu-fg md-primary hue-3': Todo.todo.dirty}">&#xE876;</md-icon>
         </md-list-item>
 
         <md-divider ng-show="Todo.isInEditMode()"></md-divider>
@@ -30,7 +34,7 @@
                     </md-button>
                     <span flex></span>
                     <md-button class="md-raised md-primary">
-                        <md-icon alt="Delete Icon" class="material-icons" md-font-library="material-icons" ng-click="Todo.delete(todo)">&#xE872;</md-icon>
+                        <md-icon alt="Delete Icon" class="material-icons" md-font-library="material-icons" ng-click="Todo.deleteTodo(todo)">&#xE872;</md-icon>
                     </md-button>
                 </div>
             </md-toolbar>

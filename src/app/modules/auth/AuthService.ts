@@ -9,7 +9,7 @@ import { BaseService } from '../../wanamu/wanamu';
  * @alias authService
  */
 @Service('wuAuthService')
-@InjectC('$q','$http', 'constants', 'userDataSource', 'CacheFactory', 'panelService')
+@InjectC('$q','$http', 'userDataSource', 'CacheFactory', 'panelService')
 export class AuthService extends BaseService implements wanamu.auth.IAuthService {
 
     private currentuser : any;
@@ -21,12 +21,15 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
 
     public isLoggedIn : boolean = false;
 
+    public userdeferred : ng.IDeferred<wu.model.IUser> = null;
+    public logindeferred : ng.IDeferred<wu.model.IUser> = null;
+    private constants : wu.IConstants = require('../../../../package.json').wanamu;
+
     constructor(public $q: ng.IQService,
                 public $http: ng.IHttpService,
-                public constants : any,
                 public userDataSource : UserDataSource,
                 public cacheFactory : ng.angularcache.ICacheFactory,
-                public panelService : wu.module.panel.PanelService
+                public panelService : wu.module.panel.IPanelService
     ) {
         super();
     }
@@ -162,30 +165,38 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
      */
     public queryCurrentUser() : ng.IPromise<wu.model.IUser> {
 
-        let deferred = this.$q.defer();
-        let promise = deferred.promise;
+        // If a query is already running we return the same promise.
+        if (this.userdeferred === null) {
+            this.userdeferred = this.$q.defer();
+        } else {
+            return this.userdeferred.promise;
+        }
+
+        let promise = this.userdeferred.promise;
         let user = this.currentUser();
 
         if (user instanceof User) {
-            deferred.resolve(user);
+            this.userdeferred.resolve(user);
             return promise;
         }
 
         // We try to get the current user from the backend
         let upromise = this.queryIsLoggedIn();
 
-        upromise.then( (user: wu.model.IUser) => deferred.resolve(user) );
+        upromise.then( (user: wu.model.IUser) => this.userdeferred.resolve(user) );
 
         upromise.catch( (err : Error) =>{
             if (err instanceof AuthError || err instanceof AccessError) {
                 console.log('Open Login');
                 let lpromise =  this.panelService.showLogin();
-                lpromise.then( (user: wu.model.IUser) => deferred.resolve(user) );
-                lpromise.catch( () => deferred.reject( new UnkownError() ) );
+                lpromise.then( (user: wu.model.IUser) => this.userdeferred.resolve(user) );
+                lpromise.catch( () => this.userdeferred.reject( new UnkownError() ) );
             } else {
-                deferred.reject(err);
+                this.userdeferred.reject(err);
             }
         });
+
+        upromise.finally( () => this.userdeferred = null );
 
         return promise;
     }
@@ -196,12 +207,19 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
      * @returns {IPromise<T>}
      */
     public queryIsLoggedIn() : ng.IPromise<wu.model.IUser> {
-        let deferred = this.$q.defer();
-        let promise = deferred.promise;
+
+        // If a query is already running we return the same promise.
+        if (this.logindeferred === null) {
+            this.logindeferred = this.$q.defer();
+        } else {
+            return this.logindeferred.promise;
+        }
+
+        let promise = this.logindeferred.promise;
         let user = this.currentUser();
 
         if (user instanceof User) {
-            deferred.resolve(user);
+            this.logindeferred.resolve(user);
             return promise;
         }
 
@@ -209,12 +227,14 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
         let upromise = this.userDataSource.getUser(0);
 
         upromise.then((user : wu.model.IUser) => {
+            console.log(this)
             this.isLoggedIn = true;
             this.currentuser = user;
-            deferred.resolve(this.currentuser);
+            this.logindeferred.resolve(this.currentuser);
         });
 
-        upromise.catch( (err : wu.errors.BaseError) => deferred.reject(err) );
+        upromise.catch( (err : wu.errors.BaseError) => this.logindeferred.reject(err) );
+        upromise.finally( () => this.logindeferred = null );
 
         return promise;
     }

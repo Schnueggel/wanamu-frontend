@@ -9,7 +9,7 @@ import { RepeatDirectiveOptions } from '../repeatpicker/RepeatDirectiveOptions';
  */
 @Service('panelService')
 @InjectC('$q', '$mdToast')
-export class PanelService extends BaseService implements wu.module.panel.PanelService {
+export class PanelService extends BaseService implements wu.module.panel.IPanelService {
 
     private _isDateTimePickerOpen : boolean = false;
     private _isRepeatPickerOpen : boolean = false;
@@ -18,7 +18,7 @@ export class PanelService extends BaseService implements wu.module.panel.PanelSe
 
     private dtpdefer : ng.IDeferred<Date> = null;
     private repeatdefer : ng.IDeferred<RepeatDirectiveOptions> = null;
-    private logindefer : ng.IDeferred<wu.model.IUser> = null;
+    private logindeferred : ng.IDeferred<wu.model.IUser> = null;
 
     public repeatopts : RepeatDirectiveOptions;
     public dtpopts : DateTimePickerOptions;
@@ -75,15 +75,19 @@ export class PanelService extends BaseService implements wu.module.panel.PanelSe
      */
     public showLogin () : angular.IPromise<wu.model.IUser>{
 
-        if (this.logindefer === null) {
-            this.logindefer = this.$q.defer<wu.model.IUser>();
+        if (this.logindeferred === null) {
+            this.logindeferred = this.$q.defer<wu.model.IUser>();
+        } else {
+            return this.logindeferred.promise;
         }
 
-        let promise = this.logindefer.promise;
+        let promise = this.logindeferred.promise;
 
         if (!this.isLoginOpen) {
             if (!this.loginSuccessCallback) {
-                this.loginSuccessCallback = (user : wu.model.IUser) => this.resolveLogin(user);
+                this.loginSuccessCallback = (user : wu.model.IUser) => {
+                    this.resolveLogin(user);
+                }
             } else {
                 // If there is already a callback we add a new one
                 let callback : wu.auth.ILoginSuccessCallback = this.loginSuccessCallback;
@@ -104,9 +108,9 @@ export class PanelService extends BaseService implements wu.module.panel.PanelSe
      * @param user
      */
     public resolveLogin(user : wu.model.IUser) {
-        if (this.logindefer !== null) {
-            this.logindefer.resolve(user);
-            this.logindefer = null;
+        if (this.logindeferred !== null) {
+            this.logindeferred.resolve(user);
+            this.logindeferred = null;
         }
         this.loginSuccessCallback = null;
     }

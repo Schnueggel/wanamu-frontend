@@ -1,5 +1,5 @@
 <header ui-view="header"></header>
-<md-content class="panel" layout-padding flex>
+<md-content class="panel" layout-padding flex md-scroll-y>
     <div class="components" ng-show="Panel.panelService.isComponentOpen">
         <!---DateTimePicker --->
         <div ng-show="Panel.isDateTimePickerOpen()">
@@ -32,4 +32,4 @@
     <!-- Content -->
     <content ui-view ng-show="!Panel.isComponentOpen()"></content>
 </md-content>
-<footer ui-view="footer"></footer>
+<footer ui-view="footer" layout="row" flex></footer>

@@ -35,7 +35,7 @@ export class TodosModule extends BaseModule {
                 }
             })
             .state('panel.view.todos.edit', {
-                url: '/todos/:id',
+                url: '/{id:int}',
                 controller: TodoEditController
             });
     }

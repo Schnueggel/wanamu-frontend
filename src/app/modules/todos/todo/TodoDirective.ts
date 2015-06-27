@@ -11,7 +11,6 @@ export class TodoDirective extends BaseDirective {
         bindToController: {
             todo: '=todo',
             setting :'=setting',
-            inEditTodoId: '=inEditTodoId'
         },
         controllerAs: 'Todo',
         controller: TodoController,

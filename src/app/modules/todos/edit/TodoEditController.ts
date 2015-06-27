@@ -12,10 +12,10 @@ export class TodoEditController extends BaseController {
      */
     constructor(
         public $stateParams: ng.ui.IStateParamsService,
-        public todoService : wu.todos.ITodoService
+        public wuTodoService : wu.todos.ITodosService
     ){
         super();
-        todoService.inEditTodoId = $stateParams['id'];
-        console.log('todo.edit');
+        wuTodoService.inEditTodoId = $stateParams['id'];
+
     }
 }

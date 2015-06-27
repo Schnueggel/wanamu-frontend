@@ -100,24 +100,14 @@ export class User extends BaseModel implements wu.model.IUser {
         return null;
     }
 
-    public deleteTodo(todo : wu.model.ITodo) {
-        if (todo instanceof Todo) {
-            let todolist = this.todolist(todo.TodoListId);
-            if( todolist ) {
-                todolist
-            }
-        }
-    }
-
     /**
      * Adds a new TodoITem to the todolist. If no todolistId is given the default TodoList will be used.
      * If no TodoList could be found at all a TodoListNotFoundError will be thrown.
      * @param todo
-     * @param id
+     * @param [todolist]
      * @throws TodoListNotFoundError
      */
     public addNewTodo(todo : Todo, todolist?: TodoList) : void {
-        console.log(todolist instanceof TodoList);
         if (todo instanceof Todo) {
             if (!(todolist instanceof TodoList) && this.defaulttodolist instanceof TodoList) {
                 todolist = this.defaulttodolist;
@@ -125,6 +115,7 @@ export class User extends BaseModel implements wu.model.IUser {
             if (!todolist) {
                 throw new TodoListNotFoundError();
             }
+
             todolist.addNewTodo(todo);
         } else {
             console.warn('New Todo must be of type Todo');

@@ -1,9 +1,0 @@
-{
-    "development": {
-        "constants": {
-            "apiurl": "http://localhost:3001",
-            "loginurl": "http://localhost:3001/auth/login",
-            "logouturl": "http://localhost:3001/auth/logout"
-        }
-    }
-}

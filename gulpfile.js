@@ -16,7 +16,6 @@ var gulp = require('gulp'),
     runSequence = require('run-sequence'),
     webpack = require('webpack'),
     path = require('path'),
-    ngConstant = require('gulp-ng-constant'),
     gulptypescript = require('gulp-typescript'),
     karma = require('karma').server,
     fs = require('fs'),
@@ -31,7 +30,6 @@ var gulp = require('gulp'),
 var srcPath = path.join(__dirname, 'src'),
     srcAppPath = path.join(srcPath, 'app'),
     srcStaticFolder = path.join(__dirname, 'src', 'static'),
-    srcConfigPath = path.join(__dirname, 'src', 'config.json'),
     appscript = 'bootstrap.js',
     tmpPath = path.join(__dirname, 'tmp'),
     tmpAppPath = path.join(tmpPath, 'app'),
@@ -40,7 +38,8 @@ var srcPath = path.join(__dirname, 'src'),
     distPath = path.join(__dirname, 'dist'),
     distAppPath = path.join(distPath, 'app'),
     distIndexHtml = path.join(distAppPath, 'index.html'),
-    env = process.APP_ENV || 'development',
+    node_modules_path = path.join(__dirname, 'node_modules'),
+    env = process.APP_ENV || 'develop',
     indexFileName = 'index.js',
     typescriptOutFile =path.join(tmpAppPath, 'modules/wanamu//Application.js');
 
@@ -62,7 +61,18 @@ var webpackConfig = {
     devtool: '',
     module: {
         noParse: [
-            /[\/\\]node_modules\.js$/
+            /[\/\\]angular\.js$/,
+            /[\/\\]angular-ui-router\.js$/,
+            /[\/\\]angular-translate\.js$/,
+            /[\/\\]angular-animate\.js$/,
+            /[\/\\]angular-il18n\.js$/,
+            /[\/\\]angular-messages\.js$/,
+            /[\/\\]angular-touch\.js$/,
+            /[\/\\]hotkeys\.js$/,
+            /[\/\\]moment\.js/,
+            /lodash/,
+            /webpack/,
+            /\.html$/
         ],
         loaders : [
             //{
@@ -86,7 +96,7 @@ var webpackConfig = {
             },
             {
                 test: /package\.json$/,
-                loader: 'environment-config-webpack-loader?environment=' + (process.env.APP_ENV || 'develop')
+                loader: 'environment-config-webpack-loader?environment=' + (env|| 'develop')
             },
             {
                 test: /\.scss$/,
@@ -99,10 +109,20 @@ var webpackConfig = {
             }
         ]
     },
+    plugins : [],
     resolveLoader: {
         root: path.join(__dirname, 'node_modules')
     }
 };
+
+if (env === 'production') {
+    webpackConfig.plugins.push(
+        new webpack.optimize.UglifyJsPlugin({
+            mangle: false,
+            sourceMap: false
+        })
+    );
+}
 
 
 /**
@@ -146,7 +166,6 @@ gulp.task('build-app', function (cb) {
         'move-tmp',
         'tmp-app-static',
         'build-typescript',
-        'constants',
         'build-webpack',
         'build-app-html',
         'move-dist', cb);
@@ -198,26 +217,12 @@ gulp.task('build-typescript', function () {
         }));
     return tsResult.js.pipe(gulp.dest(tmpAppPath));
 });
-// ==========================================================================
-// Creates a config files as angular module
-// ==========================================================================
-gulp.task('constants', function () {
-    var myConfig = require(srcConfigPath);
-    var envConfig = myConfig[env];
-
-    return ngConstant({
-        name: 'config',
-        wrap: 'commonjs',
-        constants: envConfig,
-        stream: true
-    }).pipe(gulp.dest(tmpConfigPath));
-});
 
 // ===========================================================
 // Create webpacked files
 // ===========================================================
 gulp.task('build-webpack', function (callback) {
-    if (env === 'development') {
+    if (env === 'develop') {
         webpackConfig.debug = true;
     }
 

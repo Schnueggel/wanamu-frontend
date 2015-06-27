@@ -9,7 +9,7 @@ import { RepeatDirectiveOptions } from '../../repeatpicker/RepeatDirectiveOption
  * @alias Todo
  * @namespace todo
  */
-@InjectC('panelService', 'wuTodosHeaderService', 'todoDataSource')
+@InjectC('panelService', 'wuTodosHeaderService', 'wuTodosService')
 export class TodoController extends BaseController {
 
     public static currentInEdit : TodoController = null;
@@ -19,15 +19,14 @@ export class TodoController extends BaseController {
     public editcolors : boolean;
     public colors : wu.model.IColor;
     public setting : wu.model.ISetting;
-    public inEditTodoId: number;
     public currentColor : {};
 
     public moment : moment.MomentStatic = require('moment');
 
     constructor(
-        public panelService: wu.module.panel.PanelService,
+        public panelService: wu.module.panel.IPanelService,
         public wuTodosHeaderService : wu.todos.TodosHeaderService,
-        public todoDataSource : wu.datasource.ITodoDataSource
+        public wuTodosService : wu.todos.ITodosService
     ) {
         super();
         this.edit = false;
@@ -37,7 +36,7 @@ export class TodoController extends BaseController {
 
         // If a new Todo is added we put it in edit mode
         // New Todos dont have and ID
-        if (!_.isNumber(this.todo.id)) {
+        if (!_.isNumber(this.todo.id) || this.todo.id < 1) {
             this.editTodo(true);
         }
 
@@ -71,20 +70,8 @@ export class TodoController extends BaseController {
         this.todo.color = color;
         this.setColor(color);
         this.editcolors = false;
-        this.syncTodo();
     };
 
-    /**
-     * @viewhelper
-     * @param todo
-     */
-    delete(){
-        this.todoDataSource.delete(this.todo).then (() => {
-            this.panelService.showSimpleToast('Todo Deleted');
-        }).catch((err: wu.errors.BaseError ) => {
-            this.panelService.showSimpleErrorToast(err.message);
-        });
-    }
 
 
     /**
@@ -93,7 +80,7 @@ export class TodoController extends BaseController {
      */
     editTodo = (edit : boolean) : void => {
         if (edit === true) {
-            this.inEditTodoId = this.todo.id;
+            this.wuTodosService.inEditTodoId = this.todo.id;
         }
         this.edit = edit;
     };
@@ -103,7 +90,7 @@ export class TodoController extends BaseController {
      * @returns {boolean}
      */
     isInEditMode () : boolean {
-        return this.inEditTodoId === this.todo.id;
+        return this.wuTodosService.inEditTodoId === this.todo.id;
     }
     /**
      * @viewhelper
@@ -159,19 +146,21 @@ export class TodoController extends BaseController {
             });
     }
 
+    isShowDone(): boolean {
+        return this.isInEditMode() && this.todo.title.length > 0;
+    }
+    /**
+     * Deletes this todo
+     * @returns {any}
+     */
+    deleteTodo(): ng.IPromise<wanamu.model.ITodo> {
+        return this.wuTodosService.deleteTodo(this.todo);
+    }
     /**
      *
      * @returns {IPromise<TResult>}
      */
     syncTodo () : ng.IPromise<wanamu.model.ITodo> {
-        let promise = this.todoDataSource.sync(this.todo);
-
-        promise.then (() => {
-            this.panelService.showSimpleToast('Todo Saved');
-        }).catch((err: wu.errors.BaseError ) => {
-            this.panelService.showSimpleErrorToast(err.message);
-        });
-
-        return promise;
+       return this.wuTodosService.syncTodo(this.todo);
     }
 }

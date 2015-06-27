@@ -1,6 +1,6 @@
 declare module wanamu.module.panel {
 
-    interface PanelService {
+    interface IPanelService {
 
         repeatopts : repeatpicker.RepeatDirectiveOptions;
         isDateTimePickerOpen: boolean;

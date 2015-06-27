@@ -76,7 +76,9 @@ export class TodoList extends BaseModel implements wanamu.model.ITodoList {
      */
     public addNewTodo(todo : Todo) : void {
         if (todo instanceof Todo){
+            todo.TodoListId = this.id;
             todo.order = this.highestOrderNumber = this.highestOrderNumber +1;
+            todo.dirty = false;
             this.addTodo(todo);
             this.sort();
         }

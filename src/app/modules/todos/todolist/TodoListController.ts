@@ -11,8 +11,9 @@ import _ = require('lodash');
 @InjectC('$state', 'wuAuthService', 'wuTodosService', '$scope')
 export class TodoListController extends BaseController {
 
-    public list : wu.model.ITodo[];
+    public list : wu.model.ITodoList;
     public setting : wu.model.ISetting;
+    public user: wu.model.IUser;
     public currentTodoListId : number = null;
     public currentTodoId : number = null;
 
@@ -21,14 +22,16 @@ export class TodoListController extends BaseController {
      * @param $state
      * @param auth
      * @param wuTodosService
+     * @param $scope
      */
     constructor(
         public $state: ng.ui.IStateService,
         public auth : AuthService,
-        public wuTodosService: wu.todos.ITodoService,
+        public wuTodosService: wu.todos.ITodosService,
         public $scope: ng.IScope
     ){
         super();
+
         this.loadTodoList();
 
         $scope.$watch( this.editedTodoId, ( newvalue : number ) => {
@@ -56,18 +59,11 @@ export class TodoListController extends BaseController {
         let promise = this.auth.queryCurrentUser();
 
         promise.then((user : wu.model.IUser) => {
-            this.list = user.todos(this.currentTodoListId);
+            this.list = user.defaulttodolist;
             this.setting = user.Setting;
+            this.user = user;
             console.log(this.list);
         });
         promise.catch(() => this.$state.go('panel.view.login'));
-    }
-
-    /**
-     * View Method
-     */
-    addNewTodo() : void {
-        let todo = new Todo();
-        console.log('New Todo');
     }
 }

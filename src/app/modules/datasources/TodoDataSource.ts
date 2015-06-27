@@ -3,17 +3,22 @@
  */
 import _  = require('lodash');
 import { BaseDataSource } from './BaseDataSource';
+import { Todo } from '../../models/models';
 import { Service, InjectC } from '../../decorators/decorators';
-import { InvalidResponseDataError, AuthError, ServerError } from '../../errors/errors';
+import { InvalidResponseDataError, AuthError, ServerError, InvalidArgumentError } from '../../errors/errors';
 
 @Service('todoDataSource')
-@InjectC('$http', '$q', 'constants', 'wuAuthService')
+@InjectC('$http', '$q', '$log', 'wuAuthService')
 export class TodoDataSource extends BaseDataSource implements wu.datasource.ITodoDataSource {
+
+    private deleteDeferred : {[index : number]: ng.IDeferred<wu.model.ITodo>} = {};
+
+    private constants : wu.IConstants = require('../../../../package.json').wanamu;
 
     public constructor(
         public $http : ng.IHttpService,
         public $q : ng.IQService,
-        public constants : wu.IConstants,
+        public $log : ng.ILogService,
         public authService : wu.auth.IAuthService
     ){
         super();
@@ -67,20 +72,34 @@ export class TodoDataSource extends BaseDataSource implements wu.datasource.ITod
      * @returns {IPromise<T>}
      */
     public delete(todo: wu.model.ITodo) : ng.IPromise<wu.model.ITodo> {
-        let deferred = this.$q.defer();
+
+        let deferred = this.deleteDeferred[todo.id];
+
+        if (!deferred) {
+            deferred = this.deleteDeferred[todo.id] = this.$q.defer();
+        }
+        else {
+            return deferred.promise;
+        }
+
         let promise = deferred.promise;
+
+        if (!(todo instanceof Todo)) {
+            this.$log.warn('Only instance of Todo can be deleted');
+            deferred.reject( new InvalidArgumentError('Could not find Todo for deletion') );
+            return promise;
+        }
 
         let httpPromise : ng.IHttpPromise<wu.datasource.ITodoResponseData>;
 
         httpPromise = this.$http.delete( this.constants.apiurl + '/todo/' + todo.id );
 
-        httpPromise
-            .success((data : wu.datasource.ITodoResponseData) => {
-                deferred.resolve(todo);
-            })
-            .error((data : wu.datasource.ITodoResponseData, status : number) => {
+        httpPromise.success((data : wu.datasource.ITodoResponseData) => this.resolveSyncSuccess(deferred, todo, data));
+        httpPromise.error((data : wu.datasource.ITodoResponseData, status : number) => {
                 deferred.reject(this.getDefaultResponseErrors(data, status));
-            });
+        });
+        httpPromise.finally( () => this.deleteDeferred[todo.id] = null);
+
         return promise;
     }
     /**

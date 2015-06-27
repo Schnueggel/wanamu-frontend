@@ -9,10 +9,6 @@ require('angular-material');
 require('angular-animate');
 require('moment');
 
-//TODO remove this at some point
-// Use environment-config-webpack-loader module just require the package json and access the wanamu namepsace
-require('./services/constants');
-
 // Start app
 import { WanamuModule }  from './modules/wanamu/WanamuModule';
 var wanamu = new WanamuModule();
