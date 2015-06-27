@@ -1,9 +1,4 @@
-/// <reference path="../../typings/angular-material/angular-material.d.ts"/>
-/// <reference path="../../typings/angularjs/angular.d.ts"/>
-/// <reference path="../../typings/angular-ui-router/angular-ui-router.d.ts"/>
-/// <reference path="../../typings/lodash/lodash.d.ts"/>
-/// <reference path="../../typings/moment/moment.d.ts"/>
-/// <reference path="../../typings/requirejs/require.d.ts"/>
+/// <reference path="../../typings/tsd.d.ts"/>
 /// <reference path="../../libs/reflect-metadata.d.ts"/>
 
 /**
@@ -15,6 +10,7 @@ declare var packageJson : wanamu.IConstants;
 declare module 'package.json' {
     export = packageJson;
 }
+
 declare module wanamu {
     interface IDirty {
         dirty : boolean;
