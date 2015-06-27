@@ -18,6 +18,21 @@ declare module wanamu {
         editcolors : boolean;
         currentColor : any;
         colors : model.IColor;
-        delete : Function;
+        deleteAt : string;
+    }
+
+    module todos {
+        interface ITodoService {
+            lastAddedTodo : model.ITodo;
+            lastDeletedTodo: model.ITodo;
+            user : model.IUser;
+            selectedTodoList : wu.model.ITodoList;
+            inEditTodoId : number;
+
+            addNewTodo() : model.ITodo;
+        }
+        interface TodosHeaderService {
+            showAddTodoButton : boolean;
+        }
     }
 }

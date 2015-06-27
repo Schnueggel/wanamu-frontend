@@ -6,7 +6,7 @@ import { InjectC, Controller } from '../../../decorators/decorators';
  * @alias Ctrl
  */
 @Controller('TodosHeaderController')
-@InjectC('$rootScope', 'todosService', 'wuTodosHeaderService')
+@InjectC('$rootScope', 'wuTodosService', 'wuTodosHeaderService')
 export class TodosHeaderController extends BaseController {
 
     constructor(

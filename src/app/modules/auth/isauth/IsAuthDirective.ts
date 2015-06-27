@@ -6,7 +6,7 @@ import { Directive, InjectM, InjectC } from '../../../decorators/decorators';
 @Directive('wuIsAuth')
 export class IsAuthDirective extends BaseDirective {
 
-    public auth : wanamu.auth.IAuthService;
+    public auth : wu.auth.IAuthService;
 
     constructor() {
         super();
@@ -15,7 +15,7 @@ export class IsAuthDirective extends BaseDirective {
     }
 
     @InjectM('wuAuthService')
-    public init(auth : wanamu.auth.IAuthService) : angular.IDirective {
+    public init(auth : wu.auth.IAuthService) : ng.IDirective {
         this.auth = auth;
         return this.directiveOptions;
     }
@@ -26,7 +26,7 @@ export class IsAuthDirective extends BaseDirective {
      * @param element
      * @param attributes
      */
-    public link = ($scope: angular.IScope, element: JQuery, attributes : any) => {
+    public link = ($scope: wu.auth.IAuthScope, element: JQuery, attributes : any) => {
         /**
          * Hides or shows the element
          * @param {boolean} show
@@ -38,13 +38,12 @@ export class IsAuthDirective extends BaseDirective {
                 element.addClass('ng-hide');
             }
         }
+        this.auth.queryIsLoggedIn()
+            .then( () => visisible(true))
+            .catch( () => visisible(false));
 
-        visisible(this.auth.isLoggedIn());
+        $scope.auth = this.auth;
 
-        $scope.$watch(this.auth.isLoggedIn,
-            function (newValue : boolean, oldValue : boolean) {
-                visisible(newValue);
-            }
-        );
+        $scope.$watch('auth.isLoggedIn', (newvalue) => visisible(newvalue));
     }
 }

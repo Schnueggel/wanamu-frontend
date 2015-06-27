@@ -10,8 +10,7 @@ export class LogoutController {
     ){
         auth
             .logout()
-            .then(function () {})
-            .catch(function (err : any) {
+            .catch( (err : any) => {
                 console.log(err);
             }).finally(function () {
                 $state.go('panel.view.login');

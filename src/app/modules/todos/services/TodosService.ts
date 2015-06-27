@@ -6,29 +6,36 @@ import { BaseService } from '../../../wanamu/wanamu';
 import { InjectC, Service } from '../../../decorators/decorators';
 
 @InjectC('wuAuthService', '$rootScope')
-@Service('todosService')
-export class TodosService extends BaseService {
+@Service('wuTodosService')
+export class TodosService extends BaseService implements wu.todos.ITodoService {
 
-    public static EVENT_ADD_TODO : string = 'EVENT_ADD_TODO';
-
-    public lastAddedTodo : Todo = null;
+    public lastAddedTodo : wu.model.ITodo = null;
     public lastDeletedTodo: wu.model.ITodo = null;
     public user : User = null;
     public selectedTodoList : wu.model.ITodoList = null;
+    public inEditTodoId : number;
 
-    constructor(public auth : AuthService, public $rootScope : angular.IRootScopeService){
+    constructor(public auth : AuthService, public $rootScope : ng.IRootScopeService){
         super();
-        this.selectedTodoList = auth.currentUser().defaulttodolist;
+        auth.queryCurrentUser().then(this.onUserLoaded);
     }
 
+    /**
+     * Gets triggered when user is loaded
+     * @param user
+     */
+    private onUserLoaded = (user: wu.model.IUser) : void => {
+        this.selectedTodoList = user.defaulttodolist;
+    };
     /**
      * Adds a new todo
      * @event {TodoService.EVENT_ADD_TODO, Todo}
      * @deprecated
      */
-    addNewTodo() : void {
+    addNewTodo() : wu.model.ITodo {
         var todo : Todo = new Todo();
         this.lastAddedTodo = todo;
         this.auth.currentUser().addNewTodo(todo, this.selectedTodoList);
+        return todo;
     }
 }

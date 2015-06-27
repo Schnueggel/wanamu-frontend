@@ -9,7 +9,7 @@ import { RepeatDirectiveOptions } from '../../repeatpicker/RepeatDirectiveOption
  * @alias Todo
  * @namespace todo
  */
-@InjectC('panelService', 'wuTodosHeaderService', 'todoDataSource', '$scope', '$interval')
+@InjectC('panelService', 'wuTodosHeaderService', 'todoDataSource')
 export class TodoController extends BaseController {
 
     public static currentInEdit : TodoController = null;
@@ -19,6 +19,7 @@ export class TodoController extends BaseController {
     public editcolors : boolean;
     public colors : wu.model.IColor;
     public setting : wu.model.ISetting;
+    public inEditTodoId: number;
     public currentColor : {};
 
     public moment : moment.MomentStatic = require('moment');
@@ -26,9 +27,7 @@ export class TodoController extends BaseController {
     constructor(
         public panelService: wu.module.panel.PanelService,
         public wuTodosHeaderService : wu.todos.TodosHeaderService,
-        public todoDataSource : wu.datasource.ITodoDataSource,
-        public $scope: ng.IScope,
-        public $interval: ng.IIntervalService
+        public todoDataSource : wu.datasource.ITodoDataSource
     ) {
         super();
         this.edit = false;
@@ -41,6 +40,8 @@ export class TodoController extends BaseController {
         if (!_.isNumber(this.todo.id)) {
             this.editTodo(true);
         }
+
+        console.log('TodoController');
     }
 
     /**
@@ -52,7 +53,7 @@ export class TodoController extends BaseController {
     }
 
     /**
-     * @viewfunction
+     * @viewhelper
      */
     done() : void  {
         this.editTodo(false);
@@ -63,7 +64,7 @@ export class TodoController extends BaseController {
 
     /**
      * Selects a color for this todo by the color name e.g.: color1
-     * @viewfunction
+     * @viewhelper
      * @param color
      */
     selectColor = (color : string) : void => {
@@ -74,7 +75,7 @@ export class TodoController extends BaseController {
     };
 
     /**
-     * @viewfunction
+     * @viewhelper
      * @param todo
      */
     delete(){
@@ -92,18 +93,20 @@ export class TodoController extends BaseController {
      */
     editTodo = (edit : boolean) : void => {
         if (edit === true) {
-            if (TodoController.currentInEdit !== null) {
-                TodoController.currentInEdit.edit = false;
-            }
-            TodoController.currentInEdit = this;
-        } else {
-            TodoController.currentInEdit = null;
+            this.inEditTodoId = this.todo.id;
         }
         this.edit = edit;
     };
 
     /**
-     * @viewfunction
+     * @viewhelper
+     * @returns {boolean}
+     */
+    isInEditMode () : boolean {
+        return this.inEditTodoId === this.todo.id;
+    }
+    /**
+     * @viewhelper
      * @param ev
      */
     setRepeat(ev : MouseEvent) {
@@ -136,7 +139,7 @@ export class TodoController extends BaseController {
     };
 
     /**
-     * @viewfunction
+     * @viewhelper
      * @param ev
      */
     setAlarm (ev : MouseEvent) {

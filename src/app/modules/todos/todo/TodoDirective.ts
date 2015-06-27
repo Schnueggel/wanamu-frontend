@@ -10,7 +10,8 @@ export class TodoDirective extends BaseDirective {
         scope: true,
         bindToController: {
             todo: '=todo',
-            setting :'=setting'
+            setting :'=setting',
+            inEditTodoId: '=inEditTodoId'
         },
         controllerAs: 'Todo',
         controller: TodoController,

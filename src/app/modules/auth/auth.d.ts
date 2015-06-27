@@ -6,16 +6,23 @@ declare module wanamu {
         }
 
         interface IAuthService {
+            isLoggedIn : boolean;
+
             login(username : string, password : string) : angular.IPromise<any>;
             logout() : angular.IPromise<any>;
-            isLoggedIn() : boolean;
             storeUser() : void;
             currentUser() : wanamu.model.IUser;
             queryCurrentUser() : ng.IPromise<wanamu.model.IUser>;
+            queryIsLoggedIn () : ng.IPromise<wanamu.model.IUser>;
         }
 
         interface ILoginSuccessCallback {
             (user: model.IUser) : void
+        }
+
+
+        interface IAuthScope extends ng.IScope {
+            auth : wu.auth.IAuthService
         }
     }
 }

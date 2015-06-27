@@ -101,7 +101,7 @@ export class TimePickerController {
     }
 
     /**
-     * @viewfunction
+     * @viewhelper
      * @param min
      */
     selectMinute(min : number) {
@@ -115,7 +115,7 @@ export class TimePickerController {
     }
 
     /**
-     * @viewfunction
+     * @viewhelper
      * @param hour
      */
     selectHour(hour : number) {
@@ -176,14 +176,14 @@ export class TimePickerController {
     }
 
     /**
-     * @viewfunction
+     * @viewhelper
      */
     setAM () {
         this.setDaytime(TimePickerController.AM);
     }
 
     /**
-     * @viewfunction
+     * @viewhelper
      */
     setPM () {
         this.setDaytime(TimePickerController.PM);

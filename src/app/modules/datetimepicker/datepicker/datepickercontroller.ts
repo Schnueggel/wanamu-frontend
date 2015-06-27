@@ -109,7 +109,7 @@ export class DatePickerController {
     }
     /**
      * Sets the current year
-     * @viewfunction
+     * @viewhelper
      */
     setYear() {
         this.currentMoment.year(this.year);
@@ -119,7 +119,7 @@ export class DatePickerController {
 
     /**
      * Sets the current day
-     * @viewfunction
+     * @viewhelper
      * @param dom
      */
     selectDate(dom : wanamu.dateTimePicker.DayConf) :void {
@@ -177,7 +177,7 @@ export class DatePickerController {
     }
 
     /**
-     * @viewfunction
+     * @viewhelper
      */
     nextMonth() {
         this.currentMoment.add(1, 'months');
@@ -186,7 +186,7 @@ export class DatePickerController {
     }
 
     /**
-     * @viewfunction
+     * @viewhelper
      */
     prevMonth() {
         this.currentMoment.subtract(1, 'months');

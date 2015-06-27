@@ -5,7 +5,7 @@ import { Controller } from '../../../decorators/decorators';
 @InjectC('$scope', '$state', 'wuAuthService')
 export class LoginController {
 
-    public loginform : wanamu.auth.ILoginForm;
+    public loginform : wu.auth.ILoginForm;
 
     public loading : boolean = false;
     public pattern : RegExp = /^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
@@ -14,7 +14,11 @@ export class LoginController {
         error: {}
     };
 
-    public loginSuccessCallback : wanamu.auth.ILoginSuccessCallback;
+    /**
+     * If this is set the Login is used as directive and hence will not forward to defined state
+     * but trigger this callback
+     */
+    public loginSuccessCallback : wu.auth.ILoginSuccessCallback;
 
     /**
      *
@@ -23,18 +27,14 @@ export class LoginController {
      * @param auth
      */
     constructor(
-        public $scope : angular.IScope,
-        public $state : angular.ui.IStateService,
-        public auth : wanamu.auth.IAuthService
+        public $scope : ng.IScope,
+        public $state : ng.ui.IStateService,
+        public auth : wu.auth.IAuthService
     ) {
-
-        if (auth.isLoggedIn()) {
-            $state.go('panel.view.todos');
-        }
+        auth.queryIsLoggedIn().then( () =>  $state.go('panel.view.todos') );
     }
 
     public login () {
-        var that = this;
         if (this.loading === true) {
             return;
         }
@@ -47,19 +47,32 @@ export class LoginController {
             //Set state loading
             this.loading = true;
 
-            this.auth.login(this.form.username, this.form.password)
-                .then( (user: wanamu.model.IUser) => {
-                    if (this.loginSuccessCallback) {
-                        this.loginSuccessCallback(user);
-                    } else {
-                        that.$state.go('panel.view.todos');
-                    }
-                }).catch(function (err : any) {
-                    that.form.error.error = true;
-                    that.form.error.message = err.message;
-                }).finally(function () {
-                    that.loading = false;
-                });
+            let logpromise = this.auth.login( this.form.username, this.form.password );
+            logpromise.then( this.onLoginSuccess );
+            logpromise.catch( this.onLoginError );
+            logpromise.finally( () => this.loading = false );
         }
     }
+
+    /**
+     * Handles login success
+     * @param user
+     */
+    private onLoginSuccess = ( user: wu.model.IUser ) => {
+        //Check if there is a callback and this controller controls a directive
+        if (this.loginSuccessCallback) {
+            this.loginSuccessCallback( user );
+        } else {
+            this.$state.go('panel.view.todos');
+        }
+    };
+
+    /**
+     * Handles login Error
+     * @param err
+     */
+    private onLoginError = ( err : wu.errors.BaseError ) => {
+        this.form.error.error = true;
+        this.form.error.message = err.message;
+    };
 }

@@ -1,6 +1,7 @@
 import { UserDataSource } from '../datasources/datasources';
 import { User } from '../../models/User';
 import _ = require('lodash');
+import { AuthError, AccessError, UnkownError } from '../../errors/errors';
 import { Service, InjectC } from '../../decorators/decorators';
 import { BaseService } from '../../wanamu/wanamu';
 
@@ -9,7 +10,7 @@ import { BaseService } from '../../wanamu/wanamu';
  */
 @Service('wuAuthService')
 @InjectC('$q','$http', 'constants', 'userDataSource', 'CacheFactory', 'panelService')
-export class AuthService implements wanamu.auth.IAuthService {
+export class AuthService extends BaseService implements wanamu.auth.IAuthService {
 
     private currentuser : any;
     private userCache : any;
@@ -18,6 +19,8 @@ export class AuthService implements wanamu.auth.IAuthService {
     static USER_KEY : string = 'user';
     static USER_CACHE_MAX_AGE = 1000 * 60 * 60 // 1 Hour;
 
+    public isLoggedIn : boolean = false;
+
     constructor(public $q: ng.IQService,
                 public $http: ng.IHttpService,
                 public constants : any,
@@ -25,6 +28,7 @@ export class AuthService implements wanamu.auth.IAuthService {
                 public cacheFactory : ng.angularcache.ICacheFactory,
                 public panelService : wu.module.panel.PanelService
     ) {
+        super();
     }
 
     /**
@@ -38,8 +42,8 @@ export class AuthService implements wanamu.auth.IAuthService {
             .then((user : User) => {
                 this.currentuser = user;
                 this.storeUser();
+                this.isLoggedIn = true;
         }).catch((err) => {
-                console.log(err);
                 this.currentuser = null;
         });
     }
@@ -49,10 +53,11 @@ export class AuthService implements wanamu.auth.IAuthService {
      * @returns {IPromise<T>}
      */
     public logout() : angular.IPromise<any> {
-        var deferred = this.$q.defer();
-        var promise = deferred.promise;
-        this.currentuser = null;
+        let deferred = this.$q.defer();
+        let promise = deferred.promise;
         this.clearUserCache();
+        this.currentuser = null;
+        this.isLoggedIn = false;
 
         this.$http.post(this.constants.logouturl, {}).success(function (data: any, status: number) {
             // ==========================================================================
@@ -71,17 +76,13 @@ export class AuthService implements wanamu.auth.IAuthService {
                 return;
             }
 
-            deferred.reject({
-                name: 'unkown', message: 'Logging out from server failed'
-            });
+            deferred.reject( new UnkownError('Logging out from server failed') );
 
         }).error(function (data) {
             if (data && data.error) {
                 deferred.reject(data.error);
             } else {
-                deferred.reject({
-                    name: 'unkown', message: 'Logging out from server failed. Because of a Server error'
-                });
+                deferred.reject( new UnkownError('Logging out from server failed. Because of a Server error') );
             }
         });
 
@@ -94,7 +95,6 @@ export class AuthService implements wanamu.auth.IAuthService {
     public storeUser() {
         if ( this.currentuser instanceof User ) {
             console.log('Storing user');
-            console.log(JSON.stringify(this.currentuser));
             this.getUserCache().put(AuthService.USER_KEY, JSON.stringify(this.currentuser));
         }
     }
@@ -158,7 +158,7 @@ export class AuthService implements wanamu.auth.IAuthService {
 
     /**
      * Try to get user from session
-     * @returns {any}
+     * @returns {IPromise<T>}
      */
     public queryCurrentUser() : ng.IPromise<wu.model.IUser> {
 
@@ -171,24 +171,51 @@ export class AuthService implements wanamu.auth.IAuthService {
             return promise;
         }
 
-        this.userDataSource.getUser(0).then((user : wu.model.IUser) => {
-            this.currentuser = user;
-        }).catch( (err : Error) =>{
+        // We try to get the current user from the backend
+        let upromise = this.queryIsLoggedIn();
 
+        upromise.then( (user: wu.model.IUser) => deferred.resolve(user) );
+
+        upromise.catch( (err : Error) =>{
+            if (err instanceof AuthError || err instanceof AccessError) {
+                console.log('Open Login');
+                let lpromise =  this.panelService.showLogin();
+                lpromise.then( (user: wu.model.IUser) => deferred.resolve(user) );
+                lpromise.catch( () => deferred.reject( new UnkownError() ) );
+            } else {
+                deferred.reject(err);
+            }
         });
-
-        this.panelService.showLogin()
-            .then( (user: wu.model.IUser) => deferred.resolve(user) )
-            .catch( () => deferred.reject() );
 
         return promise;
     }
 
     /**
-     * Checks if the user is loggind
-     * @returns {boolean}
+     * Returns promise that resolve when use is logged in with user or rejects if user is not loggged in or error occured
+     * The Promise reject with parameter of type BaseError
+     * @returns {IPromise<T>}
      */
-    public isLoggedIn = () : boolean => {
-        return this.currentuser instanceof User && this.currentuser.usertype !== User.TYPE_GUEST;
+    public queryIsLoggedIn() : ng.IPromise<wu.model.IUser> {
+        let deferred = this.$q.defer();
+        let promise = deferred.promise;
+        let user = this.currentUser();
+
+        if (user instanceof User) {
+            deferred.resolve(user);
+            return promise;
+        }
+
+        // We try to get the current user from the backend
+        let upromise = this.userDataSource.getUser(0);
+
+        upromise.then((user : wu.model.IUser) => {
+            this.isLoggedIn = true;
+            this.currentuser = user;
+            deferred.resolve(this.currentuser);
+        });
+
+        upromise.catch( (err : wu.errors.BaseError) => deferred.reject(err) );
+
+        return promise;
     }
 }

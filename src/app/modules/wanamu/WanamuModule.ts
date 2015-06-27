@@ -5,7 +5,6 @@ import { DataSourceModule } from '../datasources/DataSourceModule';
 import { TodosModule } from '../todos/TodosModule';
 import { DateTimePickerModule } from '../datetimepicker/datetimepicker';
 import { DialogsModule } from '../dialogs/dialogs';
-import { HttpInterceptor } from  './services/HttpInterceptor';
 import { BaseModule } from '../../wanamu/wanamu';
 import { Module, Config } from '../../decorators/decorators';
 
@@ -20,7 +19,7 @@ import { Module, Config } from '../../decorators/decorators';
             TodosModule.mname,
             MenuModule.mname,
             DialogsModule.name],
-        services : [HttpInterceptor],
+        services : [],
         controller : [],
         directives: []
     }
@@ -40,8 +39,6 @@ export class WanamuModule extends BaseModule {
 
         //We need credentials on xhr requests
         $httpProvider.defaults.withCredentials = true;
-
-        $httpProvider.interceptors.push('httpInterceptor');
 
         /*
          * $log provider enable disable on dev environment

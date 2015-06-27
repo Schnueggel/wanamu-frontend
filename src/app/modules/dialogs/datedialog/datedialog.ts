@@ -14,7 +14,7 @@ export class DateDialogController {
     constructor(public $scope : angular.IScope, public $mdDialog : angular.material.MDDialogService) {}
 
     /**
-     * @viewfunction
+     * @viewhelper
      * @param date
      */
     ok(date : Date) {
@@ -22,7 +22,7 @@ export class DateDialogController {
     }
 
     /**
-     * @viewfunction
+     * @viewhelper
      */
     cancel() {
         this.$mdDialog.cancel();
