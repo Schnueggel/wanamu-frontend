@@ -13,9 +13,9 @@ declare module angular.angularcache {
 
     interface ICacheFactory {
 
-        createCache ( key: string, options: {[index: string] : any});
+        createCache ( key: string, options: {[index: string] : any}) : ICache;
 
-        info();
+        info() : { [index : string] : any };
 
         get(chacheId: string) : ICache;
 
