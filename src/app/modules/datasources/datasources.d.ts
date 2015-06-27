@@ -47,8 +47,14 @@ declare module wanamu {
     }
 
     module datasource {
-        interface ITodoResponseData {
-            error : string;
+        interface IError {
+            type : string,
+            message : string
+        }
+        interface IResponseData {
+            error : IError;
+        }
+        interface ITodoResponseData extends  IResponseData {
             data : Array<ITodoData>;
         }
 
@@ -59,6 +65,10 @@ declare module wanamu {
 
         interface IRequestTodoData {
             data : Array<ITodoData>;
+        }
+
+        interface IUserResponseData extends IResponseData{
+            data : Array<IUserData>;
         }
     }
 }

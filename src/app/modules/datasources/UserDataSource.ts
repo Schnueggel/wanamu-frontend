@@ -3,20 +3,19 @@
  */
 import _  = require('lodash');
 import { User } from '../../models/User';
-import { InvalidResponseDataError, AuthError } from '../../errors/errors';
+import { InvalidResponseDataError, AuthError, ServerError, TimeoutError, UnkownError, AccessError, CustomError } from '../../errors/errors';
 import { TodoListDataSource } from './TodoListDataSource';
 import { SettingDataSource } from './SettingDataSource';
-import { BaseService } from '../../wanamu/wanamu';
+import { BaseDataSource } from './BaseDataSource';
 import { Service, InjectC } from '../../decorators/decorators';
 
 @Service('userDataSource')
 @InjectC('$http', '$q', 'constants')
-
-export class UserDataSource extends BaseService {
+export class UserDataSource extends BaseDataSource {
 
     public constructor(
-        public $http : angular.IHttpService,
-        public $q : angular.IQService,
+        public $http : ng.IHttpService,
+        public $q : ng.IQService,
         public constants : any
     ){
         super();
@@ -40,21 +39,8 @@ export class UserDataSource extends BaseService {
                     var user = new User(data.data[0]);
                     deferred.resolve(user);
                 }
-            }).error(function (data, status) {
-                if (status === 401 || status == 403) {
-                    deferred.reject(new AuthError('You need to to login'));
-                } else if (status === 500) {
-                    deferred.reject({
-                        name: 'ServerError', message: 'The anwser from the server was invalid. Please try again'
-                    });
-                } else if (data && data.error) {
-                    deferred.reject(data.error);
-                } else {
-                    deferred.reject({
-                        name: 'UnkownError',
-                        message: 'Invalid data received from server or server did not respond'
-                    });
-                }
+            }).error( (data : wu.datasource.IUserResponseData, status : number) => {
+                deferred.reject(this.getDefaultResponseErrors(data, status));
             });
         return promise;
     }
@@ -65,9 +51,10 @@ export class UserDataSource extends BaseService {
      * @param password
      * @returns {IPromise<User>}
      */
-    public login(username : string, password : string) : angular.IPromise<User> {
-        var deferred = this.$q.defer();
-        var promise = deferred.promise;
+    public login(username : string, password : string) : ng.IPromise<User> {
+        let deferred = this.$q.defer();
+        let promise = deferred.promise;
+
         this.$http.post(this.constants.loginurl, {
             username: username, password: password
         }).success(function (data: any, status: number) {
@@ -79,21 +66,8 @@ export class UserDataSource extends BaseService {
                 let user = new User(data.data[0]);
                 deferred.resolve(user);
             }
-        }).error(function (data, status) {
-            if (status === 401 || status == 403) {
-                deferred.reject( new AuthError( 'Login failed. Please check your login data'));
-            } else if (status === 500) {
-                deferred.reject({
-                    name: 'ServerError', message: 'The anwser from the server was invalid. Please try again'
-                });
-            } else if (data && data.error) {
-                deferred.reject(data.error);
-            } else {
-                deferred.reject({
-                    name: 'UnkownError',
-                    message: 'Invalid data received from server or server did not respond'
-                });
-            }
+        }).error(function (data : wu.datasource.IUserResponseData, status: number) {
+            deferred.reject(this.getDefaultResponseErrors(data, status));
         });
 
         return promise;

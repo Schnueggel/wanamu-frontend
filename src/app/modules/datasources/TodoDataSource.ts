@@ -2,15 +2,13 @@
  * This class is a angular service to use it add it as service
  */
 import _  = require('lodash');
-import { BaseService } from '../../wanamu/wanamu';
+import { BaseDataSource } from './BaseDataSource';
 import { Service, InjectC } from '../../decorators/decorators';
 import { InvalidResponseDataError, AuthError, ServerError } from '../../errors/errors';
 
 @Service('todoDataSource')
 @InjectC('$http', '$q', 'constants', 'wuAuthService')
-export class TodoDataSource extends BaseService implements wu.datasource.ITodoDataSource {
-
-    private constants : wu.IConstants;
+export class TodoDataSource extends BaseDataSource implements wu.datasource.ITodoDataSource {
 
     public constructor(
         public $http : ng.IHttpService,
@@ -39,14 +37,15 @@ export class TodoDataSource extends BaseService implements wu.datasource.ITodoDa
      * @param todo
      * @returns {IPromise<T>}
      */
-    public sync(todo: wanamu.model.ITodo): ng.IPromise<wanamu.model.ITodo> {
+    public sync(todo: wu.model.ITodo): ng.IPromise<wu.model.ITodo> {
         let deferred = this.$q.defer();
         let promise = deferred.promise;
-        let data : wanamu.datasource.IRequestTodoData  = {
+        let data : wu.datasource.IRequestTodoData  = {
             data: todo.toJSON()
         };
 
-        let httpPromise : ng.IHttpPromise<wanamu.datasource.ITodoResponseData>;
+        let httpPromise : ng.IHttpPromise<wu.datasource.ITodoResponseData>;
+
         if (todo.id) {
             httpPromise = this.$http.put(this.constants.apiurl + '/todo/' + todo.id, data );
         } else {
@@ -54,8 +53,10 @@ export class TodoDataSource extends BaseService implements wu.datasource.ITodoDa
         }
 
         httpPromise
-            .success((data : wanamu.datasource.ITodoResponseData) => this.resolveSyncSuccess(deferred, todo, data))
-            .error((err : wanamu.datasource.ITodoResponseData, status : number) => this.resolveSyncError (deferred, err, status));
+            .success((data : wu.datasource.ITodoResponseData) => this.resolveSyncSuccess(deferred, todo, data))
+            .error((data : wu.datasource.ITodoResponseData, status : number) => {
+                deferred.reject(this.getDefaultResponseErrors(data, status));
+            });
 
         return promise;
     }
@@ -65,11 +66,11 @@ export class TodoDataSource extends BaseService implements wu.datasource.ITodoDa
      * @param todo
      * @returns {IPromise<T>}
      */
-    public delete(todo: wu.model.ITodo) : ng.IPromise<wanamu.model.ITodo> {
+    public delete(todo: wu.model.ITodo) : ng.IPromise<wu.model.ITodo> {
         let deferred = this.$q.defer();
         let promise = deferred.promise;
 
-        let httpPromise : ng.IHttpPromise<wanamu.datasource.ITodoResponseData>;
+        let httpPromise : ng.IHttpPromise<wu.datasource.ITodoResponseData>;
 
         httpPromise = this.$http.delete( this.constants.apiurl + '/todo/' + todo.id );
 
@@ -77,7 +78,9 @@ export class TodoDataSource extends BaseService implements wu.datasource.ITodoDa
             .success((data : wu.datasource.ITodoResponseData) => {
                 deferred.resolve(todo);
             })
-            .error((err : wanamu.datasource.ITodoResponseData, status : number) => this.resolveSyncError (deferred, err, status));
+            .error((data : wu.datasource.ITodoResponseData, status : number) => {
+                deferred.reject(this.getDefaultResponseErrors(data, status));
+            });
         return promise;
     }
     /**
@@ -86,7 +89,7 @@ export class TodoDataSource extends BaseService implements wu.datasource.ITodoDa
      * @param todo
      * @param data
      */
-    private resolveSyncSuccess(deferred: ng.IDeferred<wanamu.model.ITodo>, todo: wanamu.model.ITodo, data : wanamu.datasource.ITodoResponseData) {
+    private resolveSyncSuccess(deferred: ng.IDeferred<wu.model.ITodo>, todo: wu.model.ITodo, data : wu.datasource.ITodoResponseData) {
         if (!TodoDataSource.isValidTodoData(data)) {
             return deferred.reject( new InvalidResponseDataError() );
         }
@@ -97,21 +100,4 @@ export class TodoDataSource extends BaseService implements wu.datasource.ITodoDa
         deferred.resolve(todo);
     }
 
-    /**
-     *
-     * @param deferred
-     * @param err
-     * @param status
-     */
-    private resolveSyncError(deferred : ng.IDeferred<wanamu.errors.BaseError>, err : wanamu.datasource.ITodoResponseData, status: number ) {
-        if (status === 401 || status == 403) {
-            deferred.reject( new AuthError('You need to authenticate') );
-        } else if (status === 500) {
-            deferred.reject(new ServerError());
-        } else if (err && _.isString(err.error)) {
-            deferred.reject(new ServerError(err.error));
-        } else {
-            deferred.reject(new ServerError('Invalid data received from server or server did not respond'));
-        }
-    }
 }
