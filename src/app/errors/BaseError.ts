@@ -8,6 +8,7 @@ declare class Error {
 
 export class BaseError extends Error {
     public name: string = 'BaseError';
+
     constructor(public message?: string) {
         super(message);
         if (message !== undefined) {

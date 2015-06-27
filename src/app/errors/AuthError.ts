@@ -1,10 +1,6 @@
-/**
- * Created by Christian on 06.06.2015.
- */
-'use strict';
+import { BaseError }from './BaseError';
 
-import BaseError = require('./BaseError');
-
-export class AuthError extends BaseError.BaseError {
+export class AuthError extends BaseError {
     public name: string = 'AuthError';
+    public message: string  = 'You need to authenticate';
 }
