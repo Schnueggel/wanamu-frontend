@@ -22,7 +22,7 @@ export class AuthService implements wanamu.auth.IAuthService {
                 public $http:angular.IHttpService,
                 public constants : any,
                 public userDataSource : UserDataSource,
-                public cacheFactory : any,
+                public cacheFactory : ng.angularcache.ICacheFactory,
                 public panelService : wu.module.panel.PanelService
     ) {
         this.currentuser = this.restoreUser();
@@ -134,7 +134,7 @@ export class AuthService implements wanamu.auth.IAuthService {
      *
      * @returns {any}
      */
-    public getUserCache() {
+    public getUserCache() : ng.angularcache.ICache {
 
         if (!this.userCache) {
             this.userCache = this.cacheFactory.get(AuthService.USER_CACHE_KEY);

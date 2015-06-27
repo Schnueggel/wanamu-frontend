@@ -8,3 +8,39 @@
 /// <reference path="moment/moment-node.d.ts" />
 /// <reference path="moment/moment.d.ts" />
 /// <reference path="requirejs/require.d.ts" />
+
+declare module angular.angularcache {
+
+    interface ICacheFactory {
+
+        createCache ( key: string, options: {[index: string] : any});
+
+        info();
+
+        get(chacheId: string) : ICache;
+
+        keySet(): {[index : string] : Object}
+
+        keys() : Array<string>;
+
+        destroy(chacheId: string) : void;
+
+        destroyAll() : void;
+
+        clearAll() : void;
+
+        removeExpiredFromAll() : {[index:string] : ICache};
+
+        enableAll() : void;
+
+        disableAll() : void;
+
+        touchAll() : void;
+    }
+
+    interface ICache {
+        put ( key: string , value : any) : void;
+        get ( key: string ) : any;
+        remove ( key : string ) : void;
+    }
+}
