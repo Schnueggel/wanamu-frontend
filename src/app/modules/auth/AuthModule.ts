@@ -10,7 +10,7 @@ import { IsAuthDirective } from './isauth/IsAuthDirective';
  */
 @Module('auth', {
     controller: [LoginController, LogoutController],
-    modules : [ 'panel'],
+    modules : [ 'panel' ],
     directives: [ IsAuthDirective, LoginDirective ],
     services  : [ AuthService ]
 })

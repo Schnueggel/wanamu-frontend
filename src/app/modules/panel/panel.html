@@ -27,7 +27,7 @@
                 </md-button>
             </div>
         </div>
-        <wu-auth-login login-success-callback="Panel.panelService.loginSuccessCallback" ng-if="Panel.panelService.isLoginOpen"></wu-auth-login>
+        <wu-login login-success-callback="Panel.panelService.loginSuccessCallback" ng-if="Panel.panelService.isLoginOpen"></wu-login>
     </div>
     <!-- Content -->
     <content ui-view ng-show="!Panel.isComponentOpen()"></content>

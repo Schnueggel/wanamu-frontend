@@ -1,22 +1,21 @@
 import _ = require('lodash');
-import { LoginController } from './LoginController';
 import { BaseDirective } from '../../../wanamu/wanamu';
 import { Directive } from '../../../decorators/decorators';
 
-@Directive('wuAuthLogin')
+@Directive('wuLogin')
 export class LoginDirective extends BaseDirective {
 
     constructor() {
         super();
     }
 
-    public directiveOptions  : angular.IDirective = {
+    public directiveOptions  : ng.IDirective = {
         scope: true,
         bindToController:{
             loginSuccessCallback: '='
         },
         controllerAs: 'Login',
-        controller: LoginController,
+        controller: 'LoginController',
         template: require('./login.html'),
         restrict: "E"
     };

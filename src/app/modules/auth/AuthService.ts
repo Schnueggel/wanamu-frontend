@@ -41,14 +41,16 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
      * @returns {IPromise<any>}
      */
     public login(username: string, password: string) : angular.IPromise<any> {
-        return this.userDataSource.login(username, password)
-            .then((user : User) => {
+        let promise = this.userDataSource.login(username, password);
+            promise.then((user : User) => {
                 this.currentuser = user;
                 this.storeUser();
                 this.isLoggedIn = true;
-        }).catch((err) => {
+            });
+            promise.catch((err) => {
                 this.currentuser = null;
-        });
+            });
+        return promise;
     }
 
     /**
@@ -74,14 +76,14 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
             // ==========================================================================
             // We are logged out
             // ==========================================================================
-            if (angular.isObject(data) && data.success) {
+            if (_.isObject(data) && data.success) {
                 deferred.resolve();
                 return;
             }
 
             deferred.reject( new UnkownError('Logging out from server failed') );
 
-        }).error(function (data) {
+        }).error( (data) => {
             if (data && data.error) {
                 deferred.reject(data.error);
             } else {
@@ -177,13 +179,17 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
 
         if (user instanceof User) {
             this.userdeferred.resolve(user);
+            this.userdeferred = null;
             return promise;
         }
 
         // We try to get the current user from the backend
         let upromise = this.queryIsLoggedIn();
 
-        upromise.then( (user: wu.model.IUser) => this.userdeferred.resolve(user) );
+        upromise.then( (user: wu.model.IUser) => {
+            this.userdeferred.resolve(user);
+            this.userdeferred = null;
+        });
 
         upromise.catch( (err : Error) =>{
             if (err instanceof AuthError || err instanceof AccessError) {
@@ -191,12 +197,11 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
                 let lpromise =  this.panelService.showLogin();
                 lpromise.then( (user: wu.model.IUser) => this.userdeferred.resolve(user) );
                 lpromise.catch( () => this.userdeferred.reject( new UnkownError() ) );
+                lpromise.finally( () => this.userdeferred = null );
             } else {
                 this.userdeferred.reject(err);
             }
         });
-
-        upromise.finally( () => this.userdeferred = null );
 
         return promise;
     }

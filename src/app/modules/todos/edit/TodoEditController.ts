@@ -16,6 +16,6 @@ export class TodoEditController extends BaseController {
     ){
         super();
         wuTodoService.inEditTodoId = $stateParams['id'];
-
+        console.log('hun')
     }
 }

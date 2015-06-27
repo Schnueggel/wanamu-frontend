@@ -112,6 +112,7 @@ export class PanelService extends BaseService implements wu.module.panel.IPanelS
             this.logindeferred.resolve(user);
             this.logindeferred = null;
         }
+        this.isLoginOpen = false;
         this.loginSuccessCallback = null;
     }
 
