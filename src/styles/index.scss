@@ -421,12 +421,3 @@ md-icon {
         }
     }
 }
-
-wu-repeat {
-    .weekgrid md-grid-tile, .daygrid md-grid-tile{
-        outline: none;
-        font-size: 2rem;
-        text-transform: capitalize;
-        cursor: pointer;
-    }
-}

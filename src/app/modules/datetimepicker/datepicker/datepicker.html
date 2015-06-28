@@ -5,47 +5,62 @@
         <md-toolbar layout-align="center center" class="wu-datepicker-date md-hue-1 md-primary" layout="column">
             <div class="wu-datepicker-month">{{ DatePicker.currentMoment.format("MMM") }}</div>
             <div class="wu-datepicker-day">{{ DatePicker.currentMoment.format("DD") }}</div>
-            <md-select class="wu-datepicker-year" placeholder="{{ DatePicker.currentMoment.format('YYY') }}"
-                       ng-model="DatePicker.year" ng-change="DatePicker.setYear()">
-                <md-option ng-value="year" ng-repeat="year in DatePicker.yearsOptions">{{ year }}</md-option>
-            </md-select>
         </md-toolbar>
+        <div class="slide-picker">
+            <md-grid-list
+                md-cols="4"
+                md-row-height="3rem"
+                md-gutter="0"
+                >
+                <md-grid-tile class="wu-bg md-primary left"  ng-click="DatePicker.addYear(-1)">
+                    <md-icon md-svg-src="/images/ic_chevron_left_black_24px.svg"></md-icon>
+                </md-grid-tile>
+                <md-grid-tile class="year"  md-colspan="2">
+                    {{ DatePicker.year }}
+                </md-grid-tile>
+                <md-grid-tile class="wu-bg md-primary right"  ng-click="DatePicker.addYear(1)">
+                    <md-icon md-svg-src="/images/ic_chevron_right_black_24px.svg"></md-icon>
+                </md-grid-tile>
+              </md-grid-list>
+        </div>
     </div>
     <div layout="column" layout-align="start center" class="wu-datepicker-calendar">
-        <div layout="row" layout-align="space-between center" class="wu-datepicker-monthyear">
-            <md-button aria-label="mese precedente" class="md-icon-button" ng-click="DatePicker.prevMonth()" ng-disabled="!DatePicker.hasprevmonth">
-                <md-icon
-                    md-svg-src="/images/ic_chevron_left_black_24px.svg"></md-icon>
-            </md-button>
-            {{ DatePicker.currentMoment.format("MMMM YYYY") }}
-            <md-button aria-label="mese successivo" class="md-icon-button" ng-click="DatePicker.nextMonth()">
-                <md-icon
-                    md-svg-src="/images/ic_chevron_right_black_24px.svg"></md-icon>
-            </md-button>
-        </div>
+        <div class="slide-picker">
             <md-grid-list
-                md-cols="7"
-                md-row-height="1.5:1"
+                md-cols="4"
+                md-row-height="3rem"
                 md-gutter="0"
-                class="daygrid"
                 >
-                <md-grid-tile
-                    ng-repeat="d in DatePicker.weekDays">
-                    {{ d }}
+                <md-grid-tile class="wu-bg md-primary nav"  ng-click="DatePicker.prevMonth()">
+                    <md-icon md-svg-src="/images/ic_chevron_left_black_24px.svg"></md-icon>
                 </md-grid-tile>
-                <md-grid-tile
-                    ng-repeat="n in DatePicker.daysInMonth track by $index"
-                    >
-                    <md-button
-                        aria-label="day selection"
-                        ng-if="n.valid === true"
-                        ng-class="{'md-raised': DatePicker.currentMoment.date() == n.day}"
-                        ng-click="DatePicker.selectDate(n)"
-                        ng-disabled="n.disabled">
-                        {{ n.day }}
-                    </md-button>
-
+                <md-grid-tile class="month" md-colspan="2">
+                    {{ DatePicker.currentMoment.format("MMMM") }}
+                </md-grid-tile>
+                <md-grid-tile class="wu-bg md-primary nav"  ng-click="DatePicker.nextMonth()">
+                    <md-icon md-svg-src="/images/ic_chevron_right_black_24px.svg"></md-icon>
                 </md-grid-tile>
             </md-grid-list>
+        </div>
+        <md-grid-list
+            md-cols="7"
+            md-row-height="1.5:1"
+            md-gutter="0"
+            class="daygrid"
+            >
+            <md-grid-tile
+                ng-repeat="d in DatePicker.weekDays" class="weekday">
+                {{ d }}
+            </md-grid-tile>
+            <md-grid-tile
+                ng-repeat="n in DatePicker.daysInMonth track by $index"
+                aria-label="day selection"
+                ng-class="{'wu-bg md-primary': DatePicker.isCurrentDay(n.day)}"
+                ng-click="DatePicker.selectDate(n)"
+                ng-disabled="n.disabled"
+                >
+                    <span ng-if="n.valid">{{ n.day }}</span>
+            </md-grid-tile>
+        </md-grid-list>
     </div>
 </div>

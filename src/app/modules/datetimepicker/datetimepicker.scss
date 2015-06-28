@@ -6,43 +6,32 @@
         @media (max-width: 600px) {
             margin: 0 1rem;
         }
-        md-grid-tile button {
-            width: 100%;
-            margin: 0;
-            min-width: 0;
-            min-height: 0;
-            font-size:1.2rem;
-            line-height: 1.2rem;
-            width: 3.4rem;
-            height: 2.4rem;
+    }
+    & * {
+        outline: 0;
+    }
+
+    .slide-picker {
+        width: 100%;
+        height: 3rem;
+        md-grid-tile {
+            cursor: pointer;
+            font-size: 2rem;
+            line-height: 2rem;
+            md-icon svg {
+                color: white;
+                fill: white
+            }
         }
     }
 }
-.wu-datepicker * {
-    outline: 0;
-}
+
 .wu-datepicker .md-select-label {
     min-width: 90px;
     border: 0 !important;
-    padding-bottom: 0px !important;
+    padding-bottom: 0 !important;
 }
-.wu-datepicker-monthyear,
 
-.wu-datepicker-monthyear {
-    font-weight: bold;
-    height: 2.1rem;
-    font-size: 1.6rem;
-    line-height: 1.3;
-    width: 100%;
-    button[disabled] svg {
-        fill: gray;
-    }
-}
-.wu-datepicker-monthyear .md-button.md-icon-button {
-    margin-left: 0;
-    margin-right: 0;
-    width: 2rem;
-}
 .wu-datepicker-month {
     font-size: 1.5rem;
     margin: 0.2rem 0 0.2rem;
@@ -110,7 +99,6 @@ md-select.wu-datepicker-year {
     .daytime-button {
         font-weight: 500;
         cursor: pointer;
-
     }
     .timepicker {
         position: relative;
@@ -126,6 +114,21 @@ md-select.wu-datepicker-year {
                 font-size: 1.8rem;
             }
         }
+    }
+}
+
+wu-repeat, wu-date-picker {
+    .weekgrid md-grid-tile, .daygrid md-grid-tile{
+        outline: none;
+        font-size: 2rem;
+        text-transform: uppercase;
+        cursor: pointer;
+    }
+
+    .daygrid .weekday {
+        font-size: 1.7rem;
+        text-transform: uppercase;
+        cursor: default;
     }
 }
 

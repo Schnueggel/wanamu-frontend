@@ -138,6 +138,8 @@ export class DatePickerController {
             minday : number = 0,
             dayconf : wanamu.dateTimePicker.DayConf;
 
+        console.log('firstday', firstDay, 'days', days);
+
         if (!this.hasprevmonth) {
             minday = this.nowMoment.date();
         }
@@ -192,5 +194,23 @@ export class DatePickerController {
         this.currentMoment.subtract(1, 'months');
         this.year = this.currentMoment.year();
         this.calcMonth();
+    }
+
+    /**
+     *
+     * @param day
+     * @returns {boolean}
+     */
+    isCurrentDay(day: number) : boolean {
+        return this.currentMoment.date() === day;
+    }
+
+    /**
+     * Add the number to the current year
+     * @param num
+     */
+    addYear(num: number): void {
+        this.year += num;
+        this.setYear();
     }
 }
