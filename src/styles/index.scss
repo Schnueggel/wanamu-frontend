@@ -1,3 +1,4 @@
+/* Main Styles */
 @font-face {
     font-family: 'robotomedium';
     src: url('font/Roboto-Medium-webfont.eot');
@@ -75,6 +76,10 @@ body {
     max-height: 100%;
     background-color: #ffffff;
 }
+body * {
+    outline: none;
+}
+
 /* Hack to remove chrome yellowing textboxes */
 textarea:-webkit-autofill,
 input:-webkit-autofill {
@@ -91,14 +96,6 @@ footer {
     bottom:2px;
     margin-left:auto;
     margin-right:auto;
-}
-
-input, textarea, select {
-    color: $color-form-input;
-    border: none;
-    line-height: 1.8em;
-    background-color: white;
-    padding-left: 3px;
 }
 
 .font-size-2{
@@ -154,6 +151,9 @@ md-dialog {
     max-width: 1200px;
 }
 
+md-select {
+    padding-bottom: 0;
+}
 md-switch {
     .md-container {
         width: 52px;
@@ -292,11 +292,6 @@ md-icon {
         height: 100%;
         width: 100%;
     }
-
-    .input-container {
-        margin: 0.9rem 0;
-        border-bottom: solid 1px $color3;
-    }
     .login {
         .form-container{
             text-align: left;
@@ -306,6 +301,9 @@ md-icon {
             .md-button, input {
                 font-size: $fontsize-subtitle;
                 width: 100%;
+            }
+            input {
+                border: none;
             }
         }
     }
@@ -345,10 +343,6 @@ md-icon {
                     width: 97%;
                     box-sizing: border-box;
                     display: table-cell;
-                    md-progress-circular {
-                        transform: scale(0.6);
-                        -webkit-transform: scale(0.6);
-                    }
                 }
                 md-list-item {
                     padding-left: 0;
@@ -366,6 +360,7 @@ md-icon {
                         line-height: $fontsize-title;
                         font-size: $fontsize-title;
                         width: 100%;
+                        border: none;
                     }
                     text-align: left;
                     padding: 1rem 2px;
@@ -374,50 +369,10 @@ md-icon {
             }
         }
     }
+}
 
-    .todo-details {
-
-        align-self: flex-start;
-
-        form {
-            .button-container {
-                text-align: right;
-            }
-            .input-container {
-                text-align: left;
-                line-height: $fontsize-subtitle;;
-                box-sizing: border-box;
-                vertical-align: middle;
-                label {
-                    display: block;
-                    margin: 2px 0;
-                    text-align: left;
-                    color: $color2;
-                }
-                input {
-                    font-size: $fontsize-subtitle;
-                }
-                input, textarea {
-                    color: #212121;
-                    text-align: left;
-                    padding-left: 0;
-                    max-width: 100%;
-                    width: 100%;
-                }
-
-                input.title {
-                    line-height: 3.2rem;
-                    font-size: $fontsize-title;
-                }
-
-                &.alarm, &.repeat {
-                    input {
-                        width: auto;
-                        max-width: 8em;
-                        box-sizing: border-box;
-                    }
-                }
-            }
-        }
+.profile {
+    md-input-container .md-input {
+        min-width: 25rem;
     }
 }

@@ -8,10 +8,10 @@ require('angular-touch');
 require('angular-material');
 require('angular-animate');
 require('moment');
-
+require("../../node_modules/angular-material/angular-material.min.css");
 // Start app
 import { WanamuModule }  from './modules/wanamu/WanamuModule';
 var wanamu = new WanamuModule();
 
-require("../../node_modules/angular-material/angular-material.css");
+
 require('../styles/index.scss');

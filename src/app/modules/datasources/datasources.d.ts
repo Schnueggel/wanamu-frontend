@@ -1,6 +1,3 @@
-/**
- * Created by Schnueggel on 07.06.2015.
- */
 
 declare module wanamu {
 
@@ -12,17 +9,6 @@ declare module wanamu {
         color4: string;
         color5: string;
         face: string;
-    }
-
-    interface IUserData {
-        id : number;
-        firstname : string;
-        lastname : string;
-        email: string;
-        TodoLists : Array<ITodoListData>
-        Setting: ISettingData;
-        DefaultTodoListId : number;
-
     }
 
     interface ITodoListData {
@@ -47,6 +33,18 @@ declare module wanamu {
     }
 
     module datasource {
+        interface IUserData {
+            id : number;
+            firstname : string;
+            lastname : string;
+            salutation : string;
+            email: string;
+            TodoLists : Array<ITodoListData>
+            Setting: ISettingData;
+            DefaultTodoListId : number;
+
+        }
+
         interface ISettingsDatasource {
 
         }
@@ -64,6 +62,11 @@ declare module wanamu {
         interface ITodoDataSource {
             sync(todo: model.ITodo) : angular.IPromise<model.ITodo>;
             delete(todo: wu.model.ITodo) : ng.IPromise<wanamu.model.ITodo>;
+        }
+
+        interface IUserDataSource {
+            getUser(id : number) : angular.IPromise<model.IUser>;
+            login(username : string, password : string) : ng.IPromise<model.IUser>
         }
 
         interface IRequestTodoData {

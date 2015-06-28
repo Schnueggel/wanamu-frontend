@@ -1,7 +1,7 @@
 import { PanelModule } from '../panel/PanelModule';
 import { CustomMaterialModule } from '../custommaterial/CustomMaterialModule';
 import { AuthModule } from '../auth/AuthModule';
-import { SettingsModule } from '../settings/SettingsModule';
+import { ProfileModule } from '../profile/ProfileModule';
 import { MenuModule } from '../menu/MenuModule';
 import { DataSourceModule } from '../datasources/DataSourceModule';
 import { TodosModule } from '../todos/TodosModule';
@@ -18,7 +18,7 @@ import { Module, Config } from '../../decorators/decorators';
             DataSourceModule.mname,
             CustomMaterialModule.mname,
             PanelModule.mname,
-            SettingsModule.mname,
+            ProfileModule.mname,
             AuthModule.mname,
             TodosModule.mname,
             MenuModule.mname,

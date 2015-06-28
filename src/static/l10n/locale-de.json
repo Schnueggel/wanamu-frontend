@@ -22,5 +22,19 @@
         "password": "Passwort",
         "login": "Login",
         "register": "Registrieren"
+    },
+    "profile": {
+        "salutation": "Anrede",
+        "lastname": "Nachname",
+        "firstname": "Vorname",
+        "email": "Email",
+        "password": "Passwort",
+        "passwordrepeat": "Passwort wiederholen",
+        "salutations" : {
+            "human" : "Mensch",
+            "neutrum": "Neutrum",
+            "mr" : "Frau",
+            "mrs": "Herr"
+        }
     }
 }

@@ -1,5 +1,4 @@
 import { Todo } from '../../../models/Todo';
-import { AuthService } from '../../auth/AuthService';
 import { BaseController } from '../../../wanamu/wanamu';
 import { InjectC, Controller } from '../../../decorators/decorators';
 import _ = require('lodash');
@@ -26,7 +25,7 @@ export class TodoListController extends BaseController {
      */
     constructor(
         public $state: ng.ui.IStateService,
-        public auth : AuthService,
+        public auth : wu.auth.IAuthService,
         public wuTodosService: wu.todos.ITodosService,
         public $scope: ng.IScope
     ){

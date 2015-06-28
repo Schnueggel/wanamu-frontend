@@ -11,7 +11,7 @@ import { Service, InjectC } from '../../decorators/decorators';
 
 @Service('userDataSource')
 @InjectC('$http', '$q')
-export class UserDataSource extends BaseDataSource {
+export class UserDataSource extends BaseDataSource implements wu.datasource.IUserDataSource {
 
     private constants : wu.IConstants = require('../../../../package.json').wanamu;
 

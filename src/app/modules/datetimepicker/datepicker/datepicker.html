@@ -61,7 +61,7 @@
             >
             <md-grid-tile
                 ng-repeat="d in DatePicker.weekDays" class="weekday">
-                {{ d }}
+                {{ ::d }}
             </md-grid-tile>
             <md-grid-tile
                 ng-repeat="n in DatePicker.daysInMonth track by $index"
@@ -70,7 +70,7 @@
                 ng-click="DatePicker.selectDate(n)"
                 ng-disabled="n.disabled"
                 >
-                    <span ng-if="n.valid">{{ n.day }}</span>
+                    <span ng-if="n.valid">{{ ::n.day }}</span>
             </md-grid-tile>
         </md-grid-list>
     </div>

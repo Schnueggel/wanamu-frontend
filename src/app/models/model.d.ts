@@ -66,6 +66,7 @@ declare module wanamu {
             email : string;
             firstname : string;
             lastname : string;
+            salutation : string;
             DefaultTodoListId : number;
             TodoLists : Array<model.ITodoList>;
             defaulttodolist : model.ITodoList;

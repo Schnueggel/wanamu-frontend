@@ -15,14 +15,14 @@ export class User extends BaseModel implements wu.model.IUser {
     public email : string;
     public firstname : string = 'Guest';
     public lastname : string;
-
+    public salutation : string;
     public DefaultTodoListId : number;
 
     public TodoLists : Array<TodoList>;
 
     public defaulttodolist : TodoList;
 
-    public Setting : wanamu.model.ISetting;
+    public Setting : wu.model.ISetting;
 
     public usertype : string  = User.TYPE_GUEST;
 
@@ -30,7 +30,7 @@ export class User extends BaseModel implements wu.model.IUser {
      *
      * @param data
      */
-    constructor(data: wanamu.IUserData){
+    constructor(data: wu.datasource.IUserData){
         super();
         this.fromJSON(data);
     }
@@ -39,14 +39,15 @@ export class User extends BaseModel implements wu.model.IUser {
      *
      * @param d
      */
-    public fromJSON(d: wu.IUserData) {
-        let data = d || <wu.IUserData>{},
+    public fromJSON(d: wu.datasource.IUserData) {
+        let data = d || <wu.datasource.IUserData>{},
             todolist : TodoList;
 
         this.id = data.id;
         this.email = data.email;
         this.firstname = data.firstname;
         this.lastname = data.lastname;
+        this.salutation = data.salutation;
         this.DefaultTodoListId = data.DefaultTodoListId;
         this.Setting = new Setting(data.Setting);
 

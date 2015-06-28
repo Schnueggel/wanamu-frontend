@@ -12,12 +12,17 @@
        </span>
         <span flex></span>
         <div ui-view="headertoolbar"></div>
-        <md-button class="md-icon-button md-raised md-primary"  ng-class="{open: Header.menuopen}" >
+        <!-- Settings Button -->
+        <md-button class="md-icon-button md-raised md-primary"  ui-sref="panel.view.settings">
+            <md-icon md-font-library="material-icons">
+                &#xE8B8;
+            </md-icon>
+        </md-button>
+        <md-button class="md-icon-button md-raised md-primary"  ng-class="{open: Header.menuopen}" ui-sref="panel.view.profile">
             <md-icon md-font-library="material-icons" ng-if="!Header.user.image">
                 &#xE87C;
             </md-icon>
             <img ng-src="{{Header.user.settings.face}}" ng-if="Header.user.image" class="md-avatar" alt="{{Header.user.firstname}}" />
         </md-button>
-
     </div>
 </md-toolbar>
