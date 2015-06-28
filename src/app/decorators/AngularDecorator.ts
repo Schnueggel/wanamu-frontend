@@ -8,7 +8,7 @@ import { BaseDirective, BaseModule, BaseController, BaseService } from '../wanam
  */
 export class Registry {
 
-    public static modules : {[modulename: string] : angular.IModule} = {};
+    public static modules : {[modulename: string] : ng.IModule} = {};
 
     /**
      *
@@ -16,13 +16,13 @@ export class Registry {
      * @param name
      * @returns {any}
      */
-    public static bootstrap(moduleClass: {new(): BaseModule}, name : string) : angular.IModule {
+    public static bootstrap(moduleClass: {new(): BaseModule}, name : string) : ng.IModule {
 
         if (!_.isUndefined(Registry.modules[name])) {
             return Registry.modules[name];
         }
 
-        let module = new moduleClass();
+        let module : wu.IModule = new moduleClass();
         let dependendModules : string [] = Reflect.getMetadata(AngularMetaKeys.Modules, moduleClass) || [];
         let ngModule = angular.module(name, dependendModules);
 
@@ -34,7 +34,9 @@ export class Registry {
         let controller = Reflect.getMetadata(AngularMetaKeys.ModuleController, moduleClass) || [];
         let directives = Reflect.getMetadata(AngularMetaKeys.ModuleDirective, moduleClass) || [];
         let services = Reflect.getMetadata(AngularMetaKeys.ModuleService, moduleClass) || [];
+        let constants = Reflect.getMetadata(AngularMetaKeys.Constant, moduleClass) || [];
 
+        Registry.bootstrapConstants(constants, ngModule, module);
         Registry.bootstrapController(controller, ngModule);
         Registry.bootstrapServices(services, ngModule);
         Registry.bootstrapDirectives(directives, ngModule);
@@ -44,13 +46,20 @@ export class Registry {
         return ngModule;
     }
 
+    static bootstrapConstants (constants : string[], ngModule : ng.IModule, module : wu.IModule) {
+        constants.forEach((v : string) => {
+            if (!_.isUndefined((<any>module)[v])) {
+                ngModule.constant(v, (<any>module)[v]);
+            }
+        });
+    }
     /**
      *
      * TODO optimize to use Reflect. Perhaps we should allow naming of Controller within the module decorator options
      * @param services
      * @param ngModule
      */
-    static bootstrapServices(services : Function[], ngModule: angular.IModule){
+    static bootstrapServices(services : Function[], ngModule: ng.IModule){
         services.forEach((serviceClass : Function) => {
             let name : string = Reflect.getMetadata(AngularMetaKeys.Service, serviceClass);
             let args = Reflect.getMetadata(InjectMetadataKeys.AngularServiceInjects, serviceClass) || [];
@@ -63,7 +72,7 @@ export class Registry {
      * @param controller
      * @param ngModule
      */
-    static bootstrapController(controller : Function[], ngModule: angular.IModule){
+    static bootstrapController(controller : Function[], ngModule: ng.IModule){
 
         controller.forEach((serviceClass :{new(): BaseDirective}) => {
             let name : string = Reflect.getMetadata(AngularMetaKeys.Controller, serviceClass);
@@ -77,7 +86,7 @@ export class Registry {
      * @param directives
      * @param ngModule
      */
-    static bootstrapDirectives(directives : Function[], ngModule: angular.IModule){
+    static bootstrapDirectives(directives : Function[], ngModule: ng.IModule){
         directives.forEach((serviceClass :{new(): BaseDirective}) => {
             let name : string = Reflect.getMetadata(AngularMetaKeys.Directive, serviceClass);
             let args = Reflect.getMetadata(InjectMetadataKeys.AngularServiceInjects, serviceClass) || [];
@@ -112,7 +121,7 @@ export function Module (name : string, data? : ModuleOptions) {
 }
 
 /**
- * Declare class to angular Controller
+ * Declare class to ng Controller
  * @param controllerName
  * @returns {function(Function): any}
  * @constructor
@@ -139,7 +148,7 @@ export function Directive (directiveName: string) {
     }
 }
 /**
- * Declare class to angular Service
+ * Declare class to ng Service
  * @param serviceName
  * @returns {function(Function): any}
  * @constructor
@@ -153,7 +162,7 @@ export function Service (serviceName : string) {
 }
 
 /**
- * Defines a config method for a angular module
+ * Defines a config method for a ng module
  * @param inject
  * @returns {function(Object, string, TypedPropertyDescriptor<any>): any}
  * @constructor
@@ -163,6 +172,18 @@ export function Config (...inject : string[]) {
         Reflect.defineMetadata(InjectMetadataKeys.AngularMethodInjects, inject, target, propertyKey);
         return descriptor;
     };
+}
+
+/**
+ * Defines a property a constant. The name of the property will be used as constant name
+ * @param target
+ * @param propertyKey
+ * @constructor
+ */
+export function Constant (target: Object, propertyKey: string) : void {
+    let consts : Array<string> = Reflect.getMetadata(AngularMetaKeys.Constant, target.constructor) || [];
+    consts.push(propertyKey);
+    Reflect.defineMetadata(AngularMetaKeys.Constant, consts, target.constructor);
 }
 
 /**
@@ -176,6 +197,7 @@ export class AngularMetaKeys {
     static Controller : string = 'Controller';
     static Directive : string = 'Directive';
     static Service : string = 'Service';
+    static Constant : string = 'Constant';
 }
 
 /**
