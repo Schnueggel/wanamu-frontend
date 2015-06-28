@@ -35,9 +35,15 @@ export class TodoListController extends BaseController {
         this.loadTodoList();
 
         $scope.$watch( this.editedTodoId, ( newvalue : number ) => {
-            if (newvalue) {
+            if (_.isNumber(newvalue)) {
                 console.log('Go Todo id ' + newvalue);
-                this.$state.go('panel.view.todos.edit', {id : newvalue});
+                let id : string;
+                if (newvalue < 0) {
+                    id = 'n' + Math.abs(newvalue);
+                } else {
+                    id = newvalue.toString();
+                }
+                this.$state.go('panel.view.todos.edit', {id : id});
             }
         });
     }

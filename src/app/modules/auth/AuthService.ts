@@ -158,7 +158,7 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
      * Get the current user or try to restore it from session
      * @returns {any|null}
      */
-    public currentUser() : wu.model.IUser {
+    public currentUser() : User {
         return this.currentuser;
     }
 
@@ -166,7 +166,7 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
      * Try to get user from session
      * @returns {IPromise<T>}
      */
-    public queryCurrentUser() : ng.IPromise<wu.model.IUser> {
+    public queryCurrentUser() : ng.IPromise<User> {
 
         // If a query is already running we return the same promise.
         if (this.userdeferred === null) {
@@ -194,7 +194,7 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
             if (err instanceof AuthError || err instanceof AccessError) {
                 console.log('Open Login');
                 let lpromise =  this.panelService.showLogin();
-                lpromise.then( (user: wu.model.IUser) => this.resolveUser(user) );
+                lpromise.then( (user: User) => this.resolveUser(user) );
                 lpromise.catch( () => this.rejectUser( new UnkownError() ) );
 
             } else {

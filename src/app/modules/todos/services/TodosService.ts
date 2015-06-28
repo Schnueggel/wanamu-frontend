@@ -5,6 +5,10 @@ import { TodoList } from '../../../models/models';
 import { BaseService } from '../../../wanamu/wanamu';
 import { InjectC, Service } from '../../../decorators/decorators';
 
+export const NEGATIVE_ID_PREFIX = 'n';
+
+export const NEGATIVE_ID_REGEX = new RegExp(`/^${NEGATIVE_ID_PREFIX}[0-9]+$/`);
+
 @InjectC('$q', 'wuAuthService', 'panelService', 'todoDataSource')
 @Service('wuTodosService' )
 export class TodosService extends BaseService implements wu.todos.ITodosService {
@@ -18,9 +22,9 @@ export class TodosService extends BaseService implements wu.todos.ITodosService 
      */
     public inEditTodoId : number;
 
-
     /**
      *
+     * @param $q
      * @param auth
      * @param panelService
      * @param todoDataSource
@@ -43,9 +47,8 @@ export class TodosService extends BaseService implements wu.todos.ITodosService 
     /**
      * Adds a new todo
      */
-    addNewTodo() : wu.model.ITodo {
+    addNewTodo() : Todo {
         let todo : Todo = new Todo(<wanamu.ITodoData>{id: --this.newTodoIdCount});
-        console.log(todo.id);
         this.lastAddedTodo = todo;
         this.auth.queryCurrentUser().then( (user: wu.model.IUser) => user.addNewTodo(todo));
         return todo;
