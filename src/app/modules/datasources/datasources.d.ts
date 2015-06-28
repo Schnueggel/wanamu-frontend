@@ -47,6 +47,9 @@ declare module wanamu {
     }
 
     module datasource {
+        interface ISettingsDatasource {
+
+        }
         interface IError {
             type : string,
             message : string

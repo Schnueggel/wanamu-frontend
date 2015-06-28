@@ -1,19 +1,17 @@
-/**
- * This class is a angular service to use it add it as service
- */
 import _  = require('lodash');
 import { Setting } from '../../models/Setting';
 import { BaseService } from '../../wanamu/wanamu';
 import { Service, InjectC } from '../../decorators/decorators';
 
 @Service('settingDataSource')
-@InjectC('$http', '$q', 'constants')
-export class SettingDataSource extends BaseService {
+@InjectC('$http', '$q')
+export class SettingDataSource extends BaseService implements wu.datasource.ISettingsDatasource {
+
+    private  constants : wu.IConstants = require('../../../../package.json').wanamu;
 
     public constructor(
         public $http : angular.IHttpService,
-        public $q : angular.IQService,
-        public constants : any
+        public $q : angular.IQService
     ){
         super();
     }
@@ -23,7 +21,7 @@ export class SettingDataSource extends BaseService {
      * @param data
      * @returns {boolean}
      */
-    public static isValidUserData(data : any) : boolean {
+    public static isValidSettingsData(data : any) : boolean {
         return _.isObject(data) &&
             _.isArray(data.data) &&
             data.data.length === 1 &&

@@ -1,5 +1,7 @@
 import { PanelModule } from '../panel/PanelModule';
+import { CustomMaterialModule } from '../custommaterial/CustomMaterialModule';
 import { AuthModule } from '../auth/AuthModule';
+import { SettingsModule } from '../settings/SettingsModule';
 import { MenuModule } from '../menu/MenuModule';
 import { DataSourceModule } from '../datasources/DataSourceModule';
 import { TodosModule } from '../todos/TodosModule';
@@ -14,7 +16,9 @@ import { Module, Config } from '../../decorators/decorators';
             'ui.router', 'ngAnimate', 'ngTouch', 'ngMessages', 'ngMaterial', 'pascalprecht.translate',
             require('angular-cache'),
             DataSourceModule.mname,
+            CustomMaterialModule.mname,
             PanelModule.mname,
+            SettingsModule.mname,
             AuthModule.mname,
             TodosModule.mname,
             MenuModule.mname,
@@ -64,7 +68,8 @@ export class WanamuModule extends BaseModule {
 
         $translateProvider.determinePreferredLanguage(function () {
 
-            var preferredLangKey = 'en';
+            //TODO language determination
+            let preferredLangKey = 'en';
 
             return preferredLangKey;
         });

@@ -1,0 +1,25 @@
+<div class="settings" layout="column">
+    <md-select ng-model="Settings.user.salutation">
+        <md-option ng-repeat="salutation in Settings.salutations" value="{{::salutation.key}}">{{::salutation.key}}</md-option>
+    </md-select>
+    <md-input-container>
+        <label>{{'settings.lastname' | translate }}</label>
+        <input ng-model="Settings.user.firstname">
+    </md-input-container>
+    <md-input-container>
+        <label>{{'settings.lastname' | translate }}</label>
+        <input ng-model="Settings.user.lastname">
+    </md-input-container>
+    <md-input-container>
+        <label>{{'settings.email' | translate }}</label>
+        <input ng-model="Settings.user.email" type="email">
+    </md-input-container>
+    <md-input-container>
+        <label>{{'settings.password' | translate }}</label>
+        <input ng-model="Settings.password" type="password">
+    </md-input-container>
+    <md-input-container>
+        <label>{{'settings.passwordrepeat' | translate }}</label>
+        <input ng-model="Settings.passwordrepeat" type="password">
+    </md-input-container>
+</div>
