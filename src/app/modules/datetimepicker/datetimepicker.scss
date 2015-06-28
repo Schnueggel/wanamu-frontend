@@ -1,4 +1,7 @@
 
+md-grid-tile.pick {
+    cursor: pointer;
+}
 .wu-datepicker {
     max-height: initial;
     .daygrid {
@@ -24,32 +27,28 @@
             }
         }
     }
+
+    .month {
+        font-size: 1.5rem;
+        @media (max-width: 599px){
+            font-size: 1.2rem;
+        }
+    }
+    .day {
+        font-size: 3.0rem;
+        line-height: 1.2;
+        @media (max-width: 599px){
+            font-size: 2rem;
+        }
+        @media (max-width: 400px){
+            font-size: 1.2rem;
+        }
+    }
+    .dow {
+        font-size: 2rem
+    }
 }
 
-.wu-datepicker .md-select-label {
-    min-width: 90px;
-    border: 0 !important;
-    padding-bottom: 0 !important;
-}
-
-.wu-datepicker-month {
-    font-size: 1.5rem;
-    margin: 0.2rem 0 0.2rem;
-    @media (max-width: 599px){
-        font-size: 1.2rem;
-    }
-}
-.wu-datepicker-day {
-    margin: 0.3rem 0 0.2rem;
-    font-size: 3.0rem;
-    line-height: 1.2;
-    @media (max-width: 599px){
-        font-size: 2rem;
-    }
-    @media (max-width: 400px){
-        font-size: 1.2rem;
-    }
-}
 md-select.wu-datepicker-year {
     font-size: 1.5rem;
     padding: 0;
@@ -81,6 +80,14 @@ md-select.wu-datepicker-year {
         outline: 0;
     }
     .clock-svg-box {
+        .minute {
+            color: white;
+            fill: white;
+        }
+        #background-hour {
+            background-color: white;
+            fill: white;
+        }
         width: 100%;
         svg {
             width: 100%;
@@ -96,9 +103,9 @@ md-select.wu-datepicker-year {
     .marker, .number {
         cursor: pointer;
     }
-    .daytime-button {
-        font-weight: 500;
-        cursor: pointer;
+    .daytime-picker {
+        font-size: 2rem;
+        line-height: 2rem;
     }
     .timepicker {
         position: relative;

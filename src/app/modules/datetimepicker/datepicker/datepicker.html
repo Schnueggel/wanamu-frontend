@@ -1,11 +1,22 @@
 <div class="wu-datepicker">
-    <div layout="column" layout-align="start center">
-        <md-toolbar layout-align="center center" class="wu-datepicker-dow md-primary"><span>{{ DatePicker.currentMoment.format("dddd") }}</span>
-        </md-toolbar>
-        <md-toolbar layout-align="center center" class="wu-datepicker-date md-hue-1 md-primary" layout="column">
-            <div class="wu-datepicker-month">{{ DatePicker.currentMoment.format("MMM") }}</div>
-            <div class="wu-datepicker-day">{{ DatePicker.currentMoment.format("DD") }}</div>
-        </md-toolbar>
+    <div>
+        <div>
+            <md-grid-list
+                md-cols="1"
+                md-row-height="3rem"
+                md-gutter="0"
+                >
+                <md-grid-tile class="dow wu-bg  md-primary">
+                    {{ DatePicker.currentMoment.format("dddd") }}
+                </md-grid-tile>
+                <md-grid-tile class="month wu-bg md-hue-1 md-primary">
+                    {{ DatePicker.currentMoment.format("MMM") }}
+                </md-grid-tile>
+                <md-grid-tile class="day wu-bg md-hue-1 md-primary"  md-rowspan="2">
+                    {{ DatePicker.currentMoment.format("DD") }}
+                </md-grid-tile>
+            </md-grid-list>
+        </div>
         <div class="slide-picker">
             <md-grid-list
                 md-cols="4"

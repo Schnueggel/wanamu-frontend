@@ -45,7 +45,7 @@
             <g id="Clock" sketch:type="MSLayerGroup" transform="translate(-49.933013, -49.250000)">
                 <g id="background-minute" transform="translate(249.500000, 249.500000) rotate(90.000000) translate(-249.500000, -249.500000) translate(67.000000, 67.000000)" sketch:type="MSShapeGroup">
                     <path d="M182.933013,364.25 C283.448837,364.25 364.933013,282.765824 364.933013,182.25 C364.933013,81.7341755 283.448837,0.25 182.933013,0.25 C82.4171882,0.25 0.933012702,81.7341755 0.933012702,182.25 C0.933012702,282.765824 82.4171882,364.25 182.933013,364.25 Z"
-                          id="background-marker" class="wu-bg md-primary md-default-theme md-hue-3"></path>
+                          id="background-marker" class="wu-bg md-primary md-default-theme"></path>
 
                     <path d="M57.9330127,238.25 C88.8609587,238.25 113.933013,213.177946 113.933013,182.25 C113.933013,151.322054 88.8609587,126.25 57.9330127,126.25 C27.0050667,126.25 1.9330127,151.322054 1.9330127,182.25 C1.9330127,213.177946 27.0050667,238.25 57.9330127,238.25 Z"
                           id="minute-marker" class="marker wu-bg md-accent md-default-theme md-hue-3"  filter="url(#filter-1)"></path>

@@ -1,8 +1,17 @@
 <div class="wu-timepicker">
-    <md-toolbar layout="row" layout-align="center center" class="wu-datepicker-dow md-primary"><span>{{ DatePicker.currentMoment.format("dddd") }}</span>
-        <md-button flex class="daytime-button" ng-class="{'md-raised': TimePicker.isam}" ng-click="TimePicker.setAM()">AM</md-button>
-        <md-button  flex class="daytime-button" ng-class="{'md-raised': TimePicker.ispm}" ng-click="TimePicker.setPM()">PM</md-button>
-    </md-toolbar>
+    <md-grid-list
+        md-cols="2"
+        md-row-height="3rem"
+        md-gutter="0"
+        class="daytime-picker"
+        >
+        <md-grid-tile class="pick" ng-class="{'wu-bg md-primary': TimePicker.isam}" ng-click="TimePicker.setAM()">
+            AM
+        </md-grid-tile>
+        <md-grid-tile class="pick" ng-class="{'wu-bg md-primary': TimePicker.ispm}" ng-click="TimePicker.setPM()">
+            PM
+        </md-grid-tile>
+    </md-grid-list>
     <div layout="column" layout-align="start center" class="timepicker">
         <div ng-include="'clock.svg'" class="clock-svg-box"></div>
         <div class="time-label wu-bg md-default-theme md-primary">
