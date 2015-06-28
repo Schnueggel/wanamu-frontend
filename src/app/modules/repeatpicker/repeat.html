@@ -5,11 +5,23 @@
         </md-switch>
     </md-toolbar>
     <h1 class="md-display-1">Weekly</h1>
-    <div layout="row" class="weekdays">
-        <md-button ng-repeat="(day, translated) in Repeat.weekdays" flex ng-click="Repeat.selectWeekly(day)" class="md-primary"
-                   ng-class="{'md-raised' : !Repeat.isInWeekly(day)}" ng-disabled="!Repeat.opts.repeat">
-            {{::translated}}
-        </md-button>
+    <div class="weekdays">
+        <md-grid-list
+            md-cols="7"
+            md-row-height="2:1"
+            md-gutter="0"
+            class="weekgrid"
+            >
+            <md-grid-tile
+                ng-repeat="(day, translated) in Repeat.weekdays"
+                ng-click="Repeat.selectWeekly(day)"
+                ng-class="{'wu-bg md-primary': Repeat.isInWeekly(day)}"
+                aria-label="day selection"
+                ng-disabled="!Repeat.opts.repeat"
+                >
+                {{::translated}}
+            </md-grid-tile>
+        </md-grid-list>
     </div>
     <h1 class="md-display-1">Monthly</h1>
     <md-switch ng-model="Repeat.isMonthly" aria-label="Switch Monthly" class="md-primary" ng-disabled="!Repeat.opts.repeat"
@@ -19,20 +31,18 @@
     <div ng-show="Repeat.isMonthly" class="animate-ng-show">
         <md-grid-list
             md-cols="7"
-            md-row-height="1.5:1"
+            md-row-height="2:1"
             md-gutter="0"
             class="daygrid"
             >
             <md-grid-tile
                 ng-repeat="n in Repeat.daysInMonth"
+                ng-click="Repeat.selectMonthly(n)"
+                ng-class="{'wu-bg md-primary': Repeat.isInMonthly(n)}"
+                aria-label="day selection"
+                ng-disabled="!Repeat.opts.repeat"
                 >
-                <md-button
-                    aria-label="day selection"
-                    ng-class="{'md-raised': Repeat.isInMonthly(n)}"
-                    ng-click="Repeat.selectMonthly(n)"
-                    ng-disabled="!Repeat.opts.repeat">
                     {{ ::n }}
-                </md-button>
             </md-grid-tile>
         </md-grid-list>
     </div>

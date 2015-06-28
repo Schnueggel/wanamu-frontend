@@ -76,7 +76,7 @@ export class RepeatDirectiveController extends BaseController {
 
         this.daysInMonth.push(RepeatDirectiveController.FIRST);
 
-        for (var i= 1; i < 31; i++) {
+        for (var i= 2; i < 31; i++) {
             this.daysInMonth.push(i.toString());
         }
 
@@ -129,7 +129,7 @@ export class RepeatDirectiveController extends BaseController {
      * @viewhelper
      * @param day
      */
-    selectMonthly(day : string) {
+    selectMonthly(day : string) {console.log('Monthly:' + day);
         if (this.isInMonthly(day)) {
             _.pull(this.opts.monthly, day);
         } else {
