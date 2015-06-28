@@ -1,6 +1,5 @@
 import { Todo } from '../../../models/models';
 import { AuthService } from '../../auth/AuthService';
-import { User } from '../../../models/models';
 import { TodoList } from '../../../models/models';
 import { BaseService } from '../../../wanamu/wanamu';
 import { InjectC, Service } from '../../../decorators/decorators';
@@ -15,7 +14,6 @@ export class TodosService extends BaseService implements wu.todos.ITodosService 
 
     public lastAddedTodo : wu.model.ITodo = null;
     public lastDeletedTodo: wu.model.ITodo = null;
-    public user : User = null;
     public newTodoIdCount = 0;
     /**
      * @scopevar

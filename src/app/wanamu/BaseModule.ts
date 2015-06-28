@@ -1,5 +1,5 @@
 
-export class BaseModule implements wanamu.IModule {
+export class BaseModule implements wu.IModule {
 
     public static mname : string = 'baseModule';
 

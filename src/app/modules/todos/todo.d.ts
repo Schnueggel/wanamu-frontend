@@ -25,7 +25,6 @@ declare module wanamu {
         interface ITodosService {
             lastAddedTodo : model.ITodo;
             lastDeletedTodo: model.ITodo;
-            user : model.IUser;
             inEditTodoId : number;
 
             addNewTodo() : model.ITodo;
