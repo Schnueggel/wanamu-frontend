@@ -8,7 +8,6 @@ declare module wanamu {
         color3: string;
         color4: string;
         color5: string;
-        face: string;
     }
 
     interface ITodoListData {
@@ -33,25 +32,37 @@ declare module wanamu {
     }
 
     module datasource {
+
         interface IUserData {
+            id : number;
+            email: string;
+            TodoLists : Array<ITodoListData>
+            Setting: ISettingData;
+            Profile : IProfileData;
+            DefaultTodoListId : number;
+        }
+
+        interface IProfileData {
             id : number;
             firstname : string;
             lastname : string;
             salutation : string;
-            email: string;
-            TodoLists : Array<ITodoListData>
-            Setting: ISettingData;
-            DefaultTodoListId : number;
+            face : string;
+        }
+
+        interface IProfileDatasource {
 
         }
 
         interface ISettingsDatasource {
 
         }
+
         interface IError {
             type : string,
             message : string
         }
+
         interface IResponseData {
             error : IError;
         }
@@ -69,7 +80,7 @@ declare module wanamu {
             login(username : string, password : string) : ng.IPromise<model.IUser>
         }
 
-        interface IRequestTodoData {
+        interface ITodoRequestData {
             data : Array<ITodoData>;
         }
 

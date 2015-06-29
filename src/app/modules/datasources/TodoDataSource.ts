@@ -45,7 +45,7 @@ export class TodoDataSource extends BaseDataSource implements wu.datasource.ITod
     public sync(todo: wu.model.ITodo): ng.IPromise<wu.model.ITodo> {
         let deferred = this.$q.defer();
         let promise = deferred.promise;
-        let data : wu.datasource.IRequestTodoData  = {
+        let data : wu.datasource.ITodoRequestData  = {
             data: todo.toJSON()
         };
 

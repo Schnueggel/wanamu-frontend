@@ -43,9 +43,10 @@ declare module wanamu {
             addNewTodo(todo: model.ITodo) : void;
         }
 
+        interface IProfile extends wu.datasource.IProfileData {}
+
         interface ISetting extends IColor {
             id : number;
-            face : string;
 
             /**
              * Returns all colors as an array
@@ -64,13 +65,12 @@ declare module wanamu {
         interface IUser {
             id : number;
             email : string;
-            firstname : string;
-            lastname : string;
-            salutation : string;
+            password : string;
             DefaultTodoListId : number;
             TodoLists : Array<model.ITodoList>;
-            defaulttodolist : model.ITodoList;
-            Setting : wanamu.model.ISetting;
+            defaulttodolist : ITodoList;
+            Setting : ISetting;
+            Profile : IProfile;
             usertype : string;
             todos(id?: number) : Array<model.ITodo>;
             addNewTodo(todo : model.ITodo, todolist?: model.ITodoList) : void;

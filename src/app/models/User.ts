@@ -1,9 +1,9 @@
-///<reference path="./model.d.ts"/>
 import _ = require('lodash');
 import { Setting } from './Setting';
 import { TodoList } from './TodoList';
 import { TodoListNotFoundError } from './errors/TodoListNotFoundError';
 import { Todo } from './Todo';
+import { Profile } from './Profile';
 import { BaseModel }  from './BaseModel';
 
 export class User extends BaseModel implements wu.model.IUser {
@@ -13,9 +13,7 @@ export class User extends BaseModel implements wu.model.IUser {
 
     public id : number;
     public email : string;
-    public firstname : string = 'Guest';
-    public lastname : string;
-    public salutation : string;
+    public password : string;
     public DefaultTodoListId : number;
 
     public TodoLists : Array<TodoList>;
@@ -23,6 +21,7 @@ export class User extends BaseModel implements wu.model.IUser {
     public defaulttodolist : TodoList;
 
     public Setting : wu.model.ISetting;
+    public Profile : wu.model.IProfile;
 
     public usertype : string  = User.TYPE_GUEST;
 
@@ -45,12 +44,9 @@ export class User extends BaseModel implements wu.model.IUser {
 
         this.id = data.id;
         this.email = data.email;
-        this.firstname = data.firstname;
-        this.lastname = data.lastname;
-        this.salutation = data.salutation;
         this.DefaultTodoListId = data.DefaultTodoListId;
         this.Setting = new Setting(data.Setting);
-
+        this.Profile = new Profile(data.Profile);
         this.TodoLists = [];
 
         if (_.isArray(data.TodoLists)) {
