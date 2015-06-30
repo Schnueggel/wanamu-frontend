@@ -54,13 +54,3 @@ export class PanelController  extends  BaseController {
         return this.panelService.isComponentOpen;
     }
 }
-
-@InjectC('panelService')
-@Controller('PController')
-export class PController extends BaseController {
-    constructor(public panelService: wu.module.panel.IPanelService) {
-        super();
-        panelService.showLogin();
-        console.log('hund');
-    }
-}

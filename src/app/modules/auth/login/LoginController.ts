@@ -31,7 +31,7 @@ export class LoginController {
         public $state : ng.ui.IStateService,
         public auth : wu.auth.IAuthService
     ) {
-        auth.queryIsLoggedIn().then( () =>  $state.go('panel.view.todos') );
+        //auth.queryIsLoggedIn().then( () =>  $state.go('panel.view.todos') );
     }
 
     public login () {
