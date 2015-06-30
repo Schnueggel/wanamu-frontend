@@ -1,12 +1,22 @@
 import { Log } from '../decorators/decorators';
 import _ = require('lodash');
 
-export class BaseModel {
+export class BaseModel implements wu.model.IBaseModel{
 
+    __orgValues : {[index:string] : { value : any, dirty : boolean}} = {};
     private _dirty: boolean = false;
-    onDirty : Function;
     moment : moment.MomentStatic = require('moment');
+    /**
+     * This method will only exist if at least one Json decorator is set on a property
+     * @generated
+     */
     toJSON : Function;
+
+    /**
+     * @abstract
+     * @param data
+     */
+    fromJSON (data: any) : void {}
 
     static defaultTimeFormat : string = 'YYYY-MM-DD HH:mm:ss';
 

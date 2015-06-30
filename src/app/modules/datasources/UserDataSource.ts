@@ -3,7 +3,8 @@
  */
 import _  = require('lodash');
 import { User } from '../../models/User';
-import { InvalidResponseDataError, AuthError, ServerError, TimeoutError, UnkownError, AccessError, CustomError } from '../../errors/errors';
+import { InvalidResponseDataError, AuthError, ServerError, TimeoutError,
+    UnkownError, AccessError, CustomError, InvalidArgumentError } from '../../errors/errors';
 import { TodoListDataSource } from './TodoListDataSource';
 import { SettingDataSource } from './SettingDataSource';
 import { BaseDataSource } from './BaseDataSource';
@@ -75,15 +76,47 @@ export class UserDataSource extends BaseDataSource implements wu.datasource.IUse
     }
 
     /**
+     * Syncs the given user with the database
+     * @param user
+     * @returns {IPromise<T>}
+     */
+    public sync(user : wu.model.IUser) : ng.IPromise<wu.model.IUser> {
+        let deferred = this.$q.defer();
+        let promise = deferred.promise;
+
+        if (!(user instanceof User)) {
+            deferred.reject(new InvalidArgumentError('user parammust be of type wu.model.IUser'));
+            console.error('user parammust be of type wu.model.IUser');
+            return promise;
+        }
+        console.log(user);
+        this.$http.put(this.constants.apiurl + '/user/' + user.id, user.toJSON())
+            .success(function (data: wu.datasource.IUserResponseData, status: number) {
+            if (!UserDataSource.isValidUserData(data)) {
+                deferred.reject({
+                    name: 'Unkown', message: 'Invalid data received from server'
+                });
+            } else {
+                user.fromJSON(data.data[0]);
+                deferred.resolve(user);
+            }
+        }).error(function (data : wu.datasource.IUserResponseData, status: number) {
+            deferred.reject(this.getDefaultResponseErrors(data, status));
+        });
+
+        return promise;
+    }
+    /**
      * Checks if the result from server is a valid user
      * @param data
      * @returns {boolean}
      */
-    public static isValidUserData(data : any) : boolean {
+    public static isValidUserData(data : wu.datasource.IUserResponseData) : boolean {
         return _.isObject(data) &&
             _.isArray(data.data) &&
             data.data.length === 1 &&
             _.isNumber(data.data[0].id) &&
+            data.success === true &&
             data.data[0].id > 0;
     }
 }

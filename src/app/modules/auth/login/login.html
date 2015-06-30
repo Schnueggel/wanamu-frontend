@@ -7,7 +7,7 @@
             <div ng-messages="Login.form.error">
                 <div ng-message="error" class="error">{{Login.form.error.message}}</div>
             </div>
-            <div class="input-container">
+            <md-input-container md-no-float>
                 <input type="text" name="username" placeholder="{{'login.email' | translate}}"
                        ng-pattern="Login.pattern"
                        ng-model="Login.form.username"
@@ -19,8 +19,8 @@
                     <div ng-message="required" class="error">{{'validation.messages.fieldNotEmpty' | translate}}</div>
                     <div ng-message="pattern" class="error">Please enter a valid email</div>
                 </div>
-            </div>
-            <div class="input-container">
+            </md-input-container>
+            <md-input-container md-no-float>
                 <input type="password" name="password" value=""
                        placeholder="{{'login.password' | translate}}"
                        ng-model="Login.form.password" ng-required="true">
@@ -28,10 +28,11 @@
                      ng-show="loginform.$submitted && loginform.password.$invalid && loginform.password.$untouched">
                     <div ng-message="required" class="error">{{'validation.messages.fieldNotEmpty' | translate}}</div>
                 </div>
+            </md-input-container>
+            <div class="md-actions" layout="column">
+                <md-button class="md-primary md-raised" type="submit" ng-class="{disabled: Login.loading}" ng-click="Login.login()">{{'login.login' | translate}}</md-button>
+                <md-button class="md-primary md-raised"  type="button">{{'login.register' | translate}}</md-button>
             </div>
-
-            <md-button class="md-primary md-raised" type="submit" ng-class="{disabled: Login.loading}" ng-click="Login.login()">{{'login.login' | translate}}</md-button>
-            <md-button class="md-primary md-raised"  type="button">{{'login.register' | translate}}</md-button>
         </form>
     </div>
 </section>

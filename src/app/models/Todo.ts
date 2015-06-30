@@ -1,6 +1,6 @@
 import { BaseModel }  from './BaseModel';
 import _ = require ('lodash');
-import { Dirty, Json, OnDirty } from '../decorators/decorators';
+import { Dirty, Json } from '../decorators/decorators';
 
 export class Todo extends BaseModel implements wu.model.ITodo {
 
@@ -184,10 +184,6 @@ export class Todo extends BaseModel implements wu.model.ITodo {
 
     public set createdOnClient(value: string) {
         this._createdOnClient = value;
-    }
-    @OnDirty
-    private updated() {
-        this._updatedOnClient = this.moment().format(BaseModel.defaultTimeFormat);
     }
 
     public get alarmDate():Date {

@@ -1,13 +1,13 @@
 import { BaseModel }  from './BaseModel';
-import { Dirty, Json, OnDirty } from '../decorators/decorators';
+import { Dirty, Json, DirtyReset } from '../decorators/decorators';
 
 export class Profile extends BaseModel implements wu.model.IProfile {
 
-    private _id : number;
-    private _firstname : string;
-    private _lastname : string;
-    private _face : string;
-    private _salutation : string;
+    _id : number;
+    public _firstname : string;
+    _lastname : string;
+    _face : string;
+    _salutation : string;
 
     /**
      *
@@ -22,6 +22,7 @@ export class Profile extends BaseModel implements wu.model.IProfile {
      *
      * @param data
      */
+    @DirtyReset
     public fromJSON(data : wu.datasource.IProfileData) : void {
         var data = data || <wu.datasource.IProfileData>{};
 

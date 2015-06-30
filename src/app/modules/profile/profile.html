@@ -3,7 +3,7 @@
     <form name="Profile.userform">
         <md-input-container class="md-icon-float">
             <label class="md-placeholder">{{'profile.salutation' | translate}}</label>
-            <md-select ng-model="Profile.user.salutation" required name="salutation">
+            <md-select ng-model="Profile.user.Profile.salutation" required name="salutation">
                 <md-option ng-repeat="salutation in Profile.salutations" ng-value="salutation">{{ 'profile.salutations.' + salutation | translate}}</md-option>
             </md-select>
             <div ng-messages="Profile.userform.salutation.$error" ng-if="Profile.userform.$dirty">
@@ -12,21 +12,21 @@
         </md-input-container>
         <md-input-container>
             <label>{{'profile.firstname' | translate }}</label>
-            <input ng-model="Profile.user.firstname" required name="firstname" title="{{'profile.firstname' | translate }}">
+            <input ng-model="Profile.user.Profile.firstname" name="firstname" required title="{{'profile.firstname' | translate }}">
             <div ng-messages="Profile.userform.firstname.$error">
                 <div ng-message="required">This is required.</div>
             </div>
         </md-input-container>
         <md-input-container>
             <label>{{'profile.lastname' | translate }}</label>
-            <input ng-model="Profile.user.lastname" name="lastname" required>
+            <input ng-model="Profile.user.Profile.lastname" name="lastname" required>
             <div ng-messages="Profile.userform.lastname.$error">
                 <div ng-message="required">This is required.</div>
             </div>
         </md-input-container>
         <md-input-container>
             <label>{{'profile.email' | translate }}</label>
-            <input ng-model="Profile.user.email" type="email" name="email" required>
+            <input ng-model="Profile.user.email" type="email" name="email" required readonly>
             <div ng-messages="Profile.userform.email.$error">
                 <div ng-message="required">This is required.</div>
                 <div ng-message="email">This email address is not valid</div>
@@ -34,7 +34,7 @@
         </md-input-container>
         <md-input-container>
             <label>{{'profile.password' | translate }}</label>
-            <input ng-model="Profile.password" type="password" minlength="8" name="password">
+            <input ng-model="Profile.password" type="password" name="password" minlength="8">
             <div ng-messages="Profile.userform.password.$error">
                 <div ng-message="minlength">Minimum length of password is 8</div>
             </div>
@@ -49,7 +49,7 @@
         </md-input-container>
         <div class="md-actions" layout="row">
             <span flex></span>
-            <md-button ng-click="Profile.save()" class="md-primary md-raised" arial-label="ok" ng-disabled="!Profile.isUserFormValid()">
+            <md-button ng-click="Profile.save()" class="md-primary md-raised" arial-label="ok" ng-disabled="!Profile.isReadyForSave()">
                 Save
             </md-button>
         </div>

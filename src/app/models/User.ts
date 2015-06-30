@@ -5,15 +5,16 @@ import { TodoListNotFoundError } from './errors/TodoListNotFoundError';
 import { Todo } from './Todo';
 import { Profile } from './Profile';
 import { BaseModel }  from './BaseModel';
+import { Dirty, Json } from '../decorators/decorators';
 
 export class User extends BaseModel implements wu.model.IUser {
 
     public static TYPE_GUEST = 'guest';
     public static TYPE_USER = 'user';
 
-    public id : number;
-    public email : string;
-    public password : string;
+    private _id : number;
+    private _email : string;
+    private _password : string;
     public DefaultTodoListId : number;
 
     public TodoLists : Array<TodoList>;
@@ -42,8 +43,8 @@ export class User extends BaseModel implements wu.model.IUser {
         let data = d || <wu.datasource.IUserData>{},
             todolist : TodoList;
 
-        this.id = data.id;
-        this.email = data.email;
+        this._id = data.id;
+        this._email = data.email;
         this.DefaultTodoListId = data.DefaultTodoListId;
         this.Setting = new Setting(data.Setting);
         this.Profile = new Profile(data.Profile);
@@ -59,7 +60,7 @@ export class User extends BaseModel implements wu.model.IUser {
             }
         }
 
-        if (this.id){
+        if (this._id){
             this.usertype = User.TYPE_USER;
         }
     }
@@ -142,5 +143,33 @@ export class User extends BaseModel implements wu.model.IUser {
         } else {
             throw new TodoListNotFoundError();
         }
+    }
+
+    @Json
+    public get id():number {
+        return this._id;
+    }
+
+    public set id(value:number) {
+        console.warn('Read only');
+    }
+    @Dirty
+    @Json
+    public get email():string {
+        return this._email;
+    }
+
+    public set email(value:string) {
+        this._email = value;
+    }
+
+    @Dirty
+    @Json
+    public get password():string {
+        return this._password;
+    }
+
+    public set password(value:string) {
+        this._password = value;
     }
 }

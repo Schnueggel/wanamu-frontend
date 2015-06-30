@@ -1,9 +1,14 @@
 declare module wanamu {
     module model {
-        interface IBaseModel {
-            dirty : boolean,
-            toJSON : Function
-            onDirty : Function
+
+        interface  IDirty extends wu.IDirty {
+            __orgValues : {[index:string] : { value : any, dirty : boolean}};
+            dirty : boolean;
+        }
+
+        interface IBaseModel extends IDirty {
+            toJSON : Function;
+            fromJSON : (data: any) => void;
         }
         interface ITodo extends IBaseModel {
             id : number;
@@ -43,7 +48,9 @@ declare module wanamu {
             addNewTodo(todo: model.ITodo) : void;
         }
 
-        interface IProfile extends wu.datasource.IProfileData {}
+        interface IProfile extends datasource.IProfileData, IBaseModel {
+            fromJSON( data : datasource.IProfileData ) : void;
+        }
 
         interface ISetting extends IColor {
             id : number;
@@ -62,18 +69,20 @@ declare module wanamu {
             color(color:string) : string
         }
 
-        interface IUser {
-            id : number;
-            email : string;
+        interface IUser extends IBaseModel {
             password : string;
-            DefaultTodoListId : number;
-            TodoLists : Array<model.ITodoList>;
-            defaulttodolist : ITodoList;
-            Setting : ISetting;
+            id : number;
+            email: string;
+            TodoLists : Array<ITodoList>
+            Setting: ISetting;
             Profile : IProfile;
+            DefaultTodoListId : number;
+            defaulttodolist : ITodoList;
             usertype : string;
+
             todos(id?: number) : Array<model.ITodo>;
-            addNewTodo(todo : model.ITodo, todolist?: model.ITodoList) : void;
+            addNewTodo( todo : model.ITodo, todolist?: model.ITodoList ) : void;
+            fromJSON( data : datasource.IUserData ) : void;
         }
     }
 }

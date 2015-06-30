@@ -190,7 +190,7 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
             this.resolveUser(user);
         });
 
-        upromise.catch( (err : Error) =>{
+        upromise.catch( (err : Error) =>{ console.log(err);
             if (err instanceof AuthError || err instanceof AccessError) {
                 console.log('Open Login');
                 let lpromise =  this.panelService.showLogin();

@@ -51,7 +51,7 @@ declare module wanamu {
         }
 
         interface IProfileDatasource {
-
+            sync( profile : model.IProfile ) : ng.IPromise<model.IProfile>
         }
 
         interface ISettingsDatasource {
@@ -62,22 +62,38 @@ declare module wanamu {
             type : string,
             message : string
         }
-
+        // =============================================================================================
+        // TODO We can make this more generic, but there are perhaps specializations
+        // =============================================================================================
         interface IResponseData {
             error : IError;
+            success : boolean;
         }
+
+        // =============================================================================================
+        // FIXME User this as replacement for Response data
+        // =============================================================================================
+        interface IResponseDataModel<T> extends IResponseData{
+            data : Array<T>;
+        }
+
+        interface IProfileResponseData extends  IResponseData {
+            data : Array<IProfileData>;
+        }
+
         interface ITodoResponseData extends  IResponseData {
             data : Array<ITodoData>;
         }
 
         interface ITodoDataSource {
-            sync(todo: model.ITodo) : angular.IPromise<model.ITodo>;
+            sync( todo: model.ITodo ) : angular.IPromise<model.ITodo>;
             delete(todo: wu.model.ITodo) : ng.IPromise<wanamu.model.ITodo>;
         }
 
         interface IUserDataSource {
             getUser(id : number) : angular.IPromise<model.IUser>;
-            login(username : string, password : string) : ng.IPromise<model.IUser>
+            login(username : string, password : string) : ng.IPromise<model.IUser>;
+            sync( user : model.IUser ) : ng.IPromise<model.IUser>;
         }
 
         interface ITodoRequestData {
