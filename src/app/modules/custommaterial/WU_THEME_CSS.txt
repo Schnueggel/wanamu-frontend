@@ -1078,6 +1078,7 @@ md-tooltip.md-THEME_NAME-theme {
 md-tooltip.md-THEME_NAME-theme .md-background {
     background-color: '{{foreground-2}}';
 }
+/** Custom rules */
 .wu-fg.md-THEME_NAME-theme.md-primary {    color: '{{primary-color}}'; }
 .wu-fg.md-THEME_NAME-theme.md-accent {    color: '{{accent-color}}'; }
 .wu-fg.md-THEME_NAME-theme.md-warn {    color: '{{warn-color}}'; }
