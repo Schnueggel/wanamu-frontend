@@ -30,9 +30,11 @@ export class User extends BaseModel implements wu.model.IUser {
      *
      * @param data
      */
-    constructor(data: wu.datasource.IUserData){
+    constructor(data?: wu.datasource.IUserData){
         super();
-        this.fromJSON(data);
+        if (_.isPlainObject(data)){
+            this.fromJSON(data);
+        }
     }
 
     /**
