@@ -1,0 +1,46 @@
+<md-content class="setting" layout="column" layout-align="center center">
+    <h2 class="md-display-2">Setting</h2>
+    <form name="Setting.userform">
+        <md-input-container>
+            <label>{{'setting.color1' | translate }}</label>
+            <input ng-model="Setting.setting.color1" name="color1" title="{{'setting.color1' | translate }}">
+            <div ng-messages="Setting.setting.color1.$error">
+                <div ng-message="required">This is required.</div>
+            </div>
+        </md-input-container>
+        <md-input-container>
+            <label>{{'setting.color2' | translate }}</label>
+            <input ng-model="Setting.setting.color2" name="color2" title="{{'setting.color2' | translate }}">
+            <div ng-messages="Setting.setting.color2.$error">
+                <div ng-message="required">This is required.</div>
+            </div>
+        </md-input-container>
+        <md-input-container>
+            <label>{{'setting.color3' | translate }}</label>
+            <input ng-model="Setting.setting.color3" type="text" name="color3" title="{{'setting.color3' | translate }}" >
+            <div ng-messages="Setting.setting.color3.$error">
+                <div ng-message="required">This is required.</div>
+            </div>
+        </md-input-container>
+        <md-input-container>
+            <label>{{'setting.color4' | translate }}</label>
+            <input ng-model="Setting.setting.color4" type="text" name="color4" title="{{'setting.color4' | translate }}" >
+            <div ng-messages="Setting.setting.color4.$error">
+                <div ng-message="required">This is required.</div>
+            </div>
+        </md-input-container>
+        <md-input-container>
+            <label>{{'setting.color5' | translate }}</label>
+            <input ng-model="Setting.setting.color5" type="text" name="color4" title="{{'setting.color5' | translate }}" >
+            <div ng-messages="Setting.setting.color5.$error">
+                <div ng-message="required">This is required.</div>
+            </div>
+        </md-input-container>
+        <div class="md-actions" layout="row">
+            <span flex></span>
+            <md-button ng-click="Setting.save()" class="md-primary md-raised" arial-label="ok" ng-disabled="!Setting.isReadyForSave()">
+                Save
+            </md-button>
+        </div>
+    </form>
+</md-content>
