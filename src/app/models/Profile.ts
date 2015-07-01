@@ -1,6 +1,10 @@
 import { BaseModel }  from './BaseModel';
 import { Dirty, Json, DirtyReset } from '../decorators/decorators';
+import _  = require('lodash');
 
+/**
+ * Lookup class for salutatubs
+ */
 export class Salutations {
     static salutations : Array<string> = ['mr', 'mrs', 'human', 'neutrum'];
     static MR : string = 'mr';
