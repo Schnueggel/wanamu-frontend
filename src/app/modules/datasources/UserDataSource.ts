@@ -86,11 +86,11 @@ export class UserDataSource extends BaseDataSource implements wu.datasource.IUse
 
         if (!(user instanceof User)) {
             deferred.reject(new InvalidArgumentError('user parammust be of type wu.model.IUser'));
-            console.error('user parammust be of type wu.model.IUser');
+            console.error('user param must be of type wu.model.IUser');
             return promise;
         }
-        console.log(user);
-        this.$http.put(this.constants.apiurl + '/user/' + user.id, user.toJSON())
+
+        this.$http.put(this.constants.apiurl + '/user/' + user.id, { data: user.toJSON()})
             .success(function (data: wu.datasource.IUserResponseData, status: number) {
             if (!UserDataSource.isValidUserData(data)) {
                 deferred.reject({
@@ -106,6 +106,39 @@ export class UserDataSource extends BaseDataSource implements wu.datasource.IUse
 
         return promise;
     }
+
+    /**
+     *
+     * @param user
+     * @returns {IPromise<T>}
+     */
+    public create(user : wu.model.IUser) : ng.IPromise<wu.model.IUser> {
+        let deferred = this.$q.defer();
+        let promise = deferred.promise;
+
+        if (!(user instanceof User)) {
+            deferred.reject(new InvalidArgumentError('user parammust be of type wu.model.IUser'));
+            console.error('user param must be of type wu.model.IUser');
+            return promise;
+        }
+
+        this.$http.post(this.constants.apiurl + '/user/' , { data: user.toJSON()})
+            .success(function (data: wu.datasource.IUserResponseData, status: number) {
+                if (!UserDataSource.isValidUserData(data)) {
+                    deferred.reject({
+                        name: 'Unkown', message: 'Invalid data received from server'
+                    });
+                } else {
+                    user.fromJSON(data.data[0]);
+                    deferred.resolve(user);
+                }
+            }).error(function (data : wu.datasource.IUserResponseData, status: number) {
+                deferred.reject(this.getDefaultResponseErrors(data, status));
+            });
+
+        return promise;
+    }
+
     /**
      * Checks if the result from server is a valid user
      * @param data
