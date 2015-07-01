@@ -6,7 +6,7 @@ import { InvalidArgumentError } from '../../errors/errors';
 
 @Service('profileDataSource')
 @InjectC('$http', '$q')
-export class ProfileDataSource extends BaseDataSource implements wu.datasource.IProfileDatasource {
+export class ProfileDataSource extends BaseDataSource implements wu.datasource.IProfileDataSource {
 
     private  constants : wu.IConstants = require('../../../../package.json').wanamu;
 
@@ -17,6 +17,11 @@ export class ProfileDataSource extends BaseDataSource implements wu.datasource.I
         super();
     }
 
+    /**
+     *
+     * @param profile
+     * @returns {IPromise<T>}
+     */
     public sync(profile : wu.model.IProfile) {
         let deferred = this.$q.defer();
         let promise = deferred.promise;

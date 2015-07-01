@@ -50,12 +50,11 @@ declare module wanamu {
             face : string;
         }
 
-        interface IProfileDatasource {
+        interface IProfileDataSource {
             sync( profile : model.IProfile ) : ng.IPromise<model.IProfile>
         }
-
-        interface ISettingsDatasource {
-
+        interface ISettingDataSource {
+            sync( setting : model.ISetting ) : ng.IPromise<model.ISetting>
         }
 
         interface IError {
@@ -94,6 +93,7 @@ declare module wanamu {
             getUser(id : number) : angular.IPromise<model.IUser>;
             login(username : string, password : string) : ng.IPromise<model.IUser>;
             sync( user : model.IUser ) : ng.IPromise<model.IUser>;
+            create( user : model.IUser ) : ng.IPromise<model.IUser>;
         }
 
         interface ITodoRequestData {
