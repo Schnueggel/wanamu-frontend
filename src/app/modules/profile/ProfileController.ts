@@ -1,5 +1,7 @@
 import { BaseController } from '../../wanamu/wanamu';
 import { InjectC, Controller } from '../../decorators/decorators';
+import { AuthError } from '../../errors/errors';
+
 import _ = require('lodash');
 
 /**
@@ -10,7 +12,7 @@ import _ = require('lodash');
 export class ProfileController extends BaseController {
 
     public salutations : Array<string> = ['mr', 'mrs', 'human', 'neutrum'];
-    public userform : wu.profile.IUserForm;
+    public profileform : wu.profile.IProfileForm;
     public user : wu.model.IUser;
     public password : string = '';
     public passwordrepeat : string = '';
@@ -31,7 +33,7 @@ export class ProfileController extends BaseController {
         public $q : ng.IQService,
         public auth : wu.auth.IAuthService,
         public userDatasource : wu.datasource.IUserDataSource,
-        public profileDatasource : wu.datasource.IProfileDatasource,
+        public profileDatasource : wu.datasource.IProfileDataSource,
         public panelService : wu.module.panel.IPanelService
     ){
         super();
@@ -52,7 +54,7 @@ export class ProfileController extends BaseController {
      */
     public save() {
         this.isSaving = true;
-        if (!this.userform.$dirty || !this.isUserFormValid()) {
+        if (!this.profileform.$dirty || !this.isUserFormValid()) {
             this.panelService.showSimpleErrorToast('Please check your input');
             return;
         }
@@ -65,38 +67,38 @@ export class ProfileController extends BaseController {
         });
 
         ppromise.catch( ( err : wu.errors.BaseError ) => {
+            if ( err instanceof AuthError ) {
+               let loginpromise = this.panelService.showLogin();
+                loginpromise.then( (user : wu.model.IUser) => {
+                    this.user = user;
+                    this.save();
+                });
+            }
+
             this.panelService.showSimpleErrorToast(err.message);
         });
+
 
         // =============================================================================================
         // We store the password extra and only when it was changed because it belongs to the user
         // =============================================================================================
-        if (this.userform.password.$dirty) {
-            this.user.password = this.password;
-            let promise = this.userDatasource.sync(this.user);
+        if (this.profileform.password.$dirty) {
+            let promise = this.getPasswordPromise();
             all.push(promise);
-            promise.then( (profile : wu.model.IUser) => {
-                this.panelService.showSimpleToast('Password successful updated');
-                this.passwordrepeat = '';
-                this.password = '';
-            });
-            promise.catch( ( err : wu.errors.BaseError ) => {
-                this.panelService.showSimpleErrorToast(err.message);
-            });
         }
 
         let allpromise = this.$q.all(all);
-        allpromise.then( () => this.userform.$setPristine() );
+        allpromise.then( () => this.profileform.$setPristine() );
         allpromise.finally( () => this.isSaving = false );
     }
-    
+
     /**
      * Checks if the form is valid
      * @returns {boolean}
      */
     public isUserFormValid() :boolean {
 
-        let uform = this.userform;
+        let uform = this.profileform;
         if ( uform.password.$dirty && uform.password.$viewValue !== uform.passwordrepeat.$viewValue ) {
             uform.passwordrepeat.$error['equal'] = true;
         } else {
@@ -111,6 +113,26 @@ export class ProfileController extends BaseController {
      * @returns {boolean}
      */
     public isReadyForSave() : boolean {
-        return !this.isSaving && this.userform.$dirty && this.isUserFormValid();
+        return !this.isSaving && this.profileform.$dirty && this.isUserFormValid();
+    }
+
+    /**
+     *
+     * @returns {ng.IPromise<model.IUser>}
+     */
+    public getPasswordPromise() : ng.IPromise<wu.model.IUser> {
+        this.user.password = this.password;
+        let promise = this.userDatasource.sync(this.user);
+
+        promise.then( (user : wu.model.IUser) => {
+            this.panelService.showSimpleToast('Password successful updated');
+            this.passwordrepeat = '';
+            this.password = '';
+        });
+        promise.catch( ( err : wu.errors.BaseError ) => {
+            this.panelService.showSimpleErrorToast(err.message);
+        });
+
+        return promise;
     }
 }

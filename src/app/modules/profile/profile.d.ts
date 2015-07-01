@@ -4,7 +4,7 @@ declare module wanamu {
         interface IProfileService {
 
         }
-        interface IUserForm extends ng.IFormController {
+        interface IProfileForm extends ng.IFormController {
             firstname : ng.INgModelController;
             lastname : ng.INgModelController;
             salutation : ng.INgModelController;
