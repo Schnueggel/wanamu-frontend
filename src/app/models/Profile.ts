@@ -1,6 +1,14 @@
 import { BaseModel }  from './BaseModel';
 import { Dirty, Json, DirtyReset } from '../decorators/decorators';
 
+export class Salutations {
+    static salutations : Array<string> = ['mr', 'mrs', 'human', 'neutrum'];
+    static MR : string = 'mr';
+    static MRS : string = 'mrs';
+    static HUMAN : string = 'human';
+    static NEUTRUM : string = 'neutrum';
+}
+
 export class Profile extends BaseModel implements wu.model.IProfile {
 
     _id : number;
@@ -13,9 +21,11 @@ export class Profile extends BaseModel implements wu.model.IProfile {
      *
      * @param data
      */
-    constructor(data : wu.datasource.IProfileData){
+    constructor(data? : wu.datasource.IProfileData){
         super();
-        this.fromJSON(data);
+        if (_.isPlainObject(data)){
+            this.fromJSON(data);
+        }
     }
 
     /**
