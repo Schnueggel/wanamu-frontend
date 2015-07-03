@@ -46,3 +46,9 @@ declare module angular.angularcache {
         remove ( key : string ) : void;
     }
 }
+
+declare module Rx {
+    export interface Observable<T> {
+        start<T>( func : Function ) : Rx.Observable<T>
+    }
+}
