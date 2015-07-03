@@ -1,49 +1,51 @@
 <md-content class="registration" layout="column" layout-align="center center">
     <h2 class="md-display-2">Registration</h2>
-    <form name="Registration.registrationform">
+    <form name="Registration.registrationform" novalidate>
         <md-input-container class="md-icon-float">
-            <label class="md-placeholder">{{'registration.salutation' | translate}}</label>
+            <label class="md-placeholder">{{'profile.salutation' | translate}}</label>
             <md-select ng-model="Registration.user.Profile.salutation" required name="salutation">
-                <md-option ng-repeat="salutation in Registration.salutations" ng-value="salutation">{{ 'registration.salutations.' + salutation | translate}}</md-option>
+                <md-option ng-repeat="salutation in Registration.salutations" ng-value="salutation">{{ 'profile.salutations.' + salutation | translate}}</md-option>
             </md-select>
-            <div ng-messages="Registration.userform.salutation.$error" ng-if="Registration.userform.$dirty">
+            <div ng-messages="Registration.registrationform.salutation.$error" ng-if="Registration.registrationform.$dirty">
                 <div ng-message="required">This is required.</div>
             </div>
         </md-input-container>
         <md-input-container>
-            <label>{{'registration.firstname' | translate }}</label>
-            <input ng-model="Registration.user.Profile.firstname" name="firstname" required title="{{'registration.firstname' | translate }}">
-            <div ng-messages="Registration.userform.firstname.$error">
+            <label>{{'profile.firstname' | translate }}</label>
+            <input ng-model="Registration.user.Profile.firstname" name="firstname" required title="{{'profile.firstname' | translate }}">
+            <div ng-messages="Registration.registrationform.firstname.$error">
                 <div ng-message="required">This is required.</div>
             </div>
         </md-input-container>
         <md-input-container>
-            <label>{{'registration.lastname' | translate }}</label>
+            <label>{{'profile.lastname' | translate }}</label>
             <input ng-model="Registration.user.Profile.lastname" name="lastname" required>
-            <div ng-messages="Registration.userform.lastname.$error">
+            <div ng-messages="Registration.registrationform.lastname.$error">
                 <div ng-message="required">This is required.</div>
             </div>
         </md-input-container>
         <md-input-container>
-            <label>{{'registration.email' | translate }}</label>
+            <label>{{'profile.email' | translate }}</label>
             <input ng-model="Registration.user.email" type="email" name="email" required>
-            <div ng-messages="Registration.userform.email.$error">
+            <div ng-messages="Registration.registrationform.email.$error">
                 <div ng-message="required">This is required.</div>
                 <div ng-message="email">This email address is not valid</div>
             </div>
         </md-input-container>
         <md-input-container>
-            <label>{{'registration.password' | translate }}</label>
-            <input ng-model="Registration.user.password" type="password" name="password" minlength="8">
-            <div ng-messages="Registration.userform.password.$error">
+            <label>{{'profile.password' | translate }}</label>
+            <input ng-model="Registration.user.password" type="password" name="password" required minlength="8">
+            <div ng-messages="Registration.registrationform.password.$error">
+                <div ng-message="required">This is required.</div>
                 <div ng-message="minlength">Minimum length of password is 8</div>
             </div>
         </md-input-container>
         <md-input-container>
-            <label>{{'registration.passwordrepeat' | translate }}</label>
-            <input ng-model="Registration.passwordrepeat" type="password" name="passwordrepeat" minlength="8">
-            <div ng-messages="Registration.userform.passwordrepeat.$error">
+            <label>{{'profile.passwordrepeat' | translate }}</label>
+            <input ng-model="Registration.passwordrepeat" type="password" name="passwordrepeat" required minlength="8">
+            <div ng-messages="Registration.registrationform.passwordrepeat.$error">
                 <div ng-message="minlength">Minimum length of password is 8</div>
+                <div ng-message="required">This is required.</div>
                 <div ng-message="equal">Must be equal to password</div>
             </div>
         </md-input-container>
@@ -51,6 +53,9 @@
             <span flex></span>
             <md-button ng-click="Registration.save()" class="md-primary md-raised" arial-label="ok" ng-disabled="!Registration.isReadyForSave()">
                 Save
+            </md-button>
+            <md-button ng-click="Registration.save()" class="md-primary md-raised">
+                Test
             </md-button>
         </div>
     </form>

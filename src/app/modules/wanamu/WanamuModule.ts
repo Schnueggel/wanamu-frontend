@@ -2,6 +2,7 @@ import { PanelModule } from '../panel/PanelModule';
 import { CustomMaterialModule } from '../custommaterial/CustomMaterialModule';
 import { AuthModule } from '../auth/AuthModule';
 import { ProfileModule } from '../profile/ProfileModule';
+import { RegistrationModule } from '../registration/RegistrationModule';
 import { MenuModule } from '../menu/MenuModule';
 import { DataSourceModule } from '../datasources/DataSourceModule';
 import { TodosModule } from '../todos/TodosModule';
@@ -19,6 +20,7 @@ import { Module, Config } from '../../decorators/decorators';
             CustomMaterialModule.mname,
             PanelModule.mname,
             ProfileModule.mname,
+            RegistrationModule.mname,
             AuthModule.mname,
             TodosModule.mname,
             MenuModule.mname,

@@ -17,27 +17,31 @@ export class SettingDataSource extends BaseDataSource implements wu.datasource.I
         super();
     }
 
-
-    public sync(profile : wu.model.IProfile) {
+    /**
+     *
+     * @param setting
+     * @returns {IPromise<T>}
+     */
+    public sync(setting : wu.model.ISetting) {
         let deferred = this.$q.defer();
         let promise = deferred.promise;
 
-        if (!(profile instanceof Setting)) {
+        if (!(setting instanceof Setting)) {
             deferred.reject(new InvalidArgumentError('Application error profile could not be found'));
             console.error('profile param must be of type wu.model.IUser');
             return promise;
         }
 
-        this.$http.put(this.constants.apiurl + '/profile/' + profile.id, {
-            data:profile.toJSON()
+        this.$http.put(this.constants.apiurl + '/profile/' + setting.id, {
+            data:setting.toJSON()
         }).success( (data: wu.datasource.IResponseDataModel<wu.datasource.IProfileData>, status: number) => {
             if (!SettingDataSource.isValidResponseData(data)) {
                 deferred.reject({
                     name: 'Unkown', message: 'Invalid data received from server'
                 });
             } else {
-                profile.fromJSON(data.data[0]);
-                deferred.resolve(profile);
+                setting.fromJSON(data.data[0]);
+                deferred.resolve(setting);
             }
         }).error( (data : wu.datasource.IUserResponseData, status: number) => {
             deferred.reject(this.getDefaultResponseErrors(data, status));

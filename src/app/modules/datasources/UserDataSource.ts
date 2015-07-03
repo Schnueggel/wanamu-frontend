@@ -123,7 +123,7 @@ export class UserDataSource extends BaseDataSource implements wu.datasource.IUse
         }
 
         this.$http.post(this.constants.apiurl + '/user/' , { data: user.toJSON()})
-            .success(function (data: wu.datasource.IUserResponseData, status: number) {
+            .success((data: wu.datasource.IUserResponseData, status: number) => {
                 if (!UserDataSource.isValidUserData(data)) {
                     deferred.reject({
                         name: 'Unkown', message: 'Invalid data received from server'
@@ -132,7 +132,7 @@ export class UserDataSource extends BaseDataSource implements wu.datasource.IUse
                     user.fromJSON(data.data[0]);
                     deferred.resolve(user);
                 }
-            }).error(function (data : wu.datasource.IUserResponseData, status: number) {
+            }).error( (data : wu.datasource.IUserResponseData, status: number) =>{
                 deferred.reject(this.getDefaultResponseErrors(data, status));
             });
 

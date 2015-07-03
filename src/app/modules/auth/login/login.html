@@ -31,7 +31,7 @@
             </md-input-container>
             <div class="md-actions" layout="column">
                 <md-button class="md-primary md-raised" type="submit" ng-class="{disabled: Login.loading}" ng-click="Login.login()">{{'login.login' | translate}}</md-button>
-                <md-button class="md-primary md-raised"  type="button">{{'login.register' | translate}}</md-button>
+                <md-button class="md-primary md-raised"  type="button" ui-sref="panel.view.registration">{{'login.register' | translate}}</md-button>
             </div>
         </form>
     </div>

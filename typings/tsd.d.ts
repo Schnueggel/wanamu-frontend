@@ -8,6 +8,8 @@
 /// <reference path="moment/moment-node.d.ts" />
 /// <reference path="moment/moment.d.ts" />
 /// <reference path="requirejs/require.d.ts" />
+/// <reference path="rx/rx-lite.d.ts" />
+/// <reference path="rx/rx.d.ts" />
 
 declare module angular.angularcache {
 

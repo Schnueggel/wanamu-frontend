@@ -143,6 +143,10 @@ header {
     padding-top: 0.2rem;
     padding-bottom: 0.2rem;
 }
+
+a.md-button {
+    display: inline-block;
+}
 .md-icon-button {
     padding: 0;
 }
@@ -367,8 +371,6 @@ md-icon {
     }
 }
 
-.profile {
-    md-input-container .md-input {
-        min-width: 25rem;
-    }
+md-content > form {
+    min-width: 25rem;
 }

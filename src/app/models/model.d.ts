@@ -52,7 +52,7 @@ declare module wanamu {
             fromJSON( data : datasource.IProfileData ) : void;
         }
 
-        interface ISetting extends IColor {
+        interface ISetting extends IBaseModel,IColor {
             id : number;
 
             /**

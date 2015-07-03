@@ -4,7 +4,7 @@ import { InjectC, Service } from '../../decorators/decorators';
 
 @InjectC('$q', 'wuAuthService', 'panelService', 'userDatasource')
 @Service('wuProfileService' )
-export class ProfileService extends BaseService implements wu.profile.IProfileService {
+export class SettingService extends BaseService implements wu.setting.ISettingService {
 
     /**
      *

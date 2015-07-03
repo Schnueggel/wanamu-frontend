@@ -1,3 +1,4 @@
+import _ = require('lodash');
 
 interface ToJSON extends Object {
     toJSON: Function;
@@ -12,7 +13,12 @@ export function Json <T extends ToJSON> (target : T, propertyKey: string, descri
         target.toJSON = function() {
             let result: any = {};
             this.___tojsonprops.forEach((v: string) => {
-                result[v] = this[v];
+                if (_.isObject(this[v]) && _.isFunction(this[v].toJSON)) {
+                    result[v] = this[v].toJSON();
+                } else {
+                    result[v] = this[v];
+                }
+
             });
             return result;
         };

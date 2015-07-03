@@ -22,7 +22,7 @@ export class User extends BaseModel implements wu.model.IUser {
     public defaulttodolist : TodoList;
 
     public Setting : wu.model.ISetting;
-    public Profile : wu.model.IProfile;
+    private _Profile : wu.model.IProfile;
 
     public usertype : string  = User.TYPE_GUEST;
 
@@ -49,7 +49,7 @@ export class User extends BaseModel implements wu.model.IUser {
         this._email = data.email;
         this.DefaultTodoListId = data.DefaultTodoListId;
         this.Setting = new Setting(data.Setting);
-        this.Profile = new Profile(data.Profile);
+        this._Profile = new Profile(data.Profile);
         this.TodoLists = [];
 
         if (_.isArray(data.TodoLists)) {
@@ -173,5 +173,14 @@ export class User extends BaseModel implements wu.model.IUser {
 
     public set password(value:string) {
         this._password = value;
+    }
+
+    @Json
+    public get Profile() : wanamu.model.IProfile {
+        return this._Profile;
+    }
+
+    public set Profile(value:wanamu.model.IProfile) {
+        this._Profile = value;
     }
 }

@@ -31,6 +31,12 @@
     },
     "requirejs/require.d.ts": {
       "commit": "84dfeeac378552c22297a5d555b1999a396d7e7c"
+    },
+    "rx/rx.d.ts": {
+      "commit": "d73cbcb405788eb85cc4a4167b963ef4dd630cdc"
+    },
+    "rx/rx-lite.d.ts": {
+      "commit": "d73cbcb405788eb85cc4a4167b963ef4dd630cdc"
     }
   }
 }
