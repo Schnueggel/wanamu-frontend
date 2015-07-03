@@ -47,18 +47,6 @@ export class RegistrationController extends BaseController {
      */
     public save() {
 
-        //this.isSaving = true;
-        //if (!this.registrationform.$dirty || !this.isFormValid()) {
-        //    this.panelService.showSimpleErrorToast('Please check your input');
-        //    return;
-        //}
-        //let ppromise = this.userDatasource.create(this.user);
-        //ppromise.then((user : wu.model.IUser) => {
-        //    this.panelService.showSimpleToast('Registration successful updated');
-        //});
-        //
-        //ppromise.catch( this.onSaveError.bind(this) );
-
         if (this.isSaving) {
             return;
         }
@@ -74,24 +62,20 @@ export class RegistrationController extends BaseController {
      * Does this make sense
      * @returns {Rx.Observable<any>}
      */
-    private getSaveObservable() : Rx.Observable {
+    private getSaveObservable() : Rx.Observable<any> {
 
         if (_.isUndefined(this.saveObservable)) {
 
-            let observable = Rx.Observable.create((obs:Rx.Observer<any>) => {
-                obs.onNext(null);
-                obs.onCompleted();
-            });
-
-            this.saveObservable = observable.map(() => {
+            this.saveObservable = Rx.Observable.start( () => {
                 this.isSaving = true;
                 if (!this.registrationform.$dirty || !this.isFormValid()) {
                     return Rx.Observable.throw(new Error('Please check your input'));
                 }
-            }).flatMapLatest(() => {
+            }).flatMapLatest( () => {
                 return Rx.Observable.fromPromise(this.userDatasource.create(this.user));
-            }).map(() => {
+            }).map( () => {
                 this.isSaving = false;
+                this.$state.go('panel.view.login');
             });
         }
         return this.saveObservable;
