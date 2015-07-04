@@ -39,7 +39,7 @@ var srcPath = path.join(__dirname, 'src'),
     distAppPath = path.join(distPath, 'app'),
     distIndexHtml = path.join(distAppPath, 'index.html'),
     node_modules_path = path.join(__dirname, 'node_modules'),
-    env = process.APP_ENV || 'develop',
+    env = process.APP_ENV || 'development',
     indexFileName = 'index.js',
     typescriptOutFile =path.join(tmpAppPath, 'modules/wanamu//Application.js');
 
@@ -58,7 +58,7 @@ var webpackConfig = {
         filename: indexFileName.replace('.js','-' + Date.now() + '.js')
     },
     debug: false,
-    devtool: '',
+    devtool: '#source-map',
     module: {
         noParse: [
             /[\/\\]angular\.js$/,
@@ -96,7 +96,7 @@ var webpackConfig = {
             },
             {
                 test: /package\.json$/,
-                loader: 'environment-config-webpack-loader?environment=' + (env|| 'develop')
+                loader: 'environment-config-webpack-loader?environment=' + env
             },
             {
                 test: /\.scss$/,
@@ -124,6 +124,9 @@ if (env === 'production') {
     );
 }
 
+if (env === 'development') {
+    webpackConfig.debug = true;
+}
 
 /**
  * ######################################################################################
@@ -222,7 +225,7 @@ gulp.task('build-typescript', function () {
 // Create webpacked files
 // ===========================================================
 gulp.task('build-webpack', function (callback) {
-    if (env === 'develop') {
+    if (env === 'development') {
         webpackConfig.debug = true;
     }
 
