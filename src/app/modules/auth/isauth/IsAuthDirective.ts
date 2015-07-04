@@ -27,11 +27,18 @@ export class IsAuthDirective extends BaseDirective {
      * @param attributes
      */
     public link = ($scope: wu.auth.IAuthScope, element: JQuery, attributes : any) => {
+
+        console.log(attributes);
+        // =============================================================================================
+        // if attribute is set to false we change check for auth to negative else positive
+        // =============================================================================================
+        let modifier = !(attributes.wuIsAuth === 'false');
         /**
          * Hides or shows the element
          * @param {boolean} show
          */
         function visisible(show : boolean) {
+            show = modifier === show;
             if (show) {
                 element.removeClass('ng-hide');
             } else {

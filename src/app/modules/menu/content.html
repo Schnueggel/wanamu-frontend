@@ -1,23 +1,24 @@
 <div class="menu">
     <md-button class="md-raised font-size-2" wu-is-auth ui-sref="panel.view.todos">
-        <iron-icon icon="content-paste"></iron-icon>
         Todos
     </md-button>
 
     <md-button class="md-raised font-size-2">
-        <iron-icon icon="description"></iron-icon>
         Imprint
     </md-button>
     <md-button class="md-raised font-size-2">
-        <iron-icon icon="picture-in-picture"></iron-icon>
         About
     </md-button>
     <md-button class="md-raised font-size-2">
-        <iron-icon icon="help"></iron-icon>
         Help
     </md-button>
     <md-button class="md-raised font-size-2" wu-is-auth ui-sref="panel.view.logout">
-        <iron-icon icon="remove-circle"></iron-icon>
         Logout
+    </md-button>
+    <md-button class="md-raised font-size-2" wu-is-auth="false" ui-sref="panel.view.login">
+        Login
+    </md-button>
+    <md-button class="md-raised font-size-2" wu-is-auth="false" ui-sref="panel.view.registration">
+        Registration
     </md-button>
 </div>
