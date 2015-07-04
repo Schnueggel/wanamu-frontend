@@ -2,7 +2,7 @@ import _  = require('lodash');
 import { Setting } from '../../models/Setting';
 import { BaseDataSource } from './BaseDataSource';
 import { Service, InjectC } from '../../decorators/decorators';
-import { InvalidArgumentError } from '../../errors/errors';
+import { InvalidArgumentError, InvalidResponseDataError } from '../../errors/errors';
 
 @Service('settingDataSource')
 @InjectC('$http', '$q')
@@ -11,8 +11,8 @@ export class SettingDataSource extends BaseDataSource implements wu.datasource.I
     private  constants : wu.IConstants = require('../../../../package.json').wanamu;
 
     public constructor(
-        public $http : angular.IHttpService,
-        public $q : angular.IQService
+        public $http : ng.IHttpService,
+        public $q : ng.IQService
     ){
         super();
     }
@@ -27,24 +27,25 @@ export class SettingDataSource extends BaseDataSource implements wu.datasource.I
         let promise = deferred.promise;
 
         if (!(setting instanceof Setting)) {
-            deferred.reject(new InvalidArgumentError('Application error profile could not be found'));
-            console.error('profile param must be of type wu.model.IUser');
+            deferred.reject(new InvalidArgumentError('Application error!Setting could not be found'));
+            console.error('Setting param must be of type wu.model.IUser');
             return promise;
         }
 
-        this.$http.put(this.constants.apiurl + '/profile/' + setting.id, {
+        // =============================================================================================
+        // There should be no user without setting so we always expect an ip and never do a post
+        // =============================================================================================
+        this.$http.put(this.constants.apiurl + '/setting/' + setting.id, {
             data:setting.toJSON()
-        }).success( (data: wu.datasource.IResponseDataModel<wu.datasource.IProfileData>, status: number) => {
+        }).success( (data: wu.datasource.IResponseDataModel<wu.datasource.ISettingData>, status: number) => {
             if (!SettingDataSource.isValidResponseData(data)) {
-                deferred.reject({
-                    name: 'Unkown', message: 'Invalid data received from server'
-                });
+                deferred.reject( new InvalidResponseDataError());
             } else {
                 setting.fromJSON(data.data[0]);
                 deferred.resolve(setting);
             }
         }).error( (data : wu.datasource.IUserResponseData, status: number) => {
-            deferred.reject(this.getDefaultResponseErrors(data, status));
+            deferred.reject( this.getDefaultResponseErrors(data, status) );
         });
 
         return promise;

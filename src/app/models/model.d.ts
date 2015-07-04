@@ -7,6 +7,7 @@ declare module wanamu {
         }
 
         interface IBaseModel extends IDirty {
+            [index: string] : any;
             toJSON : Function;
             fromJSON : (data: any) => void;
         }

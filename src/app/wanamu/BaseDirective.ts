@@ -8,7 +8,5 @@ export class BaseDirective {
         return this.directiveOptions;
     }
 
-    public link = ($scope: ng.IScope, element: ng.IAugmentedJQuery, attributes : ng.IAttributes) =>{};
-
     public compile = (tElement : ng.IAugmentedJQuery, attributes: ng.IAttributes , transclude: ng.ITranscludeFunction) => {};
 }

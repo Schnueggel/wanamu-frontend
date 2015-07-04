@@ -17,7 +17,7 @@ export class SettingModule extends BaseModule {
         // States/Routes
         $stateProvider
             .state('panel.view.setting', {
-                url: '/profile',
+                url: '/settings',
                 role: 'public',
                 views: {
                     '@panel': {

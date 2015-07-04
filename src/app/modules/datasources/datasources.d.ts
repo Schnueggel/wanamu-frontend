@@ -1,15 +1,6 @@
 
 declare module wanamu {
 
-    interface ISettingData {
-        id : number;
-        color1: string;
-        color2: string;
-        color3: string;
-        color4: string;
-        color5: string;
-    }
-
     interface ITodoListData {
         id : number;
         name : string;
@@ -48,6 +39,15 @@ declare module wanamu {
             lastname : string;
             salutation : string;
             face : string;
+        }
+
+        interface ISettingData {
+            id : number;
+            color1: string;
+            color2: string;
+            color3: string;
+            color4: string;
+            color5: string;
         }
 
         interface IProfileDataSource {

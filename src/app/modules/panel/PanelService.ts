@@ -2,6 +2,8 @@ import { DateTimePickerOptions } from '../datetimepicker/datetimepicker/datetime
 import { Service, InjectC } from '../../decorators/decorators';
 import { BaseService } from '../../wanamu/wanamu';
 import { RepeatDirectiveOptions } from '../repeatpicker/RepeatDirectiveOptions';
+var Rx = require('rx');
+
 /**
  * Service to Control the global datepicker and repeatpicker element
  * @alias panelService
@@ -14,15 +16,22 @@ export class PanelService extends BaseService implements wu.module.panel.IPanelS
     private _isDateTimePickerOpen : boolean = false;
     private _isRepeatPickerOpen : boolean = false;
     private _isLoginOpen : boolean = false;
+    private _isColorPickerOpen : boolean = false;
     private _isComponentOpen : boolean = false;
 
     private dtpdefer : ng.IDeferred<Date> = null;
     private repeatdefer : ng.IDeferred<RepeatDirectiveOptions> = null;
     private logindeferred : ng.IDeferred<wu.model.IUser> = null;
+    private colorpickerdeferred : ng.IDeferred<string> = null;
 
     public repeatopts : RepeatDirectiveOptions;
     public dtpopts : DateTimePickerOptions;
     public loginSuccessCallback : wu.auth.ILoginSuccessCallback;
+    public colorOpts : wu.colorpicker.IColorpickerOpts = {
+        color: ''
+    };
+
+    public color : string;
 
     constructor(private $q : angular.IQService, private $mdToast : ng.material.MDToastService) {
         super();
@@ -55,15 +64,20 @@ export class PanelService extends BaseService implements wu.module.panel.IPanelS
      * @param opts
      */
     public showDateTimePicker (opts : DateTimePickerOptions) : angular.IPromise<Date>{
-        this.dtpdefer = this.$q.defer<Date>();
+        if (this.dtpdefer === null){
+            this.dtpdefer = this.$q.defer<Date>();
+        } else {
+            return this.dtpdefer.promise;
+        }
+
         let promise = this.dtpdefer.promise;
 
         if (!this.isDateTimePickerOpen) {
             this.dtpopts = opts;
+            this.hideAll();
             this.isDateTimePickerOpen = true;
-            this.isRepeatPickerOpen = false;
         } else {
-            this.dtpdefer.reject('Datepicker is already open');
+            this.dtpdefer.reject(new Error('Datepicker is already open'));
             console.warn('DateTimePicker is already open and cannot be opend again');
         }
 
@@ -103,6 +117,57 @@ export class PanelService extends BaseService implements wu.module.panel.IPanelS
         return promise;
     }
 
+
+    /**
+     * Shows the RepeatPicker if it is not already visible
+     * @param opts
+     * @returns {IPromise<Date>}
+     */
+    public showRepeatPicker (opts : RepeatDirectiveOptions) : angular.IPromise<RepeatDirectiveOptions> {
+        if (this.repeatdefer === null) {
+            this.repeatdefer = this.$q.defer<RepeatDirectiveOptions>();
+        } else {
+            return this.repeatdefer.promise;
+        }
+        let promise = this.repeatdefer.promise;
+
+        if (!this.isRepeatPickerOpen) {
+            this.repeatopts = opts;
+            this.hideAll();
+            this.isRepeatPickerOpen = true;
+        } else {
+            this.repeatdefer.reject(new Error('RepeatPicker is already open'));
+            console.warn('RepeatPicker is already open and cannot be opend again');
+        }
+
+        return promise;
+    }
+
+    /**
+     * Shows the RepeatPicker if it is not already visible
+     * @param color
+     * @returns {IPromise<Date>}
+     */
+    public showColorPicker (color : string) : angular.IPromise<string> {
+        if (this.colorpickerdeferred === null){
+            this.colorpickerdeferred = this.$q.defer<string>();
+        } else {
+            return this.colorpickerdeferred.promise;
+        }
+
+        let promise = this.colorpickerdeferred.promise;
+
+        if (!this.isColorPickerOpen) {
+            this.colorOpts.color = color;
+            this.hideAll();
+            this.isColorPickerOpen = true;
+        } else {
+            this.colorpickerdeferred.reject(new Error('ColorPicker is already open'));
+            console.warn('ColorPicker is already open and cannot be opend again');
+        }
+
+        return promise;
+    }
     /**
      * Resolve and active login to make this work showLogin must be called
      * @param user
@@ -131,6 +196,19 @@ export class PanelService extends BaseService implements wu.module.panel.IPanelS
     }
 
     /**
+     * Resolve and active login to make this work showLogin must be called
+     * @param user
+     */
+    public resolveColorPicker() {
+        if (this.colorpickerdeferred !== null) {
+            console.log(this.color);
+            this.colorpickerdeferred.resolve(this.color);
+            this.colorpickerdeferred = null;
+        }
+        this.isColorPickerOpen = false;
+    }
+
+    /**
      * Reject an open datetimepicker request
      * @param msg
      */
@@ -142,27 +220,6 @@ export class PanelService extends BaseService implements wu.module.panel.IPanelS
             console.warn('Could not resolve datetimepicker as no valid deferred was found');
         }
         this.isDateTimePickerOpen = false;
-    }
-
-    /**
-     * Shows the RepeatPicker if it is not already visible
-     * @param opts
-     * @returns {IPromise<Date>}
-     */
-    public showRepeatPicker (opts : RepeatDirectiveOptions) : angular.IPromise<RepeatDirectiveOptions>{
-        this.repeatdefer = this.$q.defer<RepeatDirectiveOptions>();
-        let promise = this.repeatdefer.promise;
-
-        if (!this.isRepeatPickerOpen) {
-            this.repeatopts = opts;
-            this.isRepeatPickerOpen = true;
-            this.isDateTimePickerOpen = false;
-        } else {
-            this.repeatdefer.reject('RepeatPicker is already open');
-            console.warn('RepeatPicker is already open and cannot be opend again');
-        }
-
-        return promise;
     }
 
     /**
@@ -193,6 +250,20 @@ export class PanelService extends BaseService implements wu.module.panel.IPanelS
         this.isRepeatPickerOpen = false;
     }
 
+    /**
+     * Reject an open repeatpicker request
+     * @param msg
+     */
+    public rejectColorPicker(msg?: string) {
+        if (this.colorpickerdeferred !== null){
+            this.colorpickerdeferred.reject(msg);
+            this.colorpickerdeferred = null;
+        } else {
+            console.warn('Could not resolve RepeatPicker as no valid deferred was found');
+        }
+        this.isColorPickerOpen = false;
+    }
+
     public get isDateTimePickerOpen():boolean {
         return this._isDateTimePickerOpen;
     }
@@ -217,6 +288,15 @@ export class PanelService extends BaseService implements wu.module.panel.IPanelS
         this._isLoginOpen = value;
     }
 
+
+    public get isColorPickerOpen():boolean {
+        return this._isColorPickerOpen;
+    }
+
+    public set isColorPickerOpen(value:boolean) {
+        this._isColorPickerOpen = value;
+    }
+
     /**
      * Hides all open elements
      */
@@ -224,11 +304,12 @@ export class PanelService extends BaseService implements wu.module.panel.IPanelS
         this.isLoginOpen = false;
         this.isDateTimePickerOpen = false;
         this.isRepeatPickerOpen = false;
+        this.isColorPickerOpen = false;
     }
 
 
     public get isComponentOpen(): boolean {
-        this.isComponentOpen = this.isDateTimePickerOpen || this.isRepeatPickerOpen || this.isLoginOpen;
+        this.isComponentOpen = this.isDateTimePickerOpen || this.isRepeatPickerOpen || this.isLoginOpen || this.isColorPickerOpen;
         return this._isComponentOpen;
     }
 

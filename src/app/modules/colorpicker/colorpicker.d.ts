@@ -6,7 +6,7 @@
 declare module wanamu {
     module colorpicker {
         interface IColorpickerOpts {
-            chooseText : string
+            color : string
         }
 
         interface ISpectrumColor {
@@ -14,11 +14,22 @@ declare module wanamu {
         }
 
         interface IColorpickerScope extends ng.IScope {
-            Colorpicker : { color : string};
+            Colorpicker : {
+                /**
+                 * Config Object
+                 */
+                colorOpts : IColorpickerOpts;
+                /**
+                 * The output color
+                 */
+                spColor: string;
+            };
+
         }
 
         interface IJquerySpectrum extends JQuery{
-            spectrum ( options :{[index:string]: any}| string, val? : any);
+            spectrum ( options :{[index:string]: any}| string, val? : any) : any;
         }
+
     }
 }

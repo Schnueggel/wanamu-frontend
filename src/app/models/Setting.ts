@@ -14,7 +14,7 @@ export class Setting extends BaseModel implements wu.model.ISetting {
      *
      * @param data
      */
-    constructor(data : wu.ISettingData){
+    constructor(data : wu.datasource.ISettingData){
         super();
         this.fromJSON(data);
     }
@@ -23,8 +23,8 @@ export class Setting extends BaseModel implements wu.model.ISetting {
      *
      * @param data
      */
-    public fromJSON(data : wu.ISettingData) : void {
-        var data = data || <wu.ISettingData>{};
+    public fromJSON(data : wu.datasource.ISettingData) : void {
+        var data = data || <wu.datasource.ISettingData>{};
 
         this._id = data.id;
         this._color1 = data.color1;

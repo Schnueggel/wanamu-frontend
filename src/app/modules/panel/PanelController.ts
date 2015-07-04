@@ -21,6 +21,14 @@ export class PanelController  extends  BaseController {
         this.panelService.resolveRepeatPicker();
     }
 
+    public rejectColorPicker() {
+        this.panelService.rejectColorPicker();
+    }
+
+    public resolveColorPicker() {
+        this.panelService.resolveColorPicker();
+    }
+
     public rejectDateTimePicker() {
         this.panelService.rejectDateTimePicker();
     }

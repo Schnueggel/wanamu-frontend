@@ -9,10 +9,22 @@ import { BaseController } from '../../wanamu/wanamu';
 @Controller('ColorpickerController')
 @InjectC('$scope')
 export class ColorpickerController extends BaseController {
-
-    public color : string;
+    /**
+     * Config object
+     */
+    public colorOpts : wu.colorpicker.IColorpickerOpts;
+    /**
+     * The outputcolor
+     */
+    public spColor : string;
 
     constructor(public $scope : ng.IScope) {
         super();
+
+        if (!this.colorOpts) {
+           this.colorOpts = {
+                color : ''
+           };
+        }
     }
 }

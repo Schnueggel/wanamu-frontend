@@ -10,6 +10,13 @@
             "so": "So"
         }
     },
+    "setting": {
+        "color1": "Farbe 1",
+        "color2": "Farbe 2",
+        "color3": "Farbe 3",
+        "color4": "Farbe 4",
+        "color5": "Farbe 5"
+    },
     "imprint": "Impressum",
     "about": "Über uns",
     "security": "Datenschutz",

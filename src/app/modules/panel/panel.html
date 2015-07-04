@@ -27,8 +27,23 @@
                 </md-button>
             </div>
         </div>
+        <!-- Login -->
         <wu-login login-success-callback="Panel.panelService.loginSuccessCallback" ng-if="Panel.panelService.isLoginOpen" ui-view="dlogin"></wu-login>
+        <!-- Colorpicker -->
+        <div ng-show="Panel.panelService.isColorPickerOpen">{{Panel.panelService.color}}
+            <wu-colorpicker color-opts="Panel.panelService.colorOpts" sp-color="Panel.panelService.color"></wu-colorpicker>
+            <div class="md-actions" layout="row">
+                <span flex></span>
+                <md-button ng-click="Panel.resolveColorPicker()" class="md-primary md-raised" arial-labe="ok">
+                    OK
+                </md-button>
+                <md-button ng-click="Panel.rejectColorPicker()" class="md-primary md-raised" arial-label="cancel">
+                    Cancel
+                </md-button>
+            </div>
+        </div>
     </div>
+
     <!-- Content -->
     <md-content ui-view ng-show="!Panel.isComponentOpen()" layout="column" layout-fill></md-content>
 </md-content>
