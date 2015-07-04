@@ -236,20 +236,18 @@ md-icon {
     }
 }
 .chips {
-    & >  .chip:first-child {
-        margin-left: -8px;
-    }
+    & >  .chip:first-child {}
     .chip {
         cursor: default;
         display: block;
         height: 32px;
         line-height: 32px;
         padding: 0 2px 0 5px;
-        float: left;
         font-size: 0.7rem;
         background-color: #BBBBBB;
         box-sizing: content-box;
-        margin-right: 3px;
+        max-width: 90%;
+        margin: 0.1rem;
         .chip-content {
             display: block;
             padding-right: 8px;

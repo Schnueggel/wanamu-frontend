@@ -35,19 +35,37 @@ export class Registry {
         let directives = Reflect.getMetadata(AngularMetaKeys.ModuleDirective, moduleClass) || [];
         let services = Reflect.getMetadata(AngularMetaKeys.ModuleService, moduleClass) || [];
         let constants = Reflect.getMetadata(AngularMetaKeys.Constant, moduleClass) || [];
+        let filter = Reflect.getMetadata(AngularMetaKeys.Filter, moduleClass) || [];
 
         Registry.bootstrapConstants(constants, ngModule, module);
         Registry.bootstrapController(controller, ngModule);
         Registry.bootstrapServices(services, ngModule);
         Registry.bootstrapDirectives(directives, ngModule);
-
+        Registry.bootstrapFilter(filter, ngModule);
         Registry.modules[name] = ngModule;
 
         return ngModule;
     }
 
+    /**
+     * Bootstraps the filter for a module
+     * @param filters
+     * @param ngModule
+     */
+    static bootstrapFilter (filters :  Array<wu.decorators.IFilterOption>, ngModule : ng.IModule) {
+        filters.forEach((filter : wu.decorators.IFilterOption) => {
+            let filterkeys = _.keys(filter);
+            filterkeys.forEach( (key) => {
+                ngModule.filter(key, filter[key]);
+            });
+        });
+    }
+
     static bootstrapConstants (constants : string[], ngModule : ng.IModule, module : wu.IModule) {
         constants.forEach((v : string) => {
+            // =============================================================================================
+            // Check if module class as a property named like the constant
+            // =============================================================================================
             if (!_.isUndefined((<any>module)[v])) {
                 ngModule.constant(v, (<any>module)[v]);
             }
@@ -105,15 +123,16 @@ export class Registry {
  * @returns {function(Function): any}
  * @constructor
  */
-export function Module (name : string, data? : ModuleOptions) {
+export function Module (name : string, data? : wu.decorators.IModuleOptions) {
 
     return function<T extends typeof BaseModule>(target : T) : T {
 
-        Reflect.defineMetadata(AngularMetaKeys.ModuleController, data.controller, target);
-        Reflect.defineMetadata(AngularMetaKeys.ModuleService, data.services, target);
-        Reflect.defineMetadata(AngularMetaKeys.ModuleDirective, data.directives, target);
-        Reflect.defineMetadata(AngularMetaKeys.Modules, data.modules, target);
-
+        Reflect.defineMetadata(AngularMetaKeys.ModuleController, data.controller || [], target);
+        Reflect.defineMetadata(AngularMetaKeys.ModuleService, data.services || [], target);
+        Reflect.defineMetadata(AngularMetaKeys.ModuleDirective, data.directives || [], target);
+        Reflect.defineMetadata(AngularMetaKeys.Modules, data.modules || [], target);
+        Reflect.defineMetadata(AngularMetaKeys.Filter, data.filter || [], target);
+        console.log(data);
         //We immediatly create module on its definition. Which means when require('module') is called we come here and create the module
         Registry.bootstrap(target, name);
         return target;
@@ -161,6 +180,7 @@ export function Service (serviceName : string) {
     }
 }
 
+
 /**
  * Defines a config method for a ng module
  * @param inject
@@ -198,14 +218,5 @@ export class AngularMetaKeys {
     static Directive : string = 'Directive';
     static Service : string = 'Service';
     static Constant : string = 'Constant';
-}
-
-/**
- * Modsule Decorator Options
- */
-export class ModuleOptions {
-    services : Array<Function> = [];
-    controller : Array<Function> = [];
-    modules : Array<string> = [];
-    directives : Array<Function> = [];
+    static Filter : string = "Filter";
 }

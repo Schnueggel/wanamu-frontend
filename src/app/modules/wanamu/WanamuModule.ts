@@ -10,6 +10,7 @@ import { DateTimePickerModule } from '../datetimepicker/datetimepicker';
 import { DialogsModule } from '../dialogs/dialogs';
 import { BaseModule } from '../../wanamu/wanamu';
 import { Module, Config } from '../../decorators/decorators';
+import { lpad } from '../../filter/Lpad';
 
 @Module('wanamu',
     {
@@ -25,9 +26,7 @@ import { Module, Config } from '../../decorators/decorators';
             TodosModule.mname,
             MenuModule.mname,
             DialogsModule.name],
-        services : [],
-        controller : [],
-        directives: []
+        filter : [{ lpad }],
     }
 )
 export class WanamuModule extends BaseModule {
