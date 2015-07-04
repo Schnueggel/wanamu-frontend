@@ -1,4 +1,15 @@
 {
+    "weekdays": {
+        "short": {
+            "mo": "Mo",
+            "tu": "Di",
+            "we": "Mi",
+            "th": "Do",
+            "fr": "Fr",
+            "sa": "Sa",
+            "so": "So"
+        }
+    },
     "imprint": "Impressum",
     "about": "Über uns",
     "security": "Datenschutz",

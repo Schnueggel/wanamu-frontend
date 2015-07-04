@@ -55,28 +55,41 @@
         <!-- Editor Setting Chips -->
 
         <md-list-item class="editor">
-            <md-toolbar class="option-chips md-accent" layout="row">
-               <div class="md-toolbar-tools chips">
-                   <div class="chip" ng-if="Todo.todo.repeatWeekly.length > 0">
-                       <div class="chip-content">
+            <div class="option-chips md-accent chips" layout="row" layout="wrap" layout-wrap layout-margin>
+                   <div class="chip" ng-if="Todo.todo.repeatWeekly.length > 0" layout="row">
+                       <div class="chip-content" flex="100">
                            <md-icon class="material-icons" md-font-library="material-icons">&#xE040;</md-icon>
-                           Weekly: {{Todo.todo.repeatWeekly.join(' ')}}
+                           W:
+                            <span ng-repeat="weekday in Todo.todo.repeatWeekly">
+                               {{::'weekdays.short.' + weekday | translate }}
+                           </span>
                        </div>
-                       <md-button class="md-primary md-raised" ng-click="Todo.todo.repeatWeekly=[]">
+                       <md-button class="md-primary md-raised" ng-click="Todo.todo.repeatWeekly=[]" flex="10">
                            <md-icon class="material-icons" md-font-library="material-icons">&#xE5CD;</md-icon>
                        </md-button>
                    </div>
-                   <div class="chip" ng-if="Todo.todo.alarm">
-                       <div class="chip-content">
+                   <div class="chip" ng-if="Todo.todo.repeatMonthly.length > 0" layout="row">
+                       <div class="chip-content" flex="100">
+                           <md-icon class="material-icons" md-font-library="material-icons">&#xE040;</md-icon>
+                           M:
+                           <span ng-repeat="day in Todo.todo.repeatMonthly">
+                               {{::day | lpad : 2}}
+                           </span>
+                       </div>
+                       <md-button class="md-primary md-raised" ng-click="Todo.todo.repeatMonthly=[]" flex="10">
+                           <md-icon class="material-icons" md-font-library="material-icons">&#xE5CD;</md-icon>
+                       </md-button>
+                   </div>
+                   <div class="chip" ng-if="Todo.todo.alarm" layout="row">
+                       <div class="chip-content" flex="100">
                            <md-icon class="material-icons" md-font-library="material-icons">&#xE191;</md-icon>
                            <span>{{ Todo.todo.alarmDate | date: 'yy-MM-dd HH:mm' }}</span>
                        </div>
-                       <md-button class="md-primary md-raised" ng-click="Todo.todo.alarm=[]">
+                       <md-button class="md-primary md-raised" ng-click="Todo.todo.alarm=[]" flex="10">
                            <md-icon class="material-icons" md-font-library="material-icons">&#xE5CD;</md-icon>
                        </md-button>
                    </div>
                </div>
-            </md-toolbar>
         </md-list-item>
     </div>
 </div>
