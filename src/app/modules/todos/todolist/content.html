@@ -1,5 +1,12 @@
 <div class="todolist">
-    <md-list class="todolist">
+    <div layout="column" ng-if="!TodoList.hasVisibleTodos()" layout-align="center center">
+        <h2 flex="100" class="md-display-3">No Todos found</h2>
+        <md-button class="md-raised md-primary" ng-click="TodoList.addNewTodo()">
+            <md-icon alt="Add Icon" md-font-library="material-icons">&#xE89C;</md-icon>
+            Add new Todo
+        </md-button>
+    </div>
+    <md-list class="todolist" ng-if="TodoList.list.Todos.length">
        <wu-todo-item ng-repeat="todo in TodoList.list.Todos"
                      todo="todo"
                      setting="TodoList.user.Setting"

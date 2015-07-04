@@ -47,6 +47,29 @@ export class TodoListController extends BaseController {
     }
 
     /**
+     * @viewhelper
+     * @returns {boolean}
+     */
+    hasVisibleTodos () {
+        let hastodo = false;
+        if (this.list && this.list.Todos.length > 0 ) {
+            _.forEach(this.list.Todos, ( v : wu.model.ITodo) => {
+                if (_.isUndefined(v.deletedAt) || _.isNull(v.deletedAt)){
+                    hastodo = true;
+                    return false;
+                }
+            });
+        }
+        return hastodo;
+    }
+    /**
+     * Adds a new todo to the todolist
+     * @viewhelper
+     */
+    addNewTodo() {
+        this.wuTodosService.addNewTodo();
+    }
+    /**
      * Returns the current edited todo id
      * @returns {number}
      */
