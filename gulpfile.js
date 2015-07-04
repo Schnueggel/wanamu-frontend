@@ -62,7 +62,7 @@ var webpackConfig = {
     module: {
         noParse: [
             /[\/\\]angular\.js$/,
-            /[\/\\]angular-ui-router\.js$/,
+            /[\/\\]ui-router\.js$/,
             /[\/\\]angular-translate\.js$/,
             /[\/\\]angular-animate\.js$/,
             /[\/\\]angular-il18n\.js$/,
@@ -70,6 +70,8 @@ var webpackConfig = {
             /[\/\\]angular-touch\.js$/,
             /[\/\\]hotkeys\.js$/,
             /[\/\\]moment\.js/,
+            /[\/\\]jquery\.js/,
+            /[\/\\]spectrum\.js/,
             /lodash/,
             /webpack/,
             /\.html$/

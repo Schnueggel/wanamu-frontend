@@ -132,7 +132,6 @@ export function Module (name : string, data? : wu.decorators.IModuleOptions) {
         Reflect.defineMetadata(AngularMetaKeys.ModuleDirective, data.directives || [], target);
         Reflect.defineMetadata(AngularMetaKeys.Modules, data.modules || [], target);
         Reflect.defineMetadata(AngularMetaKeys.Filter, data.filter || [], target);
-        console.log(data);
         //We immediatly create module on its definition. Which means when require('module') is called we come here and create the module
         Registry.bootstrap(target, name);
         return target;
