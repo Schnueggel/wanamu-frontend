@@ -51,7 +51,7 @@ export class TodoDataSource extends BaseDataSource implements wu.datasource.ITod
 
         let httpPromise : ng.IHttpPromise<wu.datasource.ITodoResponseData>;
 
-        if (todo.id) {
+        if (_.isNumber(todo.id) && todo.id > 0) {
             httpPromise = this.$http.put(this.constants.apiurl + '/todo/' + todo.id, data );
         } else {
             httpPromise = this.$http.post(this.constants.apiurl + '/todo', data);
@@ -114,8 +114,6 @@ export class TodoDataSource extends BaseDataSource implements wu.datasource.ITod
         }
         todo.fromJSON(data.data[0]);
         todo.dirty = false;
-        this.authService.storeUser();
-
         deferred.resolve(todo);
     }
 
