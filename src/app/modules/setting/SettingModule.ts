@@ -3,7 +3,7 @@ import { SettingController } from './SettingController';
 import { Module, Config } from '../../decorators/decorators';
 import { BaseModule } from '../../wanamu/BaseModule';
 
-@Module('profile', {
+@Module('setting', {
     controller: [SettingController],
     services: [SettingService],
     modules: ['panel'],
