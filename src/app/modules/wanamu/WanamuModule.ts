@@ -2,9 +2,11 @@ import { PanelModule } from '../panel/PanelModule';
 import { CustomMaterialModule } from '../custommaterial/CustomMaterialModule';
 import { AuthModule } from '../auth/AuthModule';
 import { ProfileModule } from '../profile/ProfileModule';
+import { SettingModule } from '../setting/SettingModule';
 import { RegistrationModule } from '../registration/RegistrationModule';
 import { MenuModule } from '../menu/MenuModule';
 import { DataSourceModule } from '../datasources/DataSourceModule';
+import { ColorpickerModule } from '../colorpicker/ColorpickerModule';
 import { TodosModule } from '../todos/TodosModule';
 import { DateTimePickerModule } from '../datetimepicker/datetimepicker';
 import { DialogsModule } from '../dialogs/dialogs';
@@ -20,7 +22,9 @@ import { lpad } from '../../filter/Lpad';
             DataSourceModule.mname,
             CustomMaterialModule.mname,
             PanelModule.mname,
+            ColorpickerModule.mname,
             ProfileModule.mname,
+            SettingModule.mname,
             RegistrationModule.mname,
             AuthModule.mname,
             TodosModule.mname,
