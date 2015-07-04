@@ -315,6 +315,7 @@ md-list.menu {
             margin: 2rem auto auto auto;
             .md-button, input {
                 font-size: $fontsize-subtitle;
+                line-height: $fontsize-subtitle;
             }
         }
     }
@@ -376,4 +377,19 @@ md-list.menu {
 
 md-content > form {
     min-width: 25rem;
+}
+
+/* Spectrum colorpicker */
+
+.sp-container {
+    background-color: white;
+    border: none;
+    .sp-picker-container {
+        width: 500px;
+        height: 500px;
+    }
+    .sp-initial span {
+        width: 60px;
+        height: 50px;
+    }
 }
