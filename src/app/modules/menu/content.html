@@ -1,24 +1,31 @@
-<div class="menu">
-    <md-button class="md-raised font-size-2" wu-is-auth ui-sref="panel.view.todos">
+<md-list class="menu">
+    <md-list-item ng-click="Menu.goTo('panel.view.todos')">
         Todos
-    </md-button>
-
-    <md-button class="md-raised font-size-2">
+    </md-list-item>
+    <md-list-item ng-click="Menu.goTo('panel.view.todos')">
         Imprint
-    </md-button>
-    <md-button class="md-raised font-size-2">
+    </md-list-item>
+    <md-list-item ng-click="Menu.goTo('panel.view.todos')">
         About
-    </md-button>
-    <md-button class="md-raised font-size-2">
+    </md-list-item>
+    <md-list-item ng-click="Menu.goTo('panel.view.todos')">
         Help
-    </md-button>
-    <md-button class="md-raised font-size-2" wu-is-auth ui-sref="panel.view.logout">
+    </md-list-item>
+    <md-list-item wu-is-auth ng-click="Menu.goTo('panel.view.settings')">
+            <span>
+                <md-icon md-font-library="material-icons">
+                    &#xE8B8;
+                </md-icon>
+            Settings
+            </span>
+    </md-list-item>
+    <md-list-item wu-is-auth ng-click="Menu.goTo('panel.view.logout')">
         Logout
-    </md-button>
-    <md-button class="md-raised font-size-2" wu-is-auth="false" ui-sref="panel.view.login">
+    </md-list-item>
+    <md-list-item wu-is-auth="false" ng-click="Menu.goTo('panel.view.login')">
         Login
-    </md-button>
-    <md-button class="md-raised font-size-2" wu-is-auth="false" ui-sref="panel.view.registration">
+    </md-list-item>
+    <md-list-item wu-is-auth="false" ng-click="Menu.goTo('panel.view.registration')">
         Registration
-    </md-button>
-</div>
+    </md-list-item>
+</md-list>

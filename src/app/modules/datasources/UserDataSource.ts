@@ -33,7 +33,7 @@ export class UserDataSource extends BaseDataSource implements wu.datasource.IUse
         var promise = deferred.promise;
 
         this.$http.get(this.constants.apiurl +'/user/' + id, { withCredentials: true })
-            .success(function (data: any, status: number) {
+            .success( (data: any, status: number) => {
 
                 if (!UserDataSource.isValidUserData(data)) {
                     deferred.reject(new InvalidResponseDataError());
@@ -59,7 +59,7 @@ export class UserDataSource extends BaseDataSource implements wu.datasource.IUse
 
         this.$http.post(this.constants.loginurl, {
             username: username, password: password
-        }).success(function (data: any, status: number) {
+        }).success( (data: any, status: number) => {
             if (!UserDataSource.isValidUserData(data)) {
                 deferred.reject({
                     name: 'Unkown', message: 'Invalid data received from server'
@@ -68,7 +68,7 @@ export class UserDataSource extends BaseDataSource implements wu.datasource.IUse
                 let user = new User(data.data[0]);
                 deferred.resolve(user);
             }
-        }).error(function (data : wu.datasource.IUserResponseData, status: number) {
+        }).error( (data : wu.datasource.IUserResponseData, status: number) => {
             deferred.reject(this.getDefaultResponseErrors(data, status));
         });
 
@@ -91,7 +91,7 @@ export class UserDataSource extends BaseDataSource implements wu.datasource.IUse
         }
 
         this.$http.put(this.constants.apiurl + '/user/' + user.id, { data: user.toJSON()})
-            .success(function (data: wu.datasource.IUserResponseData, status: number) {
+            .success( (data: wu.datasource.IUserResponseData, status: number) => {
             if (!UserDataSource.isValidUserData(data)) {
                 deferred.reject({
                     name: 'Unkown', message: 'Invalid data received from server'
@@ -100,7 +100,7 @@ export class UserDataSource extends BaseDataSource implements wu.datasource.IUse
                 user.fromJSON(data.data[0]);
                 deferred.resolve(user);
             }
-        }).error(function (data : wu.datasource.IUserResponseData, status: number) {
+        }).error( (data : wu.datasource.IUserResponseData, status: number) => {
             deferred.reject(this.getDefaultResponseErrors(data, status));
         });
 

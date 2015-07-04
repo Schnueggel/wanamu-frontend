@@ -289,8 +289,21 @@ md-icon {
     background-color: transparent;
 }
 
+md-list.menu {
+    & > * {
+        flex: 1 1 0;
+    }
+    .md-button {
+        font-size: $fontsize-subtitle;
+        min-height: 4rem;
+    }
+    .md-list-item-inner {
+        justify-content: center;
+    }
+}
+
 .panel {
-    content, .components {
+    .components {
         height: 100%;
         width: 100%;
     }
@@ -303,14 +316,6 @@ md-icon {
             .md-button, input {
                 font-size: $fontsize-subtitle;
             }
-        }
-    }
-    .menu {
-        align-self: flex-start;
-        margin: 0 auto;
-        max-width: $menu-maxwidth;
-        .md-button {
-            width: 99%;
         }
     }
     .todolist {

@@ -30,6 +30,6 @@
         <wu-login login-success-callback="Panel.panelService.loginSuccessCallback" ng-if="Panel.panelService.isLoginOpen" ui-view="dlogin"></wu-login>
     </div>
     <!-- Content -->
-    <content ui-view ng-show="!Panel.isComponentOpen()"></content>
+    <md-content ui-view ng-show="!Panel.isComponentOpen()" layout="column" layout-fill></md-content>
 </md-content>
 <footer ui-view="footer" layout="row" flex></footer>
