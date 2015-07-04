@@ -83,12 +83,6 @@ export class TodosService extends BaseService implements wu.todos.ITodosService 
     syncTodo (todo : wu.model.ITodo) : ng.IPromise<wanamu.model.ITodo> {
         let promise = this.todoDataSource.sync(todo);
 
-        promise.then (() => {
-            this.panelService.showSimpleToast('Todo Saved');
-        }).catch((err: wu.errors.BaseError ) => {
-            this.panelService.showSimpleErrorToast(err.message);
-        });
-
         return promise;
     }
 }

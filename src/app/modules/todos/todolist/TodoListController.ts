@@ -35,7 +35,6 @@ export class TodoListController extends BaseController {
 
         $scope.$watch( this.editedTodoId, ( newvalue : number ) => {
             if (_.isNumber(newvalue)) {
-                console.log('Go Todo id ' + newvalue);
                 let id : string;
                 if (newvalue < 0) {
                     id = 'n' + Math.abs(newvalue);
@@ -59,7 +58,6 @@ export class TodoListController extends BaseController {
      * Load todolist
      */
     loadTodoList () : void {
-        console.log('Load TodoList');
 
         let promise = this.auth.queryCurrentUser();
 

@@ -2,8 +2,10 @@ import _ = require('lodash');
 import { Todo } from '../../../models/Todo';
 import { InjectC } from '../../../decorators/decorators';
 import { BaseController } from '../../../wanamu/wanamu';
+import { AuthError } from '../../../errors/errors';
 import { DateTimePickerOptions } from '../../datetimepicker/datetimepicker/datetimepickeroptions';
 import { RepeatDirectiveOptions } from '../../repeatpicker/RepeatDirectiveOptions';
+let Rx = require('rx');
 /**
  * This Controller manages a single TodoDirective
  * @alias Todo
@@ -158,7 +160,10 @@ export class TodoController extends BaseController {
             return null;
         } else {
             this.isSyncing = true;
-            this.wuTodosService.deleteTodo(this.todo).finally( () => this.isSyncing = false);
+            let final = () => this.isSyncing = false;
+            this.wuTodosService
+                .deleteTodo(this.todo)
+                .finally( final );
         }
     }
     /**
@@ -168,11 +173,37 @@ export class TodoController extends BaseController {
     syncTodo () : void {
         if (this.isSyncing) {
             this.panelService.showSimpleErrorToast('Please wait Item is syncing with the server');
-            return null;
-        }
-        else {
+        } else {
             this.isSyncing = true;
-            this.wuTodosService.syncTodo(this.todo).finally( () => this.isSyncing = false);
+
+            let observable = Rx.Observable.fromPromise( this.wuTodosService.syncTodo(this.todo) );
+
+            observable.subscribe(
+                () => {},
+                this.onSyncError.bind(this),
+                this.onSyncTodoSuccess.bind(this)
+            );
         }
+    }
+
+    /**
+     * Helper for syncTodo
+     * @param err
+     */
+    private onSyncError(err : wu.errors.BaseError) {
+        this.isSyncing = false;
+        if (err instanceof AuthError) {
+            this.panelService.showLogin().then( () => {
+                this.syncTodo();
+            });
+        }
+    }
+
+    /**
+     * Helper for syncTodo
+     */
+    private onSyncTodoSuccess () {
+        this.panelService.showSimpleToast('Todo successful synchronized');
+        this.isSyncing = false
     }
 }
