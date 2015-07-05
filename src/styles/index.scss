@@ -28,7 +28,7 @@ $default-fontsize: 1.4rem;
 $fontsize-title: 2.8rem;
 $fontsize-subtitle: 2rem;
 $font-icon-size: 47px;
-$menu-maxwidth: 700px;
+$menu-maxwidth: 900px;
 $todo-lineheight: 3rem;
 $header-height: 3rem;
 
@@ -194,6 +194,9 @@ md-icon {
 .wu-ok {
     color: $color-ok;
 }
+.wu-message {
+    text-align: center;
+}
 
 .animate-ng-show.ng-hide-remove {
     -webkit-transform-origin: top;
@@ -284,6 +287,9 @@ md-icon {
 
 .logo {
     margin: 2rem auto;
+    left: 50%;
+    position: relative;
+    transform: translateX(-50%);
 }
 .colors {
     background-color: transparent;
@@ -308,15 +314,14 @@ md-list.menu {
         width: 100%;
     }
     .login {
-        .form-container{
-            text-align: left;
-            max-width: $menu-maxwidth;
-            min-width: 300px;
-            margin: 2rem auto auto auto;
-            .md-button, input {
-                font-size: $fontsize-subtitle;
-                line-height: $fontsize-subtitle;
-            }
+        text-align: left;
+        max-width: $menu-maxwidth;
+        min-width: 300px;
+        margin: 2rem auto auto auto;
+        width: 90%;
+        .md-button, input {
+            font-size: $fontsize-subtitle;
+            line-height: $fontsize-subtitle;
         }
     }
     .todolist {

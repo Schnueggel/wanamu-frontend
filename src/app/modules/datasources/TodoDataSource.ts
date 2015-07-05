@@ -5,7 +5,7 @@ import _  = require('lodash');
 import { BaseDataSource } from './BaseDataSource';
 import { Todo } from '../../models/models';
 import { Service, InjectC } from '../../decorators/decorators';
-import { InvalidResponseDataError, AuthError, ServerError, InvalidArgumentError } from '../../errors/errors';
+import { InvalidResponseDataError, UnauthorizedError, ServerError, InvalidArgumentError } from '../../errors/errors';
 
 @Service('todoDataSource')
 @InjectC('$http', '$q', '$log', 'wuAuthService')

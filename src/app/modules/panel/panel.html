@@ -1,5 +1,5 @@
 <header ui-view="header"></header>
-<md-content class="panel" layout-padding flex md-scroll-y>
+<md-content class="panel" layout-padding flex md-scroll-y layout-fill>
     <div class="components" ng-show="Panel.panelService.isComponentOpen">
         <!---DateTimePicker --->
         <div ng-show="Panel.isDateTimePickerOpen()">
@@ -27,9 +27,9 @@
                 </md-button>
             </div>
         </div>
-        <!-- Login -->
+        <!--Login-->
         <wu-login login-success-callback="Panel.panelService.loginSuccessCallback" ng-if="Panel.panelService.isLoginOpen" ui-view="dlogin"></wu-login>
-        <!-- Colorpicker -->
+        <!--Colorpicker-->
         <div ng-show="Panel.panelService.isColorPickerOpen">{{Panel.panelService.color}}
             <wu-colorpicker color-opts="Panel.panelService.colorOpts" sp-color="Panel.panelService.color"></wu-colorpicker>
             <div class="md-actions" layout="row">
@@ -45,6 +45,6 @@
     </div>
 
     <!-- Content -->
-    <md-content ui-view ng-show="!Panel.isComponentOpen()" layout="column" layout-fill></md-content>
+    <div ui-view ng-show="!Panel.isComponentOpen()" layout="column" layout-fill></div>
 </md-content>
 <footer ui-view="footer" layout="row" flex></footer>

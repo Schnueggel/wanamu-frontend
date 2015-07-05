@@ -1,38 +1,38 @@
-<div layout="row" flex>
-    <img class="logo" src="/images/Wanamu.svg">
+<div class="wu-message md-warn" ng-if="Login.confirmation" layout-padding layout-align="cetner center">
+    <span flex>Please confirm your Account by following the link in the confirmation email</span>
+    <md-button class="md-raised" ng-click="Login.resendConfirmation()">Resend Confirmation</md-button>
 </div>
-<section class="login">
-    <div class="form-container">
-        <form name="Login.loginform" role="form" ng-submit="Login.login()" novalidate autocomplete="off">
-            <div ng-messages="Login.form.error">
-                <div ng-message="error" class="error">{{Login.form.error.message}}</div>
+<div class="login">
+    <img class="logo" src="/images/Wanamu.svg">
+
+    <form name="Login.loginform" role="form" ng-submit="Login.login()" novalidate autocomplete="off">
+        <div ng-messages="Login.form.error">
+            <div ng-message="error" class="error">{{Login.form.error.message}}</div>
+        </div>
+        <md-input-container md-no-float>
+            <label>{{'login.email' | translate}}</label>
+            <input type="text" name="username"
+                   ng-pattern="Login.pattern"
+                   ng-model="Login.form.username"
+                   required>
+            <div ng-messages="Login.loginform.username.$error"
+                 ng-show="Login.loginform.$submitted && Login.loginform.username.$invalid && Login.loginform.username.$untouched"
+                >
+                <div ng-message="required" class="error">{{'validation.messages.fieldNotEmpty' | translate}}</div>
+                <div ng-message="pattern" class="error">Please enter a valid email</div>
             </div>
-            <md-input-container md-no-float>
-                <input type="text" name="username" placeholder="{{'login.email' | translate}}"
-                       ng-pattern="Login.pattern"
-                       ng-model="Login.form.username"
-                       ng-required="true"
-                       autocomplete="off">
-                <div ng-messages="loginform.username.$error"
-                     ng-show="loginform.$submitted && loginform.username.$invalid && loginform.username.$untouched"
-                    >
-                    <div ng-message="required" class="error">{{'validation.messages.fieldNotEmpty' | translate}}</div>
-                    <div ng-message="pattern" class="error">Please enter a valid email</div>
-                </div>
-            </md-input-container>
-            <md-input-container md-no-float>
-                <input type="password" name="password" value=""
-                       placeholder="{{'login.password' | translate}}"
-                       ng-model="Login.form.password" ng-required="true">
-                <div ng-messages="loginform.password.$error"
-                     ng-show="loginform.$submitted && loginform.password.$invalid && loginform.password.$untouched">
-                    <div ng-message="required" class="error">{{'validation.messages.fieldNotEmpty' | translate}}</div>
-                </div>
-            </md-input-container>
-            <div class="md-actions" layout="column">
-                <md-button class="md-primary md-raised" type="submit" ng-class="{disabled: Login.loading}" ng-click="Login.login()">{{'login.login' | translate}}</md-button>
-                <md-button class="md-primary md-raised"  type="button" ui-sref="panel.view.registration">{{'login.register' | translate}}</md-button>
+        </md-input-container>
+        <md-input-container md-no-float>
+            <label>{{'login.password' | translate}}</label>
+            <input type="password" name="password" ng-model="Login.form.password" required>
+            <div ng-messages="Login.loginform.password.$error"
+                 ng-show="Login.loginform.$submitted && Login.loginform.password.$invalid && Login.loginform.password.$untouched">
+                <div ng-message="required" class="error">{{'validation.messages.fieldNotEmpty' | translate}}</div>
             </div>
-        </form>
-    </div>
-</section>
+        </md-input-container>
+        <div class="md-actions" layout="column">
+            <md-button class="md-primary md-raised" type="submit" ng-class="{disabled: Login.loading}" ng-click="Login.login()">{{'login.login' | translate}}</md-button>
+            <md-button class="md-primary md-raised"  type="button" ui-sref="panel.view.registration">{{'login.register' | translate}}</md-button>
+        </div>
+    </form>
+</div>

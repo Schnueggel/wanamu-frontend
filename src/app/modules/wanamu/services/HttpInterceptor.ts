@@ -1,5 +1,6 @@
 import { Service, InjectC } from '../../../decorators/decorators';
 import { BaseService } from '../../../wanamu/wanamu';
+
 /**
  * This Module create a Service named auth and a directive named tdIsAuth
  * @param {Object} ngModule
@@ -23,29 +24,29 @@ export class HttpInterceptor extends BaseService {
      request = (config: angular.IRequestConfig) => {
         // do something on success
         return config;
-     }
+     };
 
     // optional method
     requestError = (rejection : any) => {
         return this.$q.reject(rejection);
-    }
+    };
 
 
     // optional method
     response = (response : any) => {
         // do something on success
         return response;
-    }
+    };
 
     // optional method
     responseError = (rejection: any) : angular.IPromise<any> =>  {
-        if (rejection.status === 401 || rejection.status === 403 ) {
-            let authService = this.$injector.get('wuAuthService');
-            let $state = this.$injector.get('$state');
+        if (rejection.status === 424) {
+            let $state : ng.ui.IStateService = this.$injector.get('$state');
 
-            authService.logout();
             if ($state.current.name !== 'panel.view.login'){
-                $state.go('panel.view.login');
+                var params : wu.auth.ILoginStateParams = {};
+                params.confirmation = true;
+                $state.go('panel.view.login', params);
             }
         }
         return this.$q.reject(rejection);

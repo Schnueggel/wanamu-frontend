@@ -24,5 +24,13 @@ declare module wanamu {
         interface IAuthScope extends ng.IScope {
             auth : wu.auth.IAuthService
         }
+
+        interface ILoginStateParams extends ng.ui.IStateParamsService {
+            confirmation? : boolean
+        }
+
+        interface ILoginStateService extends ng.ui.IStateService {
+            params : ILoginStateParams
+        }
     }
 }

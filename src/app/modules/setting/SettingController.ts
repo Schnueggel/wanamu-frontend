@@ -1,6 +1,6 @@
 import { BaseController } from '../../wanamu/wanamu';
 import { InjectC, Controller } from '../../decorators/decorators';
-import { AuthError } from '../../errors/errors';
+import { UnauthorizedError } from '../../errors/errors';
 var rx = require('rx');
 import _ = require('lodash');
 
@@ -81,7 +81,7 @@ export class SettingController extends BaseController {
      * @param err
      */
     private onSaveError(err:Error) {
-        if (err instanceof AuthError) {
+        if (err instanceof UnauthorizedError) {
             this.loginAndSave();
         } else {
             this.panelService.showSimpleErrorToast(err.message);

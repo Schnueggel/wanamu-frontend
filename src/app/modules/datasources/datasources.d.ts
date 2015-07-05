@@ -51,10 +51,15 @@ declare module wanamu {
         }
 
         interface IProfileDataSource {
-            sync( profile : model.IProfile ) : ng.IPromise<model.IProfile>
+            sync( profile : model.IProfile ) : ng.IPromise<model.IProfile>;
         }
         interface ISettingDataSource {
-            sync( setting : model.ISetting ) : ng.IPromise<model.ISetting>
+            sync( setting : model.ISetting ) : ng.IPromise<model.ISetting>;
+        }
+
+        interface IRegistrationDataSource {
+            confirmRegistration (hash : string ): ng.IPromise<model.IUser>;
+            resendConfirmation ( username: string, password: string ): ng.IPromise<any>;
         }
 
         interface IError {
@@ -98,6 +103,13 @@ declare module wanamu {
 
         interface ITodoRequestData {
             data : Array<ITodoData>;
+        }
+
+        interface IConfirmRequestData {
+            data : {
+                email : string,
+                password: string
+            };
         }
 
         interface IUserResponseData extends IResponseData{

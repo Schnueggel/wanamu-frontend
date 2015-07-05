@@ -1,7 +1,7 @@
 import { UserDataSource } from '../datasources/datasources';
 import { User } from '../../models/User';
 import _ = require('lodash');
-import { AuthError, AccessError, UnkownError } from '../../errors/errors';
+import { UnauthorizedError, AccessError, UnkownError } from '../../errors/errors';
 import { Service, InjectC } from '../../decorators/decorators';
 import { BaseService } from '../../wanamu/wanamu';
 
@@ -191,7 +191,7 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
         });
 
         upromise.catch( (err : Error) =>{ console.log(err);
-            if (err instanceof AuthError || err instanceof AccessError) {
+            if (err instanceof UnauthorizedError || err instanceof AccessError) {
                 console.log('Open Login');
                 let lpromise =  this.panelService.showLogin();
                 lpromise.then( (user: User) => this.resolveUser(user) );

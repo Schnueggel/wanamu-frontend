@@ -1,6 +1,6 @@
 import { BaseController } from '../../wanamu/wanamu';
 import { InjectC, Controller } from '../../decorators/decorators';
-import { AuthError } from '../../errors/errors';
+import { UnauthorizedError } from '../../errors/errors';
 
 import _ = require('lodash');
 
@@ -67,7 +67,7 @@ export class ProfileController extends BaseController {
         });
 
         ppromise.catch( ( err : wu.errors.BaseError ) => {
-            if ( err instanceof AuthError ) {
+            if ( err instanceof UnauthorizedError ) {
                let loginpromise = this.panelService.showLogin();
                 loginpromise.then( (user : wu.model.IUser) => {
                     this.user = user;

@@ -3,7 +3,7 @@
  */
 import _  = require('lodash');
 import { User } from '../../models/User';
-import { InvalidResponseDataError, AuthError, ServerError, TimeoutError,
+import { InvalidResponseDataError, UnauthorizedError, ServerError, TimeoutError,
     UnkownError, AccessError, CustomError, InvalidArgumentError } from '../../errors/errors';
 import { TodoListDataSource } from './TodoListDataSource';
 import { SettingDataSource } from './SettingDataSource';

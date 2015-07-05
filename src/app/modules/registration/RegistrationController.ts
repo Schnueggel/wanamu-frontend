@@ -1,6 +1,6 @@
 import { BaseController } from '../../wanamu/wanamu';
 import { InjectC, Controller } from '../../decorators/decorators';
-import { AuthError } from '../../errors/errors';
+import { UnauthorizedError } from '../../errors/errors';
 import { Salutations, User, Profile } from '../../models/models';
 var Rx = require('rx');
 import _ = require('lodash');
@@ -113,7 +113,7 @@ export class RegistrationController extends BaseController {
      * @param err
      */
     private onSaveError(err : wu.errors.BaseError){ console.log('save error');
-        if (err instanceof AuthError){
+        if (err instanceof UnauthorizedError){
             this.panelService.showLogin(). then( () => this.save() );
         } else {
             this.panelService.showSimpleErrorToast(err.message);

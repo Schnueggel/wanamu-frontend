@@ -2,7 +2,7 @@ import _ = require('lodash');
 import { Todo } from '../../../models/Todo';
 import { InjectC } from '../../../decorators/decorators';
 import { BaseController } from '../../../wanamu/wanamu';
-import { AuthError } from '../../../errors/errors';
+import { UnauthorizedError } from '../../../errors/errors';
 import { DateTimePickerOptions } from '../../datetimepicker/datetimepicker/datetimepickeroptions';
 import { RepeatDirectiveOptions } from '../../repeatpicker/RepeatDirectiveOptions';
 let Rx = require('rx');
@@ -192,7 +192,7 @@ export class TodoController extends BaseController {
      */
     private onSyncError(err : wu.errors.BaseError) {
         this.isSyncing = false;
-        if (err instanceof AuthError) {
+        if (err instanceof UnauthorizedError) {
             this.panelService.showLogin().then( () => {
                 this.syncTodo();
             });
