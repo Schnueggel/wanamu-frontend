@@ -85,6 +85,7 @@ textarea:-webkit-autofill,
 input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 1000px white inset;
 }
+
 footer {
     text-align: center;
     a {
@@ -97,6 +98,9 @@ footer {
     margin-left:auto;
     margin-right:auto;
 }
+header {
+    min-height: 64px;
+}
 
 .font-size-2{
     font-size: $fontsize-subtitle;
@@ -107,9 +111,7 @@ footer {
     color: #ff6227;
     font-size: 0.8rem;
 }
-header {
-    min-height: 64px;
-}
+
 /**
     Material Overwrites
 **/
@@ -147,12 +149,9 @@ header {
 a.md-button {
     display: inline-block;
 }
+
 .md-icon-button {
     padding: 0;
-}
-md-dialog {
-    max-height: 90%;
-    max-width: 1200px;
 }
 
 md-select {
@@ -194,9 +193,30 @@ md-icon {
 .wu-ok {
     color: $color-ok;
 }
+
 .wu-message {
     text-align: center;
 }
+
+.wu-syncicon {
+    -moz-animation: color-change 3s ease 1;
+    -o-animation: color-change 3s ease 1;
+    -ms-animation: color-change 3s ease 1;
+    animation: color-change 3s ease 1;
+    &.active {
+        -moz-animation: color-change 3s ease infinite;
+        -o-animation: color-change 3s ease infinite;
+        -ms-animation: color-change 3s ease infinite;
+        animation: color-change 3s ease infinite;
+    }
+}
+
+@include keyframes(color-change) {
+    0% { color: initial; }
+    50% { color: white; }
+    100% { color: initial; }
+}
+
 
 .animate-ng-show.ng-hide-remove {
     -webkit-transform-origin: top;
@@ -238,6 +258,7 @@ md-icon {
         transform: scaleY(1);
     }
 }
+
 .chips {
     & >  .chip:first-child {}
     .chip {

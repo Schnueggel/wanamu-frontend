@@ -3,26 +3,31 @@ import { InjectC } from '../../../decorators/decorators';
 import { Controller } from '../../../decorators/decorators';
 /**
  * Controls the Header Toolbar
+ * @alias Header
  */
-@InjectC('$rootScope', '$scope', '$state')
+@InjectC('$rootScope', '$scope', '$state', 'panelService')
 @Controller('HeaderController')
 export class HeaderController {
     public menuopen : boolean ;
     public laststate : String = 'panel.view.todos';
     public hideHeaderLogo : boolean;
     public off : Function;
-
+    public syncpool : any[];
     /**
      *
      * @param $rootScope
      * @param $scope
      * @param $state
+     * @param panelService
      */
     constructor(
-        public $rootScope : angular.IRootScopeService,
-        public $scope : angular.IScope,
-        public $state : any
+        public $rootScope : ng.IRootScopeService,
+        public $scope : ng.IScope,
+        public $state : ng.ui.IStateService,
+        public panelService : wu.module.panel.IPanelService
     ) {
+
+        this.syncpool = panelService.syncpool;
         // ==========================================================================
         // If client come to the menu with a deeplink we mark the menu as open
         // ==========================================================================

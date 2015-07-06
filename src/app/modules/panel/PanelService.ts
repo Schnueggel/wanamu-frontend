@@ -3,6 +3,7 @@ import { Service, InjectC } from '../../decorators/decorators';
 import { BaseService } from '../../wanamu/wanamu';
 import { RepeatDirectiveOptions } from '../repeatpicker/RepeatDirectiveOptions';
 var Rx = require('rx');
+var _ = require('lodash');
 
 /**
  * Service to Control the global datepicker and repeatpicker element
@@ -10,14 +11,14 @@ var Rx = require('rx');
  * @namespace panel
  */
 @Service('panelService')
-@InjectC('$q', '$mdToast')
+@InjectC('$q', '$mdToast', '$timeout')
 export class PanelService extends BaseService implements wu.module.panel.IPanelService {
 
     private _isDateTimePickerOpen : boolean = false;
     private _isRepeatPickerOpen : boolean = false;
     private _isLoginOpen : boolean = false;
     private _isColorPickerOpen : boolean = false;
-    private _isComponentOpen : boolean = false;
+    private _isComponentOpen;
 
     private dtpdefer : ng.IDeferred<Date> = null;
     private repeatdefer : ng.IDeferred<RepeatDirectiveOptions> = null;
@@ -27,13 +28,24 @@ export class PanelService extends BaseService implements wu.module.panel.IPanelS
     public repeatopts : RepeatDirectiveOptions;
     public dtpopts : DateTimePickerOptions;
     public loginSuccessCallback : wu.auth.ILoginSuccessCallback;
+
     public colorOpts : wu.colorpicker.IColorpickerOpts = {
         color: ''
     };
 
     public color : string;
 
-    constructor(private $q : angular.IQService, private $mdToast : ng.material.MDToastService) {
+    public isSyncing : boolean = false;
+    public syncpool : any[] = [];
+
+    /**
+     *
+     * @param $q
+     * @param $mdToast
+     */
+    constructor(private $q : angular.IQService,
+                private $mdToast : ng.material.MDToastService,
+                private $timeout : ng.ITimeoutService) {
         super();
     }
 
@@ -307,13 +319,43 @@ export class PanelService extends BaseService implements wu.module.panel.IPanelS
         this.isColorPickerOpen = false;
     }
 
-
+    /**
+     * Checks if at least one component is open
+     * @returns {boolean}
+     */
     public get isComponentOpen(): boolean {
+        // =============================================================================================
+        // We use the setter so angular can watch changes on this property
+        // =============================================================================================
         this.isComponentOpen = this.isDateTimePickerOpen || this.isRepeatPickerOpen || this.isLoginOpen || this.isColorPickerOpen;
         return this._isComponentOpen;
     }
-
-    public set isComponentOpen(value:boolean) {
+    /**
+     * Checks if at least one component is open
+     * @returns {boolean}
+     */
+    public set isComponentOpen(value : boolean) {
         this._isComponentOpen = value;
+    }
+    /**
+     * Add any item to the sync pool as long as if the one item in the pool the application is in the syncing mode
+     * @param item
+     */
+    public addToSyncPool(item: any) {
+        this.syncpool.push(item);
+        this.isSyncing = this.syncpool.length > 0;
+    }
+
+    /**
+     * Remove item from syncpool
+     * @param item
+     */
+    public removeFromSyncPool(item : any) {
+        _.pull(this.syncpool, item);
+        this.isSyncing = this.syncpool.length > 0;
+        // =============================================================================================
+        // We trigger a scope apply with $timeout to publish the changes of syncing
+        // =============================================================================================
+        this.$timeout(()=>{});
     }
 }

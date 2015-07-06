@@ -17,6 +17,14 @@ export class TodoController extends BaseController {
     public static currentInEdit : TodoController = null;
 
     private edit : boolean = false;
+    /**
+     * Delay in millisencds
+     * @type {number}
+     */
+    private syncDelay : number = 5000;
+    private syncDelaySubccription : Rx.IDisposable;
+    private waitForSync: boolean = false;
+
     public todo : Todo;
     public editcolors : boolean;
     public colors : wu.model.IColor;
@@ -74,7 +82,6 @@ export class TodoController extends BaseController {
     };
 
 
-
     /**
      * Set the edit mode of this Directive and cancels the editmode of other directives
      * @param edit
@@ -104,16 +111,36 @@ export class TodoController extends BaseController {
         inopts.weekly = this.todo.repeatWeekly;
         inopts.repeat = this.todo.repeat;
 
+        /**
+         * We remove the add button
+         * @type {boolean}
+         */
         this.wuTodosHeaderService.showAddTodoButton = false;
+
+        this.stopDelayedSyncing();
 
         this.panelService
             .showRepeatPicker(inopts)
-            .then((opts : RepeatDirectiveOptions ) => this.onRepeatDialogSuccess(opts) )
-            .finally(()=>{
+            .then( ( opts : RepeatDirectiveOptions ) => this.onRepeatDialogSuccess(opts) )
+            .finally( ()=> {
+                this.startDelayedSyncing();
                 this.wuTodosHeaderService.showAddTodoButton = true;
             });
     }
+    /**
+     * Finish the Todo
+     */
+    finish () {
+        this.todo.finished = true;
+    }
 
+    /**
+     * Restores the Todo
+     */
+    restore () {
+        this.todo.finished = false;
+        this.todo.deletedAt = null;
+    }
     /**
      * TODO support for montly and yearly
      * @callback
@@ -136,6 +163,8 @@ export class TodoController extends BaseController {
 
         this.wuTodosHeaderService.showAddTodoButton = false;
 
+        this.stopDelayedSyncing();
+
         this.panelService
             .showDateTimePicker(opts)
             .then((alarm : Date) => {
@@ -144,19 +173,17 @@ export class TodoController extends BaseController {
             })
             .finally(()=>{
                 this.wuTodosHeaderService.showAddTodoButton = true;
+                this.startDelayedSyncing();
             });
     }
 
-    isShowDone(): boolean {
-        return this.isInEditMode() && this.todo.title.length > 0;
-    }
     /**
      * Deletes this todo
      * @returns {any}
      */
     deleteTodo(): void {
         if (this.isSyncing) {
-            this.panelService.showSimpleErrorToast('Please wait Item is syncing with the server');
+
             return null;
         } else {
             this.isSyncing = true;
@@ -166,17 +193,43 @@ export class TodoController extends BaseController {
                 .finally( final );
         }
     }
+
+    /**
+     * Starts the syncing proccess with a delay. If an old syncing process exist that is not completed yet
+     * it will cancel this process
+     */
+    startDelayedSyncing() {
+        const observable : Rx.IObservable = Rx.Observable.timer(this.syncDelay);
+
+        this.stopDelayedSyncing();
+
+        this.syncDelaySubccription = observable.subscribeOnCompleted( this.syncTodo.bind(this) );
+    }
+
+    /**
+     * Stops syncing process while its  in the preparation phase
+     */
+    stopDelayedSyncing() {
+        if (this.syncDelaySubccription) {
+            this.syncDelaySubccription.dispose();
+        }
+    }
+
     /**
      *
      * @returns {IPromise<TResult>}
      */
     syncTodo () : void {
         if (this.isSyncing) {
-            this.panelService.showSimpleErrorToast('Please wait Item is syncing with the server');
+            this.waitForSync = true;
         } else {
             this.isSyncing = true;
 
-            let observable = Rx.Observable.fromPromise( this.wuTodosService.syncTodo(this.todo) );
+            const observable = Rx.Observable
+                .defer( () =>this.wuTodosService.syncTodo(this.todo) )
+                .delay(2000);
+
+            this.panelService.addToSyncPool(this.todo);
 
             observable.subscribe(
                 () => {},
@@ -192,10 +245,19 @@ export class TodoController extends BaseController {
      */
     private onSyncError(err : wu.errors.BaseError) {
         this.isSyncing = false;
+        this.panelService.removeFromSyncPool(this.todo);
+
         if (err instanceof UnauthorizedError) {
+            this.waitForSync = false;
             this.panelService.showLogin().then( () => {
                 this.syncTodo();
             });
+        } else {
+            this.panelService.showSimpleErrorToast(err.message);
+        }
+
+        if (this.waitForSync) {
+            this.syncTodo();
         }
     }
 
@@ -203,7 +265,10 @@ export class TodoController extends BaseController {
      * Helper for syncTodo
      */
     private onSyncTodoSuccess () {
-        this.panelService.showSimpleToast('Todo successful synchronized');
-        this.isSyncing = false
+        this.isSyncing = false;
+        this.panelService.removeFromSyncPool(this.todo);
+        if (this.waitForSync) {
+            this.syncTodo();
+        }
     }
 }
