@@ -13,6 +13,7 @@ export class Todo extends BaseModel implements wu.model.ITodo {
     private _repeat : boolean = false;
     private _order : number = 1;
     private _color : string = null;
+    private _finished : boolean = false;
     private _deletedAt : string = null;
     private _updatedOnClient : string;
     private _createdOnClient : string;
@@ -44,6 +45,7 @@ export class Todo extends BaseModel implements wu.model.ITodo {
         this._repeatMonthly = data.repeatMonthly || [];
         this._repeatYearly =  data.repeatYearly || [];
         this._color = data.color;
+        this._finished = data.finished === true;
         this._order = _.isNumber(data.order) ? data.order : this._order;
         this._deletedAt = data.deletedAt;
 
@@ -184,6 +186,16 @@ export class Todo extends BaseModel implements wu.model.ITodo {
 
     public set createdOnClient(value: string) {
         this._createdOnClient = value;
+    }
+
+    @Dirty
+    @Json
+    public get finished():boolean {
+        return this._finished;
+    }
+
+    public set finished(value:boolean) {
+        this._finished = value;
     }
 
     public get alarmDate():Date {

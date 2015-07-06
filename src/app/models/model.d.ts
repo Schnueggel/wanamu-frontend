@@ -20,6 +20,7 @@ declare module wanamu {
             description : string;
             order : number;
             repeat : boolean;
+            finished : boolean;
             deletedAt : string;
             color : string;
             createdOnClient: string,

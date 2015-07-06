@@ -84,7 +84,7 @@ export class RegistrationController extends BaseController {
      * Checks if the form is valid
      * @returns {boolean}
      */
-    public isFormValid() :boolean {
+    public isFormValid() : boolean {
 
         let uform = this.registrationform;
         if ( uform.password.$dirty && uform.password.$viewValue !== uform.passwordrepeat.$viewValue ) {

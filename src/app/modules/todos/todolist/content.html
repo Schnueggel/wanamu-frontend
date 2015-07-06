@@ -11,7 +11,7 @@
                      todo="todo"
                      setting="TodoList.user.Setting"
                      class="todo"
-                     ng-if="!todo.deletedAt">
+                     ng-if="TodoList.shouldBeVisible(todo)">
        </wu-todo-item>
     </md-list>
 </div>

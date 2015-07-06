@@ -15,6 +15,8 @@ export class TodoListController extends BaseController {
     public user: wu.model.IUser;
     public currentTodoListId : number = null;
     public currentTodoId : number = null;
+    public showFinished : boolean = false;
+    public showDeleted : boolean = false;
 
     /**
      *
@@ -91,5 +93,22 @@ export class TodoListController extends BaseController {
             console.log(this.list);
         });
         promise.catch(() => this.$state.go('panel.view.login'));
+    }
+
+    /**
+     *
+     * @param todo
+     * @returns {boolean}
+     */
+    shouldBeVisible(todo: wu.model.ITodo) : boolean {
+        if ( this.showFinished ) {
+            return todo.finished;
+        }
+
+        if ( this.showDeleted ) {
+            return _.isString(todo.deletedAt) && todo.deletedAt.length > 0;
+        }
+
+        return !todo.finished && !_.isString(todo.deletedAt);
     }
 }
