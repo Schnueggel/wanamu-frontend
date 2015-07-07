@@ -1,3 +1,4 @@
+
 /* Main Styles */
 @font-face {
     font-family: 'robotomedium';
@@ -15,6 +16,7 @@
     font-style: normal;
 }
 
+
 $color1: #4990E2;
 $color2: #868686;
 $color3: #D8D8D8;
@@ -25,6 +27,7 @@ $color-form-input: #212121;
 $shadow1:  0px 2px 5px rgba(0, 0, 0, 0.26);
 
 $default-fontsize: 1.4rem;
+$default-lineheight: 2rem;
 $fontsize-title: 2.8rem;
 $fontsize-subtitle: 2rem;
 $font-icon-size: 47px;
@@ -42,6 +45,13 @@ $text-color1: #ffffff;
         @content;
     }
 }
+
+// =============================================================================================
+// Imports
+// =============================================================================================
+@import 'components/sidebar';
+@import 'components/todo';
+@import 'components/todolist';
 
 html {
     font-size:22px;
@@ -138,12 +148,22 @@ header {
     /* Support for IE. */
     font-feature-settings: 'liga';
 }
+
+// =============================================================================================
+// BUTTONS
+// =============================================================================================
 .md-button {
     min-width: 2rem;
     min-height: $font-icon-size;
     font-size: $default-fontsize;
+    line-height: $default-lineheight;
     padding-top: 0.2rem;
     padding-bottom: 0.2rem;
+}
+
+.md-actions .md-button {
+    font-size: $default-fontsize+1;
+    line-height: $default-lineheight+1;
 }
 
 a.md-button {
@@ -154,9 +174,16 @@ a.md-button {
     padding: 0;
 }
 
+// =============================================================================================
+// MD Select
+// =============================================================================================
 md-select {
     padding-bottom: 0;
 }
+
+// =============================================================================================
+// MD Switch
+// =============================================================================================
 md-switch {
     .md-container {
         width: 52px;
@@ -199,14 +226,8 @@ md-icon {
 }
 
 .wu-syncicon {
-    -moz-animation: color-change 3s ease 1;
-    -o-animation: color-change 3s ease 1;
-    -ms-animation: color-change 3s ease 1;
     animation: color-change 3s ease 1;
     &.active {
-        -moz-animation: color-change 3s ease infinite;
-        -o-animation: color-change 3s ease infinite;
-        -ms-animation: color-change 3s ease infinite;
         animation: color-change 3s ease infinite;
     }
 }
@@ -316,19 +337,6 @@ md-icon {
     background-color: transparent;
 }
 
-md-list.menu {
-    & > * {
-        flex: 1 1 0;
-    }
-    .md-button {
-        font-size: $fontsize-subtitle;
-        min-height: 4rem;
-    }
-    .md-list-item-inner {
-        justify-content: center;
-    }
-}
-
 .panel {
     .components {
         height: 100%;
@@ -343,60 +351,6 @@ md-list.menu {
         .md-button, input {
             font-size: $fontsize-subtitle;
             line-height: $fontsize-subtitle;
-        }
-    }
-    .todolist {
-        max-width: 700px;
-        margin: 0 auto;
-        align-self: flex-start;
-
-        .toolbar {
-
-        }
-        .todo {
-            height: 4rem;
-            width: 100%;
-            cursor: pointer;
-            margin: 4px 0;
-            display: table;
-            box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.16);
-            .todo-container {
-                width: 100%;
-                display: table;
-                .color-stripe {
-                    display: table-cell;
-                    width: 3%;
-                    min-width:1em;
-                    background-color: $color1;
-                }
-                .todo-content {
-                    width: 97%;
-                    box-sizing: border-box;
-                    display: table-cell;
-                }
-                md-list-item {
-                    padding-left: 0;
-                }
-                .editor {
-                    text-align: left;
-                    .colors {
-                        box-shadow: 0px 2px 5px 0 rgba(0,0,0,0.16);
-                        opacity: 0.9;
-                        color: white;
-                    }
-                }
-                md-input-container {
-                    input, textarea {
-                        line-height: $fontsize-title;
-                        font-size: $fontsize-title;
-                        width: 100%;
-                        border: none;
-                    }
-                    text-align: left;
-                    padding: 1rem 2px;
-                    flex: 1 1 0;
-                }
-            }
         }
     }
 }

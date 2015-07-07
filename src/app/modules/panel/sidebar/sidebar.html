@@ -1,0 +1,53 @@
+<header>
+    <img class="wanamuicon" src="images/wanamu%20flower.svg">
+    <h1 class="heading md-heading">Wanamu</h1>
+</header>
+
+<md-list class="menu wu-hover md-accent">
+    <md-list-item ng-click="Sidebar.goTo('panel.view.todos')" ui-sref="panel.view.todos" ui-sref-active="active">
+         <span>
+            <md-icon md-font-library="material-icons">
+                filter_vintage
+            </md-icon>
+         Todos
+        </span>
+    </md-list-item>
+    <md-list-item wu-is-auth ng-click="Sidebar.goTo('panel.view.profile')">
+        <span>
+            <md-icon md-font-library="material-icons">
+                face
+            </md-icon>
+         Profile
+        </span>
+    </md-list-item>
+    <md-list-item wu-is-auth ng-click="Sidebar.goTo('panel.view.setting')">
+        <span>
+            <md-icon md-font-library="material-icons">
+                &#xE8B8;
+            </md-icon>
+        Settings
+        </span>
+    </md-list-item>
+    <md-list-item wu-is-auth ng-click="Sidebar.goTo('panel.view.logout')">
+        <span>
+            <md-icon md-font-library="material-icons">
+                adjust
+            </md-icon>
+        Logout
+        </span>
+    </md-list-item>
+    <md-list-item wu-is-auth="false" ng-click="Sidebar.goTo('panel.view.login')">
+        Login
+    </md-list-item>
+    <md-list-item wu-is-auth="false" ng-click="Sidebar.goTo('panel.view.registration')">
+        Registration
+    </md-list-item>
+    <md-list-item ng-click="Sidebar.goTo('panel.view.todos')">
+         <span>
+            <md-icon md-font-library="material-icons">
+                help
+            </md-icon>
+         Help
+        </span>
+    </md-list-item>
+</md-list>

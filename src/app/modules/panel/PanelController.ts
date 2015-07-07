@@ -6,11 +6,12 @@ import { PanelService } from './PanelService';
  * @alias Panel
  */
 @Controller('PanelController')
-@InjectC('panelService')
+@InjectC('$templateCache', 'panelService')
 export class PanelController  extends  BaseController {
 
-    constructor(public panelService : PanelService) {
+    constructor(public $templateCache : ng.ITemplateCacheService, public panelService : PanelService) {
         super();
+        $templateCache.put('sidebar/sidebar.html', require('./sidebar/sidebar.html'));
     }
 
     public rejectRepeatPicker() {

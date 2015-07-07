@@ -1,9 +1,9 @@
-import { BaseController } from '../../wanamu/wanamu';
-import { Controller, InjectC } from '../../decorators/decorators';
+import { BaseController } from '../../../wanamu/wanamu';
+import { Controller, InjectC } from '../../../decorators/decorators';
 
-@Controller('MenuController')
+@Controller('SidebarController')
 @InjectC('$state')
-export class MenuController extends BaseController {
+export class SidebarController extends BaseController {
 
     constructor(public $state : ng.ui.IStateService) {
         super();

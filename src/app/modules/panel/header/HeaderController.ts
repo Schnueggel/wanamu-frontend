@@ -1,11 +1,13 @@
 import { AuthService } from '../../auth/AuthService';
 import { InjectC } from '../../../decorators/decorators';
 import { Controller } from '../../../decorators/decorators';
+import  _ = require('lodash');
+
 /**
  * Controls the Header Toolbar
  * @alias Header
  */
-@InjectC('$rootScope', '$scope', '$state', 'panelService')
+@InjectC('$rootScope', '$scope', '$state', '$mdSidenav', 'panelService')
 @Controller('HeaderController')
 export class HeaderController {
     public menuopen : boolean ;
@@ -13,17 +15,20 @@ export class HeaderController {
     public hideHeaderLogo : boolean;
     public off : Function;
     public syncpool : any[];
+
     /**
      *
      * @param $rootScope
      * @param $scope
      * @param $state
+     * @param $mdSidenav
      * @param panelService
      */
     constructor(
         public $rootScope : ng.IRootScopeService,
         public $scope : ng.IScope,
         public $state : ng.ui.IStateService,
+        public $mdSidenav : ng.material.MDSidenavService,
         public panelService : wu.module.panel.IPanelService
     ) {
 
@@ -71,5 +76,21 @@ export class HeaderController {
      */
     onDestroy = () => {
         this.off();
+    };
+
+    /**
+     * Opens the sidebar
+     * @viewhelper
+     */
+    public openSidenav() {
+        this.$mdSidenav('left').open();
+    }
+
+    /**
+     * Get the current pagename if set
+     * @returns {any}
+     */
+    public pageName() : string {
+        return _.get(this.$state.current, 'data.pagename', '');
     }
 }

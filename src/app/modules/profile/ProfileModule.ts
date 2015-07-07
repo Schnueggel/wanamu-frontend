@@ -24,6 +24,9 @@ export class ProfileModule extends BaseModule {
                         controller: 'ProfileController as Profile',
                         template: require('./profile.html')
                     }
+                },
+                data : {
+                    pagename : 'Profile'
                 }
             });
     }

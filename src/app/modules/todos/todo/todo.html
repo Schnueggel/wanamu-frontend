@@ -5,7 +5,7 @@
         <!-- The Input Field -->
 
         <md-list-item>
-            <md-input-container class="title" ng-click="Todo.editTodo(true)" md-no-float>
+            <md-input-container class="title" ng-click="Todo.editTodo(true)" md-no-float="true">
                 <label>Type your Text here</label>
                 <textarea type="text" ng-model="Todo.todo.title" columns="1" rows="1" name="title"
                           ng-model-options="{ debounce: 2000 }"

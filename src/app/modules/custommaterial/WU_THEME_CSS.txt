@@ -1082,10 +1082,18 @@ md-tooltip.md-THEME_NAME-theme .md-background {
 .wu-fg.md-THEME_NAME-theme.md-primary {  color: '{{primary-color}}'; }
 .wu-fg.md-THEME_NAME-theme.md-accent {  color: '{{accent-color}}'; }
 .wu-fg.md-THEME_NAME-theme.md-warn {  color: '{{warn-color}}'; }
+
 .wu-bg.md-THEME_NAME-theme.md-primary {  background-color: '{{primary-color}}'; color: '{{primary-contrast}}'; fill: '{{primary-color}}';  }
 .wu-bg.md-THEME_NAME-theme.md-accent {  background-color: '{{accent-color}}'; fill: '{{accent-color}}'; }
 .wu-bg.md-THEME_NAME-theme.md-warn {  background-color: '{{warn-color}}'; }
 .wu-message.md-THEME_NAME-theme.md-warn {
      background-color: '{{warn-color}}';
      color: '{{warn-contrast}}';
+}
+
+md-list.wu-hover.md-THEME_NAME-theme.md-primary md-list-item:hover {
+    color: '{{primary-color}}';
+}
+md-list.wu-hover.md-THEME_NAME-theme.md-accent md-list-item:hover {
+    color: '{{accent-contrast}}';
 }

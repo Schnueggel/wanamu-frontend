@@ -18,7 +18,7 @@ export class PanelService extends BaseService implements wu.module.panel.IPanelS
     private _isRepeatPickerOpen : boolean = false;
     private _isLoginOpen : boolean = false;
     private _isColorPickerOpen : boolean = false;
-    private _isComponentOpen;
+    private _isComponentOpen : boolean = false;
 
     private dtpdefer : ng.IDeferred<Date> = null;
     private repeatdefer : ng.IDeferred<RepeatDirectiveOptions> = null;

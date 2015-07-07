@@ -4,7 +4,6 @@ import { AuthModule } from '../auth/AuthModule';
 import { ProfileModule } from '../profile/ProfileModule';
 import { SettingModule } from '../setting/SettingModule';
 import { RegistrationModule } from '../registration/RegistrationModule';
-import { MenuModule } from '../menu/MenuModule';
 import { DataSourceModule } from '../datasources/DataSourceModule';
 import { ColorpickerModule } from '../colorpicker/ColorpickerModule';
 import { ConfirmationModule } from '../confirmation/ConfirmationModule';
@@ -30,7 +29,6 @@ import { lpad } from '../../filter/Lpad';
             RegistrationModule.mname,
             AuthModule.mname,
             TodosModule.mname,
-            MenuModule.mname,
             DialogsModule.name],
         filter : [{ lpad }],
     }

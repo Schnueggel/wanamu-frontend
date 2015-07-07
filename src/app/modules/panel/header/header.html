@@ -1,27 +1,14 @@
-<md-toolbar class="md-whiteframe-z1 header md-accent">
-    <div class="md-toolbar-tools">
-         <md-button ng-if="!Header.menuopen" class="md-primary" ui-sref="panel.view.menu" ng-class="{open: Header.menuopen}">
-             <md-icon alt="Menu Icon" md-font-library="material-icons">&#xE5D2;</md-icon>
-         </md-button>
-        <md-button class="md-primary md-raised" ui-sref="{{Header.laststate}}" ng-class="{open: Header.menuopen}"  ng-if="Header.menuopen">
-            <md-icon alt="Menu Icon" md-font-library="material-icons">&#xE5CB;</md-icon>
-        </md-button>
-        <!-- Sync Icon -->
-        <md-button class="md-primary" ng-disabled="!Header.panelService.syncpool.length" md-no-ink>
-            <md-icon alt="Sync Icon" class="wu-syncicon md-primary" md-font-library="material-icons"
-                     ng-class="{active: Header.panelService.syncpool.length >  0}">backup</md-icon>
-        </md-button>
-
-        <span flex></span>
-        <!-- Custom Buttons -->
-        <div ui-view="headertoolbar"></div>
-
-        <!-- Profile Button -->
-        <md-button class="md-primary"  ui-sref="panel.view.profile">
-            <md-icon md-font-library="material-icons" ng-if="!Header.user.image">
-                &#xE87C;
-            </md-icon>
-            <img ng-src="{{Header.user.settings.face}}" ng-if="Header.user.image" class="md-avatar" alt="{{Header.user.firstname}}" />
-        </md-button>
-    </div>
-</md-toolbar>
+<div class="md-toolbar-tools">
+     <md-button hide-gt-sm class="md-primary" ng-click="Header.openSidenav()">
+         <md-icon alt="Menu Icon" md-font-library="material-icons">&#xE5D2;</md-icon>
+     </md-button>
+    <h2 class="">{{Header.pageName()}}</h2>
+    <span flex></span>
+    <!-- Custom Buttons -->
+    <div ui-view="headertoolbar"></div>
+    <!-- Sync Icon -->
+    <md-button class="md-primary" ng-disabled="!Header.panelService.syncpool.length" md-no-ink>
+        <md-icon alt="Sync Icon" class="wu-syncicon md-primary" md-font-library="material-icons"
+                 ng-class="{active: Header.panelService.syncpool.length >  0}">backup</md-icon>
+    </md-button>
+</div>

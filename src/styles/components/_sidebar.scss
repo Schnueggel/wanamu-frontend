@@ -1,0 +1,34 @@
+.md-sidenav-left header {
+    text-align: center;
+    padding: 1rem;
+
+    .wanamuicon {
+        height: 4rem;
+    }
+    .heading {
+        margin-top: 0.2rem;
+    }
+}
+
+md-list.menu {
+    & > * {
+        flex: 1 1 0;
+    }
+    .md-button {
+        font-size: $fontsize-subtitle;
+        min-height: 4rem;
+    }
+    md-list-item:hover{
+        color:rgba(0,0,0,0.54);
+    }
+    md-list-item.active {
+        color:rgba(0,0,0,0.54);
+        background-color: rgba(255, 255, 255, 0.51);
+        .md-button {
+            cursor: default;
+        }
+    }
+    .md-list-item-inner {
+        justify-content: flex-start;
+    }
+}

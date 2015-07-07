@@ -1,0 +1,45 @@
+.todo {
+    height: 4rem;
+    width: 100%;
+    cursor: pointer;
+    margin: 4px 0;
+    display: table;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.16);
+    .todo-container {
+        width: 100%;
+        display: table;
+        .color-stripe {
+            display: table-cell;
+            width: 3%;
+            min-width:1em;
+            background-color: $color1;
+        }
+        .todo-content {
+            width: 97%;
+            box-sizing: border-box;
+            display: table-cell;
+        }
+        md-list-item {
+            padding-left: 0;
+        }
+        .editor {
+            text-align: left;
+            .colors {
+                box-shadow: 0px 2px 5px 0 rgba(0,0,0,0.16);
+                opacity: 0.9;
+                color: white;
+            }
+        }
+        md-input-container {
+            input, textarea {
+                line-height: $fontsize-title;
+                font-size: $fontsize-title;
+                width: 100%;
+                border: none;
+            }
+            text-align: left;
+            padding: 1rem 2px;
+            flex: 1 1 0;
+        }
+    }
+}

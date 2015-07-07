@@ -1,50 +1,55 @@
-<header ui-view="header"></header>
-<md-content class="panel" layout-padding flex md-scroll-y layout-fill>
-    <div class="components" ng-show="Panel.panelService.isComponentOpen">
-        <!---DateTimePicker --->
-        <div ng-show="Panel.isDateTimePickerOpen()">
-            <wu-date-time-picker date="Panel.panelService.dtpopts.date"></wu-date-time-picker>
-            <div class="md-actions" layout="row">
-                <span flex></span>
-                <md-button ng-click="Panel.resolveDateTimePicker()" class="md-primary md-raised" arial-labe="ok">
-                    OK
-                </md-button>
-                <md-button ng-click="Panel.rejectDateTimePicker()" class="md-primary md-raised" arial-label="cancel">
-                    Cancel
-                </md-button>
+<md-sidenav class="md-sidenav-left md-whiteframe-z2 wu-bg md-primary" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')"
+            ng-include="'sidebar/sidebar.html'" ng-controller="SidebarController as Sidebar">
+</md-sidenav>
+<md-content class="panel" flex>
+    <md-toolbar class="md-whiteframe-z1 header md-accent" ui-view="header"></md-toolbar>
+    <md-content md-scroll-y layout-padding layout-margin>
+        <div class="components" ng-show="Panel.panelService.isComponentOpen">
+            <!---DateTimePicker --->
+            <div ng-show="Panel.isDateTimePickerOpen()">
+                <wu-date-time-picker date="Panel.panelService.dtpopts.date"></wu-date-time-picker>
+                <div class="md-actions" layout="row">
+                    <span flex></span>
+                    <md-button ng-click="Panel.resolveDateTimePicker()" class="md-primary md-raised" arial-labe="ok">
+                        OK
+                    </md-button>
+                    <md-button ng-click="Panel.rejectDateTimePicker()" class="md-primary md-raised" arial-label="cancel">
+                        Cancel
+                    </md-button>
+                </div>
+            </div>
+            <!--- RepeatPicker --->
+            <div ng-show="Panel.panelService.isRepeatPickerOpen">
+                <wu-repeat opts="Panel.panelService.repeatopts"></wu-repeat>
+                <div class="md-actions" layout="row">
+                    <span flex></span>
+                    <md-button ng-click="Panel.resolveRepeatPicker()" class="md-primary md-raised" arial-labe="ok">
+                        OK
+                    </md-button>
+                    <md-button ng-click="Panel.rejectRepeatPicker()" class="md-primary md-raised" arial-label="cancel">
+                        Cancel
+                    </md-button>
+                </div>
+            </div>
+            <!--Login-->
+            <wu-login login-success-callback="Panel.panelService.loginSuccessCallback" ng-if="Panel.panelService.isLoginOpen" ui-view="dlogin"></wu-login>
+            <!--Colorpicker-->
+            <div ng-show="Panel.panelService.isColorPickerOpen">{{Panel.panelService.color}}
+                <wu-colorpicker color-opts="Panel.panelService.colorOpts" sp-color="Panel.panelService.color"></wu-colorpicker>
+                <div class="md-actions" layout="row">
+                    <span flex></span>
+                    <md-button ng-click="Panel.resolveColorPicker()" class="md-primary md-raised" arial-labe="ok">
+                        OK
+                    </md-button>
+                    <md-button ng-click="Panel.rejectColorPicker()" class="md-primary md-raised" arial-label="cancel">
+                        Cancel
+                    </md-button>
+                </div>
             </div>
         </div>
-        <!--- RepeatPicker --->
-        <div ng-show="Panel.panelService.isRepeatPickerOpen">
-            <wu-repeat opts="Panel.panelService.repeatopts"></wu-repeat>
-            <div class="md-actions" layout="row">
-                <span flex></span>
-                <md-button ng-click="Panel.resolveRepeatPicker()" class="md-primary md-raised" arial-labe="ok">
-                    OK
-                </md-button>
-                <md-button ng-click="Panel.rejectRepeatPicker()" class="md-primary md-raised" arial-label="cancel">
-                    Cancel
-                </md-button>
-            </div>
-        </div>
-        <!--Login-->
-        <wu-login login-success-callback="Panel.panelService.loginSuccessCallback" ng-if="Panel.panelService.isLoginOpen" ui-view="dlogin"></wu-login>
-        <!--Colorpicker-->
-        <div ng-show="Panel.panelService.isColorPickerOpen">{{Panel.panelService.color}}
-            <wu-colorpicker color-opts="Panel.panelService.colorOpts" sp-color="Panel.panelService.color"></wu-colorpicker>
-            <div class="md-actions" layout="row">
-                <span flex></span>
-                <md-button ng-click="Panel.resolveColorPicker()" class="md-primary md-raised" arial-labe="ok">
-                    OK
-                </md-button>
-                <md-button ng-click="Panel.rejectColorPicker()" class="md-primary md-raised" arial-label="cancel">
-                    Cancel
-                </md-button>
-            </div>
-        </div>
-    </div>
 
-    <!-- Content -->
-    <div ui-view ng-show="!Panel.isComponentOpen()" layout="column" layout-fill></div>
+        <!-- Content -->
+        <div ui-view ng-show="!Panel.isComponentOpen()" layout="column" layout-fill></div>
+    </md-content>
 </md-content>
 <footer ui-view="footer" layout="row" flex></footer>
