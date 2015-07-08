@@ -12,13 +12,14 @@ import { DateTimePickerModule } from '../datetimepicker/datetimepicker';
 import { DialogsModule } from '../dialogs/dialogs';
 import { BaseModule } from '../../wanamu/wanamu';
 import { Module, Config } from '../../decorators/decorators';
+import { CacheService } from './services/CacheService';
 import { lpad } from '../../filter/Lpad';
 
 @Module('wanamu',
     {
         modules : [
             'ui.router', 'ngAnimate', 'ngTouch', 'ngMessages', 'ngMaterial', 'pascalprecht.translate',
-            require('angular-cache'),
+            'angular-cache',
             DataSourceModule.mname,
             CustomMaterialModule.mname,
             PanelModule.mname,
@@ -31,6 +32,7 @@ import { lpad } from '../../filter/Lpad';
             TodosModule.mname,
             DialogsModule.name],
         filter : [{ lpad }],
+        services: [CacheService]
     }
 )
 export class WanamuModule extends BaseModule {
