@@ -6,7 +6,7 @@
     <md-list>
         <md-list-item>
             <wu-switch>
-                <input type="checkbox" id="navswitch" ng-model="Panel.sidenavOpen">
+                <input type="checkbox" id="navswitch" ng-model="Panel.sidenavOpen" ng-change="Panel.collapseSidenav()">
                 <label class="slider" for="navswitch"></label>
             </wu-switch>
         </md-list-item>
