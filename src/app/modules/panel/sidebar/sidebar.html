@@ -4,7 +4,7 @@
 </header>
 
 <md-list class="menu wu-hover md-accent">
-    <md-list-item ng-click="Sidebar.goTo('panel.view.todos')" ui-sref="panel.view.todos" ui-sref-active="active">
+    <md-list-item wu-is-auth ng-click="Sidebar.goTo('panel.view.todos')" ui-sref="panel.view.todos" ui-sref-active="active">
          <span>
             <md-icon md-font-library="material-icons">
                 filter_vintage
@@ -12,15 +12,7 @@
          <span class="text">Todos</span>
         </span>
     </md-list-item>
-    <md-list-item wu-is-auth ng-click="Sidebar.goTo('panel.view.profile')">
-        <span>
-            <md-icon md-font-library="material-icons">
-                face
-            </md-icon>
-        <span class="text">Profile</span>
-        </span>
-    </md-list-item>
-    <md-list-item wu-is-auth ng-click="Sidebar.goTo('panel.view.setting')">
+    <md-list-item wu-is-auth ng-click="Sidebar.goTo('panel.view.setting')" ui-sref="panel.view.setting" ui-sref-active="active">
         <span>
             <md-icon md-font-library="material-icons">
                 &#xE8B8;
@@ -36,7 +28,7 @@
         <span class="text">Logout</span>
         </span>
     </md-list-item>
-    <md-list-item wu-is-auth="false" ng-click="Sidebar.goTo('panel.view.login')">
+    <md-list-item wu-is-auth="false" ng-click="Sidebar.goTo('panel.view.login')" ui-sref="panel.view.login" ui-sref-active="active">
         <span>
             <md-icon md-font-library="material-icons">
                 exit_to_app
@@ -44,7 +36,7 @@
         <span class="text">Login</span>
         </span>
     </md-list-item>
-    <md-list-item wu-is-auth="false" ng-click="Sidebar.goTo('panel.view.registration')">
+    <md-list-item wu-is-auth="false" ng-click="Sidebar.goTo('panel.view.registration')" ui-sref="panel.view.registration" ui-sref-active="active">
         <span>
             <md-icon md-font-library="material-icons">
                 assignment

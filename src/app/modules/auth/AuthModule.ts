@@ -30,6 +30,9 @@ export class AuthModule extends BaseModule {
                         controller: 'LoginController as Login',
                         template: require('./login/login.html')
                     }
+                },
+                data : {
+                    pagename: 'Login'
                 }
             }).state('panel.view.logout', {
                 url: '/logout',
