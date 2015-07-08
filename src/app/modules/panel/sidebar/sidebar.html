@@ -9,7 +9,7 @@
             <md-icon md-font-library="material-icons">
                 filter_vintage
             </md-icon>
-         Todos
+         <span class="text">Todos</span>
         </span>
     </md-list-item>
     <md-list-item wu-is-auth ng-click="Sidebar.goTo('panel.view.profile')">
@@ -17,7 +17,7 @@
             <md-icon md-font-library="material-icons">
                 face
             </md-icon>
-         Profile
+        <span class="text">Profile</span>
         </span>
     </md-list-item>
     <md-list-item wu-is-auth ng-click="Sidebar.goTo('panel.view.setting')">
@@ -25,7 +25,7 @@
             <md-icon md-font-library="material-icons">
                 &#xE8B8;
             </md-icon>
-        Settings
+        <span class="text">Settings</span>
         </span>
     </md-list-item>
     <md-list-item wu-is-auth ng-click="Sidebar.goTo('panel.view.logout')">
@@ -33,21 +33,31 @@
             <md-icon md-font-library="material-icons">
                 adjust
             </md-icon>
-        Logout
+        <span class="text">Logout</span>
         </span>
     </md-list-item>
     <md-list-item wu-is-auth="false" ng-click="Sidebar.goTo('panel.view.login')">
-        Login
+        <span>
+            <md-icon md-font-library="material-icons">
+                exit_to_app
+            </md-icon>
+        <span class="text">Login</span>
+        </span>
     </md-list-item>
     <md-list-item wu-is-auth="false" ng-click="Sidebar.goTo('panel.view.registration')">
-        Registration
+        <span>
+            <md-icon md-font-library="material-icons">
+                assignment
+            </md-icon>
+         <span class="text">Registration</span>
+        </span>
     </md-list-item>
     <md-list-item ng-click="Sidebar.goTo('panel.view.todos')">
          <span>
             <md-icon md-font-library="material-icons">
                 help
             </md-icon>
-         Help
+         <span class="text">Help</span>
         </span>
     </md-list-item>
 </md-list>

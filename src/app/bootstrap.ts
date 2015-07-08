@@ -7,6 +7,7 @@ require('angular-translate/dist/angular-translate-loader-static-files/angular-tr
 require('angular-touch');
 require('angular-material');
 require('angular-animate');
+require('angular-cache');
 require('moment');
 require("../../node_modules/angular-material/angular-material.min.css");
 // Start app

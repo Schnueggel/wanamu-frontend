@@ -1,24 +1,41 @@
-.md-sidenav-left header {
-    text-align: center;
-    padding: 1rem;
-
-    .wanamuicon {
-        height: 4rem;
+.md-sidenav-left {
+    header {
+        text-align: center;
+        padding: 1rem;
+        background-color: rgba(255, 255, 255, 0.2);
+        .wanamuicon {
+            height: 4rem;
+        }
+        .heading {
+            margin-top: 0.2rem;
+        }
     }
-    .heading {
-        margin-top: 0.2rem;
+    &.minimized {
+        overflow-x: hidden;
+        width: 80px;
+        min-width: 80px;
+        .text {
+            display: none;
+        }
+        .heading {
+            visibility: hidden;
+        }
+    }
+    md-switch {
+        transform-origin: 0 0;
+        transform: scale(0.7);
+        margin-bottom:20px;
+        margin-left: 10px;
     }
 }
 
 md-list.menu {
-    & > * {
-        flex: 1 1 0;
-    }
+    padding-top: 0;
     .md-button {
-        font-size: $fontsize-subtitle;
-        min-height: 4rem;
+        font-size: 1.5rem;
+        min-height: 3rem;
     }
-    md-list-item:hover{
+    md-list-item:hover {
         color:rgba(0,0,0,0.54);
     }
     md-list-item.active {

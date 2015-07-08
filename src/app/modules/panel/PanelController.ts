@@ -1,17 +1,23 @@
 import { Controller, InjectC } from '../../decorators/decorators'
 import { BaseController } from '../../wanamu/wanamu';
 import { PanelService } from './PanelService';
+
 /**
  * Controls the Panel
  * @alias Panel
  */
 @Controller('PanelController')
-@InjectC('$templateCache', 'panelService')
+@InjectC('$templateCache', 'panelService', 'wuCacheService')
 export class PanelController  extends  BaseController {
 
-    constructor(public $templateCache : ng.ITemplateCacheService, public panelService : PanelService) {
+
+    public sidenavOpen : boolean = false;
+
+    constructor(public $templateCache : ng.ITemplateCacheService, public panelService : PanelService, public cacheService) {
         super();
         $templateCache.put('sidebar/sidebar.html', require('./sidebar/sidebar.html'));
+        this.sidenavOpen = cacheService.sidenavOpen;
+
     }
 
     public rejectRepeatPicker() {
@@ -61,5 +67,9 @@ export class PanelController  extends  BaseController {
      */
     public isComponentOpen() :boolean {
         return this.panelService.isComponentOpen;
+    }
+
+    public collapseSidenav() {
+        this.cacheService.sidenavOpen = this.sidenavOpen;
     }
 }

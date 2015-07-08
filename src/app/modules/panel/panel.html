@@ -1,5 +1,8 @@
-<md-sidenav class="md-sidenav-left md-whiteframe-z2 wu-bg md-primary" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')"
-            ng-include="'sidebar/sidebar.html'" ng-controller="SidebarController as Sidebar">
+<md-sidenav class="md-sidenav-left md-whiteframe-z2 wu-bg md-primary" md-component-id="left"
+            md-is-locked-open="$mdMedia('gt-sm')" ng-class="{minimized: Panel.sidenavOpen}">
+    <ng-include src="'sidebar/sidebar.html'" ng-controller="SidebarController as Sidebar"></ng-include>
+    <span flex>&nbsp;</span>
+    <md-switch class="md-sidenav-left__toogle" ng-model="Panel.sidenavOpen" ng-change="Panel.collapseSidenav()"></md-switch>
 </md-sidenav>
 <md-content class="panel" flex>
     <md-toolbar class="md-whiteframe-z1 header md-accent" ui-view="header"></md-toolbar>

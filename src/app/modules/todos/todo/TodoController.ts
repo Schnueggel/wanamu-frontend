@@ -183,7 +183,6 @@ export class TodoController extends BaseController {
      */
     deleteTodo(): void {
         if (this.isSyncing) {
-
             return null;
         } else {
             this.isSyncing = true;
@@ -199,7 +198,7 @@ export class TodoController extends BaseController {
      * it will cancel this process
      */
     startDelayedSyncing() {
-        const observable : Rx.IObservable = Rx.Observable.timer(this.syncDelay);
+        const observable : Rx.IObservable<any> = Rx.Observable.timer(this.syncDelay);
 
         this.stopDelayedSyncing();
 
