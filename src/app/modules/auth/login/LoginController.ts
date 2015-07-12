@@ -63,11 +63,14 @@ export class LoginController {
         if (this.loginform.$valid) {
             //Set state loading
             this.loading = true;
-
+            this.panelService.addToSyncPool(this.form);
             let logpromise = this.auth.login( this.form.username, this.form.password );
             logpromise.then( this.onLoginSuccess );
             logpromise.catch( this.onLoginError );
-            logpromise.finally( () => this.loading = false );
+            logpromise.finally( () => {
+                this.loading = false;
+                this.panelService.removeFromSyncPool(this.form);
+            });
         }
     }
 
