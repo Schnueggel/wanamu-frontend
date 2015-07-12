@@ -20,9 +20,9 @@
         </md-list-item>
     </md-list>
 </md-sidenav>
-<md-content class="panel" flex>
+<md-content class="panel" flex layout="column">
     <md-toolbar class="md-whiteframe-z1 header md-accent" ui-view="header"></md-toolbar>
-    <md-content md-scroll-y layout-padding layout-margin>
+    <md-content md-scroll-y layout-padding flex layout="column">
         <div class="components" ng-show="Panel.panelService.isComponentOpen">
             <!---DateTimePicker --->
             <div ng-show="Panel.isDateTimePickerOpen()">
@@ -68,7 +68,7 @@
         </div>
 
         <!-- Content -->
-        <div ui-view ng-show="!Panel.isComponentOpen()" layout="column" layout-fill></div>
+        <div ui-view ng-show="!Panel.isComponentOpen()" layout="column" layout-fill flex></div>
     </md-content>
 </md-content>
 <footer ui-view="footer" layout="row" flex></footer>

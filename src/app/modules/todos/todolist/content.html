@@ -1,12 +1,15 @@
-<div class="todolist">
-    <div layout="column" ng-if="!TodoList.hasVisibleTodos()" layout-align="center center">
+<div class="todolist" layout-fill flex layout="column" layout-align="start center">
+    <div flex layout="column" layout-align="center center" ng-if="TodoList.isLoadingTodos">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <div layout="column" ng-if="TodoList.showNoTodosInfo()" layout-align="center center">
         <h2 flex="100" class="md-display-3">No Todos found</h2>
         <md-button class="md-raised md-primary" ng-click="TodoList.addNewTodo()">
             <md-icon alt="Add Icon" md-font-library="material-icons">&#xE89C;</md-icon>
             Add new Todo
         </md-button>
     </div>
-    <md-list class="todolist" ng-if="TodoList.list.Todos.length">
+    <md-list class="todolist" ng-if="TodoList.showTodoList()" layout="column" layout-align="start">
        <wu-todo-item ng-repeat="todo in TodoList.list.Todos"
                      todo="todo"
                      setting="TodoList.user.Setting"
