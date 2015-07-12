@@ -28,7 +28,6 @@ export class IsAuthDirective extends BaseDirective {
      */
     public link = ($scope: wu.auth.IAuthScope, element: JQuery, attributes : any) => {
 
-        console.log(attributes);
         // =============================================================================================
         // if attribute is set to false we change check for auth to negative else positive
         // =============================================================================================
