@@ -8,7 +8,7 @@
             <md-input-container class="title" ng-click="Todo.editTodo(true)" md-no-float="true">
                 <label>Type your Text here</label>
                 <textarea type="text" ng-model="Todo.todo.title" columns="1" rows="1" name="title"
-                          ng-model-options="{ debounce: 2000 }"
+                          ng-model-options="{ debounce: 1000 }"
                           ng-change="Todo.startDelayedSyncing()"
                           aria-label="title">
                 </textarea>
