@@ -50,6 +50,7 @@ export class User extends BaseModel implements wu.model.IUser {
         this.DefaultTodoListId = data.DefaultTodoListId;
         this.Setting = new Setting(data.Setting);
         this._Profile = new Profile(data.Profile);
+
         this.TodoLists = [];
 
         if (_.isArray(data.TodoLists)) {

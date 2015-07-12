@@ -4,7 +4,7 @@ var _ = require('lodash');
 
 @InjectC('CacheFactory')
 @Service('wuCacheService' )
-export class CacheService extends BaseService implements wu.CacheService {
+export class CacheService extends BaseService implements wu.ICacheService {
 
     static APP_CACHE_NAME = 'wanamu';
 

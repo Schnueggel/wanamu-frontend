@@ -46,7 +46,7 @@ declare module wanamu {
         interface ITodoList {
             id : number;
             name : string;
-            Todos : ITodo[];
+            Todos : Array<ITodo>;
             addNewTodo(todo: model.ITodo) : void;
         }
 

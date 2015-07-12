@@ -12,6 +12,7 @@ require('moment');
 require("../../node_modules/angular-material/angular-material.min.css");
 // Start app
 import { WanamuModule }  from './modules/wanamu/WanamuModule';
+
 var wanamu = new WanamuModule();
 
 
