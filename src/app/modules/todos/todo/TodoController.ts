@@ -132,6 +132,7 @@ export class TodoController extends BaseController {
      */
     finish () {
         this.todo.finished = true;
+        this.startDelayedSyncing();
     }
 
     /**
@@ -200,6 +201,8 @@ export class TodoController extends BaseController {
     startDelayedSyncing() {
         const observable : Rx.IObservable<any> = Rx.Observable.timer(this.syncDelay);
 
+        this.panelService.addToSyncPool(this.todo);
+
         this.stopDelayedSyncing();
 
         this.syncDelaySubccription = observable.subscribeOnCompleted( this.syncTodo.bind(this) );
@@ -222,13 +225,11 @@ export class TodoController extends BaseController {
         if (this.isSyncing) {
             this.waitForSync = true;
         } else {
+
             this.isSyncing = true;
 
             const observable = Rx.Observable
-                .defer( () =>this.wuTodosService.syncTodo(this.todo) )
-                .delay(2000);
-
-            this.panelService.addToSyncPool(this.todo);
+                .defer( () =>this.wuTodosService.syncTodo(this.todo) );
 
             observable.subscribe(
                 () => {},
@@ -256,6 +257,7 @@ export class TodoController extends BaseController {
         }
 
         if (this.waitForSync) {
+            this.waitForSync = false;
             this.syncTodo();
         }
     }

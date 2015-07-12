@@ -30,8 +30,11 @@
     md-list-item .md-button {
         white-space: nowrap;
     }
-}
 
+    md-list {
+        padding-bottom: 0;
+    }
+}
 md-list.menu {
     padding-top: 0;
     .md-button {
