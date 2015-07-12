@@ -69,7 +69,7 @@ export class TodoListController extends BaseController {
      * @viewhelper
      */
     showTodoList() : boolean {
-        return !this.isLoadingTodos && this.list && this.list.Todos.length;
+        return !this.isLoadingTodos && !_.isUndefined(this.list) && this.list.Todos.length > 0;
     }
     /**
      * Adds a new todo to the todolist
