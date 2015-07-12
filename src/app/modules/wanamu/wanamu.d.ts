@@ -1,7 +1,7 @@
 
 declare module wanamu {
 
-    interface CacheService extends wu.setting.ISettingService {
+    interface ICacheService extends wu.setting.ISettingService {
 
         sidenavOpen : boolean;
 
