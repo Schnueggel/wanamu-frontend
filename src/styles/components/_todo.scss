@@ -5,6 +5,11 @@
     margin: 4px 0;
     display: table;
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.16);
+
+    md-input-container.md-input-has-value label {
+        display: none;
+    }
+
     .todo-container {
         width: 100%;
         display: table;
