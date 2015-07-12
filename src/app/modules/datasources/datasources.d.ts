@@ -102,6 +102,15 @@ declare module wanamu {
             create( user : model.IUser ) : ng.IPromise<model.IUser>;
         }
 
+        interface ITodolistDataSource {
+            getTodolist(id : number) : ng.IPromise<model.ITodoList>;
+        }
+
+
+        interface ITodolistResponseData extends IResponseData{
+            data : Array<ITodoListData>;
+        }
+
         interface ITodoRequestData {
             data : Array<ITodoData>;
         }

@@ -1,13 +1,15 @@
 import { Todo } from '../../../models/Todo';
 import { BaseController } from '../../../wanamu/wanamu';
+import { UnauthorizedError } from '../../../errors/errors';
 import { InjectC, Controller } from '../../../decorators/decorators';
 import _ = require('lodash');
+var Rx = require('rx');
 
 /**
  * @alias TodoList
  */
 @Controller('TodoListController')
-@InjectC('$state', 'wuAuthService', 'wuTodosService', '$scope')
+@InjectC('$state', 'wuAuthService', 'wuTodosService','todolistDataSource', '$scope')
 export class TodoListController extends BaseController {
 
     public list : wu.model.ITodoList;
@@ -17,42 +19,33 @@ export class TodoListController extends BaseController {
     public currentTodoId : number = null;
     public showFinished : boolean = false;
     public showDeleted : boolean = false;
+    public isLoadingTodos : boolean = false;
 
     /**
      *
      * @param $state
      * @param auth
      * @param wuTodosService
+     * @param todolistDataSource
      * @param $scope
      */
     constructor(
         public $state: ng.ui.IStateService,
         public auth : wu.auth.IAuthService,
         public wuTodosService: wu.todos.ITodosService,
+        public todolistDataSource : wu.datasource.ITodolistDataSource,
         public $scope: ng.IScope
     ){
         super();
 
         this.loadTodoList();
-
-        $scope.$watch( this.editedTodoId, ( newvalue : number ) => {
-            if (_.isNumber(newvalue)) {
-                let id : string;
-                if (newvalue < 0) {
-                    id = 'n' + Math.abs(newvalue);
-                } else {
-                    id = newvalue.toString();
-                }
-                this.$state.go('panel.view.todos.edit', {id : id});
-            }
-        });
     }
 
     /**
      * @viewhelper
      * @returns {boolean}
      */
-    hasVisibleTodos () {
+    hasVisibleTodos () : boolean {
         let hastodo = false;
         if (this.list && this.list.Todos.length > 0 ) {
             _.forEach(this.list.Todos, ( v : wu.model.ITodo) => {
@@ -63,6 +56,20 @@ export class TodoListController extends BaseController {
             });
         }
         return hastodo;
+    }
+
+    /**
+     * @viewhelper
+     */
+    showNoTodosInfo() : boolean {
+        return !this.isLoadingTodos && !this.hasVisibleTodos();
+    }
+
+    /**
+     * @viewhelper
+     */
+    showTodoList() : boolean {
+        return !this.isLoadingTodos && this.list && this.list.Todos.length;
     }
     /**
      * Adds a new todo to the todolist
@@ -83,16 +90,45 @@ export class TodoListController extends BaseController {
      * Load todolist
      */
     loadTodoList () : void {
+        if (this.isLoadingTodos) {
+            return;
+        }
+        this.isLoadingTodos = true;
+        let delay = new Date(Date.now()  + 1000);
+        const observable = Rx.Observable.defer( () => this.auth.queryCurrentUser() )
+            .flatMapLatest( (user: wu.model.IUser) => {
+                this.user = user;
+                return Rx.Observable.fromPromise(this.todolistDataSource.getTodolist(user.DefaultTodoListId));
+            })
+            .map( (todolist: wu.model.ITodoList) => {
+                return todolist;
+            })
+            .delay(delay)
+            .map( (todolist: wu.model.ITodoList) => {
+                this.list = todolist;
+                this.$scope.$apply();
+            });
 
-        let promise = this.auth.queryCurrentUser();
+        observable.subscribe(
+            () => {},
+            this.onTodolistLoadError.bind(this),
+            () => {
+                this.isLoadingTodos = false;
+                this.$scope.$apply();
+            }
+        )
+    }
 
-        promise.then((user : wu.model.IUser) => {
-            this.list = user.defaulttodolist;
-            this.setting = user.Setting;
-            this.user = user;
-            console.log(this.list);
-        });
-        promise.catch(() => this.$state.go('panel.view.login'));
+    /**
+     *
+     * @param err
+     */
+    onTodolistLoadError( err : Error) {
+        this.isLoadingTodos = false;
+        if ( err instanceof UnauthorizedError) {
+            this.$state.go('panel.view.login');
+        }
+        this.$scope.$apply();
     }
 
     /**
