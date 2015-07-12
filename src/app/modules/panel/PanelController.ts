@@ -7,13 +7,13 @@ import { PanelService } from './PanelService';
  * @alias Panel
  */
 @Controller('PanelController')
-@InjectC('$templateCache', 'panelService', 'wuCacheService')
+@InjectC('$templateCache', 'panelService', 'wuCacheService', '$state')
 export class PanelController  extends  BaseController {
 
 
     public sidenavOpen : boolean = false;
 
-    constructor(public $templateCache : ng.ITemplateCacheService, public panelService : PanelService, public cacheService) {
+    constructor(public $templateCache : ng.ITemplateCacheService, public panelService : PanelService, public cacheService : wu.ICacheService, public $state : ng.ui.IStateService) {
         super();
         $templateCache.put('sidebar/sidebar.html', require('./sidebar/sidebar.html'));
         this.sidenavOpen = cacheService.sidenavOpen;

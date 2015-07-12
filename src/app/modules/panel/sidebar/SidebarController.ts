@@ -7,14 +7,5 @@ export class SidebarController extends BaseController {
 
     constructor(public $state : ng.ui.IStateService) {
         super();
-
-    }
-
-    /**
-     * @viewhelper
-     * @param route
-     */
-    goTo(route : string) {
-        this.$state.go(route);
     }
 }
