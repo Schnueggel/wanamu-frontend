@@ -24,6 +24,9 @@ export class SettingModule extends BaseModule {
                         controller: 'SettingController as Setting',
                         template: require('./setting.html')
                     }
+                },
+                data : {
+                    pagename: 'Settings'
                 }
             });
     }
