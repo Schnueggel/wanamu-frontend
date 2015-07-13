@@ -92,4 +92,12 @@ export class Profile extends BaseModel implements wu.model.IProfile {
     public set face(value:string) {
         this._face = value;
     }
+
+    /**
+     * REturns firstname plus lastname
+     * @returns {any}
+     */
+    public get name () {
+        return `${this.firstname} ${this.lastname}`;
+    }
 }

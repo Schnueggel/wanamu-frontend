@@ -4,6 +4,7 @@
 </header>
 
 <md-list class="menu wu-hover md-accent">
+    <!-- We add the ui-sref additionally. It has no purpose but makes the ui-sref-active work --->
     <md-list-item wu-is-auth ng-click="Sidebar.$state.go('panel.view.todos')" ui-sref="panel.view.todos" ui-sref-active="active">
          <span>
             <md-icon md-font-library="material-icons">
@@ -18,6 +19,14 @@
                 &#xE8B8;
             </md-icon>
         <span class="text">Settings</span>
+        </span>
+    </md-list-item>
+    <md-list-item wu-is-auth ng-click="Sidebar.$state.go('panel.view.friends')" ui-sref="panel.view.friends" ui-sref-active="active">
+        <span>
+            <md-icon md-font-library="material-icons">
+                &#xE7FB;
+            </md-icon>
+        <span class="text">Friends</span>
         </span>
     </md-list-item>
     <md-list-item wu-is-auth ng-click="Sidebar.$state.go('panel.view.logout')">

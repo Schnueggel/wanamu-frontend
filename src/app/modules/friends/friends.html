@@ -1,0 +1,9 @@
+<md-list class="friends" layout="column" layout-align="center center">
+    <md-list-item ng-repeat="friend in Friends.list"  >
+        <img ng-src="{{::friend.Profile.face}}" class="md-avatar" src="/images/ic_contacts_black_24px.svg" alt="{{::friend.Profile.name}}" />
+        <div class="md-list-item-text">
+            <h3>{{::friend.Profile.name}}</h3>
+            <md-icon alt="Add Friend" md-font-library="material-icons">&#xE89C;</md-icon>
+        </div>
+    </md-list-item>
+</md-list>

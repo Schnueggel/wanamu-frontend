@@ -25,6 +25,9 @@ declare module wanamu {
 
     module datasource {
 
+        /**
+         * Describes the user data that is send from the api
+         */
         interface IUserData {
             id : number;
             email: string;
@@ -32,6 +35,18 @@ declare module wanamu {
             Setting: ISettingData;
             Profile : IProfileData;
             DefaultTodoListId : number;
+        }
+        /**
+         * Describes the friend data that is send from the api
+         */
+        interface IFriendData {
+            id : number;
+            Profile : IProfileData;
+            Friends : IFriendsData;
+        }
+
+        interface IFriendsData {
+            accepted : boolean
         }
 
         interface IProfileData {
@@ -54,6 +69,11 @@ declare module wanamu {
         interface IProfileDataSource {
             sync( profile : model.IProfile ) : ng.IPromise<model.IProfile>;
         }
+
+        interface IFriendDataSource {
+            getFriends( forcereload : boolean) : ng.IPromise<Array<model.IFriend>>;
+        }
+
         interface ISettingDataSource {
             sync( setting : model.ISetting ) : ng.IPromise<model.ISetting>;
         }

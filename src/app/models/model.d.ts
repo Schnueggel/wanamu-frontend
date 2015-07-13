@@ -33,8 +33,18 @@ declare module wanamu {
              * @param data
              */
             fromJSON(data:ITodoData) : void
-
         }
+
+        interface IFriend {
+            id: number;
+            Profile : IProfile;
+            Friends : IFriendsData;
+        }
+
+        interface IFriendsData {
+            accepted : boolean;
+        }
+
         interface IColor {
             color1 : string;
             color2 : string;
