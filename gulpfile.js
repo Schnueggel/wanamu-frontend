@@ -218,7 +218,7 @@ gulp.task('build-typescript', function () {
             experimentalDecorators: true,
             module : 'commonjs',
             target: 'ES5',
-            typescript : require('./libs/typescript')
+            typescript : require('typescript')
         }));
     return tsResult.js.pipe(gulp.dest(tmpAppPath));
 });
