@@ -17,7 +17,7 @@ deploy:
         name: Deploy
         code: |
           git init
-          git branch -b $DEPLOY_BRANCH
+          git checkout -b $DEPLOY_BRANCH
           git remote add $DEPLOY_REPO_URL
           git push $DEPLOY_REMOTE $DEPLOY_BRANCH
   after-steps:
