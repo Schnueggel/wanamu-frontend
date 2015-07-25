@@ -1,28 +1,34 @@
-box: golio/ubuntu:latest
+
 build:
-  steps:
-    - script:
-        name: Dummy
-        code: |
-            echo "Put Tests here?"
+    box: node:0.12.7
+    steps:
+        - script:
+            name: Dummy
+            code: |
+                npm install -g gulp
+                npm i
+                gulp build
+                cp -a . $WERCKER_OUTPUT_DIR
 deploy:
-  steps:
-    - add-ssh-key:
-        keyname: DEPLOY_KEY
-    - script:
-        name: install ssh
-        code: |
-          ssh-agent -s
-    - script:
-        name: Deploy
-        code: |
-          git config --global user.email "wercker@wanamu.com"
-          git config --global user.name "Wercker"
-          echo -e "Host $DEPLOY_HOST\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-          git remote add deploy $DEPLOY_REPO_URL
-          git push deploy HEAD:$DEPLOY_BRANCH --force
-  after-steps:
-    - slack-notifier:
-        url: $SLACK_WEBHOOK_URL
-        channel: wercker-notify
-        username: werckerbot
+    box: golio/ubuntu:latest
+    steps:
+        - add-ssh-key:
+            keyname: DEPLOY_KEY
+        - script:
+            name: install ssh
+            code: |
+              ssh-agent -s
+        - script:
+            name: Deploy
+            code: |
+              git config --global user.email "wercker@wanamu.com"
+              git config --global user.name "Wercker"
+              echo -e "Host $DEPLOY_HOST\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+              git remote add deploy $DEPLOY_REPO_URL
+              git commit --allow-empty -m "Wercker Push"
+              git push deploy HEAD:$DEPLOY_BRANCH --force
+    after-steps:
+        - slack-notifier:
+            url: $SLACK_WEBHOOK_URL
+            channel: wercker-notify
+            username: werckerbot
