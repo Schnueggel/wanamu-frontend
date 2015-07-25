@@ -18,24 +18,57 @@ HTTPAUTH=""
 fi
 
 cat <<EOF > /etc/nginx/nginx.conf
-worker_processes 1;
+worker_processes 2;
 daemon off;
-events { worker_connections 1024; }
+worker_rlimit_nofile 8192;
+events { worker_connections 8000; }
 
 http {
     include mime.types;
+    server_tokens off;
+    charset_types text/xml text/plain text/vnd.wap.wml application/x-javascript application/rss+xml text/css application/javascript application/json;
     sendfile on;
+    default_type  application/octet-stream;
+    tcp_nopush      on;
+    keepalive_timeout 20;
+
     gzip              on;
     gzip_vary         on;
-    gzip_comp_level   6;
-    gzip_http_version 1.1;
+    gzip_comp_level   5;
     gzip_proxied      any;
     gzip_min_length   500;
-    gzip_types        text/plain text/xml text/css
-                      application/javascript
-                      image/svg+xml
-                      application/json
-                      application/x-javascript;
+    gzip_types
+        application/atom+xml
+        application/javascript
+        application/json
+        application/ld+json
+        application/manifest+json
+        application/rdf+xml
+        application/rss+xml
+        application/schema+json
+        application/vnd.geo+json
+        application/vnd.ms-fontobject
+        application/x-font-ttf
+        application/x-javascript
+        application/x-web-app-manifest+json
+        application/xhtml+xml
+        application/xml
+        font/eot
+        font/opentype
+        image/bmp
+        image/svg+xml
+        image/vnd.microsoft.icon
+        image/x-icon
+        text/cache-manifest
+        text/css
+        text/javascript
+        text/plain
+        text/vcard
+        text/vnd.rim.location.xloc
+        text/vtt
+        text/x-component
+        text/x-cross-domain-policy
+        text/xml;
     # Http
     server {
         listen 80;
