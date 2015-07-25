@@ -21,10 +21,11 @@ deploy:
         - script:
             name: Deploy
             code: |
-              ls
+
               git config --global user.email "wercker@wanamu.com"
               git config --global user.name "Wercker"
               echo -e "Host $DEPLOY_HOST\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+              git add .
               git remote add deploy $DEPLOY_REPO_URL
               git commit --allow-empty -m "Wercker Push"
               git push deploy HEAD:$DEPLOY_BRANCH --force

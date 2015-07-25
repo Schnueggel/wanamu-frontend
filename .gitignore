@@ -2,6 +2,4 @@ node_modules
 .idea
 tmp
 .tmp
-playground
 src/server/server/config/json/local.json
-dist
