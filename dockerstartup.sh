@@ -26,7 +26,9 @@ http {
 
     sendfile on;
     gzip              on;
-    gzip_http_version 1.0;
+    gzip_vary         on;
+    gzip_comp_level   6;
+    gzip_http_version 1.1;
     gzip_proxied      any;
     gzip_min_length   500;
     gzip_types        text/plain text/xml text/css
