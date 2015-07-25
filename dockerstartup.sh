@@ -31,6 +31,8 @@ http {
     gzip_min_length   500;
     gzip_types        text/plain text/xml text/css
                       application/javascript
+                      image/svg+xml
+                      application/json
                       application/x-javascript;
     # Http
     server {
