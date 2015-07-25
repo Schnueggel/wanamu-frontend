@@ -1,0 +1,27 @@
+box: golio/ubuntu:latest
+build:
+  steps:
+    - script:
+        name: Dummy
+        code: |
+          docker-compose up -d
+deploy:
+  steps:
+    - add-ssh-key:
+        keyname: DEPLOY_KEY
+    - script:
+        name: install ssh
+        code: |
+          ssh-agent -s
+    - script:
+        name: Deploy
+        code: |
+          git init
+          git -b $DEPLOY_BRANCH
+          git remote add $DEPLOY_REPO_URL
+          git push $DEPLOY_REMOTE $DEPLOY_BRANCH
+  after-steps:
+    - slack-notifier:
+        url: $SLACK_WEBHOOK_URL
+        channel: wercker-notify
+        username: werckerbot

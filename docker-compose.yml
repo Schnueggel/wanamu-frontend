@@ -1,0 +1,12 @@
+wanamufrontend:
+  restart: always
+  build: .
+  environment:
+    - WU_FRONTEND_NAME
+    - WU_FRONTEND_CERT
+    - WU_FRONTEND_KEY
+  ports:
+    - 443:443
+    - 80:80
+  volumes:
+    - /certs:/certs
