@@ -19,11 +19,8 @@ deploy:
           git config --global user.email "wercker@wanamu.com"
           git config --global user.name "Wercker"
           echo -e "Host $DEPLOY_HOST\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-          touch dummy
-          git add dummy
-          git commit -m 'dummy'
           git remote add deploy $DEPLOY_REPO_URL
-          git push deploy $DEPLOY_BRANCH --force
+          git push deploy HEAD:$DEPLOY_BRANCH --force
   after-steps:
     - slack-notifier:
         url: $SLACK_WEBHOOK_URL
