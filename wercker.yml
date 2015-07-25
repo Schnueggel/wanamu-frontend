@@ -16,10 +16,8 @@ deploy:
     - script:
         name: Deploy
         code: |
-          git init
-          git checkout -b $DEPLOY_BRANCH
-          git remote add origin $DEPLOY_REPO_URL
-          git push origin $DEPLOY_BRANCH
+          git remote add deploy $DEPLOY_REPO_URL
+          git push deploy $DEPLOY_BRANCH
   after-steps:
     - slack-notifier:
         url: $SLACK_WEBHOOK_URL
