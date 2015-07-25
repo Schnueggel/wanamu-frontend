@@ -23,7 +23,7 @@ daemon off;
 events { worker_connections 1024; }
 
 http {
-
+    include mime.types;
     sendfile on;
     gzip              on;
     gzip_vary         on;
