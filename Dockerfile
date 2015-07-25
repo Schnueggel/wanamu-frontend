@@ -10,6 +10,7 @@ COPY dist/app /usr/share/nginx/html
 
 COPY bin/test.crt /
 COPY bin/test.key /
+cOPY bin/.htpasswd /etc/nginx/
 
 COPY dockerstartup.sh /
 

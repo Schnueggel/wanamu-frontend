@@ -2,9 +2,20 @@
 
 if  [ ! -f /etc/nginx/nginx.conf ]; then
 echo "Creating nginx.conf"
+: ${WU_ENV?"Needed"}
 : ${WU_FRONTEND_NAME?"Needed"}
 : ${WU_FRONTEND_KEY?"Needed"}
 : ${WU_FRONTEND_CERT?"Needed"}
+
+if [ "$WU_ENV" = "staging" ];
+then
+read -r -d '' HTTPAUTH  <<- AUTH
+    auth_basic "Restricted";
+    auth_basic_user_file /etc/nginx/.htpasswd;
+AUTH
+else
+HTTPAUTH=""
+fi
 
 cat <<EOF > /etc/nginx/nginx.conf
 worker_processes 1;
@@ -46,12 +57,13 @@ http {
 
         # Proxying the connections connections
         location / {
+            $HTTPAUTH
             try_files \$uri \$uri/ /index.html;
         }
     }
 }
-
 EOF
+
 echo "Done"
 fi
 
