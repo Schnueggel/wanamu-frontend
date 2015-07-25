@@ -23,7 +23,7 @@ deploy:
           git add dummy
           git commit -m 'dummy'
           git remote add deploy $DEPLOY_REPO_URL
-          git push --force deploy $DEPLOY_BRANCH
+          git push deploy $DEPLOY_BRANCH --force
   after-steps:
     - slack-notifier:
         url: $SLACK_WEBHOOK_URL
