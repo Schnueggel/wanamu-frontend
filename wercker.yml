@@ -16,6 +16,7 @@ deploy:
     - script:
         name: Deploy
         code: |
+          echo -e "Host $DEPLOY_HOST\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
           git remote add deploy $DEPLOY_REPO_URL
           git push deploy $DEPLOY_BRANCH
   after-steps:
