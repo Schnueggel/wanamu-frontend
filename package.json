@@ -64,7 +64,7 @@
     "karma-jasmine": "^0.3.6",
     "karma-phantomjs-launcher": "^0.2.0",
     "lodash": "^3.10.0",
-    "moment": "^2.10.3",
+    "moment": "^2.10.5",
     "node-sass": "^3.2.0",
     "phantomjs": "^1.9.17",
     "raw-loader": "^0.5.1",
