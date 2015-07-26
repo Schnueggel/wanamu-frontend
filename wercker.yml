@@ -5,6 +5,7 @@ build:
         - script:
             name: Dummy
             code: |
+                git checkout $WERCKER_GIT_BRANCH
                 npm install -g gulp
                 npm i
                 gulp build
@@ -21,7 +22,7 @@ deploy:
         - script:
             name: Deploy
             code: |
-
+              git checkout $WERCKER_GIT_BRANCH
               git config --global user.email "wercker@wanamu.com"
               git config --global user.name "Wercker"
               echo -e "Host $DEPLOY_HOST\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config

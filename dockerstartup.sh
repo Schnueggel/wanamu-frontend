@@ -17,6 +17,8 @@ else
 HTTPAUTH=""
 fi
 
+# https://github.com/h5bp/server-configs-nginx/blob/master/nginx.conf
+
 cat <<EOF > /etc/nginx/nginx.conf
 worker_processes 2;
 daemon off;
@@ -71,6 +73,7 @@ http {
         text/xml;
     # Http
     server {
+        listen [::]:80;
         listen 80;
         return 301 https://\$host\$request_uri;
     }
@@ -83,7 +86,9 @@ http {
 	    server_name $WU_FRONTEND_NAME;
 
         # Running port
-        listen 443;
+        listen [::]:443 ssl spdy;
+        listen 443 ssl spdy;
+
         ssl_certificate           $WU_FRONTEND_CERT;
         ssl_certificate_key       $WU_FRONTEND_KEY;
         ssl on;
