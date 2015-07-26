@@ -145,7 +145,7 @@ gulp.task('default', ['build']);
 // Build the application into the dist folder
 // ===================================================================
 gulp.task('build', function (cb) {
-    console.log("Building for " + env + 'environment');
+    console.log("Building for " + env + ' environment');
     runSequence('jshint', 'build-app', cb);
 });
 

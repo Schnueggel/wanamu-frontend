@@ -3,7 +3,7 @@ build:
     box: node:0.12.7
     steps:
         - script:
-            name: Dummy
+            name: Build
             code: |
                 git checkout $WERCKER_GIT_BRANCH
                 npm install -g gulp
