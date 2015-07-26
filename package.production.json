@@ -1,8 +1,8 @@
 {
     "wanamu": {
         "defaultDateTimeFormat": "YYYY-MM-TT",
-        "apiurl": "https://api.wanamu.com:3001",
-        "loginurl": "https://api.wanamu.com:3001/auth/login",
-        "logouturl": "https://api.wanamu.com:3001/auth/logout"
+        "apiurl": "https://api.wanamu.com:3002",
+        "loginurl": "https://api.wanamu.com:3002/auth/login",
+        "logouturl": "https://api.wanamu.com:3002/auth/logout"
     }
 }
