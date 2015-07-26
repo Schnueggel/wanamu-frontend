@@ -56,4 +56,17 @@ to app/modules/datetimepicker/WU_THEME_CSS.txt.
 
 ## Docker
 
-We
+Run docker-compose to create a docker container running this app behind a nginx server.
+Before run gulp build should run. Also the correct WU_ENV environment variable should be set before building.
+
+
+## Environment variables
+
+WU_ENV production | development | test
+
+### For Nginx
+
+WU_FRONTEND_CERT= path to cert inside container (see mapped volume /certs)
+WU_FRONTEND_KEY=" path to ssl key inside container (see mapped volume /certs)
+WU_FRONTEND_NAME= localhost | www.wanamu.com
+
