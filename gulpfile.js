@@ -39,7 +39,7 @@ var srcPath = path.join(__dirname, 'src'),
     distAppPath = path.join(distPath, 'app'),
     distIndexHtml = path.join(distAppPath, 'index.html'),
     node_modules_path = path.join(__dirname, 'node_modules'),
-    env = process.WU_ENV || 'development',
+    env = process.env.WU_ENV || 'development',
     indexFileName = 'index.js',
     typescriptOutFile =path.join(tmpAppPath, 'modules/wanamu//Application.js');
 
