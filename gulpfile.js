@@ -39,7 +39,7 @@ var srcPath = path.join(__dirname, 'src'),
     distAppPath = path.join(distPath, 'app'),
     distIndexHtml = path.join(distAppPath, 'index.html'),
     node_modules_path = path.join(__dirname, 'node_modules'),
-    env = process.APP_ENV || 'development',
+    env = process.WU_ENV || 'development',
     indexFileName = 'index.js',
     typescriptOutFile =path.join(tmpAppPath, 'modules/wanamu//Application.js');
 
@@ -145,6 +145,7 @@ gulp.task('default', ['build']);
 // Build the application into the dist folder
 // ===================================================================
 gulp.task('build', function (cb) {
+    console.log("Building for " + env + 'environment');
     runSequence('jshint', 'build-app', cb);
 });
 
