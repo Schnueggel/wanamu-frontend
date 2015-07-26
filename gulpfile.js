@@ -39,9 +39,13 @@ var srcPath = path.join(__dirname, 'src'),
     distAppPath = path.join(distPath, 'app'),
     distIndexHtml = path.join(distAppPath, 'index.html'),
     node_modules_path = path.join(__dirname, 'node_modules'),
-    env = process.env.WU_ENV || 'development',
     indexFileName = 'index.js',
     typescriptOutFile =path.join(tmpAppPath, 'modules/wanamu//Application.js');
+
+if (!process.env.WU_ENV){
+    console.log('default to environment development');
+    process.env.WU_ENV = 'development';
+}
 
 /**
  * ######################################################################################
@@ -98,7 +102,7 @@ var webpackConfig = {
             },
             {
                 test: /package\.json$/,
-                loader: 'environment-config-webpack-loader?environment=' + env
+                loader: 'environment-config-webpack-loader?environment=' + process.env.WU_ENV
             },
             {
                 test: /\.scss$/,
@@ -117,7 +121,7 @@ var webpackConfig = {
     }
 };
 
-if (env === 'production') {
+if (process.env.WU_ENV === 'production') {
     webpackConfig.plugins.push(
         new webpack.optimize.UglifyJsPlugin({
             mangle: false,
@@ -126,7 +130,7 @@ if (env === 'production') {
     );
 }
 
-if (env === 'development') {
+if (process.env.WU_ENV === 'development') {
     webpackConfig.debug = true;
 }
 
@@ -145,10 +149,16 @@ gulp.task('default', ['build']);
 // Build the application into the dist folder
 // ===================================================================
 gulp.task('build', function (cb) {
-    console.log("Building for " + env + ' environment');
+    console.log("Building for " + process.env.WU_ENV + ' environment');
     runSequence('jshint', 'build-app', cb);
 });
-
+// ===================================================================
+// Build the application into the dist folder
+// ===================================================================
+gulp.task('build-test', function (cb) {
+    process.env.WU_ENV = 'test';
+    runSequence('build-app', cb);
+});
 // ====================================================================
 // Builds frontend and backend,
 // starting the development.json server and opens a browser.
@@ -228,7 +238,7 @@ gulp.task('build-typescript', function () {
 // Create webpacked files
 // ===========================================================
 gulp.task('build-webpack', function (callback) {
-    if (env === 'development') {
+    if (process.env.WU_ENV === 'development') {
         webpackConfig.debug = true;
     }
 
@@ -359,8 +369,7 @@ gulp.task('tmp-app-static', function () {
 // ==========================================================================
 // Start frontend unit tests
 // ==========================================================================
-gulp.task('test-jasmine', ['build-webpack'], function (cb) {
-    process.env.NODE_ENV = 'test';
+gulp.task('test-jasmine', ['build-test'], function (cb) {
     karma.start({
         configFile: __dirname + '/karma.conf.js',
         singleRun: true
@@ -371,7 +380,6 @@ gulp.task('test-jasmine', ['build-webpack'], function (cb) {
 // Code Quality
 // ==========================================================================
 gulp.task('jshint', function () {
-    var json = JSON.parse(require('fs').readFileSync(('./.jshintrc')));
     return gulp.src('src')
-        .pipe(jshint(json));
+        .pipe(jshint('.jshintrc'));
 });

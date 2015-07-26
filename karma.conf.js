@@ -1,6 +1,4 @@
-'use strict';
-// Karma configuration
-// Generated on Sat May 02 2015 22:50:23 GMT+0200 (W. Europe Daylight Time)
+require('phantomjs-polyfill');
 
 module.exports = function (config) {
     config.set({
@@ -14,7 +12,8 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            'dist/app/index.js',
+            './node_modules/phantomjs-polyfill/bind-polyfill.js',
+            'dist/app/index-*.js',
             'node_modules/angular-mocks/angular-mocks.js',
             'test/jasmine/**/*.js'],
 
