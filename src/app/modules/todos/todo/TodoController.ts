@@ -14,6 +14,7 @@ let Rx = require('rx');
 @InjectC('panelService', 'wuTodosHeaderService', 'wuTodosService')
 export class TodoController extends BaseController {
 
+
     public static currentInEdit : TodoController = null;
 
     private edit : boolean = false;
@@ -24,6 +25,7 @@ export class TodoController extends BaseController {
     private syncDelay : number = 5000;
     private syncDelaySubccription : Rx.IDisposable;
     private waitForSync: boolean = false;
+    private _delayedSyncObservable: Rx.IObservable<any>;
 
     public todo : Todo;
     public editcolors : boolean;
@@ -34,6 +36,13 @@ export class TodoController extends BaseController {
     public moment : moment.MomentStatic = require('moment');
     public isSyncing : boolean = false;
 
+
+    /**
+     *
+     * @param panelService
+     * @param wuTodosHeaderService
+     * @param wuTodosService
+     */
     constructor(
         public panelService: wu.module.panel.IPanelService,
         public wuTodosHeaderService : wu.todos.TodosHeaderService,
@@ -179,6 +188,13 @@ export class TodoController extends BaseController {
     }
 
     /**
+     * TODO implement
+     */
+    shareTodo() {
+
+    }
+
+    /**
      * Deletes this todo
      * @returns {any}
      */
@@ -199,7 +215,8 @@ export class TodoController extends BaseController {
      * it will cancel this process
      */
     startDelayedSyncing() {
-        const observable : Rx.IObservable<any> = Rx.Observable.timer(this.syncDelay);
+        //We should do lazy loading on this
+        let observable : Rx.IObservable<any> = this.getDelayedSyncObservable();
 
         this.panelService.addToSyncPool(this.todo);
 
@@ -209,7 +226,7 @@ export class TodoController extends BaseController {
     }
 
     /**
-     * Stops syncing process while its  in the preparation phase
+     * Stops syncing process while its in the preparation phase
      */
     stopDelayedSyncing() {
         if (this.syncDelaySubccription) {
@@ -217,6 +234,16 @@ export class TodoController extends BaseController {
         }
     }
 
+    /**
+     *
+     * @returns {any}
+     */
+    getDelayedSyncObservable() : Rx.IObservable<any> {
+        if (this._delayedSyncObservable === null) {
+            this._delayedSyncObservable = Rx.Observable.timer(this.syncDelay);
+        }
+        return this._delayedSyncObservable;
+    }
     /**
      *
      * @returns {IPromise<TResult>}
