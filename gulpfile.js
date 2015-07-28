@@ -66,14 +66,16 @@ var webpackConfig = {
     module: {
         noParse: [
             /[\/\\]angular\.js$/,
+            /[\/\\]angular-material\.js$/,
             /[\/\\]ui-router\.js$/,
             /[\/\\]angular-translate\.js$/,
             /[\/\\]angular-animate\.js$/,
             /[\/\\]angular-il18n\.js$/,
             /[\/\\]angular-messages\.js$/,
             /[\/\\]angular-touch\.js$/,
-            /[\/\\]hotkeys\.js$/,
             /[\/\\]moment\.js/,
+            /rx/,
+            /typescript/,
             /[\/\\]jquery\.js/,
             /[\/\\]spectrum\.js/,
             /lodash/,
