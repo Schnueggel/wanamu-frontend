@@ -31,8 +31,6 @@ http {
     charset_types text/xml text/plain text/vnd.wap.wml application/x-javascript application/rss+xml text/css application/javascript application/json;
     sendfile on;
     default_type  application/octet-stream;
-    tcp_nopush      on;
-    keepalive_timeout 20;
 
     gzip              on;
     gzip_vary         on;
