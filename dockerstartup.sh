@@ -86,8 +86,8 @@ http {
 	    server_name $WU_FRONTEND_NAME;
 
         # Running port
-        listen [::]:443 ssl spdy;
-        listen 443 ssl spdy;
+        listen [::]:443 ssl;
+        listen 443 ssl;
 
         ssl_certificate           $WU_FRONTEND_CERT;
         ssl_certificate_key       $WU_FRONTEND_KEY;
