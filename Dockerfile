@@ -11,6 +11,6 @@ COPY bin/.htpasswd /etc/nginx/
 
 COPY dockerstartup.sh /
 
-RUN chmod +x /dockerstartup.sh && chmod -R o+r dist/app
+RUN chmod +x /dockerstartup.sh && chmod -R o+r /usr/share/nginx/html
 
 CMD /dockerstartup.sh && nginx
