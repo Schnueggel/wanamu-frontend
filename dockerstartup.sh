@@ -7,7 +7,7 @@ echo "Creating nginx.conf"
 : ${WU_FRONTEND_KEY?"Needed"}
 : ${WU_FRONTEND_CERT?"Needed"}
 
-if [ "$WU_ENV" = "staging" ];
+if [ "$WU_ENV" = "production" ];
 then
 read -r -d '' HTTPAUTH  <<- AUTH
     auth_basic "Restricted";
