@@ -22,17 +22,17 @@ fi
 cat <<EOF > /etc/nginx/nginx.conf
 worker_processes 2;
 daemon off;
-#worker_rlimit_nofile 8192;
+worker_rlimit_nofile 8192;
 events { worker_connections 8000; }
 
 http {
     include mime.types;
-#    server_tokens off;
+    server_tokens off;
     charset_types text/xml text/plain text/vnd.wap.wml application/x-javascript application/rss+xml text/css application/javascript application/json;
     sendfile on;
-#    default_type  application/octet-stream;
-#   tcp_nopush      on;
-#   keepalive_timeout 20;
+    default_type  application/octet-stream;
+    tcp_nopush      on;
+    keepalive_timeout 20;
 
     gzip              on;
     gzip_vary         on;
