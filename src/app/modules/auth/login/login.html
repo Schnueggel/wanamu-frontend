@@ -16,8 +16,7 @@
                    ng-model="Login.form.username"
                    required>
             <div ng-messages="Login.loginform.username.$error"
-                 ng-show="Login.loginform.$submitted && Login.loginform.username.$invalid && Login.loginform.username.$untouched"
-                >
+                 ng-show="Login.loginform.$submitted && Login.loginform.username.$invalid && Login.loginform.username.$untouched">
                 <div ng-message="required" class="error">{{'validation.messages.fieldNotEmpty' | translate}}</div>
                 <div ng-message="pattern" class="error">Please enter a valid email</div>
             </div>

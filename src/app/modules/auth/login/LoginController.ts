@@ -6,7 +6,7 @@ import { NotFoundError, AlreadyConfirmedError, NotConfirmedError, PreConditionFa
  * @alias Login
  */
 @Controller('LoginController')
-@InjectC('$scope', '$state', 'wuAuthService', 'panelService', 'registrationDataSource')
+@InjectC('$state', 'wuAuthService', 'panelService', 'registrationDataSource')
 export class LoginController {
 
     public loginform : wu.auth.ILoginForm;
@@ -27,21 +27,17 @@ export class LoginController {
 
     /**
      *
-     * @param $scope
      * @param $state
      * @param auth
      * @param panelService
      * @param registrationDataSource
      */
     constructor(
-        public $scope : ng.IScope,
         public $state : wu.auth.ILoginStateService,
         public auth : wu.auth.IAuthService,
         public panelService : wu.module.panel.IPanelService,
         public registrationDataSource : wu.datasource.IRegistrationDataSource
     ) {
-        //auth.queryIsLoggedIn().then( () =>  $state.go('panel.view.todos') );
-
         if ($state.params.confirmation) {
             this.confirmation = true;
         }

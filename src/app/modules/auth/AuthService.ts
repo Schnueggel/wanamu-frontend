@@ -163,7 +163,7 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
     }
 
     /**
-     * Try to get user from session
+     * Try to get user from cache or query for it
      * @returns {IPromise<T>}
      */
     public queryCurrentUser() : ng.IPromise<User> {
@@ -192,7 +192,6 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
 
         upromise.catch( (err : Error) =>{ console.log(err);
             if (err instanceof UnauthorizedError || err instanceof AccessError) {
-                console.log('Open Login');
                 let lpromise =  this.panelService.showLogin();
                 lpromise.then( (user: User) => this.resolveUser(user) );
                 lpromise.catch( () => this.rejectUser( new UnkownError() ) );
