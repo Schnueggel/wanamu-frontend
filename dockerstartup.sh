@@ -2,12 +2,12 @@
 
 if  [ ! -f /etc/nginx/nginx.conf ]; then
 echo "Creating nginx.conf"
-: ${WU_ENV?"Needed"}
+: ${WU_FRONTEND_HTTP:="0"}
 : ${WU_FRONTEND_NAME?"Needed"}
 : ${WU_FRONTEND_KEY?"Needed"}
 : ${WU_FRONTEND_CERT?"Needed"}
 
-if [ "$WU_ENV" = "staging" ];
+if [ "$WU_FRONTEND_HTTP" = "1" ];
 then
 read -r -d '' HTTPAUTH  <<- AUTH
     auth_basic "Restricted";
@@ -27,12 +27,12 @@ events { worker_connections 8000; }
 
 http {
     include mime.types;
-#    server_tokens off;
+    server_tokens off;
     charset_types text/xml text/plain text/vnd.wap.wml application/x-javascript application/rss+xml text/css application/javascript application/json;
     sendfile on;
-#    default_type  application/octet-stream;
-#   tcp_nopush      on;
-#   keepalive_timeout 20;
+    default_type  application/octet-stream;
+    tcp_nopush      on;
+    keepalive_timeout 20;
 
     gzip              on;
     gzip_vary         on;
