@@ -256,7 +256,7 @@ export class TodoController extends BaseController {
             this.isSyncing = true;
 
             const observable = Rx.Observable
-                .defer( () =>this.wuTodosService.syncTodo(this.todo) );
+                .defer( () => this.wuTodosService.syncTodo(this.todo) );
 
             observable.subscribe(
                 () => {},

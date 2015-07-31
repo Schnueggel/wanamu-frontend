@@ -71,7 +71,7 @@ declare module wanamu {
         }
 
         interface IFriendDataSource {
-            getFriends( forcereload : boolean) : ng.IPromise<Array<model.IFriend>>;
+            getFriends( forcereload : boolean ) : ng.IPromise<Array<model.IFriend>>;
         }
 
         interface ISettingDataSource {
@@ -96,7 +96,7 @@ declare module wanamu {
         }
 
         // =============================================================================================
-        // FIXME User this as replacement for Response data
+        // FIXME Use this as replacement for Response data
         // =============================================================================================
         interface IResponseDataModel<T> extends IResponseData{
             data : Array<T>;

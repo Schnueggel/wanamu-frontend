@@ -3,12 +3,12 @@
  */
 import { Module, Service } from '../../decorators/decorators';
 import { UserDataSource, TodoDataSource, TodoListDataSource, SettingDataSource,
-    ProfileDataSource, RegistrationDataSource } from './datasources';
+    ProfileDataSource, RegistrationDataSource, FriendsDataSource } from './datasources';
 import { BaseModule } from '../../wanamu/wanamu';
 
 @Module('dataSource', {
     services: [UserDataSource, TodoDataSource, TodoListDataSource,
-        SettingDataSource, ProfileDataSource, RegistrationDataSource
+        SettingDataSource, ProfileDataSource, RegistrationDataSource, FriendsDataSource
     ]
 })
 export class DataSourceModule extends BaseModule {
