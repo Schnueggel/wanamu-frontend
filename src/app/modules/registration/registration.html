@@ -2,50 +2,50 @@
     <h2 class="md-display-2">Registration</h2>
     <form name="Registration.registrationform" novalidate>
         <md-input-container class="md-icon-float">
-            <label class="md-placeholder">{{'profile.salutation' | translate}}</label>
+            <label class="md-placeholder">{{'profile.salutation' | translate}}*</label>
             <md-select ng-model="Registration.user.Profile.salutation" required name="salutation">
                 <md-option ng-repeat="salutation in Registration.salutations" ng-value="salutation">{{ 'profile.salutations.' + salutation | translate}}</md-option>
             </md-select>
             <div ng-messages="Registration.registrationform.salutation.$error" ng-if="Registration.registrationform.$dirty">
-                <div ng-message="required">This is required.</div>
+                <div ng-message="required" ng-if="Registration.registrationform.$submitted">This is required.</div>
             </div>
         </md-input-container>
         <md-input-container>
-            <label>{{'profile.firstname' | translate }}</label>
+            <label>{{'profile.firstname' | translate }}*</label>
             <input ng-model="Registration.user.Profile.firstname" name="firstname" required title="{{'profile.firstname' | translate }}">
             <div ng-messages="Registration.registrationform.firstname.$error">
-                <div ng-message="required">This is required.</div>
+                <div ng-message="required" ng-if="Registration.registrationform.$submitted">This is required.</div>
             </div>
         </md-input-container>
         <md-input-container>
-            <label>{{'profile.lastname' | translate }}</label>
+            <label>{{'profile.lastname' | translate }}*</label>
             <input ng-model="Registration.user.Profile.lastname" name="lastname" required>
             <div ng-messages="Registration.registrationform.lastname.$error">
-                <div ng-message="required">This is required.</div>
+                <div ng-message="required" ng-if="Registration.registrationform.$submitted">This is required.</div>
             </div>
         </md-input-container>
         <md-input-container>
-            <label>{{'profile.email' | translate }}</label>
+            <label>{{'profile.email' | translate }}*</label>
             <input ng-model="Registration.user.email" type="email" name="email" required>
             <div ng-messages="Registration.registrationform.email.$error">
-                <div ng-message="required">This is required.</div>
+                <div ng-message="required" ng-if="Registration.registrationform.$submitted">This is required.</div>
                 <div ng-message="email">This email address is not valid</div>
             </div>
         </md-input-container>
         <md-input-container>
-            <label>{{'profile.password' | translate }}</label>
+            <label>{{'profile.password' | translate }}*</label>
             <input ng-model="Registration.user.password" type="password" name="password" required minlength="8">
             <div ng-messages="Registration.registrationform.password.$error">
-                <div ng-message="required">This is required.</div>
+                <div ng-message="required" ng-if="Registration.registrationform.$submitted">This is required.</div>
                 <div ng-message="minlength">Minimum length of password is 8</div>
             </div>
         </md-input-container>
         <md-input-container>
-            <label>{{'profile.passwordrepeat' | translate }}</label>
+            <label>{{'profile.passwordrepeat' | translate }}*</label>
             <input ng-model="Registration.passwordrepeat" type="password" name="passwordrepeat" required minlength="8">
             <div ng-messages="Registration.registrationform.passwordrepeat.$error">
                 <div ng-message="minlength">Minimum length of password is 8</div>
-                <div ng-message="required">This is required.</div>
+                <div ng-message="required" ng-if="Registration.registrationform.$submitted">This is required.</div>
                 <div ng-message="equal">Must be equal to password</div>
             </div>
         </md-input-container>
