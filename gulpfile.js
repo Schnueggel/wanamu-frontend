@@ -262,10 +262,10 @@ gulp.task('build-webpack', function (callback) {
 // =================================================================
 gulp.task('http-browser', function () {
     var options = {
-        url: 'http://localhost:3000'
+        uri: 'http://localhost:3000'
     };
     return gulp.src(distIndexHtml)
-        .pipe(open('', options));
+        .pipe(open(options));
 });
 
 /**
