@@ -6,7 +6,7 @@ var rx = require('rx');
 import _ = require('lodash');
 
 /**
- * @alias Setting
+ * @alias Friends
  */
 @Controller('FriendsController')
 @InjectC('$scope',  '$rootScope', 'wuAuthService','panelService', 'friendsDataSource')

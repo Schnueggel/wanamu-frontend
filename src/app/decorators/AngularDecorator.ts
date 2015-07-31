@@ -92,7 +92,7 @@ export class Registry {
      */
     static bootstrapController(controller : Function[], ngModule: ng.IModule){
 
-        controller.forEach((serviceClass :{new(): BaseDirective}) => {
+        controller.forEach((serviceClass :{new(): BaseController}) => {
             let name : string = Reflect.getMetadata(AngularMetaKeys.Controller, serviceClass);
             let args = Reflect.getMetadata(InjectMetadataKeys.AngularServiceInjects, serviceClass) || [];
             args.push(serviceClass);
@@ -117,7 +117,7 @@ export class Registry {
 }
 
 /**
- * Declara class to module
+ * Declare class to be an angular module and define dependencies
  * @param name
  * @param data
  * @returns {function(Function): any}
