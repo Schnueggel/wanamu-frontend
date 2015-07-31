@@ -7,6 +7,7 @@ import { RegistrationModule } from '../registration/RegistrationModule';
 import { DataSourceModule } from '../datasources/DataSourceModule';
 import { ColorpickerModule } from '../colorpicker/ColorpickerModule';
 import { ConfirmationModule } from '../confirmation/ConfirmationModule';
+import { HelpModule } from '../help/HelpModule';
 import { FriendsModule } from '../friends/FriendsModule';
 import { TodosModule } from '../todos/TodosModule';
 import { DateTimePickerModule } from '../datetimepicker/datetimepicker';
@@ -31,6 +32,7 @@ import { lpad } from '../../filter/Lpad';
             SettingModule.mname,
             RegistrationModule.mname,
             AuthModule.mname,
+            HelpModule.mname,
             TodosModule.mname,
             DialogsModule.name],
         filter : [{ lpad }],
