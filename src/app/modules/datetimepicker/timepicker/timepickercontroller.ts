@@ -2,6 +2,7 @@ import _  = require('lodash');
 import mom = require('moment');
 /**
  * Class that controller the timepicker template
+ * @alias TimePicker
  */
 export class TimePickerController {
 
@@ -27,6 +28,10 @@ export class TimePickerController {
      * @viewvar
      */
     public currentMoment : moment.Moment;
+    /**
+     * Current minutes in number 0-55
+     */
+    public currentMinute : number;
 
     /**
      * @viewvar
@@ -106,6 +111,7 @@ export class TimePickerController {
      */
     selectMinute(min : number) {
         if (this.minrots.hasOwnProperty(min.toString())) {
+            this.currentMinute = min;
             this.currentMoment.minute(min);
             this.date.setMinutes(this.currentMoment.minute());
             this.setMarkerRot(this.getMinuteMarker(), this.minrots[min.toString()]);

@@ -47,19 +47,19 @@
                           id="background-marker" class="wu-bg md-primary md-default-theme"></path>
 
                     <path d="M57.9330127,238.25 C88.8609587,238.25 113.933013,213.177946 113.933013,182.25 C113.933013,151.322054 88.8609587,126.25 57.9330127,126.25 C27.0050667,126.25 1.9330127,151.322054 1.9330127,182.25 C1.9330127,213.177946 27.0050667,238.25 57.9330127,238.25 Z"
-                          id="minute-marker" class="marker wu-bg md-accent md-default-theme md-hue-3"  filter="url(#filter-1)"></path>
+                          id="minute-marker" class="marker wu-bg md-accent md-default-theme"  filter="url(#filter-1)"></path>
                 </g>
                 <g id="background-hour" transform="translate(249.500000, 249.500000) rotate(-30.000000) translate(-249.500000, -249.500000) translate(100.000000, 100.000000)" >
                     <path d="M149.933013,298.25 C232.22344,298.25 298.933013,231.540428 298.933013,149.25 C298.933013,66.9595723 232.22344,0.25 149.933013,0.25 C67.642585,0.25 0.933012702,66.9595723 0.933012702,149.25 C0.933012702,231.540428 67.642585,298.25 149.933013,298.25 Z"
                           id="background-hour" class="wu-bg md-accent md-default-theme" filter="url(#filter-2)"></path>
 
                     <path d="M48.9330127,195.25 C74.8903959,195.25 95.9330127,174.207383 95.9330127,148.25 C95.9330127,122.292617 74.8903959,101.25 48.9330127,101.25 C22.9756295,101.25 1.9330127,122.292617 1.9330127,148.25 C1.9330127,174.207383 22.9756295,195.25 48.9330127,195.25 Z"
-                          id="hour-marker" class="marker wu-bg md-accent md-default-theme md-hue-3" filter="url(#filter-3)"></path>
+                          id="hour-marker" class="marker wu-bg md-primary md-default-theme" filter="url(#filter-3)"></path>
                 </g>
                 <circle cx="0" cy="0" r="116" class="wu-bg md-primary md-default-theme" transform="translate(250, 250)" id="Forground-center" filter="url(#filter-1)" />
                 <g id="Hands" transform="translate(73.000000, 76.000000)" font-weight="normal" font-family="Roboto" fill="#000000" font-size="18" >
                     <g id="time-hand" transform="translate(165.000000, 0.000000)">
-                        <text id="00" class="minute number" ng-click="TimePicker.selectMinute(0)">
+                        <text id="00" class="minute number" ng-click="TimePicker.selectMinute(0)" ng-class="{'active': TimePicker.currentMinute === 0}">
                             <tspan x="1.21941036" y="17">00</tspan>
                         </text>
                         <text id="h12" class="hour number" ng-click="TimePicker.selectHour(12)">
@@ -67,7 +67,7 @@
                         </text>
                     </g>
                     <g id="time-hand-copy" transform="translate(251.000000, 46.500000) rotate(30.000000) translate(-251.000000, -46.500000) translate(239.000000, 19.000000)">
-                        <text id="05" class="minute number" ng-click="TimePicker.selectMinute(5)">
+                        <text id="05" class="minute number" ng-click="TimePicker.selectMinute(5)" ng-class="{'active': TimePicker.currentMinute === 5}">
                             <tspan x="2.84647808" y="17.1916365">05</tspan>
                         </text>
                         <text id="h1" transform="translate(11.241232, 42.201057) rotate(-30.000000) translate(-11.241232, -42.201057) " class="hour number" ng-click="TimePicker.selectHour(1)">
@@ -75,7 +75,7 @@
                         </text>
                     </g>
                     <g id="time-hand-copy-2" transform="translate(305.000000, 101.000000) rotate(60.000000) translate(-305.000000, -101.000000) translate(292.000000, 72.000000)">
-                        <text id="10" class="minute number" ng-click="TimePicker.selectMinute(10)">
+                        <text id="10" class="minute number" ng-click="TimePicker.selectMinute(10)" ng-class="{'active': TimePicker.currentMinute === 10}">
                             <tspan x="3.53986162" y="17.2889577">10</tspan>
                         </text>
                         <text id="h2" transform="translate(13.249297, 46.117777) rotate(-60.000000) translate(-13.249297, -46.117777) " class="hour number" ng-click="TimePicker.selectHour(2)">
@@ -84,7 +84,7 @@
                     </g>
                     <g id="time-hand-copy-3" transform="translate(327.000000, 174.234171) rotate(90.000000) translate(-327.000000, -174.234171) translate(316.000000, 150.234171)">
                         <text id="15" class="minute number" transform="translate(11.386603, 10.500000) rotate(-90.000000) translate(-11.386603, -10.500000) "
-                              ng-click="TimePicker.selectMinute(15)">
+                              ng-click="TimePicker.selectMinute(15)" ng-class="{'active': TimePicker.currentMinute === 15}">
                             <tspan x="1.25281368" y="17">15</tspan>
                         </text>
                         <text id="h3" transform="translate(11.386603, 41.188774) rotate(-90.000000) translate(-11.386603, -41.188774)" class="hour number" ng-click="TimePicker.selectHour(3)">
@@ -92,7 +92,8 @@
                         </text>
                     </g>
                     <g id="time-hand-copy-4" transform="translate(306.000000, 249.000000) rotate(120.000000) translate(-306.000000, -249.000000) translate(293.000000, 220.000000)">
-                        <text id="20" transform="translate(13.772122, 11.480800) scale(-1, -1) translate(-13.772122, -11.480800) " class="minute number" ng-click="TimePicker.selectMinute(20)">
+                        <text id="20" transform="translate(13.772122, 11.480800) scale(-1, -1) translate(-13.772122, -11.480800) " class="minute number" ng-click="TimePicker.selectMinute(20)"
+                              ng-class="{'active': TimePicker.currentMinute === 20}">
                             <tspan x="3.63833329" y="17.4080727">20</tspan>
                         </text>
                         <text id="h4" transform="translate(12.824943, 45.675553) rotate(-120.000000) translate(-12.824943, -45.675553) " class="hour number" ng-click="TimePicker.selectHour(4)">
@@ -100,7 +101,7 @@
                         </text>
                     </g>
                     <g id="time-hand-copy-5" transform="translate(251.000000, 302.500000) rotate(151.000000) translate(-251.000000, -302.500000) translate(239.000000, 275.000000)">
-                        <text id="25" transform="translate(10.543677, 10.589059) scale(-1, -1) translate(-10.543677, -10.589059) " class="minute number" ng-click="TimePicker.selectMinute(25)">
+                        <text id="25" transform="translate(10.543677, 10.589059) scale(-1, -1) translate(-10.543677, -10.589059) " class="minute number" ng-click="TimePicker.selectMinute(25)" ng-class="{'active': TimePicker.currentMinute === 25}">
                             <tspan x="0.409888401" y="17.089059">25</tspan>
                         </text>
                         <text id="h5" transform="translate(12.395716, 42.146253) rotate(210.000000) translate(-12.395716, -42.146253) " class="hour number" ng-click="TimePicker.selectHour(5)">
@@ -108,7 +109,7 @@
                         </text>
                     </g>
                     <g id="time-hand-copy-6" transform="translate(176.000000, 323.003012) rotate(180.000000) translate(-176.000000, -323.003012) translate(165.000000, 297.003012)">
-                        <text id="30" transform="translate(11.490743, 10.500000) scale(-1, -1) translate(-11.490743, -10.500000) " class="minute number" ng-click="TimePicker.selectMinute(30)">
+                        <text id="30" transform="translate(11.490743, 10.500000) scale(-1, -1) translate(-11.490743, -10.500000) " class="minute number" ng-click="TimePicker.selectMinute(30)" ng-class="{'active': TimePicker.currentMinute === 30}">
                             <tspan x="1.35695345" y="17">30</tspan>
                         </text>
                         <text id="h6" transform="translate(11.490743, 41.198201) scale(-1, -1) translate(-11.490743, -41.198201)" class="hour number" ng-click="TimePicker.selectHour(6)">
@@ -116,7 +117,7 @@
                         </text>
                     </g>
                     <g id="time-hand-copy-7" transform="translate(103.500000, 305.000000) rotate(210.000000) translate(-103.500000, -305.000000) translate(92.000000, 276.000000)" >
-                        <text id="35" transform="translate(12.188412, 11.275786) scale(-1, -1) translate(-12.188412, -11.275786) " class="minute number" ng-click="TimePicker.selectMinute(35)">
+                        <text id="35" transform="translate(12.188412, 11.275786) scale(-1, -1) translate(-12.188412, -11.275786) " class="minute number" ng-click="TimePicker.selectMinute(35)" ng-class="{'active': TimePicker.currentMinute === 35}">
                             <tspan x="2.05462288" y="17.4007857">35</tspan>
                         </text>
                         <text id="h7" transform="translate(11.241232, 44.859918) rotate(150.000000) translate(-11.241232, -44.859918) " class="hour number" ng-click="TimePicker.selectHour(7)">
@@ -124,7 +125,7 @@
                         </text>
                     </g>
                     <g id="time-hand-copy-8" transform="translate(50.000000, 250.500000) rotate(240.000000) translate(-50.000000, -250.500000) translate(37.000000, 222.000000)">
-                        <text id="40" transform="translate(12.302117, 11.282855) scale(-1, -1) translate(-12.302117, -11.282855)" class="minute number" ng-click="TimePicker.selectMinute(40)">
+                        <text id="40" transform="translate(12.302117, 11.282855) scale(-1, -1) translate(-12.302117, -11.282855)" class="minute number" ng-click="TimePicker.selectMinute(40)" ng-class="{'active': TimePicker.currentMinute === 40}">
                             <tspan x="2.16832817" y="17.401037">40</tspan>
                         </text>
                         <text id="h8" transform="translate(13.249297, 44.888043) rotate(120.000000) translate(-13.249297, -44.888043) " class="hour number" ng-click="TimePicker.selectHour(8)">
@@ -132,7 +133,7 @@
                         </text>
                     </g>
                     <g id="time-hand-copy-9" transform="translate(26.000000, 177.500000) rotate(-90.000000) translate(-26.000000, -177.500000) translate(15.000000, 152.000000)">
-                        <text id="45" transform="translate(10.561344, 11.517692) rotate(90.000000) translate(-10.561344, -11.517692) " class="minute number" ng-click="TimePicker.selectMinute(45)">
+                        <text id="45" transform="translate(10.561344, 11.517692) rotate(90.000000) translate(-10.561344, -11.517692) " class="minute number" ng-click="TimePicker.selectMinute(45)" ng-class="{'active': TimePicker.currentMinute === 45}">
                             <tspan x="0.427555155" y="17.8076923" >45</tspan>
                         </text>
                         <text id="h9" transform="translate(10.561344, 43.944222) rotate(90.000000) translate(-10.561344, -43.944222) " class="hour number" ng-click="TimePicker.selectHour(9)">
@@ -140,7 +141,7 @@
                         </text>
                     </g>
                     <g id="time-hand-copy-10" transform="translate(47.471661, 101.983639) rotate(-60.000000) translate(-47.471661, -101.983639) translate(32.971661, 71.983639)">
-                        <text id="50" class="minute number" ng-click="TimePicker.selectMinute(50)">
+                        <text id="50" class="minute number" ng-click="TimePicker.selectMinute(50)" ng-class="{'active': TimePicker.currentMinute === 50}">
                             <tspan x="2.26679984" y="17.0194642" >50</tspan>
                         </text>
                         <text id="h10" transform="translate(14.408653, 44.896735) rotate(60.000000) translate(-14.408653, -44.896735) " class="hour number" ng-click="TimePicker.selectHour(10)">
@@ -148,7 +149,7 @@
                         </text>
                     </g>
                     <g id="time-hand-copy-11" transform="translate(102.000000, 47.000000) rotate(-30.000000) translate(-102.000000, -47.000000) translate(87.000000, 17.000000)">
-                        <text id="55"  class="minute number" ng-click="TimePicker.selectMinute(55)">
+                        <text id="55"  class="minute number" ng-click="TimePicker.selectMinute(55)" ng-class="{'active': TimePicker.currentMinute === 55}">
                             <tspan x="2.69518593" y="17.1035051">55</tspan>
                         </text>
                         <text id="h11" transform="translate(14.780187, 44.748394) rotate(30.000000) translate(-14.780187, -44.748394) " class="hour number" ng-click="TimePicker.selectHour(11)">

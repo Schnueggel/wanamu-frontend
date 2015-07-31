@@ -83,6 +83,10 @@ md-select.wu-datepicker-year {
         .minute {
             color: white;
             fill: white;
+            &.active {
+                color: black;
+                fill: black;
+            }
         }
         #background-hour {
             background-color: white;
@@ -103,6 +107,10 @@ md-select.wu-datepicker-year {
     .marker, .number {
         cursor: pointer;
     }
+    #minute-marker {
+        background-color: white;
+        fill: white;
+    }
     .daytime-picker {
         font-size: 2rem;
         line-height: 2rem;
@@ -116,7 +124,7 @@ md-select.wu-datepicker-year {
             -webkit-transform: translate(-50%, -50%);
             -ms-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
-            font-size: 3rem;
+            font-size: 2.8rem;
             @media (max-width: 400px) {
                 font-size: 1.8rem;
             }
