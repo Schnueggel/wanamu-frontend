@@ -6,4 +6,11 @@
             <md-icon alt="Add Friend" md-font-library="material-icons">&#xE89C;</md-icon>
         </div>
     </md-list-item>
+    <div layout="column" ng-if="!Friend.list.length" layout-align="center center">
+            <h2 flex="100" class="md-display-3">No Friends found</h2>
+            <md-button class="md-raised md-primary" ng-click="Friends.addNewFriend()">
+                <md-icon alt="Add Icon" md-font-library="material-icons">&#xE7FE;</md-icon>
+                Add new Friend
+            </md-button>
+    </div>
 </md-list>
