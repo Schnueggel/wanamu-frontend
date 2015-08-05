@@ -240,7 +240,7 @@ md-icon {
 }
 
 
-.animate-ng-show.ng-hide-remove {
+/*.animate-ng-show.ng-hide-remove {
     -webkit-transform-origin: top;
     transform-origin: top;
     -webkit-animation: 1s show;
@@ -251,7 +251,7 @@ md-icon {
     transform-origin: top;
     -webkit-animation: 0.7s hide;
     animation: 0.7s hide;
-}
+}*/
 
 @include keyframes (hide) {
     0% {

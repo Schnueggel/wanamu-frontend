@@ -1,5 +1,4 @@
 .md-sidenav-left {
-    transition: 600ms;
     header {
         text-align: center;
         padding: 1rem;
@@ -8,21 +7,17 @@
             height: 4rem;
         }
         .heading {
-            transition: 600ms;
             margin: 0.2rem;
         }
     }
     &.minimized {
         overflow-x: hidden;
-        transition:
-            all 600ms ease-out;
         width: 80px;
         min-width: 80px;
         .text {
             display: none;
         }
         .heading {
-            transition: all 600ms ease-out;
             margin:0;
             font-size:0;
         }
