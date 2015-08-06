@@ -27,9 +27,9 @@ declare module wanamu {
             lastDeletedTodo: model.ITodo;
             inEditTodoId : number;
 
-            addNewTodo() : model.ITodo;
             deleteTodo(todo : model.ITodo) : ng.IPromise<wu.model.ITodo>;
             syncTodo (todo: model.ITodo) : ng.IPromise<wu.model.ITodo>;
+            createNewTodo() : model.ITodo;
         }
 
         interface TodosHeaderService {

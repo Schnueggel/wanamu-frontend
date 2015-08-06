@@ -43,12 +43,12 @@ export class TodosService extends BaseService implements wu.todos.ITodosService 
     private onUserLoaded = (user: wu.model.IUser) : void => {};
 
     /**
-     * Adds a new todo
+     * Creates a new Todo with a fake ID
+     * @returns {Todo}
      */
-    addNewTodo() : Todo {
+    createNewTodo() : wu.model.ITodo {
         let todo : Todo = new Todo(<wanamu.ITodoData>{id: --this.newTodoIdCount});
         this.lastAddedTodo = todo;
-        this.auth.queryCurrentUser().then( (user: wu.model.IUser) => user.addNewTodo(todo));
         return todo;
     }
 

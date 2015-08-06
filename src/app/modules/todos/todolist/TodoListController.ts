@@ -2,6 +2,7 @@ import { Todo } from '../../../models/Todo';
 import { BaseController } from '../../../wanamu/wanamu';
 import { UnauthorizedError } from '../../../errors/errors';
 import { InjectC, Controller } from '../../../decorators/decorators';
+import { EVENT_HEADER_ADD_NEW_TODO } from '../headertoolbar/TodosHeaderController';
 import _ = require('lodash');
 var Rx = require('rx');
 
@@ -9,7 +10,7 @@ var Rx = require('rx');
  * @alias TodoList
  */
 @Controller('TodoListController')
-@InjectC('$state', 'wuAuthService', 'wuTodosService','todolistDataSource', '$scope')
+@InjectC('$state', '$rootScope', 'wuAuthService', 'wuTodosService','todolistDataSource', '$scope')
 export class TodoListController extends BaseController {
 
     public list : wu.model.ITodoList;
@@ -24,6 +25,7 @@ export class TodoListController extends BaseController {
     /**
      *
      * @param $state
+     * @param $rootScope
      * @param auth
      * @param wuTodosService
      * @param todolistDataSource
@@ -31,12 +33,16 @@ export class TodoListController extends BaseController {
      */
     constructor(
         public $state: ng.ui.IStateService,
+        public $rootScope: ng.IRootScopeService,
         public auth : wu.auth.IAuthService,
         public wuTodosService: wu.todos.ITodosService,
         public todolistDataSource : wu.datasource.ITodolistDataSource,
         public $scope: ng.IScope
     ){
         super();
+
+        const removeAddTodoListener = $rootScope.$on(EVENT_HEADER_ADD_NEW_TODO, this.addNewTodo.bind(this));
+        $scope.$on('$destroy', () => removeAddTodoListener() );
 
         this.loadTodoList();
     }
@@ -76,7 +82,8 @@ export class TodoListController extends BaseController {
      * @viewhelper
      */
     addNewTodo() {
-        this.wuTodosService.addNewTodo();
+        const todo = this.wuTodosService.createNewTodo();
+        this.list.addNewTodo(todo);
     }
     /**
      * Returns the current edited todo id
@@ -94,7 +101,7 @@ export class TodoListController extends BaseController {
             return;
         }
         this.isLoadingTodos = true;
-        let delay = new Date(Date.now()  + 1000);
+        const delay = new Date(Date.now()  + 1000);
         const observable = Rx.Observable.defer( () => this.auth.queryCurrentUser() )
             .flatMapLatest( (user: wu.model.IUser) => {
                 this.user = user;
