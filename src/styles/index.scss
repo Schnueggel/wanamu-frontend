@@ -53,7 +53,7 @@ $text-color1: #ffffff;
 @import 'components/todo';
 @import 'components/todolist';
 @import 'components/switch';
-
+@import 'components/friends';
 html {
     font-size:22px;
     height: 100%;
@@ -109,8 +109,10 @@ footer {
     margin-left:auto;
     margin-right:auto;
 }
-header {
-    min-height: 64px;
+md-toolbar.header {
+    .md-toolbar-tools {
+        background: white;
+    }
 }
 
 .font-size-2{

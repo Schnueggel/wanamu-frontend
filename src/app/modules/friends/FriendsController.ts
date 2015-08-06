@@ -2,7 +2,7 @@ import { BaseController } from '../../wanamu/wanamu';
 import { InjectC, Controller } from '../../decorators/decorators';
 import { UnauthorizedError } from '../../errors/errors';
 import { EVENT_HEADER_ADD_NEW_FRIEND, EVENT_HEADER_ADD_NEW_GROUP } from './headertoolbar/FriendsHeaderController';
-var rx = require('rx');
+const rx = require('rx');
 import _ = require('lodash');
 
 /**
@@ -37,8 +37,8 @@ export class FriendsController extends BaseController {
         // =============================================================================================
         // Listen to actions in the headertoolbar
         // =============================================================================================
-        let addFriendListener = $rootScope.$on(EVENT_HEADER_ADD_NEW_FRIEND, ()=> this.onAddNewFriend() );
-        let addGroupListener = $rootScope.$on(EVENT_HEADER_ADD_NEW_GROUP, ()=> this.onAddNewGroup() );
+        let addFriendListener = $rootScope.$on(EVENT_HEADER_ADD_NEW_FRIEND, () => this.onAddNewFriend() );
+        let addGroupListener = $rootScope.$on(EVENT_HEADER_ADD_NEW_GROUP, () => this.onAddNewGroup() );
         // =============================================================================================
         // Remove the listener when this scope get destroyed
         // =============================================================================================
@@ -86,6 +86,14 @@ export class FriendsController extends BaseController {
      */
     private onFriendsLoadedSuccess(friends: Array<wu.model.IFriend>) {
         this.list = friends;
+    }
+
+    /**
+     *
+     * @returns {boolean}
+     */
+    hasNoFriends () : boolean {
+        return _.isEmpty(this.list);
     }
 
     private onAddNewFriend() {

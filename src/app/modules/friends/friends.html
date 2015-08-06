@@ -1,16 +1,25 @@
-<md-list class="friends" layout="column" layout-align="center center">
-    <md-list-item ng-repeat="friend in Friends.list"  >
-        <img ng-src="{{::friend.Profile.face}}" class="md-avatar" src="/images/ic_contacts_black_24px.svg" alt="{{::friend.Profile.name}}" />
-        <div class="md-list-item-text">
-            <h3>{{::friend.Profile.name}}</h3>
-            <md-icon alt="Add Friend" md-font-library="material-icons">&#xE89C;</md-icon>
-        </div>
-    </md-list-item>
-    <div layout="column" ng-if="!Friend.list.length" layout-align="center center">
-            <h2 flex="100" class="md-display-3">No Friends found</h2>
-            <md-button class="md-raised md-primary" ng-click="Friends.addNewFriend()">
-                <md-icon alt="Add Icon" md-font-library="material-icons">&#xE7FE;</md-icon>
-                Add new Friend
-            </md-button>
+<div class="friends" layout-fill flex layout="column" layout-align="start center">
+    <md-list flex>
+        <md-list-item ng-repeat="friend in FriendCtrl.list"  flex="100" layout="row" class="md-with-secondary" ng-click="FriendCtrl.ShowDetails(friend)">
+            <img ng-src="{{::friend.Profile.face}}" class="md-avatar" src="/images/ic_person_outline_black_24px.svg" alt="{{::friend.Profile.name}}" />
+            <p class="md-list-item-text">
+                {{::friend.Profile.name}}
+            </p>
+            <div class="md-secondary">
+                <md-button class="md-raised md-primary">
+                    <md-icon alt="Accept Invitation Friend" class="md-hue-3" md-font-library="material-icons" title="Accept Invitation Friend">&#xE7F2;</md-icon>
+                </md-button>
+                <md-button class="md-raised md-primary">
+                    <md-icon alt="Remove Friend" class="md-hue-3" md-font-library="material-icons" title="Remove Friend">&#xE15B;</md-icon>
+                </md-button>
+            </div>
+        </md-list-item>
+    </md-list>
+    <div layout="column" ng-if="FriendCtrl.hasNoFriends()" layout-align="center center">
+        <h2 flex="100" class="md-display-3">No Friends found</h2>
+        <md-button class="md-raised md-primary" ng-click="FriendCtrl.addNewFriend()">
+            <md-icon alt="Add Icon" md-font-library="material-icons">&#xE7FE;</md-icon>
+            Add new Friend
+        </md-button>
     </div>
-</md-list>
+</div>

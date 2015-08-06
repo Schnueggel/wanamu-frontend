@@ -33,7 +33,7 @@ export class FriendsDataSource extends BaseDataSource implements wu.datasource.I
             return promise;
         }
 
-        this.$http.get(this.constants.apiurl + '/friends', {})
+        this.$http.get(this.constants.apiurl + '/friend', {})
             .success( (data: wu.datasource.IResponseDataModel<wu.datasource.IFriendData>, status: number) => {
             if (!FriendsDataSource.isValidResponseData(data)) {
                 deferred.reject({

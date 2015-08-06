@@ -19,7 +19,7 @@ export class FriendsModule extends BaseModule {
                 role: 'public',
                 views: {
                     '@panel': {
-                        controller: 'FriendsController as Friend',
+                        controller: 'FriendsController as FriendCtrl',
                         template: require('./friends.html')
                     },
                     'headertoolbar@panel.view': {
