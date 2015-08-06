@@ -1,17 +1,16 @@
 <div class="friends" layout-fill flex layout="column" layout-align="start center">
     <md-list flex>
-        <md-list-item ng-repeat="friend in FriendCtrl.list"  flex="100" layout="row" class="md-with-secondary" ng-click="FriendCtrl.ShowDetails(friend)">
+        <md-list-item ng-repeat="friend in FriendCtrl.list"  flex="100" layout="row" class="md-with-secondary  md-whiteframe-z1" ng-click="FriendCtrl.ShowDetails(friend)">
             <img ng-src="{{::friend.Profile.face}}" class="md-avatar" src="/images/ic_person_outline_black_24px.svg" alt="{{::friend.Profile.name}}" />
             <p class="md-list-item-text">
                 {{::friend.Profile.name}}
             </p>
-            <div class="md-secondary">
-                <md-button class="md-raised md-primary">
+            <div class="wu-actions">
+
                     <md-icon alt="Accept Invitation Friend" class="md-hue-3" md-font-library="material-icons" title="Accept Invitation Friend">&#xE7F2;</md-icon>
-                </md-button>
-                <md-button class="md-raised md-primary">
+
                     <md-icon alt="Remove Friend" class="md-hue-3" md-font-library="material-icons" title="Remove Friend">&#xE15B;</md-icon>
-                </md-button>
+
             </div>
         </md-list-item>
     </md-list>
