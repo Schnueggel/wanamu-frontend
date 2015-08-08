@@ -105,12 +105,21 @@ export class Registry {
      * @param ngModule
      */
     static bootstrapDirectives(directives : Function[], ngModule: ng.IModule){
-        directives.forEach((serviceClass :{new(): BaseDirective}) => {
-            let name : string = Reflect.getMetadata(AngularMetaKeys.Directive, serviceClass);
-            let args = Reflect.getMetadata(InjectMetadataKeys.AngularServiceInjects, serviceClass) || [];
-            let directive = new serviceClass();
-            //We need to bind the init function to the directive to keep the scope
-            args.push(directive.init.bind(directive));
+        directives.forEach((serviceClass : any) => {
+            let name: string,
+                args: Array<any>;
+
+            if (_.isPlainObject(serviceClass)) {
+                name = serviceClass.name;
+                let directive: Function = serviceClass.directive;
+                args = [directive];
+            } else {
+                name = Reflect.getMetadata(AngularMetaKeys.Directive, serviceClass);
+                args = Reflect.getMetadata(InjectMetadataKeys.AngularServiceInjects, serviceClass) || [];
+                let directive = new serviceClass();
+                //We need to bind the init function to the directive to keep the scope
+                args.push(directive.init.bind(directive));
+            }
             ngModule.directive(name, args);
         });
     }

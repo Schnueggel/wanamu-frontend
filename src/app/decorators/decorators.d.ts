@@ -8,7 +8,7 @@ declare module wanamu {
             services? : Array<Function> ;
             controller? : Array<Function>;
             modules? : Array<string>;
-            directives? : Array<Function>;
+            directives? : Array<Function|Object>;
             filter? :  Array<IFilterOption>;
         }
     }
