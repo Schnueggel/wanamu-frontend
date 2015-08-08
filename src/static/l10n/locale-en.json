@@ -22,7 +22,8 @@
     "security": "Security",
     "validation": {
         "messages": {
-            "fieldNotEmpty": "Field cannot be empty"
+            "fieldNotEmpty": "Field cannot be empty",
+            "notAValidEmail": "This is not a valid email"
         }
     },
     "todo" : {

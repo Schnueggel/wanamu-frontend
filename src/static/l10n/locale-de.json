@@ -22,7 +22,8 @@
     "security": "Datenschutz",
     "validation": {
         "messages": {
-            "fieldNotEmpty": "Das Feld darf nicht leer sein"
+            "fieldNotEmpty": "Das Feld darf nicht leer sein",
+            "notAValidEmail": "Dies ist keine gültige Emailadresse"
         }
     },
     "todo" : {
