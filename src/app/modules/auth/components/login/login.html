@@ -1,0 +1,28 @@
+<div class="login">
+    <form name="Login.loginform" role="form" ng-submit="Login.login()" novalidate autocomplete="off">
+        <md-input-container md-no-float>
+            <label>{{'login.email' | translate}}</label>
+            <input type="text" name="username"
+                   ng-pattern="Login.pattern"
+                   ng-model="Login.username"
+                   required>
+            <div ng-messages="Login.loginform.username.$error"
+                 ng-show="Login.loginform.$submitted && Login.loginform.username.$invalid && Login.loginform.username.$untouched">
+                <div ng-message="required" ng-if="Login.loginform.$submitted">{{'validation.messages.fieldNotEmpty' | translate}}</div>
+                <div ng-message="pattern">{{'validation.messages.notAValidEmail' | translate}}</div>
+            </div>
+        </md-input-container>
+        <md-input-container md-no-float>
+            <label>{{'login.password' | translate}}</label>
+            <input type="password" name="password" ng-model="Login.password" required>
+            <div ng-messages="Login.loginform.password.$error">
+                <div ng-message="required"  ng-if="Login.loginform.$submitted">{{'validation.messages.fieldNotEmpty' | translate}}</div>
+            </div>
+        </md-input-container>
+        <div class="md-actions" layout="column">
+            <md-button class="md-primary md-raised" type="submit" ng-class="{disabled: Login.loading}" ng-click="Login.login()">{{'login.login' | translate}}</md-button>
+            <md-button class="md-primary md-raised"  type="button" ng-if="Login.showRegister" ng-class="{disabled: Login.loading}" ng-click="Login.onRegister()">{{'login.register' | translate}}</md-button>
+            <md-button class="md-primary md-raised"  type="button" ng-if="Login.showCancel" ng-click="Login.onCancel()" >{{'login.cancel' | translate}}</md-button>
+        </div>
+    </form>
+</div>
