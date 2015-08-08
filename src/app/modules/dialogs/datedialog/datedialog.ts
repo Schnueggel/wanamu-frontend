@@ -1,5 +1,5 @@
 /**
- * Created by Schnueggel on 14.06.2015.
+ * @namespace dialogs
  */
 export class DateDialogController {
 

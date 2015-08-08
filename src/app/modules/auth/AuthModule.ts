@@ -6,7 +6,8 @@ import { LogoutController } from './logout/LogoutController';
 import { LoginDirective } from './login/LoginDirective';
 import { IsAuthDirective } from './isauth/IsAuthDirective';
 /**
- * Panel Module is the Basis for the Layout
+ * Auth Module
+ * @namespace modules
  */
 @Module('auth', {
     controller: [LoginController, LogoutController],
