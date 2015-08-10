@@ -4,7 +4,9 @@ import { AuthService } from './AuthService';
 import { LoginController } from './login/LoginController';
 import { LogoutController } from './logout/LogoutController';
 import { LoginDirective } from './login/LoginDirective';
+import { loginDirective } from './components/login/login';
 import { IsAuthDirective } from './isauth/IsAuthDirective';
+import { LoginDialogService } from './dialogs/login/LoginDialogService';
 /**
  * Auth Module
  * @namespace modules
@@ -12,8 +14,8 @@ import { IsAuthDirective } from './isauth/IsAuthDirective';
 @Module('auth', {
     controller: [LoginController, LogoutController],
     modules : [ 'panel' ],
-    directives: [ IsAuthDirective, LoginDirective ],
-    services  : [ AuthService ]
+    directives: [ IsAuthDirective, LoginDirective, { name: 'wuLogin2', directive: loginDirective } ],
+    services  : [ AuthService, {name: 'wuLoginDialog', service: LoginDialogService} ]
 })
 export class AuthModule extends BaseModule {
 

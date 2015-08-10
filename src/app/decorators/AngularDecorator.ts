@@ -78,10 +78,19 @@ export class Registry {
      * @param ngModule
      */
     static bootstrapServices(services : Function[], ngModule: ng.IModule){
-        services.forEach((serviceClass : Function) => {
-            let name : string = Reflect.getMetadata(AngularMetaKeys.Service, serviceClass);
-            let args = Reflect.getMetadata(InjectMetadataKeys.AngularServiceInjects, serviceClass) || [];
-            args.push(serviceClass);
+        services.forEach((serviceClass : Function | wu.decorators.IServiceDescriptor) => {
+            let name: string,
+                args: any;
+
+            if (_.isPlainObject(serviceClass)) {
+                name = (<wu.decorators.IServiceDescriptor>serviceClass).name;
+                args = (<wu.decorators.IServiceDescriptor>serviceClass).service;
+            } else {
+                name = Reflect.getMetadata(AngularMetaKeys.Service, serviceClass);
+                args = Reflect.getMetadata(InjectMetadataKeys.AngularServiceInjects, serviceClass) || [];
+                args.push(serviceClass);
+            }
+
             ngModule.service(name, args);
         });
     }

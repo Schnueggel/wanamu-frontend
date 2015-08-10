@@ -40,7 +40,8 @@
         "email": "Email",
         "password": "Password",
         "login": "Login",
-        "register": "Register"
+        "register": "Register",
+        "cancel": "Cancel"
     },
     "profile": {
         "salutation": "Salutation",

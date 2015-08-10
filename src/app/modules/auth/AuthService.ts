@@ -4,12 +4,13 @@ import _ = require('lodash');
 import { UnauthorizedError, AccessError, UnkownError } from '../../errors/errors';
 import { Service, InjectC } from '../../decorators/decorators';
 import { BaseService } from '../../wanamu/wanamu';
+import { LoginDialogService } from './dialogs/login/LoginDialogService';
 
 /**
  * @alias authService
  */
 @Service('wuAuthService')
-@InjectC('$q','$http', 'userDataSource', 'CacheFactory', 'panelService')
+@InjectC('$q','$http', 'userDataSource', 'CacheFactory', 'panelService', 'wuLoginDialog')
 export class AuthService extends BaseService implements wanamu.auth.IAuthService {
 
     private currentuser : any;
@@ -17,7 +18,7 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
 
     static USER_CACHE_KEY : string  = 'wanamu.user.cache';
     static USER_KEY : string = 'user';
-    static USER_CACHE_MAX_AGE = 1000 * 60 * 60 // 1 Hour;
+    static USER_CACHE_MAX_AGE = 1000 * 60 * 60; // 1 Hour;
 
     public isLoggedIn : boolean = false;
 
@@ -29,7 +30,8 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
                 public $http: ng.IHttpService,
                 public userDataSource : UserDataSource,
                 public cacheFactory : ng.angularcache.ICacheFactory,
-                public panelService : wu.module.panel.IPanelService
+                public panelService : wu.module.panel.IPanelService,
+                public wuLoginDialog: wu.auth.dialogs.login.ILoginDialogService
     ) {
         super();
     }
@@ -192,7 +194,7 @@ export class AuthService extends BaseService implements wanamu.auth.IAuthService
 
         upromise.catch( (err : Error) =>{ console.log(err);
             if (err instanceof UnauthorizedError || err instanceof AccessError) {
-                let lpromise =  this.panelService.showLogin();
+                let lpromise =  this.wuLoginDialog.show();
                 lpromise.then( (user: User) => this.resolveUser(user) );
                 lpromise.catch( () => this.rejectUser( new UnkownError() ) );
 

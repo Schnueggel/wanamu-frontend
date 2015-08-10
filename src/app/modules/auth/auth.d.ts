@@ -1,15 +1,40 @@
 declare module wanamu {
+
     module auth {
-        interface ILoginForm extends angular.IFormController {
-            username : angular.INgModelController;
-            password : angular.INgModelController;
+        module components {
+            module login {
+                interface ILoginForm extends ng.IFormController {
+                    username : ng.INgModelController;
+                    password : ng.INgModelController;
+                }
+
+                interface IScopeModel {
+                    username: string;
+                    password: string;
+                    loginform: ng.IFormController;
+                }
+            }
+        }
+
+        module dialogs {
+            module login {
+                interface ILoginDialogService {
+                    $mdDialog : ng.material.MDDialogService;
+                    show (ev?: MouseEvent) : ng.IPromise<any>;
+                }
+            }
+        }
+
+        interface ILoginForm extends ng.IFormController {
+            username : ng.INgModelController;
+            password : ng.INgModelController;
         }
 
         interface IAuthService {
             isLoggedIn : boolean;
 
-            login(username : string, password : string) : angular.IPromise<any>;
-            logout() : angular.IPromise<any>;
+            login(username : string, password : string) : ng.IPromise<any>;
+            logout() : ng.IPromise<any>;
             storeUser() : void;
             currentUser() : wanamu.model.IUser;
             queryCurrentUser() : ng.IPromise<wanamu.model.IUser>;

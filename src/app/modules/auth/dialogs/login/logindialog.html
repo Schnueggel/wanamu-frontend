@@ -1,14 +1,12 @@
-<md-dialog aria-label="Datepicker Dialog" class="datedialog" flex flex-md="100">
+<md-dialog aria-label="Login Dialog" class="logindialog" flex flex-md="100">
+
     <md-dialog-content>
-        <wu-date-time-picker date="DateDialog.date" allowpast="DateDialog.allowpast" changed="DateDialog.changed"></wu-date-time-picker>
+        <p ng-if="LoginDialog.errorMessage" class="wu-errorbar">{{LoginDialog.errorMessage}}ggg</p>
+        <wu-login2 login-model="Login.loginScopeModel">
+            <div class="md-actions" layout="row">
+                <md-button class="md-primary md-raised" type="submit" ng-class="{disabled: LoginDialog.loading}" ng-click="LoginDialog.login()">{{'login.login' | translate}}</md-button>
+                <md-button class="md-primary md-raised" type="button"  ng-click="LoginDialog.cancel()" >{{'login.cancel' | translate}}</md-button>
+            </div>
+        </wu-login2>
     </md-dialog-content>
-    <div class="md-actions" layout="row">
-        <span flex></span>
-        <md-button ng-click="DateDialog.ok(DateDialog.date)" class="md-primary md-raised" arial-labe="ok">
-            OK
-        </md-button>
-        <md-button ng-click="DateDialog.cancel()" class="md-primary md-raised" arial-label="cancel">
-            Cancel
-        </md-button>
-    </div>
 </md-dialog>

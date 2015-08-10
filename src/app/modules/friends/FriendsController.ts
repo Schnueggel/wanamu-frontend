@@ -9,7 +9,7 @@ import _ = require('lodash');
  * @alias Friends
  */
 @Controller('FriendsController')
-@InjectC('$scope',  '$rootScope', 'wuAuthService','panelService', 'friendsDataSource')
+@InjectC('$scope',  '$rootScope', '$state','wuAuthService','panelService', 'friendsDataSource')
 export class FriendsController extends BaseController {
 
     public list: Array<wu.model.IFriend>;
@@ -20,19 +20,21 @@ export class FriendsController extends BaseController {
      *
      * @param $scope
      * @param $rootScope
+     * @param $state
      * @param auth
      * @param panelService
      * @param friendsDatasource
      */
     constructor(public $scope: ng.IScope,
                 public $rootScope: ng.IRootScopeService,
+                public $state: ng.ui.IStateService,
                 public auth: wu.auth.IAuthService,
                 public panelService: wu.module.panel.IPanelService,
                 public friendsDatasource: wu.datasource.IFriendDataSource
     ) {
         super();
 
-        auth.queryCurrentUser().then(this.onUserLoaded.bind(this));
+        auth.queryIsLoggedIn().then(this.onUserLoaded.bind(this)).catch( () => $state.go('panel.view.login'));
 
         // =============================================================================================
         // Listen to actions in the headertoolbar
@@ -74,7 +76,8 @@ export class FriendsController extends BaseController {
      */
     private onFriendsLoadedError (err: Error) {
         if (err instanceof UnauthorizedError) {
-            this.panelService.showLogin().then( this.loadFriends.bind(this) );
+            this.$state.go('panel.view.login');
+            //this.panelService.showLogin().then( this.loadFriends.bind(this) );
         } else {
             this.panelService.showSimpleErrorToast(err.message);
         }

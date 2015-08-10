@@ -1,6 +1,7 @@
 import { InjectC } from '../../../decorators/decorators';
 import { Controller } from '../../../decorators/decorators';
 import { NotFoundError, AlreadyConfirmedError, NotConfirmedError, PreConditionFailedError, UnauthorizedError } from '../../../errors/errors';
+import { LoginScopeModel } from '../components/login/login';
 
 /**
  * @alias Login
@@ -9,8 +10,6 @@ import { NotFoundError, AlreadyConfirmedError, NotConfirmedError, PreConditionFa
 @InjectC('$state', 'wuAuthService', 'panelService', 'registrationDataSource')
 export class LoginController {
 
-    public loginform : wu.auth.ILoginForm;
-
     public loading : boolean = false;
     public pattern : RegExp = /^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
     public confirmation : boolean = false;
@@ -18,6 +17,8 @@ export class LoginController {
     public form : any = {
         error: {}
     };
+
+    public loginScopeModel : LoginScopeModel;
 
     /**
      * If this is set the Login is used as directive and hence will not forward to defined state
@@ -41,6 +42,15 @@ export class LoginController {
         if ($state.params.confirmation) {
             this.confirmation = true;
         }
+
+        this.loginScopeModel = new LoginScopeModel();
+    }
+
+    /**
+     * Go to register page
+     */
+    public register () {
+        this.$state.go('panel.view.registration');
     }
 
     /**
@@ -51,21 +61,17 @@ export class LoginController {
         if (this.loading === true) {
             return;
         }
-        //Reset errors
-        this.form.$error = {};
-        this.loginform.username.$untouched = true;
-        this.loginform.password.$untouched = true;
 
-        if (this.loginform.$valid) {
+        if (this.loginScopeModel.loginform.$valid) {
             //Set state loading
             this.loading = true;
-            this.panelService.addToSyncPool(this.form);
-            let logpromise = this.auth.login( this.form.username, this.form.password );
+            this.panelService.addToSyncPool(this.loginScopeModel);
+            let logpromise = this.auth.login( this.loginScopeModel.username, this.loginScopeModel.password );
             logpromise.then( this.onLoginSuccess );
             logpromise.catch( this.onLoginError );
             logpromise.finally( () => {
                 this.loading = false;
-                this.panelService.removeFromSyncPool(this.form);
+                this.panelService.removeFromSyncPool(this.loginScopeModel);
             });
         }
     }
@@ -104,9 +110,9 @@ export class LoginController {
      * Resends the confirmation mail
      */
     public resendConfirmation (){
-        if (this.loginform.$valid) {
+        if (this.loginScopeModel.loginform.$valid) {
             this.registrationDataSource
-                .resendConfirmation(this.form.username, this.form.password)
+                .resendConfirmation(this.loginScopeModel.username, this.loginScopeModel.password)
                 .then( this.onResendConfirmationSuccess.bind(this) )
                 .catch( this.onResendConfirmationError.bind(this) )
         } else {

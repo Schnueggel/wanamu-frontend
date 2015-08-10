@@ -1,36 +1,29 @@
 import LoginController from './LoginController';
 /**
  * Login Directive offers a simple login with callbacks on the triggered buttons
+ * @namespace module.auth.components
  */
-export function loginDirective () {
+export function loginDirective() {
 
-   return <ng.IDirective>{
-        scope: true,
+    return <ng.IDirective>{
+        scope: {},
+        transclude: true,
         bindToController: {
-            /**
-             * @kind boolean
-             */
-            showCancel: '=',
-            /**
-             * @kind boolean
-             */
-            showRegister: '=',
-            /**
-             * @kind Function
-             */
-            onLogin: '=',
-            /**
-             * @kind Function
-             */
-            onRegister: '=',
-            /**
-             * @kind Function
-             */
-            onCancel: '='
+            loginModel: '='
         },
         controllerAs: 'Login',
         controller: LoginController,
         template: require('./login.html'),
         restrict: "E"
     };
+}
+
+/**
+ * @namespace module.auth.components
+ */
+export class LoginScopeModel implements wu.auth.components.login.IScopeModel {
+
+    username:string;
+    password:string;
+    loginform:ng.IFormController;
 }

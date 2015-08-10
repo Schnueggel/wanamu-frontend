@@ -3,11 +3,12 @@ import { LoginDialogController } from './LoginDialogController';
 /**
  * Service for opening the Login Dialog
  */
-export class LoginDialogService implements wanamu.dialogs.DateDialogService {
+export class LoginDialogService implements wu.auth.dialogs.login.ILoginDialogService {
 
     static $inject = ['$mdDialog', '$document'];
 
     constructor(public $mdDialog : angular.material.MDDialogService, public $document : angular.IDocumentService) {
+        console.log($document);
     }
 
     /**
@@ -15,7 +16,7 @@ export class LoginDialogService implements wanamu.dialogs.DateDialogService {
      * @param ev
      * @returns {Promise}
      */
-    public show (ev : MouseEvent) : angular.IPromise<Date> {
+    public show (ev : MouseEvent) : ng.IPromise<any> {
 
         const doc : Document = <any>this.$document[0];
 
@@ -27,7 +28,7 @@ export class LoginDialogService implements wanamu.dialogs.DateDialogService {
             bindToController: true,
             locals : {
             },
-            controllerAs : 'DateDialog',
+            controllerAs : 'LoginDialog',
             clickOutsideToClose: true,
             escapeToClose : true,
         };
