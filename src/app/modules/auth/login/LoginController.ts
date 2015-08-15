@@ -14,10 +14,6 @@ export class LoginController {
     public pattern : RegExp = /^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
     public confirmation : boolean = false;
 
-    public form : any = {
-        error: {}
-    };
-
     public loginScopeModel : LoginScopeModel;
 
     /**
@@ -65,12 +61,14 @@ export class LoginController {
         if (this.loginScopeModel.loginform.$valid) {
             //Set state loading
             this.loading = true;
+            // Add sync Model to syncpool to show that we are loading
             this.panelService.addToSyncPool(this.loginScopeModel);
             let logpromise = this.auth.login( this.loginScopeModel.username, this.loginScopeModel.password );
             logpromise.then( this.onLoginSuccess );
             logpromise.catch( this.onLoginError );
             logpromise.finally( () => {
                 this.loading = false;
+                // We are done remove sync model from sync pool
                 this.panelService.removeFromSyncPool(this.loginScopeModel);
             });
         }
