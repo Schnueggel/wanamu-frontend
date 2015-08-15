@@ -17,7 +17,7 @@ var gulp = require('gulp'),
     webpack = require('webpack'),
     path = require('path'),
     gulptypescript = require('gulp-typescript'),
-    karma = require('karma').server,
+    karma = require('karma'),
     fs = require('fs'),
     del = require('del');
 /**
@@ -372,10 +372,11 @@ gulp.task('tmp-app-static', function () {
 // Start frontend unit tests
 // ==========================================================================
 gulp.task('test-jasmine', ['build-test'], function (cb) {
-    karma.start({
+    var server = new karma.Server({
         configFile: __dirname + '/karma.conf.js',
         singleRun: true
     }, cb);
+    server.start();
 });
 
 // ==========================================================================
