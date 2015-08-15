@@ -30,34 +30,34 @@ describe('Test auth module', function(){
         $state.go('panel.view.login');
         $rootScope.$digest();
 
+        // attach controller to the scope with its alias
         $scope.Login = controller;
-
-        var element = $compile($state.$current.views['@panel'].template)($scope);
-
+        // compile the main template of the current state which is located under @panel
+        $compile($state.$current.views['@panel'].template)($scope);
         //Invalid user
-        controller.form.username = 'test';
+        controller.loginScopeModel.username = 'test';
         $scope.$digest();
 
-        expect(controller.loginform.$valid).toBe(false);
-        expect(controller.loginform.username.$valid).toBe(false);
-        expect(controller.loginform.password.$untouched).toBe(true);
-        expect(controller.loginform.password.$valid).toBe(false);
-
-        // Valid user invalid password
-        controller.form.username = 'test@email.com';
-        $scope.$digest();
-        expect(controller.loginform.$valid).toBe(false);
-        expect(controller.loginform.username.$valid).toBe(true);
-        expect(controller.loginform.password.$untouched).toBe(true);
-        expect(controller.loginform.password.$valid).toBe(false);
+        expect(controller.loginScopeModel.loginform.$valid).toBe(false);
+        expect(controller.loginScopeModel.loginform.username.$valid).toBe(false);
+        expect(controller.loginScopeModel.loginform.password.$untouched).toBe(true);
+        expect(controller.loginScopeModel.loginform.password.$valid).toBe(false);
 
         // Valid user invalid password
-        controller.form.username = 'test@email.com';
-        controller.form.password = 'TestPassword';
+        controller.loginScopeModel.username = 'test@email.com';
         $scope.$digest();
-        expect(controller.loginform.$valid).toBe(true);
-        expect(controller.loginform.username.$valid).toBe(true);
-        expect(controller.loginform.password.$valid).toBe(true);
+        expect(controller.loginScopeModel.loginform.$valid).toBe(false);
+        expect(controller.loginScopeModel.loginform.username.$valid).toBe(true);
+        expect(controller.loginScopeModel.loginform.password.$untouched).toBe(true);
+        expect(controller.loginScopeModel.loginform.password.$valid).toBe(false);
+
+        // Valid user invalid password
+        controller.loginScopeModel.username = 'test@email.com';
+        controller.loginScopeModel.password = 'TestPassword';
+        $scope.$digest();
+        expect(controller.loginScopeModel.loginform.$valid).toBe(true);
+        expect(controller.loginScopeModel.loginform.username.$valid).toBe(true);
+        expect(controller.loginScopeModel.loginform.password.$valid).toBe(true);
 
         $authRequestHandler = $httpBackend.when('POST', /auth\/login/)
             .respond({
