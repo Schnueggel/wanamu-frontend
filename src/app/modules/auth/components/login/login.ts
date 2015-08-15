@@ -25,5 +25,8 @@ export class LoginScopeModel implements wu.auth.components.login.IScopeModel {
 
     username:string;
     password:string;
-    loginform:ng.IFormController;
+    /**
+     * This will be accessable after rendering the view
+     */
+    loginform: ng.IFormController;
 }
