@@ -13,9 +13,9 @@ import { LoginDialogService } from './dialogs/login/LoginDialogService';
  */
 @Module('auth', {
     controller: [LoginController, LogoutController],
-    modules : [ 'panel' ],
+    modules : [ 'angular-cache', 'panel' ],
     directives: [ IsAuthDirective, LoginDirective, { name: 'wuLogin2', directive: loginDirective } ],
-    services  : [ AuthService, {name: 'wuLoginDialog', service: LoginDialogService} ]
+    services  : [ {name: 'wuAuthService', service: AuthService}, {name: 'wuLoginDialog', service: LoginDialogService} ]
 })
 export class AuthModule extends BaseModule {
 

@@ -2,17 +2,15 @@ import { UserDataSource } from '../datasources/datasources';
 import { User } from '../../models/User';
 import _ = require('lodash');
 import { UnauthorizedError, AccessError, UnkownError } from '../../errors/errors';
-import { Service, InjectC } from '../../decorators/decorators';
 import { BaseService } from '../../wanamu/wanamu';
 import { LoginDialogService } from './dialogs/login/LoginDialogService';
 
 /**
  * @alias authService
  */
-@Service('wuAuthService')
-@InjectC('$q','$http', 'userDataSource', 'CacheFactory', 'panelService', 'wuLoginDialog')
 export class AuthService extends BaseService implements wanamu.auth.IAuthService {
 
+    static $inject = ['$q','$http', 'userDataSource', 'CacheFactory', 'panelService', 'wuLoginDialog'];
     private currentuser : any;
     private userCache : any;
 
