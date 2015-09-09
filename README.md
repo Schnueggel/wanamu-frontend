@@ -28,8 +28,6 @@ Use `gulp test` to start tests.
 
 ## Tools
 
-npm-check-updates
-
 gulp
 
 typescript
