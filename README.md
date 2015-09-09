@@ -1,10 +1,13 @@
-# ToDoIt
+# Wanamu
 
+## Design Guide
+
+[./misc/guides/design guide.pdf]
 ##Prequesite 
 
 ### Install tsd for typescript defenitions
 
-http://definitelytyped.org/tsd/
+[http://definitelytyped.org/tsd/]
 
 npm install tsd -g
 
