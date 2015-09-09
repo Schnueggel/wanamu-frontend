@@ -1,5 +1,9 @@
 # Wanamu
 
+This is my todo app for testing different technology. The purpose for this version was to test docker, and TypeScript.
+
+At the moment I am porting this app to Aurelia, Typescript, React and PostCss also working on native mobile apps
+
 ## Design Guide
 
 [./misc/guides/design guide.pdf]
@@ -11,15 +15,6 @@
 
 npm install tsd -g
 
-### Install gulp
-
-npm install gulp -g
-
-### Install npm check updates
-
-https://github.com/tjunnone/npm-check-updates
-
-npm install -g npm-check-updates
  
 ## Install
 
@@ -62,8 +57,7 @@ to app/modules/datetimepicker/WU_THEME_CSS.txt.
 ## Docker
 
 Run docker-compose to create a docker container running this app behind a nginx server.
-Before run gulp build should run. Also the correct WU_ENV environment variable should be set before building.
-
+Also the correct WU_* environment variable should be set before building.
 
 ## Environment variables
 
